@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-	entry: './assets/js/src/main.js',
+	entry: './assets/js/src/index.js',
 	output: { path: './assets/js', filename: 'bundle.js' },
 	module: {
 		loaders: [
