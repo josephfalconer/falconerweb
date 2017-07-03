@@ -94,8 +94,29 @@
 				sheets: []
 			}, _this.clickTest = function (e) {
 				e.preventDefault();
-				for (var i = 0; i < _this.state.sheets.length; i++) {
-					console.log(_this.state.sheets[i]);
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = _this.state.sheets[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var sheet = _step.value;
+
+						console.log(sheet.title + ' Hi there....');
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
 				}
 			}, _temp), _possibleConstructorReturn(_this, _ret);
 		}
@@ -110,10 +131,31 @@
 					if (xhr.readyState == 4) {
 						var data = JSON.parse(xhr.responseText);
 
-						for (var i = 0; i < data.length; i++) {
-							app.state.sheets.push({
-								title: data[i].fields.title
-							});
+						var _iteratorNormalCompletion2 = true;
+						var _didIteratorError2 = false;
+						var _iteratorError2 = undefined;
+
+						try {
+							for (var _iterator2 = data[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+								var sheet = _step2.value;
+
+								app.state.sheets.push({
+									title: sheet.fields.title
+								});
+							}
+						} catch (err) {
+							_didIteratorError2 = true;
+							_iteratorError2 = err;
+						} finally {
+							try {
+								if (!_iteratorNormalCompletion2 && _iterator2.return) {
+									_iterator2.return();
+								}
+							} finally {
+								if (_didIteratorError2) {
+									throw _iteratorError2;
+								}
+							}
 						}
 					}
 				};

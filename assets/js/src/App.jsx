@@ -16,9 +16,9 @@ class Application extends Component {
 			if (xhr.readyState == 4) {
 				let data = JSON.parse(xhr.responseText);
 
-				for (let i = 0; i < data.length; i++) {
+				for (let sheet of data) {
 					app.state.sheets.push({
-						title: data[i].fields.title
+						title: sheet.fields.title
 					});
 				}
 			}
@@ -29,8 +29,8 @@ class Application extends Component {
 
 	clickTest = e => {
 		e.preventDefault();
-		for (let i = 0; i < this.state.sheets.length; i++) {
-			console.log(this.state.sheets[i]);
+		for (let sheet of this.state.sheets) {
+			console.log(sheet.title + ' Hi there....');
 		}
 	};
 
