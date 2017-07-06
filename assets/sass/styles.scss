@@ -1,0 +1,19 @@
+@import 'test';
+
+header {
+	display: flex;
+	justify-content: center;
+	background: blue;
+
+	border-radius: 4px;
+
+	transition: all 0.4s;
+
+	nav {
+		background: lightblue;
+	}
+}
+
+p {
+	color: purple;
+}

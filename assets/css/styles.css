@@ -1,0 +1,26 @@
+h1 {
+  font-size: 4rem;
+}
+
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: blue;
+  border-radius: 4px;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+header nav {
+  background: lightblue;
+}
+
+p {
+  color: purple;
+}
+
+/*# sourceMappingURL=styles.css.map*/
