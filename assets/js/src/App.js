@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import NavItem from './NavItem';
+import Navigation from './Navigation';
+import Page from './Page';
 
 
 class Application extends Component {
 
 	state = {
-		viewingSheet: false,
-		sheets: []
+		pages: [],
+		openPage: null,
+		dataReady: false
 	};
 
 	componentWillMount() {
@@ -17,54 +19,87 @@ class Application extends Component {
 
 		xhr.onreadystatechange = () => {
 			if (xhr.readyState == 4) {
-				let data = JSON.parse(xhr.responseText),
-					sheets = [];
+				const data = JSON.parse(xhr.responseText);
+				let pages = [];
 
-				for (let sheet of data) {
-					sheets.push({
-						title: sheet.fields.title
+				for (let page of data) {
+					pages.push({
+						title: page.fields.title
 					});
 				}
 
 				app.setState({
 					...app.state,
-					sheets: sheets
+					pages: pages,
+					dataReady: true
 				});
+
+				app.changeDisplay();
 			}
 		}
-		xhr.open('GET', 'sheets/');
+		xhr.open('GET', 'pages/');
 		xhr.send();
 	}
 
-	componentDidMount() {
-		// code...
-	};
+	getPageTitles = () => {
+		let pageTitles = [];
+
+		for (let page of this.state.pages) {
+			pageTitles.push(page.title);
+		}
+
+		return pageTitles;
+	}
+
+	changeDisplay = (e, title="Welcome") => {
+		if (e) e.preventDefault();
+
+		const targetPage = this.getTargetPage(title);
+
+		if (targetPage) {
+			this.setState({
+				...this.state,
+				openPage: targetPage
+			});
+		} 
+	}
+
+	getTargetPage = title => {
+		let targetPage = false;
+
+		for (let page of this.state.pages) {
+			if (page.title == title) {
+				targetPage = page;
+			} 
+		}
+		return targetPage;
+	}
 
 	render() {
-		let sheets = this.state.sheets;
+		const pageTitles = this.state.dataReady ? this.getPageTitles() : null,
+			openPage = this.state.openPage;
 
 		return (
-			<main>
-				<header className="section__header">
-					{sheets.length > 0 ?
-						<nav className="nav">
-							<ul>
-								{sheets.map(function(sheet, index) {
-									return (
-										<NavItem
-				                        	title={sheet.title}
-				                        	key={index}
-				                        /> 
-									);
-			                    }.bind(this))}
-							</ul>
-						</nav>
-						:
-						null
-					}
-					<h1>Testing the Applications base</h1>
-				</header>
-			</main>
+			<div>
+
+				{pageTitles ?
+					<Navigation 
+						pageTitles={pageTitles}
+						onclick={this.changeDisplay}
+					/>
+					:
+					null
+				}
+
+				{openPage ? 
+					<Page 
+						openPage={openPage}
+					/>
+					:
+					null
+				}
+
+			</div>
 		)
 	}
 }

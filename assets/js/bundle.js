@@ -9950,9 +9950,13 @@ var _reactDom = __webpack_require__(133);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _NavItem = __webpack_require__(99);
+var _Navigation = __webpack_require__(222);
 
-var _NavItem2 = _interopRequireDefault(_NavItem);
+var _Navigation2 = _interopRequireDefault(_Navigation);
+
+var _Page = __webpack_require__(224);
+
+var _Page2 = _interopRequireDefault(_Page);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9977,8 +9981,64 @@ var Application = function (_Component) {
 		}
 
 		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Application.__proto__ || Object.getPrototypeOf(Application)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-			viewingSheet: false,
-			sheets: []
+			pages: [],
+			openPage: null,
+			dataReady: false
+		}, _this.getPageTitles = function () {
+			var pageTitles = [];
+
+			for (var _iterator = _this.state.pages, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+				var _ref2;
+
+				if (_isArray) {
+					if (_i >= _iterator.length) break;
+					_ref2 = _iterator[_i++];
+				} else {
+					_i = _iterator.next();
+					if (_i.done) break;
+					_ref2 = _i.value;
+				}
+
+				var page = _ref2;
+
+				pageTitles.push(page.title);
+			}
+
+			return pageTitles;
+		}, _this.changeDisplay = function (e) {
+			var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "Welcome";
+
+			if (e) e.preventDefault();
+
+			var targetPage = _this.getTargetPage(title);
+
+			if (targetPage) {
+				_this.setState(_extends({}, _this.state, {
+					openPage: targetPage
+				}));
+			}
+		}, _this.getTargetPage = function (title) {
+			var targetPage = false;
+
+			for (var _iterator2 = _this.state.pages, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+				var _ref3;
+
+				if (_isArray2) {
+					if (_i2 >= _iterator2.length) break;
+					_ref3 = _iterator2[_i2++];
+				} else {
+					_i2 = _iterator2.next();
+					if (_i2.done) break;
+					_ref3 = _i2.value;
+				}
+
+				var page = _ref3;
+
+				if (page.title == title) {
+					targetPage = page;
+				}
+			}
+			return targetPage;
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -9990,72 +10050,55 @@ var Application = function (_Component) {
 
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
-					var data = JSON.parse(xhr.responseText),
-					    sheets = [];
+					var data = JSON.parse(xhr.responseText);
+					var pages = [];
 
-					for (var _iterator = data, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-						var _ref2;
+					for (var _iterator3 = data, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+						var _ref4;
 
-						if (_isArray) {
-							if (_i >= _iterator.length) break;
-							_ref2 = _iterator[_i++];
+						if (_isArray3) {
+							if (_i3 >= _iterator3.length) break;
+							_ref4 = _iterator3[_i3++];
 						} else {
-							_i = _iterator.next();
-							if (_i.done) break;
-							_ref2 = _i.value;
+							_i3 = _iterator3.next();
+							if (_i3.done) break;
+							_ref4 = _i3.value;
 						}
 
-						var sheet = _ref2;
+						var page = _ref4;
 
-						sheets.push({
-							title: sheet.fields.title
+						pages.push({
+							title: page.fields.title
 						});
 					}
 
 					app.setState(_extends({}, app.state, {
-						sheets: sheets
+						pages: pages,
+						dataReady: true
 					}));
+
+					app.changeDisplay();
 				}
 			};
-			xhr.open('GET', 'sheets/');
+			xhr.open('GET', 'pages/');
 			xhr.send();
-		}
-	}, {
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			// code...
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			var sheets = this.state.sheets;
+			var pageTitles = this.state.dataReady ? this.getPageTitles() : null,
+			    openPage = this.state.openPage;
 
 			return _react2.default.createElement(
-				'main',
+				'div',
 				null,
-				_react2.default.createElement(
-					'header',
-					{ className: 'section__header' },
-					sheets.length > 0 ? _react2.default.createElement(
-						'nav',
-						{ className: 'nav' },
-						_react2.default.createElement(
-							'ul',
-							null,
-							sheets.map(function (sheet, index) {
-								return _react2.default.createElement(_NavItem2.default, {
-									title: sheet.title,
-									key: index
-								});
-							}.bind(this))
-						)
-					) : null,
-					_react2.default.createElement(
-						'h1',
-						null,
-						'Testing the Applications base'
-					)
-				)
+				pageTitles ? _react2.default.createElement(_Navigation2.default, {
+					pageTitles: pageTitles,
+					onclick: this.changeDisplay
+				}) : null,
+				openPage ? _react2.default.createElement(_Page2.default, {
+					openPage: openPage
+				}) : null
 			);
 		}
 	}]);
@@ -10080,41 +10123,7 @@ module.exports = __webpack_require__(36).Symbol;
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 99 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(95);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NavItem = function NavItem(props) {
-	return _react2.default.createElement(
-		"li",
-		null,
-		_react2.default.createElement(
-			"a",
-			{ href: "#" },
-			props.title
-		)
-	);
-};
-
-NavItem.propTypes = {
-	title: _react.PropTypes.string.isRequired
-};
-
-exports.default = NavItem;
-
-/***/ }),
+/* 99 */,
 /* 100 */
 /***/ (function(module, exports) {
 
@@ -23233,6 +23242,142 @@ var _App2 = _interopRequireDefault(_App);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 __webpack_require__(98);
+
+/***/ }),
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(95);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Navitem = __webpack_require__(223);
+
+var _Navitem2 = _interopRequireDefault(_Navitem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Navigation = function Navigation(props) {
+	return _react2.default.createElement(
+		'nav',
+		{ className: 'nav' },
+		_react2.default.createElement(
+			'a',
+			{ href: '#', onClick: function onClick(e) {
+					props.onclick(e);
+				} },
+			'LOGO'
+		),
+		_react2.default.createElement(
+			'ul',
+			null,
+			props.pageTitles.map(function (pageTitle, index) {
+				return _react2.default.createElement(_Navitem2.default, {
+					key: index,
+					title: pageTitle,
+					onclick: props.onclick
+				});
+			}.bind(undefined))
+		)
+	);
+};
+
+Navigation.propTypes = {
+	pageTitles: _react.PropTypes.array.isRequired,
+	onclick: _react.PropTypes.func.isRequired
+};
+
+exports.default = Navigation;
+
+/***/ }),
+/* 223 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(95);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NavItem = function NavItem(props) {
+	if (props.title == "Welcome") {
+		return false;
+	} else {
+		return _react2.default.createElement(
+			"li",
+			null,
+			_react2.default.createElement(
+				"a",
+				{ href: "#", onClick: function onClick(e) {
+						props.onclick(e, props.title);
+					} },
+				props.title
+			)
+		);
+	}
+};
+
+NavItem.propTypes = {
+	title: _react.PropTypes.string.isRequired,
+	onclick: _react.PropTypes.func.isRequired
+};
+
+exports.default = NavItem;
+
+/***/ }),
+/* 224 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(95);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Page = function Page(props) {
+	var page = props.openPage;
+
+	return _react2.default.createElement(
+		"section",
+		{ className: "page" },
+		_react2.default.createElement(
+			"h1",
+			null,
+			page.title
+		)
+	);
+};
+
+Page.propTypes = {
+	openPage: _react.PropTypes.object.isRequired
+};
+
+exports.default = Page;
 
 /***/ })
 /******/ ]);
