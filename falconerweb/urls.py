@@ -18,11 +18,12 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from . import views
+from pages import views as page_views
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^sheets/', include('sheets.urls')),
+    url(r'^pages/', page_views.pages),
     url(r'^$', views.main),
 ]
 
