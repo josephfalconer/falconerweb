@@ -7,7 +7,7 @@ const Navigation = props => {
 	return (
 		<nav className="nav">
 			<a href="#" onClick={e => { props.onclick(e) }}>LOGO</a>
-			<ul>
+			<ul className="nav__menu list--plain">
 				{props.pageTitles.map(function(pageTitle, index) {
 					return (
 						<NavItem

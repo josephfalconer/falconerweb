@@ -1,0 +1,13 @@
+// ===============
+// General text features across the site
+// =====================================
+
+.text {
+    @include fontsizes($font-sizes-body);
+
+    @include e(body) {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: left;
+    }
+}

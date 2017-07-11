@@ -1,0 +1,51 @@
+// =====
+// Classes toggled in JS
+// =====================
+
+body.is-noscroll {
+	position: fixed; 
+	width: 100%;
+	overflow-y:scroll
+}
+
+// menu button for xs/sm
+.nav.is-open-menu {
+	.arrow {
+		@include p-el(after) {
+			@include transform(rotate(-45deg));
+		}
+		@include p-el(before) {
+			@include transform(rotate(45deg));
+		}
+	}
+}
+
+// when lower menu is open on xs/sm
+.nav.is-open-menu {
+	.lowermenu {
+		@include mq(sm, max) {
+			height: 600px;
+			height: calc(100vh - 65px);
+			padding-top: 41px;
+			visibility: initial;
+			@include transition($tn-norm: height $nav-lowermenu-transition);
+		}
+	}
+}
+
+// when the nav slides up/down 
+.nav.is-hidden-navbar {
+	@include transform( translateY(-40px) );
+	cursor: pointer; 
+
+	.nav__button, .home-link {
+		@include transition($tn-norm: opacity .4s);
+		opacity: 0;
+	}
+	.topmenu, .lowermenu {
+		display: none;
+	}
+	.nav__title {
+		display: block;
+	}
+}

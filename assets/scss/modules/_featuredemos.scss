@@ -1,0 +1,70 @@
+// =================
+// Style the colour-shifting demos menu
+// ====================================
+
+.demosfeature {
+
+	@include mq(md) {
+		display: flex;
+		flex-wrap: wrap;
+		box-shadow: 0 0 50px $grey-transparent;
+	}
+
+	@include e(item) {
+		display: inline-block;
+		flex: 1 50%;
+		transition: background 2s;
+
+		@include mq(lg) {
+			flex: 1 50%;
+		}
+	}
+
+	@include e(link) {
+		display: block;
+		position: relative;
+	    @include square(100%);
+	    background: $clean-transparent;
+	    color: $white;
+	    transition: all $transition-duration;
+
+	    &:hover, &:focus {
+	    	background: $black-transparent;
+
+	    	.demosfeature__tooltip {
+	    		opacity: 1;
+	    		transform: translateY(-30px);
+	    	}
+	    }
+	}
+
+	@include e(text) {
+		padding: 30px;
+
+		@include mq(lg) {
+			padding: 100px;
+		}
+	}
+
+	@include e(title) {
+		margin-top: 0;
+	}
+
+	@include e(description) {
+		margin: 0;
+		text-align: left;
+	}
+
+	@include e(tooltip) {
+		display: block;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		opacity: 0;
+		transition: opacity $transition-duration, transform 0.4s;
+
+		@include mq(md, max) {
+			display: none;
+		}
+	}
+}

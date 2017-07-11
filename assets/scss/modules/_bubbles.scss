@@ -1,0 +1,84 @@
+// ==============
+// Create rising bubbles animations
+// ================================
+
+$bubbles-rising: 3;
+$bubbles-rise-duration: 15s;
+$bubbles-rise-delay: 0s;
+$bubbles-rise-stagger: 5s;
+
+$bubbles-bobbing: 3;
+$bubbles-bob-reach: -20px;
+$bubbles-bob-duration: 3s;
+$bubbles-bob-delay: 0s;
+$bubbles-bob-stagger: 2s;
+
+// create keyframes for rising bubbles
+@keyframes rise {
+	$rise-percentage: 0%;
+	$riseY: 0px;
+	$riseX: 20px;
+
+	@for $i from 1 to 12 {
+
+		// produce alternating directions
+		@if $riseX == -20px {
+			$riseX: 20px;
+		} @else {
+			$riseX: -20px;
+		}
+
+		// add opacity changes for the last two frames
+		@if $rise-percentage == 90% {
+			// the penultimate frame with full opacity
+			#{$rise-percentage} {
+				transform: translate3d(#{$riseX}, -#{$riseY}, 0);
+				opacity: 1;
+			}
+		} @else if $rise-percentage == 100% {
+			// the final frame with zero opacity
+			#{$rise-percentage} {
+				transform: translate3d(#{$riseX}, -#{$riseY}, 0);
+				opacity: 0;
+			}
+		} @else {
+			// a normal frame
+			#{$rise-percentage} {
+				transform: translate3d(#{$riseX}, -#{$riseY}, 0);
+			}
+		}
+		
+		// increment
+		$rise-percentage: $rise-percentage + 10;
+		$riseY: $riseY + 50px;
+	}
+}
+
+// create keyframe for bobbing
+@keyframes bob {
+	50% { 
+		transform: translateY($bubbles-bob-reach); 
+	}
+}
+
+// apply animation to rising bubbles
+@for $i from 1 through $bubbles-rising {
+	.childpage__imagebox .bubble--rise#{$i} {
+		animation: rise $bubbles-rise-duration $bubbles-rise-delay infinite;
+	}
+
+	// increment the delay for each bubble's rise
+	$bubbles-rise-delay: $bubbles-rise-delay + $bubbles-rise-stagger;
+}
+
+// apply animations to bobbing bubbles
+@for $i from 1 through $bubbles-bobbing {
+	.childpage__imagebox .bubble--bob#{$i} {
+		animation: bob $bubbles-bob-duration $bubbles-bob-delay infinite;
+	}
+
+	// increment the delay for each bubble's bob
+	$bubbles-bob-delay: $bubbles-bob-delay + $bubbles-bob-stagger;
+}
+
+

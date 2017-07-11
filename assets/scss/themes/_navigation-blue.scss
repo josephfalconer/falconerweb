@@ -1,0 +1,109 @@
+// =====================
+// Theme the site navigation for 'painting' pages
+// ==============================================
+
+$navigation-border-blue: 1px solid $blue--accent;
+
+// basic
+.nav {
+	background: $blue--primary;
+	border-bottom: $navigation-border-blue;
+
+	circle {
+		stroke: $blue--accent;
+	}
+
+	.fill {
+		fill: $blue--accent;
+	}
+
+	.stroke {
+		stroke: $blue--accent;
+	}
+
+	circle {
+		stroke: $blue--accent;
+		fill: $blue--primary;
+	}
+
+	.thumbhole {
+		fill: $blue--primary;
+	}
+
+	.arrow {
+		&::after {
+			background: $blue--accent;
+		}
+		&::before {
+			background: $blue--accent;
+		}
+	}
+}
+
+.nav--blue.active {
+	.topmenu__trigger {
+		color: $blue--active;
+	}
+
+	.arrow {
+		&::after {
+			background: $blue--active;
+		}
+		&::before {
+			background: $blue--active;
+		}
+	}
+}
+
+.nav {
+	background: $blue--primary;
+	border-bottom: $border--blue; 
+
+	@include mq(md) {
+		border-bottom: none;
+	}
+
+	@include e(item) { 
+		border-bottom: $border--blue; 
+
+		@include mq(md) {
+			border-bottom: none;
+		}
+	}
+
+	@include e(link) { 
+		@include mq(lg) {
+			color: $nav-text--blue; 
+		}
+
+		&:hover, &:focus, &:active, &--current {
+			color: $blue--active;
+
+			.nav__overlay {
+				background: $overlay--blue;
+			}
+
+			.nav__linkcircle {
+				border: 5px solid $blue--active;
+			}
+
+			circle {
+				stroke: $blue--active;
+			}
+
+			.fill {
+				fill: $blue--active;
+			}
+
+			.stroke {
+				stroke: $blue--active;
+			}
+		}
+	}
+	
+	@include e(linkcircle) {
+		@include mq(lg) {
+			border: 5px solid $blue--accent;
+		}
+	}
+}

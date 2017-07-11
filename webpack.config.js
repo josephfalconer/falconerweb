@@ -45,18 +45,19 @@ module.exports = {
 							}
 						},
 						{
-							loader: 'sass-loader',
-							options: {
-								outputStyle: 'expanded',
-								sourceMap: true
-							}
-						},
-						{
 							loader: 'postcss-loader',
 							options: {
 								plugins: () => {
 									return [autoPrefixer]
-								}
+								},
+								sourceMap: true
+							}
+						},
+						{
+							loader: 'sass-loader',
+							options: {
+								outputStyle: 'expanded',
+								sourceMap: true
 							}
 						}
 					]

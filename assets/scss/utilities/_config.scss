@@ -1,0 +1,145 @@
+// ==========
+// Global Config
+// =============
+
+// 
+// https://fonts.googleapis.com/css?family=Playfair+Display:400,700
+// 'https://fonts.googleapis.com/css?family=Archivo+Black:400,700'
+//https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:400,700
+
+// font Stacks 
+$font-url--google        : 'https://fonts.googleapis.com/css?family=Archivo+Black:400,700|Tenor+Sans:400';
+$font-family--primary    : 'Archivo Black', Helvetica, Arial, sans-serif;
+$font-family--secondary  : 'Tenor Sans', Helvetica, Arial, sans-serif;
+
+// font Weights 
+$font-weight--thin       : 100;
+$font-weight--light      : 300;
+$font-weight--medium     : 400;
+$font-weight--bold       : 700;
+$font-weight--ultra-bold : 900;
+
+
+// Colors ===========================================
+$white			: #fff;
+$black			: #000;
+$black-transparent: rgba(0,0,0,0.5);
+$dark-transparent: rgba(0,0,0,0.85);
+$grey-transparent: rgba(0,0,0,0.25);
+$clean-transparent: rgba(255,255,255,0);
+
+// greys 
+$wild-sand		: #f5f5f5;
+$silver 		: #bbb;
+$finlandia		: #5b5c5b;
+$boulder		: #777;
+$emperor		: #555;
+$mine-shaft		: #333;
+
+// blues 
+$picton-blue	: #5CB2EC;
+$curious-blue	: #1791E5;
+$deep-sea-green	: #0B4872;
+
+// orange 
+$sunglow		: #ffb732;
+
+
+
+// Color usage =====================================
+
+// blues
+$blue--primary	: $picton-blue;
+$blue--accent	: $curious-blue;
+$blue--active	: $deep-sea-green;
+$blue--light	: lighten($blue--primary, 10%);
+$overlay--blue  : rgba(11,72,114,0.2);
+
+// greys
+$grey--primary	: $boulder;
+$grey--accent	: $emperor;
+$grey--dark		: #444;
+$grey--light	: #898989;
+
+// oranges
+$orange--active	: $sunglow;
+$orange--light	: lighten($orange--active, 15%);
+$orange--active-overlay : rgba(255,183,50,.2);
+
+// text colours
+$text-color-main: $finlandia;
+$text-color-light: lighten($finlandia, 20%);
+
+// breakpoints 
+$bp-xs: 1px;
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 992px;
+$bp-xl: 1200px;
+
+// map the breakpoints
+$breakpoints: (
+	'xs-min': $bp-xs,
+	'sm-min': $bp-sm,
+	'md-min': $bp-md,
+	'lg-min': $bp-lg,
+	'xl-min': $bp-xl,
+	'xs-max': $bp-sm - 1,
+	'sm-max': $bp-md - 1,
+	'md-max': $bp-lg - 1,
+	'lg-max': $bp-xl - 1,
+);
+
+// container max widths
+$container-max-width-sm: 540px;
+$container-max-width-ms: 720px;
+$container-max-width-lg: 960px;
+$container-max-width-xl: 1140px;
+
+// spacing
+$padding: 50;
+
+// site navigation
+$nav-height-xs: 65px;
+$nav-height-xl: 82px;	
+
+// paths to static assets
+$static-img-path: '../../static/img';
+
+// font sizes for body text
+$font-sizes-body: (
+	md: 1.2rem,
+	lg: 1.3rem,
+);
+
+// transition duration
+$transition-duration: 0.25s;
+
+
+// TODO tidy these up:
+// Nav 
+$nav-height		: 50px;
+$nav-li-ht		: 40px;
+// Border
+$border--white	: dashed 1px $white;
+
+// MISC
+$list-itm-bg	: $wild-sand;
+
+$demo-itm-bg	: $mine-shaft;
+$demo-itm-bxs	: $silver;
+
+$vertical-nav-width: 100px;
+
+
+// Border radius
+$br--default    : .4em;
+$br--round      : 50%;
+
+// Transitions
+$trns-duration  : .4s;
+
+
+// Path to Assets
+$path--rel      : "../img";
+

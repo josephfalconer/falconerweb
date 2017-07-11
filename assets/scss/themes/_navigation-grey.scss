@@ -1,0 +1,155 @@
+// ==============
+// Theme the site navigation for 'web' pages
+// =========================================
+
+$navigation-border-grey: 1px solid $grey--accent;
+
+// basic
+.nav--grey {
+	background: $grey--primary;
+	border-bottom: $navigation-border-grey;
+
+	circle {
+		stroke: $grey--accent;
+		fill: $grey--primary;
+	}
+
+	.fill {
+		fill: $grey--accent;
+	}
+
+	.stroke {
+		stroke: $grey--accent;
+	}
+
+	.thumbhole {
+		fill: $grey--primary;
+	}
+
+	.arrow {
+		&::after {
+			background: $grey--accent;
+		}
+		&::before {
+			background: $grey--accent;
+		}
+	}
+}
+
+// top menu
+.topmenu--grey {
+	background: $grey--primary;
+	
+	.topmenu__link { 
+		color: #444; 
+
+		&:hover, &:focus, &:active, &--current { 
+			color: $orange--active; 
+
+			circle {
+				stroke: $orange--active;
+			}
+
+			.fill {
+				fill: $orange--active;
+			}
+
+			.stroke {
+				stroke: $orange--active;
+			}
+		}
+
+		&:hover, &:focus {
+			.arrow {
+				&::after {
+					background: $orange--active;
+				}
+				&::before {
+					background: $orange--active;
+				}
+			}
+		} 
+	}		
+}
+
+.nav--grey.active {
+	.topmenu__trigger {
+		color: $orange--active;
+	}
+	
+	.arrow {
+		&::after {
+			background: $orange--active;
+		}
+		&::before {
+			background: $orange--active;
+		}
+	}
+}
+
+// lower menu
+.lowermenu--grey {
+	background: $grey--primary;
+	border-bottom: $border--grey;
+
+	@include mq(md) {
+		border-bottom: none;
+	}
+
+	.lowermenu__item {
+		border-bottom: $border--grey;
+
+		@include mq(md) {
+			border-bottom: none;
+		}
+
+		@include mq(lg) {
+			
+
+			&:hover { 
+				.nav__link-circle {
+					border: 5px solid $orange--active;
+				}
+			} 
+		}				
+	}
+
+	.lowermenu__link { 
+		@include mq(lg) { 
+			color: #444; 
+		}
+
+		&:hover, &:focus, &:active, &--current {
+			color: $orange--active;
+
+			.lowermenu__overlay {
+				background: $orange--active-overlay;
+			}
+
+			.lowermenu__linkcircle {
+				border: 5px solid $orange--active;
+			}
+
+			circle {
+				stroke: $orange--active;
+			}
+
+			.fill {
+				fill: $orange--active;
+			}
+
+			.stroke {
+				stroke: $orange--active;
+			}
+		}
+	}
+
+	.lowermenu__linkcircle {
+		position: relative;
+		border: 5px solid $grey--accent;
+	}
+
+	.bubble {
+		fill: $grey--primary;
+	}
+}

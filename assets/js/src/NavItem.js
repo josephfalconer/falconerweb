@@ -1,12 +1,30 @@
 import React, { PropTypes } from 'react';
 
+import IconSites from './IconSites';
+import IconSkills from './IconSkills';
+import IconDemos from './IconDemos';
+
 const NavItem = props => {
 	if (props.title == "Welcome") {
 		return false;
 	} else {
 		return (
-			<li>
-				<a href="#" onClick={e => { props.onclick(e, props.title) }}>{props.title}</a>
+			<li className="nav__item">
+				<a className="nav__link" href="#" onClick={e => { props.onclick(e, props.title) }}>
+					<span className="nav__linkcircle">
+						{props.title == 'Sites' &&
+							<IconSites/>
+						}
+						{props.title == 'Skills' &&
+							<IconSkills/>
+						}
+						{props.title == 'Demos' &&
+							<IconDemos/>
+						}
+                        <div className="nav__overlay"></div>
+                    </span>
+					<span className="nav__linktext">{props.title}</span>
+				</a>
 			</li>
 		);
 	}

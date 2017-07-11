@@ -1,0 +1,29 @@
+// ==================
+// General on page containers
+// ==========================
+
+// keep the footer at the bottom;
+body {
+	display: flex;
+	flex-direction: column;
+}
+
+.main {
+	flex-grow: 1;
+}
+
+// control the max width of content
+.container {
+    @include mq(md) {
+		width: 90%;
+		margin: 0 auto;
+	}
+
+	@include mq(lg) {
+		max-width: $container-max-width-lg;
+	}
+
+	@include mq(xl) {
+		max-width: $container-max-width-xl;
+	}
+}

@@ -1,0 +1,126 @@
+// ================
+// Site navigation parent element
+// ==============================
+
+// variables namespaced to nav
+$mobile-menu-ln-ht : 25px;
+
+$nav-circlelink-width: 55px;
+
+$nav-lowermenu-transition: 150ms;
+$nav-toplink-width-xl: 100px;
+$nav-lowerlink-width-xl: 85px;
+
+
+.nav {
+	@include sides(100%, $nav-height-xs);
+	display: flex;
+    justify-content: center;
+
+	@include mq(md) {
+		padding: 0 5%
+	}
+
+	@include mq(lg) {
+		height: $nav-height-xl;
+		padding: 0;
+	}
+
+	a { 
+		transition: color $transition-duration; 
+		color: $white; 
+	}
+
+	button { 
+		transition: color $transition-duration;
+	}
+
+	@include e(menu) {
+		@include sides(100%, 0);
+		padding-left: 0;
+		padding-top: 0;
+		overflow: hidden;
+		transition: height $nav-lowermenu-transition, padding-top 0s $nav-lowermenu-transition;
+
+		@include mq(md) {
+			display: flex;
+			width: initial;
+			height: 64px;
+		}
+
+		@include mq(lg) {
+			height: initial;
+		}
+	}
+
+	@include e(item) {
+		width: 50%;
+		margin: 0 auto;
+
+		@include mq(md) {
+			width: initial;
+		}
+
+		@include mq(md, only) {
+			height: 100%;
+		}
+
+		@include mq(lg) {
+			width: $nav-lowerlink-width-xl;
+			margin: 0;
+		}
+	}
+
+	@include e(link) {
+		display: block;
+
+		@include mq(md, max) {
+			font-weight: $font-weight--bold;
+		}
+
+		@include mq(md, only) {
+			@include dimensions(initial, 100%);
+			padding: 0 15px;
+			line-height: 65px;
+		}
+
+		@include mq(sm, max) {
+			line-height: 40px;
+		}
+	}
+
+	@include e(linkcircle) {
+		display: none;
+		position: relative;
+		@include square($nav-circlelink-width);
+		border: 5px solid #1791E5;
+	    border-radius: 50%;
+	    margin: 0 auto -2px;
+	    transition: all $transition-duration;
+
+	    @include mq (lg) {
+			display: block;
+		}
+
+		svg {
+			@include square(100%);
+		}
+	}
+
+	@include e(overlay) {
+		position: absolute;
+		top: 0;
+		left: 0;
+		@include square(100%);
+		transition: background $transition-duration;
+		border-radius: 50%;
+	}
+
+	@include e(linktext) {
+		font-family: $font-family--secondary;
+
+		@include mq(lg) {
+			font-size: 0.75em;
+		}
+	}	
+}
