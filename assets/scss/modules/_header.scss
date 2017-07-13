@@ -3,9 +3,6 @@
 // ===========
 
 .header {
-	background: $blue--primary;
-	color: $white;
-
 	@include e(content) {
 		padding: 3rem 0;
 

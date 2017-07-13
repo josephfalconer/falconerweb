@@ -9,8 +9,11 @@ class Application extends Component {
 
 	state = {
 		pages: [],
-		openPage: null,
-		dataReady: false
+		currentPage: null,
+		dataReady: false,
+		// SET VIA DJANGO ADMIN
+		homePageTitle: 'Welcome aliens!',
+		homePageState: 'down'
 	};
 
 	componentWillMount() {
@@ -51,15 +54,16 @@ class Application extends Component {
 		return pageTitles;
 	}
 
-	changeDisplay = (e, title="Welcome") => {
+	changeDisplay = (e, title=this.state.homePageTitle) => {
 		if (e) e.preventDefault();
 
 		const targetPage = this.getTargetPage(title);
 
 		if (targetPage) {
+			this.setHomePage(targetPage);
 			this.setState({
 				...this.state,
-				openPage: targetPage
+				currentPage: targetPage
 			});
 		} 
 	}
@@ -75,25 +79,44 @@ class Application extends Component {
 		return targetPage;
 	}
 
+	setHomePage = targetPage => {
+		const currentState = this.state.homePageState;
+		// const currentPage = this.state.currentPage;
+		const newState = currentState == 'down' ? 'up' : 'down';
+
+		console.log(currentState, targetPage);
+		// this.setState()
+	}
+
 	render() {
 		const pageTitles = this.state.dataReady ? this.getPageTitles() : null,
-			openPage = this.state.openPage;
+			currentPage = this.state.currentPage,
+			isfrontPage = currentPage ? currentPage.title == this.state.homePageTitle : false;
 
 		return (
 			<div>
 
-				{pageTitles ?
-					<Navigation 
-						pageTitles={pageTitles}
-						onclick={this.changeDisplay}
-					/>
-					:
-					null
-				}
+				<div className={isfrontPage ? 'frontpage frontpage--down' : 'frontpage'}>
+					<header className="header">
+						<div className="header__content">
+							<h1 className="header__title">Joseph Falconer | Web Developer</h1>
+						</div>
+					</header>
 
-				{openPage ? 
+					{pageTitles ?
+						<Navigation 
+							homePageTitle={this.state.homePageTitle}
+							pageTitles={pageTitles}
+							onclick={this.changeDisplay}
+						/>
+						:
+						null
+					}
+				</div>
+
+				{currentPage ? 
 					<Page 
-						openPage={openPage}
+						currentPage={currentPage}
 					/>
 					:
 					null

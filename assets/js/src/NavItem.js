@@ -5,30 +5,24 @@ import IconSkills from './IconSkills';
 import IconDemos from './IconDemos';
 
 const NavItem = props => {
-	if (props.title == "Welcome") {
-		return false;
-	} else {
-		return (
-			<li className="nav__item">
-				<a className="nav__link" href="#" onClick={e => { props.onclick(e, props.title) }}>
-					<span className="nav__linkcircle">
-						{props.title == 'Sites' &&
-							<IconSites/>
-						}
-						{props.title == 'Skills' &&
-							<IconSkills/>
-						}
-						{props.title == 'Demos' &&
-							<IconDemos/>
-						}
-                        <div className="nav__overlay"></div>
-                    </span>
-					<span className="nav__linktext">{props.title}</span>
-				</a>
-			</li>
-		);
-	}
-	
+	return (
+		<li className="nav__item">
+			<a className="nav__link" href="#" onClick={e => { props.onclick(e, props.title) }}>
+				<span className="nav__linkcircle">
+					{props.title == 'Sites' &&
+						<IconSites/>
+					}
+					{props.title == 'Skills' &&
+						<IconSkills/>
+					}
+					{props.title == 'Demos' &&
+						<IconDemos/>
+					}
+                </span>
+				<span className="nav__linktext">{props.title}</span>
+			</a>
+		</li>
+	);	
 }
 
 NavItem.propTypes = {

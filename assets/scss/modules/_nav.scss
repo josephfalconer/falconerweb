@@ -11,11 +11,36 @@ $nav-lowermenu-transition: 150ms;
 $nav-toplink-width-xl: 100px;
 $nav-lowerlink-width-xl: 85px;
 
+// text
+$navtext-fontsize-lg: remcalc(12);
+
+
+// MOVE TO OWN PARTIAL
+.frontpage {
+	position: fixed; 
+	top: 0;
+	left: 0;
+	@include sides(100%, calc(100% - #{remcalc(55)}));
+	background: $grey--primary;
+	color: $white;
+	transform: translateY(-90%);
+	transition: transform 1s;
+
+	@include m(down) {
+		transform: none;
+		// transition: transform 1s;
+	}
+}
+
 
 .nav {
+	position: absolute;
+	left: 0;
+	bottom: 0;
 	@include sides(100%, $nav-height-xs);
 	display: flex;
     justify-content: center;
+    transition: transform 1s;
 
 	@include mq(md) {
 		padding: 0 5%
@@ -24,6 +49,10 @@ $nav-lowerlink-width-xl: 85px;
 	@include mq(lg) {
 		height: $nav-height-xl;
 		padding: 0;
+	}
+
+	@include m(homepage) {
+		transform: translateY(-200px);
 	}
 
 	a { 
@@ -50,6 +79,7 @@ $nav-lowerlink-width-xl: 85px;
 
 		@include mq(lg) {
 			height: initial;
+			align-items: center; 
 		}
 	}
 
@@ -73,7 +103,7 @@ $nav-lowerlink-width-xl: 85px;
 
 	@include e(link) {
 		display: block;
-
+		
 		@include mq(md, max) {
 			font-weight: $font-weight--bold;
 		}
@@ -87,15 +117,29 @@ $nav-lowerlink-width-xl: 85px;
 		@include mq(sm, max) {
 			line-height: 40px;
 		}
+
+		@include mq(lg) {
+			position: relative;
+		}
+
+		&:hover {
+			@include mq(lg) {
+				.nav__linktext {
+					bottom: -$navtext-fontsize-lg;
+					opacity: 1;
+				}
+			}
+		}
 	}
 
 	@include e(linkcircle) {
 		display: none;
 		position: relative;
+		border: remcalc(2) solid #1791E5;
 		@include square($nav-circlelink-width);
-		border: 5px solid #1791E5;
+		padding: remcalc(3);
 	    border-radius: 50%;
-	    margin: 0 auto -2px;
+	    margin: 0 auto;
 	    transition: all $transition-duration;
 
 	    @include mq (lg) {
@@ -107,20 +151,17 @@ $nav-lowerlink-width-xl: 85px;
 		}
 	}
 
-	@include e(overlay) {
-		position: absolute;
-		top: 0;
-		left: 0;
-		@include square(100%);
-		transition: background $transition-duration;
-		border-radius: 50%;
-	}
-
 	@include e(linktext) {
 		font-family: $font-family--secondary;
-
+		
 		@include mq(lg) {
-			font-size: 0.75em;
+			position: absolute;
+			left: 50%;
+			bottom: -#{remcalc(5)};
+			font-size: $navtext-fontsize-lg;
+			opacity: 0;
+			transform: translateX(-50%);
+			transition: all 0.4s;
 		}
 	}	
 }

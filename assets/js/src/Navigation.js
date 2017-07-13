@@ -8,21 +8,23 @@ const Navigation = props => {
 		<nav className="nav">
 			<a href="#" onClick={e => { props.onclick(e) }}>LOGO</a>
 			<ul className="nav__menu list--plain">
-				{props.pageTitles.map(function(pageTitle, index) {
-					return (
-						<NavItem
-							key={index}
-                        	title={pageTitle}
-                        	onclick={props.onclick}
-                        /> 
-					);
-                }.bind(this))}
+				{props.pageTitles.map((pageTitle, index) => {
+					if (pageTitle != props.homePageTitle) 
+						return (
+							<NavItem
+								key={index}
+	                        	title={pageTitle}
+	                        	onclick={props.onclick}
+	                        /> 
+						);
+                })}
 			</ul>
 		</nav>
 	)
 }
 
 Navigation.propTypes = {
+	homePageTitle: PropTypes.string.isRequired,
 	pageTitles: PropTypes.array.isRequired,
 	onclick: PropTypes.func.isRequired,
 }

@@ -2,17 +2,21 @@ import React, { PropTypes } from 'react';
 
 
 const Page = props => {
-	let page = props.openPage;
+	let page = props.currentPage;
 	
 	return (
 		<section className="page">
-			<h1>{page.title}</h1>
+			<header className="header">
+				<div className="header__content">
+					<h1>{page.title}</h1>
+				</div>
+			</header>
 		</section>
 	)
 }
 
 Page.propTypes = {
-	openPage: PropTypes.object.isRequired,
+	currentPage: PropTypes.object.isRequired,
 }
 
 export default Page;

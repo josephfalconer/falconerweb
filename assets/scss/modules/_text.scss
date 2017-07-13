@@ -6,7 +6,7 @@
     @include fontsizes($font-sizes-body);
 
     @include e(body) {
-        max-width: 800px;
+        max-width: remcalc(800);
         margin: 0 auto;
         text-align: left;
     }
