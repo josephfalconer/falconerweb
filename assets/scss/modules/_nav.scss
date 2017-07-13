@@ -5,7 +5,7 @@
 // variables namespaced to nav
 $mobile-menu-ln-ht : 25px;
 
-$nav-circlelink-width: 55px;
+$nav-circlelink-width: 50;
 
 $nav-lowermenu-transition: 150ms;
 $nav-toplink-width-xl: 100px;
@@ -14,33 +14,16 @@ $nav-lowerlink-width-xl: 85px;
 // text
 $navtext-fontsize-lg: remcalc(12);
 
-
-// MOVE TO OWN PARTIAL
-.frontpage {
-	position: fixed; 
-	top: 0;
-	left: 0;
-	@include sides(100%, calc(100% - #{remcalc(55)}));
-	background: $grey--primary;
-	color: $white;
-	transform: translateY(-90%);
-	transition: transform 1s;
-
-	@include m(down) {
-		transform: none;
-		// transition: transform 1s;
-	}
-}
-
-
 .nav {
+	display: flex;
 	position: absolute;
 	left: 0;
 	bottom: 0;
 	@include sides(100%, $nav-height-xs);
-	display: flex;
+	background: transparentize($grey--primary, 0.2);
     justify-content: center;
-    transition: transform 1s;
+    transform: translateY(100%);
+    transition: all 1s;
 
 	@include mq(md) {
 		padding: 0 5%
@@ -86,6 +69,8 @@ $navtext-fontsize-lg: remcalc(12);
 	@include e(item) {
 		width: 50%;
 		margin: 0 auto;
+		order: 1;
+		transition: all 1s;
 
 		@include mq(md) {
 			width: initial;
@@ -98,6 +83,16 @@ $navtext-fontsize-lg: remcalc(12);
 		@include mq(lg) {
 			width: $nav-lowerlink-width-xl;
 			margin: 0;
+		}
+
+		@include m(logo) {
+			overflow: hidden;
+			order: 0;
+
+			.nav__linkcircle {
+				border: none;
+				@include square(remcalc($nav-circlelink-width + 5));
+			}
 		}
 	}
 
@@ -136,7 +131,7 @@ $navtext-fontsize-lg: remcalc(12);
 		display: none;
 		position: relative;
 		border: remcalc(2) solid #1791E5;
-		@include square($nav-circlelink-width);
+		@include square(remcalc($nav-circlelink-width));
 		padding: remcalc(3);
 	    border-radius: 50%;
 	    margin: 0 auto;

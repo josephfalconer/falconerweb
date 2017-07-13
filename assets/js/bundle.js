@@ -9985,7 +9985,7 @@ var Application = function (_Component) {
 			currentPage: null,
 			dataReady: false,
 			// SET VIA DJANGO ADMIN
-			homePageTitle: 'Welcome aliens!',
+			coverTitle: 'Welcome aliens!',
 			homePageState: 'down'
 		}, _this.getPageTitles = function () {
 			var pageTitles = [];
@@ -10009,7 +10009,7 @@ var Application = function (_Component) {
 
 			return pageTitles;
 		}, _this.changeDisplay = function (e) {
-			var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _this.state.homePageTitle;
+			var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _this.state.coverTitle;
 
 			if (e) e.preventDefault();
 
@@ -10099,14 +10099,14 @@ var Application = function (_Component) {
 		value: function render() {
 			var pageTitles = this.state.dataReady ? this.getPageTitles() : null,
 			    currentPage = this.state.currentPage,
-			    isfrontPage = currentPage ? currentPage.title == this.state.homePageTitle : false;
+			    isFrontCover = currentPage ? currentPage.title == this.state.coverTitle : false;
 
 			return _react2.default.createElement(
 				'div',
 				null,
 				_react2.default.createElement(
 					'div',
-					{ className: isfrontPage ? 'frontpage frontpage--down' : 'frontpage' },
+					{ className: isFrontCover ? 'frontcover frontcover--down' : 'frontcover' },
 					_react2.default.createElement(
 						'header',
 						{ className: 'header' },
@@ -10121,7 +10121,7 @@ var Application = function (_Component) {
 						)
 					),
 					pageTitles ? _react2.default.createElement(_Navigation2.default, {
-						homePageTitle: this.state.homePageTitle,
+						coverTitle: this.state.coverTitle,
 						pageTitles: pageTitles,
 						onclick: this.changeDisplay
 					}) : null
@@ -10263,20 +10263,14 @@ var Navigation = function Navigation(props) {
 		'nav',
 		{ className: 'nav' },
 		_react2.default.createElement(
-			'a',
-			{ href: '#', onClick: function onClick(e) {
-					props.onclick(e);
-				} },
-			'LOGO'
-		),
-		_react2.default.createElement(
 			'ul',
 			{ className: 'nav__menu list--plain' },
 			props.pageTitles.map(function (pageTitle, index) {
-				if (pageTitle != props.homePageTitle) return _react2.default.createElement(_Navitem2.default, {
+				return _react2.default.createElement(_Navitem2.default, {
 					key: index,
 					title: pageTitle,
-					onclick: props.onclick
+					onclick: props.onclick,
+					coverTitle: props.coverTitle
 				});
 			})
 		)
@@ -10284,7 +10278,7 @@ var Navigation = function Navigation(props) {
 };
 
 Navigation.propTypes = {
-	homePageTitle: _react.PropTypes.string.isRequired,
+	coverTitle: _react.PropTypes.string.isRequired,
 	pageTitles: _react.PropTypes.array.isRequired,
 	onclick: _react.PropTypes.func.isRequired
 };
@@ -10306,6 +10300,10 @@ var _react = __webpack_require__(16);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _IconLogo = __webpack_require__(226);
+
+var _IconLogo2 = _interopRequireDefault(_IconLogo);
+
 var _IconSites = __webpack_require__(100);
 
 var _IconSites2 = _interopRequireDefault(_IconSites);
@@ -10321,9 +10319,12 @@ var _IconDemos2 = _interopRequireDefault(_IconDemos);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var NavItem = function NavItem(props) {
+	var isLogoLink = props.title == props.coverTitle,
+	    navItemClass = isLogoLink ? 'nav__item nav__item--logo' : 'nav__item';
+
 	return _react2.default.createElement(
 		'li',
-		{ className: 'nav__item' },
+		{ className: navItemClass },
 		_react2.default.createElement(
 			'a',
 			{ className: 'nav__link', href: '#', onClick: function onClick(e) {
@@ -10332,6 +10333,7 @@ var NavItem = function NavItem(props) {
 			_react2.default.createElement(
 				'span',
 				{ className: 'nav__linkcircle' },
+				isLogoLink && _react2.default.createElement(_IconLogo2.default, null),
 				props.title == 'Sites' && _react2.default.createElement(_IconSites2.default, null),
 				props.title == 'Skills' && _react2.default.createElement(_IconSkills2.default, null),
 				props.title == 'Demos' && _react2.default.createElement(_IconDemos2.default, null)
@@ -10339,13 +10341,14 @@ var NavItem = function NavItem(props) {
 			_react2.default.createElement(
 				'span',
 				{ className: 'nav__linktext' },
-				props.title
+				!isLogoLink && props.title
 			)
 		)
 	);
 };
 
 NavItem.propTypes = {
+	coverTitle: _react.PropTypes.string.isRequired,
 	title: _react.PropTypes.string.isRequired,
 	onclick: _react.PropTypes.func.isRequired
 };
@@ -23516,6 +23519,39 @@ var _App2 = _interopRequireDefault(_App);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 __webpack_require__(98);
+
+/***/ }),
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(16);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LogoIcon = function LogoIcon(props) {
+	return _react2.default.createElement(
+		"svg",
+		{ className: "nav__svg", width: "60px", height: "60px", viewBox: "0 0 60 60" },
+		_react2.default.createElement("polyline", { className: "fill", points: "54.667,27.473 22.589,27.473 22.589,16.793 60,16.8 60,5.147 11.492,5.147 11.492,60 22.589,60 \r 22.589,38.965 54.667,38.967 " }),
+		_react2.default.createElement("path", { fill: "#FFFFFF", d: "M44.646,1.183h10.058v45.379c0.004,4.621-4.185,9.936-10.042,9.945H22.589l-12.324-0.012\r c-2.233,0-9.891-2.98-9.891-9.939c0-0.006,0-5.479,0-5.479l9.92-0.002l0.001,5.482l12.294,0.01l22.058-0.006V1.183z" }),
+		_react2.default.createElement("polyline", { className: "fill", points: "54.641,27.464 22.563,27.464 22.563,38.956 54.641,38.957 " }),
+		_react2.default.createElement("polyline", { className: "fill--onlyhover", fill: "rgba(255,255,255,0)", points: "54.667,27.473 22.589,27.473 22.589,16.793 60,16.8 60,5.147 11.492,5.147 11.492,60 22.589,60 \r 22.589,38.965 54.667,38.967 " })
+	);
+};
+
+exports.default = LogoIcon;
 
 /***/ })
 /******/ ]);

@@ -2,6 +2,21 @@
 // Classes toggled in JS
 // =====================
 
+
+// sliding frontcover feature
+.frontcover--down {
+	top: 0;
+
+	.nav {
+		transform: none;
+	}
+
+	.nav__item--logo {
+		width: 0;
+	}
+}
+
+
 body.is-noscroll {
 	position: fixed; 
 	width: 100%;

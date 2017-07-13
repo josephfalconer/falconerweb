@@ -6,17 +6,16 @@ import NavItem from './Navitem';
 const Navigation = props => {
 	return (
 		<nav className="nav">
-			<a href="#" onClick={e => { props.onclick(e) }}>LOGO</a>
 			<ul className="nav__menu list--plain">
 				{props.pageTitles.map((pageTitle, index) => {
-					if (pageTitle != props.homePageTitle) 
-						return (
-							<NavItem
-								key={index}
-	                        	title={pageTitle}
-	                        	onclick={props.onclick}
-	                        /> 
-						);
+					return (
+						<NavItem
+							key={index}
+                        	title={pageTitle}
+                        	onclick={props.onclick}
+                        	coverTitle={props.coverTitle}
+                        /> 
+					);
                 })}
 			</ul>
 		</nav>
@@ -24,7 +23,7 @@ const Navigation = props => {
 }
 
 Navigation.propTypes = {
-	homePageTitle: PropTypes.string.isRequired,
+	coverTitle: PropTypes.string.isRequired,
 	pageTitles: PropTypes.array.isRequired,
 	onclick: PropTypes.func.isRequired,
 }

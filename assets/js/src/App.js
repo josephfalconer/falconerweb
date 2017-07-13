@@ -12,7 +12,7 @@ class Application extends Component {
 		currentPage: null,
 		dataReady: false,
 		// SET VIA DJANGO ADMIN
-		homePageTitle: 'Welcome aliens!',
+		coverTitle: 'Welcome aliens!',
 		homePageState: 'down'
 	};
 
@@ -54,7 +54,7 @@ class Application extends Component {
 		return pageTitles;
 	}
 
-	changeDisplay = (e, title=this.state.homePageTitle) => {
+	changeDisplay = (e, title=this.state.coverTitle) => {
 		if (e) e.preventDefault();
 
 		const targetPage = this.getTargetPage(title);
@@ -91,12 +91,12 @@ class Application extends Component {
 	render() {
 		const pageTitles = this.state.dataReady ? this.getPageTitles() : null,
 			currentPage = this.state.currentPage,
-			isfrontPage = currentPage ? currentPage.title == this.state.homePageTitle : false;
+			isFrontCover = currentPage ? currentPage.title == this.state.coverTitle : false;
 
 		return (
 			<div>
 
-				<div className={isfrontPage ? 'frontpage frontpage--down' : 'frontpage'}>
+				<div className={isFrontCover ? 'frontcover frontcover--down' : 'frontcover'}>
 					<header className="header">
 						<div className="header__content">
 							<h1 className="header__title">Joseph Falconer | Web Developer</h1>
@@ -105,7 +105,7 @@ class Application extends Component {
 
 					{pageTitles ?
 						<Navigation 
-							homePageTitle={this.state.homePageTitle}
+							coverTitle={this.state.coverTitle}
 							pageTitles={pageTitles}
 							onclick={this.changeDisplay}
 						/>

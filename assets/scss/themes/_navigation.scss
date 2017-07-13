@@ -81,6 +81,10 @@ $navigation-border-grey: 1px solid $grey--accent;
 
 			.fill {
 				fill: $orange--active;
+
+				@include m(onlyhover) {
+					fill: $orange--active;					
+				}
 			}
 
 			.stroke {
