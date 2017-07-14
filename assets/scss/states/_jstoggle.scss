@@ -2,7 +2,6 @@
 // Classes toggled in JS
 // =====================
 
-
 // sliding frontcover feature
 .frontcover--down {
 	top: 0;
@@ -14,6 +13,22 @@
 	.nav__item--logo {
 		width: 0;
 	}
+
+	.nav__item {
+		$blink-delay: 1s;
+
+		@for $i from 1 through 3 {
+			&:nth-child(#{$i}) {
+
+				.nav__linkcircle {
+					animation: orangeblink 1s #{$blink-delay} 1,
+						orangeblink 5s 5s infinite;
+				}
+			}
+
+			$blink-delay: $blink-delay + 1s;
+		}
+	}	
 }
 
 

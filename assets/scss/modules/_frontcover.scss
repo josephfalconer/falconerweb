@@ -2,13 +2,67 @@
 // Sliding frontcover module
 // =========================
 
+$frontcover-button-margin: remcalc(20);
+
 
 .frontcover {
 	position: fixed; 
 	top: -100%;
 	left: 0;
 	@include square(100%);
-	background: $grey--primary;
+	background: $black;
 	color: $white;
 	transition: top 1s;
+
+	@include e(buttons) {
+		display: flex;
+		position: absolute;
+		top: 40%;
+		left: 0;
+		width: 100%;
+		justify-content: space-between;
+	}
+
+	@include e(button) {
+		display: flex;
+		position: relative;
+		border: 4px dotted rgba(255,255,255,0);
+		outline: none;
+		@include square(remcalc(40));
+		justify-content: center;
+		align-items: center;
+		background: none;
+		transform: rotate(45deg);
+
+		&:after {
+			content: "";
+			display: block;
+			@include square(remcalc(15));
+			border: 2px dotted rgba(255,255,255,0);
+			opacity: 0;
+			animation: blink 1s 1s infinite;
+		}
+
+		@include m(prev) {
+			margin-left: $frontcover-button-margin;
+			border-left-color: $orange--light;
+			border-bottom-color: $orange--light;
+
+			&:after {
+				border-left-color: $orange--light;
+				border-bottom-color: $orange--light;
+			}
+		}
+
+		@include m(next) {
+			margin-right: $frontcover-button-margin;
+			border-top-color: $orange--light;
+			border-right-color: $orange--light;
+
+			&:after {
+				border-top-color: $orange--light;
+				border-right-color: $orange--light;
+			}
+		}
+	}
 }

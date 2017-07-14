@@ -41,7 +41,7 @@ $navigation-border-grey: 1px solid $grey--accent;
 
 	circle {
 		stroke: $grey--accent;
-		fill: $grey--primary;
+		fill: rgba(255,255,255,0);
 	}
 
 	.thumbhole {
@@ -95,7 +95,7 @@ $navigation-border-grey: 1px solid $grey--accent;
 	
 	@include e(linkcircle) {
 		@include mq(lg) {
-			border: remcalc(2) solid $grey--accent;
+			border: remcalc(2) solid lighten($grey--accent, 10%);
 		}
 	}
 }

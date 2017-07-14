@@ -36,35 +36,22 @@ $boulder		: #777;
 $emperor		: #555;
 $mine-shaft		: #333;
 
-// blues 
-$picton-blue	: #5CB2EC;
-$curious-blue	: #1791E5;
-$deep-sea-green	: #0B4872;
-
 // orange 
 $sunglow		: #ffb732;
 
 
-
 // Color usage =====================================
-
-// blues
-$blue--primary	: $picton-blue;
-$blue--accent	: $curious-blue;
-$blue--active	: $deep-sea-green;
-$blue--light	: lighten($blue--primary, 10%);
-$overlay--blue  : rgba(11,72,114,0.2);
 
 // greys
 $grey--primary	: $boulder;
-$grey--accent	: $emperor;
+$grey--accent	: $mine-shaft;
 $grey--dark		: #444;
 $grey--light	: #898989;
 
 // oranges
 $orange--active	: $sunglow;
-$orange--light	: lighten($orange--active, 15%);
-$orange--active-overlay : rgba(255,183,50,.2);
+$orange--light	: lighten($orange--active, 5%);
+$orange--active-overlay : rgba(255,183,50,0.2);
 
 // text colours
 $text-color-main: $finlandia;

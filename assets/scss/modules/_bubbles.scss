@@ -63,7 +63,7 @@ $bubbles-bob-stagger: 2s;
 
 // apply animation to rising bubbles
 @for $i from 1 through $bubbles-rising {
-	.childpage__imagebox .bubble--rise#{$i} {
+	.bubble--rise#{$i} {
 		animation: rise $bubbles-rise-duration $bubbles-rise-delay infinite;
 	}
 
@@ -73,7 +73,7 @@ $bubbles-bob-stagger: 2s;
 
 // apply animations to bobbing bubbles
 @for $i from 1 through $bubbles-bobbing {
-	.childpage__imagebox .bubble--bob#{$i} {
+	.bubble--bob#{$i} {
 		animation: bob $bubbles-bob-duration $bubbles-bob-delay infinite;
 	}
 

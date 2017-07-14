@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import Navigation from './Navigation';
+import FrontCover from './FrontCover';
 import Page from './Page';
 
 
@@ -27,7 +27,8 @@ class Application extends Component {
 
 				for (let page of data) {
 					pages.push({
-						title: page.fields.title
+						title: page.fields.title,
+						description: page.fields.description
 					});
 				}
 
@@ -44,23 +45,12 @@ class Application extends Component {
 		xhr.send();
 	}
 
-	getPageTitles = () => {
-		let pageTitles = [];
-
-		for (let page of this.state.pages) {
-			pageTitles.push(page.title);
-		}
-
-		return pageTitles;
-	}
-
 	changeDisplay = (e, title=this.state.coverTitle) => {
 		if (e) e.preventDefault();
 
 		const targetPage = this.getTargetPage(title);
 
 		if (targetPage) {
-			this.setHomePage(targetPage);
 			this.setState({
 				...this.state,
 				currentPage: targetPage
@@ -79,49 +69,27 @@ class Application extends Component {
 		return targetPage;
 	}
 
-	setHomePage = targetPage => {
-		const currentState = this.state.homePageState;
-		// const currentPage = this.state.currentPage;
-		const newState = currentState == 'down' ? 'up' : 'down';
-
-		console.log(currentState, targetPage);
-		// this.setState()
-	}
-
 	render() {
-		const pageTitles = this.state.dataReady ? this.getPageTitles() : null,
+		const pages = this.state.dataReady ? this.state.pages : [],
 			currentPage = this.state.currentPage,
 			isFrontCover = currentPage ? currentPage.title == this.state.coverTitle : false;
 
 		return (
 			<div>
+				{pages.length && 
+					<FrontCover
+						isFrontCover={isFrontCover}
+						pages={pages}
+						coverTitle={this.state.coverTitle}
+						onclick={this.changeDisplay}
+					/>
+				}
 
-				<div className={isFrontCover ? 'frontcover frontcover--down' : 'frontcover'}>
-					<header className="header">
-						<div className="header__content">
-							<h1 className="header__title">Joseph Falconer | Web Developer</h1>
-						</div>
-					</header>
-
-					{pageTitles ?
-						<Navigation 
-							coverTitle={this.state.coverTitle}
-							pageTitles={pageTitles}
-							onclick={this.changeDisplay}
-						/>
-						:
-						null
-					}
-				</div>
-
-				{currentPage ? 
+				{currentPage &&
 					<Page 
 						currentPage={currentPage}
 					/>
-					:
-					null
 				}
-
 			</div>
 		)
 	}

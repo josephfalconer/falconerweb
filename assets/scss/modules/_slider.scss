@@ -1,0 +1,24 @@
+// =========
+// Full-size slider on frontcover
+// ==============================
+
+.slider {
+	position: absolute;
+	top: 0;
+	left: 0;
+	white-space: nowrap;
+	transition: left 2s;
+
+	@include e(track) {
+		position: relative;
+		@include square(100%);
+	}
+
+	@include e(slide) {
+		display: inline-block;
+		height: 100%;
+		white-space: normal;
+
+		// border: tomato solid 1px;
+	}
+}

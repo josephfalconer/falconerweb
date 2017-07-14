@@ -86,6 +86,8 @@ $navtext-fontsize-lg: remcalc(12);
 		}
 
 		@include m(logo) {
+			margin-right: remcalc(17.5);
+			border-right: solid 2px lighten($grey--accent, 10%);
 			overflow: hidden;
 			order: 0;
 

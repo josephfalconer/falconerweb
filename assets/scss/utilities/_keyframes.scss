@@ -1,0 +1,15 @@
+// =============
+// Keyframes available globally
+// ============================
+
+@keyframes orangeblink {
+	50% {
+		border-color: $orange--light;
+	}
+}
+
+@keyframes blink {
+	50% {
+		opacity: 1;
+	}
+}

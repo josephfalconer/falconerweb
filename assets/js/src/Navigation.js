@@ -4,6 +4,7 @@ import NavItem from './Navitem';
 
 
 const Navigation = props => {
+	// console.log(props.pageTitles);
 	return (
 		<nav className="nav">
 			<ul className="nav__menu list--plain">
