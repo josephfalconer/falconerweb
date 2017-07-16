@@ -20,11 +20,13 @@ const icons = {
 	}
 }
 
+
+
 const NavItem = props => {
 	const isLogoLink = props.title == props.coverTitle,
 		navItemClass = isLogoLink ? 'nav__item nav__item--logo' : 'nav__item';
 
-	let icon = icons[props.icon]
+	let { [props.icon]:icon } = icons;
 	icon = icon.call();
 	
 	return (
