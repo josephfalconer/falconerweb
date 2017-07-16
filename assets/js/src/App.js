@@ -28,7 +28,8 @@ class Application extends Component {
 				for (let page of data) {
 					pages.push({
 						title: page.fields.title,
-						description: page.fields.description
+						description: page.fields.description,
+						icon: page.fields.icon
 					});
 				}
 

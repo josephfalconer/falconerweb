@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const SitesIcon = props => {
+const ProjectsIcon = props => {
 	return (
 		<svg viewBox="0 0 60 60">
 			<path className="fill iconbit iconbit--at" d="M38.051,43.488v-27.25c0-1.063-0.43-2.028-1.283-2.895c-0.855-0.867-1.826-1.3-2.912-1.3h-8.945
@@ -18,4 +18,4 @@ const SitesIcon = props => {
 	);	
 }
 
-export default SitesIcon;
+export default ProjectsIcon;

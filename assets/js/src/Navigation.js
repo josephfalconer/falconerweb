@@ -4,15 +4,15 @@ import NavItem from './Navitem';
 
 
 const Navigation = props => {
-	// console.log(props.pageTitles);
 	return (
 		<nav className="nav">
 			<ul className="nav__menu list--plain">
-				{props.pageTitles.map((pageTitle, index) => {
+				{props.pages.map((page, index) => {
 					return (
 						<NavItem
 							key={index}
-                        	title={pageTitle}
+                        	title={page.title}
+                        	icon={page.icon}
                         	onclick={props.onclick}
                         	coverTitle={props.coverTitle}
                         /> 
@@ -25,7 +25,7 @@ const Navigation = props => {
 
 Navigation.propTypes = {
 	coverTitle: PropTypes.string.isRequired,
-	pageTitles: PropTypes.array.isRequired,
+	pages: PropTypes.array.isRequired,
 	onclick: PropTypes.func.isRequired,
 }
 

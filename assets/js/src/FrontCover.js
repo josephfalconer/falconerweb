@@ -88,14 +88,12 @@ class FrontCover extends Component {
 					<button onClick={() => { this.moveSlider('RIGHT'); }} className="frontcover__button frontcover__button--next"></button>
 				</div>
 
-				{this.state.pageTitles ?
+				{this.props.pages && 
 					<Navigation 
 						coverTitle={this.props.coverTitle}
-						pageTitles={this.state.pageTitles}
+						pages={this.props.pages}
 						onclick={this.props.onclick}
 					/>
-					:
-					null
 				}
 			</div>
 		);

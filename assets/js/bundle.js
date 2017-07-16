@@ -10051,7 +10051,8 @@ var Application = function (_Component) {
 
 						pages.push({
 							title: page.fields.title,
-							description: page.fields.description
+							description: page.fields.description,
+							icon: page.fields.icon
 						});
 					}
 
@@ -10268,11 +10269,11 @@ var FrontCover = function (_Component) {
 							_this2.moveSlider('RIGHT');
 						}, className: 'frontcover__button frontcover__button--next' })
 				),
-				this.state.pageTitles ? _react2.default.createElement(_Navigation2.default, {
+				this.props.pages && _react2.default.createElement(_Navigation2.default, {
 					coverTitle: this.props.coverTitle,
-					pageTitles: this.state.pageTitles,
+					pages: this.props.pages,
 					onclick: this.props.onclick
-				}) : null
+				})
 			);
 		}
 	}]);
@@ -10349,33 +10350,7 @@ var LogoIcon = function LogoIcon(props) {
 exports.default = LogoIcon;
 
 /***/ }),
-/* 102 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(13);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SitesIcon = function SitesIcon(props) {
-	return _react2.default.createElement(
-		"svg",
-		{ viewBox: "0 0 60 60" },
-		_react2.default.createElement("path", { className: "fill iconbit iconbit--at", d: "M38.051,43.488v-27.25c0-1.063-0.43-2.028-1.283-2.895c-0.855-0.867-1.826-1.3-2.912-1.3h-8.945\r c-1.317,0-2.276,0.243-2.878,0.728c-0.601,0.485-1.219,1.323-1.854,2.514s-1.52,1.785-2.651,1.785\r c-0.902,0-1.624-0.277-2.167-0.832c-0.543-0.555-0.815-1.202-0.815-1.941c0-1.479,0.942-3.195,2.826-5.148\r c1.883-1.953,4.107-2.929,6.674-2.929h9.95c2.564,0,4.854,1.011,6.863,3.034c2.012,2.022,3.018,4.42,3.018,7.193v27.387\r c0,2.174-0.855,4.115-2.566,5.824c-1.711,1.711-3.721,2.566-6.031,2.566c-2.428,0-4.416-0.764-5.963-2.289\r c-1.525,1.525-3.49,2.289-5.895,2.289c-2.473,0-4.559-0.867-6.257-2.601c-1.699-1.733-2.548-3.663-2.548-5.79V32.637\r c0-2.403,0.861-4.472,2.583-6.206s3.797-2.6,6.223-2.6h5.686c2.081,0,3.122,1.04,3.122,3.12v16.537\r c0,0.809,0.281,1.496,0.848,2.063s1.254,0.85,2.064,0.85c0.785,0,1.467-0.283,2.045-0.85C37.76,44.984,38.051,44.297,38.051,43.488\r z M26.402,43.488V29.655h-2.635c-2.173,0-3.26,1.086-3.26,3.259v10.574c0,0.809,0.289,1.496,0.867,2.063\r c0.577,0.566,1.26,0.85,2.045,0.85c0.81,0,1.509-0.283,2.098-0.85C26.107,44.984,26.402,44.297,26.402,43.488z" })
-	);
-};
-
-exports.default = SitesIcon;
-
-/***/ }),
+/* 102 */,
 /* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10425,17 +10400,17 @@ var _Navitem2 = _interopRequireDefault(_Navitem);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Navigation = function Navigation(props) {
-	// console.log(props.pageTitles);
 	return _react2.default.createElement(
 		'nav',
 		{ className: 'nav' },
 		_react2.default.createElement(
 			'ul',
 			{ className: 'nav__menu list--plain' },
-			props.pageTitles.map(function (pageTitle, index) {
+			props.pages.map(function (page, index) {
 				return _react2.default.createElement(_Navitem2.default, {
 					key: index,
-					title: pageTitle,
+					title: page.title,
+					icon: page.icon,
 					onclick: props.onclick,
 					coverTitle: props.coverTitle
 				});
@@ -10446,7 +10421,7 @@ var Navigation = function Navigation(props) {
 
 Navigation.propTypes = {
 	coverTitle: _react.PropTypes.string.isRequired,
-	pageTitles: _react.PropTypes.array.isRequired,
+	pages: _react.PropTypes.array.isRequired,
 	onclick: _react.PropTypes.func.isRequired
 };
 
@@ -10471,9 +10446,9 @@ var _IconLogo = __webpack_require__(101);
 
 var _IconLogo2 = _interopRequireDefault(_IconLogo);
 
-var _IconSites = __webpack_require__(102);
+var _IconProjects = __webpack_require__(229);
 
-var _IconSites2 = _interopRequireDefault(_IconSites);
+var _IconProjects2 = _interopRequireDefault(_IconProjects);
 
 var _IconSkills = __webpack_require__(103);
 
@@ -10485,9 +10460,27 @@ var _IconDemos2 = _interopRequireDefault(_IconDemos);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var icons = {
+	logo: function logo() {
+		return _react2.default.createElement(_IconLogo2.default, null);
+	},
+	skills: function skills() {
+		return _react2.default.createElement(_IconSkills2.default, null);
+	},
+	projects: function projects() {
+		return _react2.default.createElement(_IconProjects2.default, null);
+	},
+	demos: function demos() {
+		return _react2.default.createElement(_IconDemos2.default, null);
+	}
+};
+
 var NavItem = function NavItem(props) {
 	var isLogoLink = props.title == props.coverTitle,
 	    navItemClass = isLogoLink ? 'nav__item nav__item--logo' : 'nav__item';
+
+	var icon = icons[props.icon];
+	icon = icon.call();
 
 	return _react2.default.createElement(
 		'li',
@@ -10500,10 +10493,7 @@ var NavItem = function NavItem(props) {
 			_react2.default.createElement(
 				'span',
 				{ className: 'nav__linkcircle' },
-				isLogoLink && _react2.default.createElement(_IconLogo2.default, null),
-				props.title == 'Sites' && _react2.default.createElement(_IconSites2.default, null),
-				props.title == 'Skills' && _react2.default.createElement(_IconSkills2.default, null),
-				props.title == 'Demos' && _react2.default.createElement(_IconDemos2.default, null)
+				icon
 			),
 			_react2.default.createElement(
 				'span',
@@ -10517,6 +10507,7 @@ var NavItem = function NavItem(props) {
 NavItem.propTypes = {
 	coverTitle: _react.PropTypes.string.isRequired,
 	title: _react.PropTypes.string.isRequired,
+	icon: _react.PropTypes.string.isRequired,
 	onclick: _react.PropTypes.func.isRequired
 };
 
@@ -23686,6 +23677,37 @@ var _App2 = _interopRequireDefault(_App);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 __webpack_require__(98);
+
+/***/ }),
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(13);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ProjectsIcon = function ProjectsIcon(props) {
+	return _react2.default.createElement(
+		"svg",
+		{ viewBox: "0 0 60 60" },
+		_react2.default.createElement("path", { className: "fill iconbit iconbit--at", d: "M38.051,43.488v-27.25c0-1.063-0.43-2.028-1.283-2.895c-0.855-0.867-1.826-1.3-2.912-1.3h-8.945\r c-1.317,0-2.276,0.243-2.878,0.728c-0.601,0.485-1.219,1.323-1.854,2.514s-1.52,1.785-2.651,1.785\r c-0.902,0-1.624-0.277-2.167-0.832c-0.543-0.555-0.815-1.202-0.815-1.941c0-1.479,0.942-3.195,2.826-5.148\r c1.883-1.953,4.107-2.929,6.674-2.929h9.95c2.564,0,4.854,1.011,6.863,3.034c2.012,2.022,3.018,4.42,3.018,7.193v27.387\r c0,2.174-0.855,4.115-2.566,5.824c-1.711,1.711-3.721,2.566-6.031,2.566c-2.428,0-4.416-0.764-5.963-2.289\r c-1.525,1.525-3.49,2.289-5.895,2.289c-2.473,0-4.559-0.867-6.257-2.601c-1.699-1.733-2.548-3.663-2.548-5.79V32.637\r c0-2.403,0.861-4.472,2.583-6.206s3.797-2.6,6.223-2.6h5.686c2.081,0,3.122,1.04,3.122,3.12v16.537\r c0,0.809,0.281,1.496,0.848,2.063s1.254,0.85,2.064,0.85c0.785,0,1.467-0.283,2.045-0.85C37.76,44.984,38.051,44.297,38.051,43.488\r z M26.402,43.488V29.655h-2.635c-2.173,0-3.26,1.086-3.26,3.259v10.574c0,0.809,0.289,1.496,0.867,2.063\r c0.577,0.566,1.26,0.85,2.045,0.85c0.81,0,1.509-0.283,2.098-0.85C26.107,44.984,26.402,44.297,26.402,43.488z" })
+	);
+};
+
+exports.default = ProjectsIcon;
 
 /***/ })
 /******/ ]);
