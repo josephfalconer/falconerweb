@@ -248,6 +248,7 @@ body {
 }
 
 .frontcover__button--next {
+  margin-left: auto;
   margin-right: 1.25rem;
   border-top-color: #ffc04c;
   border-right-color: #ffc04c;
@@ -259,10 +260,13 @@ body {
 }
 
 .slider {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   position: absolute;
   top: 0;
   left: 0;
-  white-space: nowrap;
+  height: 100%;
   -webkit-transition: left 2s;
   transition: left 2s;
 }
@@ -274,9 +278,7 @@ body {
 }
 
 .slider__slide {
-  display: inline-block;
   height: 100%;
-  white-space: normal;
 }
 
 .nav {
@@ -1017,19 +1019,19 @@ body {
   width: 0;
 }
 
-.frontcover--down .nav__item:nth-child(1) .nav__linkcircle {
-  -webkit-animation: orangeblink 1s 1s 1, orangeblink 5s 5s infinite;
-          animation: orangeblink 1s 1s 1, orangeblink 5s 5s infinite;
-}
-
 .frontcover--down .nav__item:nth-child(2) .nav__linkcircle {
-  -webkit-animation: orangeblink 1s 2s 1, orangeblink 5s 5s infinite;
-          animation: orangeblink 1s 2s 1, orangeblink 5s 5s infinite;
+  -webkit-animation: orangeblink 1s 1s 1;
+          animation: orangeblink 1s 1s 1;
 }
 
 .frontcover--down .nav__item:nth-child(3) .nav__linkcircle {
-  -webkit-animation: orangeblink 1s 3s 1, orangeblink 5s 5s infinite;
-          animation: orangeblink 1s 3s 1, orangeblink 5s 5s infinite;
+  -webkit-animation: orangeblink 1s 2s 1;
+          animation: orangeblink 1s 2s 1;
+}
+
+.frontcover--down .nav__item:nth-child(4) .nav__linkcircle {
+  -webkit-animation: orangeblink 1s 3s 1;
+          animation: orangeblink 1s 3s 1;
 }
 
 body.is-noscroll {

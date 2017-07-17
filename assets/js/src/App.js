@@ -9,10 +9,9 @@ class Application extends Component {
 
 	state = {
 		pages: [],
+		currentPageIndex: null,
 		currentPage: null,
 		dataReady: false,
-		// SET VIA DJANGO ADMIN
-		coverTitle: 'Welcome aliens!',
 		homePageState: 'down'
 	};
 
@@ -46,44 +45,34 @@ class Application extends Component {
 		xhr.send();
 	}
 
-	changeDisplay = (e, title=this.state.coverTitle) => {
+	changeDisplay = (e, index=0) => {
 		if (e) e.preventDefault();
 
-		const targetPage = this.getTargetPage(title);
+		const targetPage = this.state.pages[index];
 
 		if (targetPage) {
 			this.setState({
 				...this.state,
+				currentPageIndex: index,
 				currentPage: targetPage
 			});
 		} 
 	}
 
-	getTargetPage = title => {
-		let targetPage = false;
-
-		for (let page of this.state.pages) {
-			if (page.title == title) {
-				targetPage = page;
-			} 
-		}
-		return targetPage;
-	}
-
 	render() {
 		const pages = this.state.dataReady ? this.state.pages : [],
-			currentPage = this.state.currentPage,
-			isFrontCover = currentPage ? currentPage.title == this.state.coverTitle : false;
+			currentPage = this.state.currentPage;
 
 		return (
 			<div>
-				{pages.length && 
+				{pages.length > 0 ? 
 					<FrontCover
-						isFrontCover={isFrontCover}
+						isFrontCover={this.state.currentPageIndex === 0}
 						pages={pages}
-						coverTitle={this.state.coverTitle}
-						onclick={this.changeDisplay}
+						onClick={this.changeDisplay}
 					/>
+					:
+					null
 				}
 
 				{currentPage &&

@@ -17,12 +17,11 @@
 	.nav__item {
 		$blink-delay: 1s;
 
-		@for $i from 1 through 3 {
+		@for $i from 2 through 4 {
 			&:nth-child(#{$i}) {
 
 				.nav__linkcircle {
-					animation: orangeblink 1s #{$blink-delay} 1,
-						orangeblink 5s 5s infinite;
+					animation: orangeblink 1s #{$blink-delay} 1;
 				}
 			}
 

@@ -55,6 +55,7 @@ $frontcover-button-margin: remcalc(20);
 		}
 
 		@include m(next) {
+			margin-left: auto;
 			margin-right: $frontcover-button-margin;
 			border-top-color: $orange--light;
 			border-right-color: $orange--light;

@@ -11,10 +11,10 @@ const Navigation = props => {
 					return (
 						<NavItem
 							key={index}
+							index={index}
                         	title={page.title}
                         	icon={page.icon}
-                        	onclick={props.onclick}
-                        	coverTitle={props.coverTitle}
+                        	onClick={props.onClick}
                         /> 
 					);
                 })}
@@ -24,9 +24,8 @@ const Navigation = props => {
 }
 
 Navigation.propTypes = {
-	coverTitle: PropTypes.string.isRequired,
 	pages: PropTypes.array.isRequired,
-	onclick: PropTypes.func.isRequired,
+	onClick: PropTypes.func.isRequired,
 }
 
 export default Navigation;

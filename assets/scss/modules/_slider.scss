@@ -3,10 +3,11 @@
 // ==============================
 
 .slider {
+	display: flex;
 	position: absolute;
 	top: 0;
 	left: 0;
-	white-space: nowrap;
+	height: 100%;
 	transition: left 2s;
 
 	@include e(track) {
@@ -15,10 +16,6 @@
 	}
 
 	@include e(slide) {
-		display: inline-block;
 		height: 100%;
-		white-space: normal;
-
-		// border: tomato solid 1px;
 	}
 }

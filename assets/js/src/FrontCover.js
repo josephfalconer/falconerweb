@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 
+import Slider from './Slider';
+import FrontCoverButtons from './FrontCoverButtons';
 import Navigation from './Navigation';
+
 
 class FrontCover extends Component {
 
@@ -11,9 +14,8 @@ class FrontCover extends Component {
 
 	static propTypes = {
 		isFrontCover: PropTypes.bool.isRequired,
-		coverTitle: PropTypes.string.isRequired,
 		pages: PropTypes.array.isRequired,
-		onclick: PropTypes.func.isRequired,
+		onClick: PropTypes.func.isRequired,
 	};
 
 	componentWillMount() {
@@ -21,34 +23,15 @@ class FrontCover extends Component {
 
 		this.setState({
 			...this.state,
-			pageTitles: this.getPageTitles(),
 			windowWidth: windowWidth
 		});
-	};
-
-	getPageTitles = () => {
-		let pageTitles = [];
-
-		for (let page of this.props.pages) {
-			pageTitles.push(page.title);
-		}
-		return pageTitles;
 	};
 
 	moveSlider = direction => {
 		const windowWidth = this.state.windowWidth;
 		let currentIndex = this.state.currentViewIndex;
 
-
-
-		if (direction == 'LEFT') {
-			currentIndex--;
-		} else if (direction == 'RIGHT') {
-			currentIndex++;
-		}
-		// currentIndex = direction == 'LEFT' ? currentIndex++ : currentIndex--;
-
-		console.log(currentIndex);
+		currentIndex = direction == 'LEFT' ? currentIndex - 1 : currentIndex + 1;
 
 		this.setState({
 			...this.state,
@@ -58,50 +41,31 @@ class FrontCover extends Component {
 	}
 
 	render() {
-		const widthStyle = { width: `${this.state.windowWidth}px`},
+		const pages = this.props.pages,
+			widthStyle = { width: `${this.state.windowWidth}px`},
 			offsetStyle = { left: `-${this.state.currentOffset}px` }; 
 
 		return (
 			<div className={this.props.isFrontCover ? 'frontcover frontcover--down' : 'frontcover'}>
-				<div className="slider__track">
-					<div className="slider" style={offsetStyle}>
-						<header className="slider__slide" style={widthStyle}>
-							<div className="header__content">
-								<h1 className="header__title">Joseph Falconer | Web Developer</h1>
-							</div>
-						</header>
-						{this.props.pages.map((page, index) => {
-							return (
-								<section className="slider__slide" key={index} style={widthStyle}>
-									<div className="header__content">
-										<h1 className="header__title">{page.title}</h1>
-										<p>{page.description}</p>
-									</div>
-								</section>
-							);
-		                })}
-					</div>
-				</div>	
+				<Slider 
+					pages={pages}
+					widthStyle={widthStyle}
+					offsetStyle={offsetStyle}
+				/>	
 
-				<div className="frontcover__buttons">
-					<button onClick={() => { this.moveSlider('LEFT'); }} className="frontcover__button frontcover__button--prev"></button>
-					<button onClick={() => { this.moveSlider('RIGHT'); }} className="frontcover__button frontcover__button--next"></button>
-				</div>
+				<FrontCoverButtons
+					noOfPages={pages.length}
+					currentViewIndex={this.state.currentViewIndex + 1}
+					onClick={this.moveSlider}
+				/>
 
-				{this.props.pages && 
-					<Navigation 
-						coverTitle={this.props.coverTitle}
-						pages={this.props.pages}
-						onclick={this.props.onclick}
-					/>
-				}
+				<Navigation 
+					pages={pages}
+					onClick={this.props.onClick}
+				/>
 			</div>
 		);
-	}
-
-		
+	}		
 }
-
-
 
 export default FrontCover;
