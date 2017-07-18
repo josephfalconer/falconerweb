@@ -66,10 +66,6 @@ $navigation-border-grey: 1px solid $grey--accent;
 	}
 
 	@include e(link) { 
-		@include mq(lg) {
-			// color: $nav-text--grey; 
-		}
-
 		&:hover, &:focus, &:active, &--current {
 			@include mq(md, max) {
 				color: $orange--active;
@@ -95,7 +91,7 @@ $navigation-border-grey: 1px solid $grey--accent;
 	
 	@include e(linkcircle) {
 		@include mq(lg) {
-			border: remcalc(2) solid lighten($grey--accent, 10%);
+			border: remcalc(2) solid darken($grey--accent, 10%);
 		}
 	}
 }

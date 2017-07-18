@@ -78,9 +78,12 @@
 // fontsizes
 @mixin fontsizes($font-sizes) {
 	@each $break, $size in $font-sizes {
+		$fontsize: remcalc($size);
+		$lineheight: remcalc($size + 10);
+
 		@include mq(#{$break}) {
-			line-height: $size * 1.4;
-			font-size: #{$size};
+			line-height: #{$lineheight};
+			font-size: #{$fontsize};
 		}
 	}
 }

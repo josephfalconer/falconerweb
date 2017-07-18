@@ -8,12 +8,21 @@ icons = (
     ('demos', 'Demos'),
 )
 
+backgrounds = (
+	('asanoha-400px.png', 'Japanese Asanoha'),
+    ('triangles.png', 'Triangles and Hexagons'),
+    ('pyramids.png', 'Pyramids'),
+    ('seigaiha.png', 'Seigaiha'),
+)
+
 class Page(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	order = models.IntegerField(default=0)
+	icon = models.CharField(max_length=20, choices=icons)
+	background = models.CharField(max_length=20, choices=backgrounds)
 	title = models.CharField(max_length=255)
 	description = models.TextField()
-	icon = models.CharField(max_length=20, choices=icons)
+	body = models.TextField()
 
 	class Meta:
 		ordering = ['order',]

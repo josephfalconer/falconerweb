@@ -10,7 +10,6 @@ $frontcover-button-margin: remcalc(20);
 	top: -100%;
 	left: 0;
 	@include square(100%);
-	background: $black;
 	color: $white;
 	transition: top 1s;
 

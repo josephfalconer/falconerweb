@@ -63,18 +63,22 @@ $bubbles-bob-stagger: 2s;
 
 // apply animation to rising bubbles
 @for $i from 1 through $bubbles-rising {
-	.bubble--rise#{$i} {
-		animation: rise $bubbles-rise-duration $bubbles-rise-delay infinite;
+	.slider {
+		.bubble--rise#{$i} {
+			animation: rise $bubbles-rise-duration $bubbles-rise-delay infinite;
+		}
 	}
-
+	
 	// increment the delay for each bubble's rise
 	$bubbles-rise-delay: $bubbles-rise-delay + $bubbles-rise-stagger;
 }
 
 // apply animations to bobbing bubbles
 @for $i from 1 through $bubbles-bobbing {
-	.bubble--bob#{$i} {
-		animation: bob $bubbles-bob-duration $bubbles-bob-delay infinite;
+	.slider {
+		.bubble--bob#{$i} {
+			animation: bob $bubbles-bob-duration $bubbles-bob-delay infinite;
+		}
 	}
 
 	// increment the delay for each bubble's bob

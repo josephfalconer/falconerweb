@@ -1,4 +1,5 @@
 // Manifest for icon components
+import React from 'react';
 
 import IconLogo from './IconLogo';
 import IconProjects from './IconProjects';

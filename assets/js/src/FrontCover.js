@@ -42,14 +42,14 @@ class FrontCover extends Component {
 
 	render() {
 		const pages = this.props.pages,
-			widthStyle = { width: `${this.state.windowWidth}px`},
+			widthValue = `${this.state.windowWidth}px`,
 			offsetStyle = { left: `-${this.state.currentOffset}px` }; 
 
 		return (
 			<div className={this.props.isFrontCover ? 'frontcover frontcover--down' : 'frontcover'}>
 				<Slider 
 					pages={pages}
-					widthStyle={widthStyle}
+					widthValue={widthValue}
 					offsetStyle={offsetStyle}
 				/>	
 

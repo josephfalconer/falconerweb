@@ -28,7 +28,8 @@ class Application extends Component {
 					pages.push({
 						title: page.fields.title,
 						description: page.fields.description,
-						icon: page.fields.icon
+						icon: page.fields.icon,
+						background: page.fields.background
 					});
 				}
 

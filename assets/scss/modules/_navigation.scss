@@ -20,7 +20,7 @@ $navtext-fontsize-lg: remcalc(12);
 	left: 0;
 	bottom: 0;
 	@include sides(100%, $nav-height-xs);
-	background: transparentize($grey--primary, 0.2);
+	background-color: transparentize($grey--primary, 0.2);
     justify-content: center;
     transform: translateY(100%);
     transition: all 1s;
@@ -87,7 +87,7 @@ $navtext-fontsize-lg: remcalc(12);
 
 		@include m(logo) {
 			margin-right: remcalc(17.5);
-			border-right: solid 2px lighten($grey--accent, 10%);
+			border-right: solid 2px darken($grey--accent, 10%);
 			overflow: hidden;
 			order: 0;
 
@@ -149,7 +149,7 @@ $navtext-fontsize-lg: remcalc(12);
 	}
 
 	@include e(linktext) {
-		font-family: $font-family--secondary;
+		font-family: $font-family--tertiary;
 		
 		@include mq(lg) {
 			position: absolute;

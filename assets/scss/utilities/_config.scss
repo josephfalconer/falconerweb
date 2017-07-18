@@ -8,9 +8,10 @@
 //https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:400,700
 
 // font Stacks 
-$font-url--google        : 'https://fonts.googleapis.com/css?family=Archivo+Black:400,700|Tenor+Sans:400';
-$font-family--primary    : 'Archivo Black', Helvetica, Arial, sans-serif;
-$font-family--secondary  : 'Tenor Sans', Helvetica, Arial, sans-serif;
+$font-url--google        : 'https://fonts.googleapis.com/css?family=Roboto:400,700|Archivo+Black:400,700|Tenor+Sans:400';
+$font-family--primary    : 'Roboto', Helvetica, Arial, sans-serif;
+$font-family--secondary  : 'Archivo Black', Helvetica, Arial, sans-serif;
+$font-family--tertiary  : 'Tenor Sans', Helvetica, Arial, sans-serif;
 
 // font Weights 
 $font-weight--thin       : 100;
@@ -44,7 +45,7 @@ $sunglow		: #ffb732;
 
 // greys
 $grey--primary	: $boulder;
-$grey--accent	: $mine-shaft;
+$grey--accent	: #4d4d4d;
 $grey--dark		: #444;
 $grey--light	: #898989;
 
@@ -95,8 +96,13 @@ $static-img-path: '../../static/img';
 
 // font sizes for body text
 $font-sizes-body: (
-	md: 1.2rem,
-	lg: 1.3rem,
+	md: 18,
+	// lg: 1.3rem,
+);
+
+$font-sizes-h1: (
+	md: 30,
+	lg: 35,
 );
 
 // transition duration

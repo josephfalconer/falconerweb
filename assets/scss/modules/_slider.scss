@@ -17,5 +17,46 @@
 
 	@include e(slide) {
 		height: 100%;
+		background-color: $black;
+	}
+
+	@include e(slideinner) {
+		display: flex;
+		@include square(100%);
+		padding-bottom: remcalc(82);
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	@include e(icon) {
+		margin: 0;
+		width: remcalc(150);
+
+		.stroke {
+			stroke: whitesmoke;
+		}
+
+		.fill {
+			fill: whitesmoke;
+		}
+
+		@media (max-height: remcalc(500)) {
+			display: none;
+		}
+	}
+
+	@include e(textcontent) {
+		max-width: remcalc(800);
+	}
+
+	@include e(heading) {
+		margin: 0;
+		font-family: $font-family--secondary;
+		@include fontsizes($font-sizes-h1);
+	}
+
+	@include e(intro) {
+		margin-bottom: remcalc(170);
 	}
 }
