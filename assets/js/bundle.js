@@ -10035,7 +10035,84 @@ var Application = function (_Component) {
 			currentPage: null,
 			dataReady: false,
 			homePageState: 'down'
-		}, _this.changeDisplay = function (e) {
+		}, _this.dataObjects = {
+			pageObject: function pageObject(object) {
+				return {
+					title: object.fields.title,
+					description: object.fields.description,
+					icon: object.fields.icon,
+					background: object.fields.background
+				};
+			},
+			skillObject: function skillObject(object) {
+				return {
+					title: object.fields.title,
+					text: object.fields.text
+				};
+			},
+			projectObject: function projectObject(object) {
+				return {
+					title: object.fields.title,
+					text: object.fields.text,
+					url: object.fields.url
+				};
+			},
+			demoObject: function demoObject(object) {
+				return {
+					title: object.fields.title,
+					text: object.fields.text,
+					path: object.fields.path
+				};
+			}
+		}, _this.sortData = function (data) {
+
+			var dataObjects = _this.dataObjects;
+
+			var sortedData = {
+				'pages': [],
+				'skills': [],
+				'projects': [],
+				'demos': []
+			};
+
+			for (var _iterator = data, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+				var _ref2;
+
+				if (_isArray) {
+					if (_i >= _iterator.length) break;
+					_ref2 = _iterator[_i++];
+				} else {
+					_i = _iterator.next();
+					if (_i.done) break;
+					_ref2 = _i.value;
+				}
+
+				var object = _ref2;
+
+
+				switch (object.model) {
+					case 'pages.page':
+						sortedData.pages.push(dataObjects.pageObject(object));
+						break;
+
+					case 'skills.skill':
+						sortedData.skills.push(dataObjects.skillObject(object));
+						break;
+
+					case 'projects.project':
+						sortedData.projects.push(dataObjects.projectObject(object));
+						break;
+
+					case 'demos.demo':
+						sortedData.demos.push(dataObjects.demoObject(object));
+						break;
+
+					default:
+						console.log('The model ' + model + ' didn\'t find a match!');
+				}
+			}
+			return sortedData;
+		}, _this.changePage = function (e) {
 			var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
 			if (e) e.preventDefault();
@@ -10060,39 +10137,21 @@ var Application = function (_Component) {
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
 					var data = JSON.parse(xhr.responseText);
-					var pages = [];
-
-					for (var _iterator = data, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-						var _ref2;
-
-						if (_isArray) {
-							if (_i >= _iterator.length) break;
-							_ref2 = _iterator[_i++];
-						} else {
-							_i = _iterator.next();
-							if (_i.done) break;
-							_ref2 = _i.value;
-						}
-
-						var page = _ref2;
-
-						pages.push({
-							title: page.fields.title,
-							description: page.fields.description,
-							icon: page.fields.icon,
-							background: page.fields.background
-						});
-					}
+					console.log(data);
+					data = app.sortData(data);
 
 					app.setState(_extends({}, app.state, {
-						pages: pages,
+						pages: data.pages,
+						skills: data.skills,
+						projects: data.projects,
+						demos: data.demos,
 						dataReady: true
 					}));
 
-					app.changeDisplay();
+					app.changePage();
 				}
 			};
-			xhr.open('GET', 'pages/');
+			xhr.open('GET', 'data/');
 			xhr.send();
 		}
 	}, {
@@ -10107,7 +10166,7 @@ var Application = function (_Component) {
 				pages.length > 0 ? _react2.default.createElement(_FrontCover2.default, {
 					isFrontCover: this.state.currentPageIndex === 0,
 					pages: pages,
-					onClick: this.changeDisplay
+					onClick: this.changePage
 				}) : null,
 				currentPage && _react2.default.createElement(_Page2.default, {
 					currentPage: currentPage

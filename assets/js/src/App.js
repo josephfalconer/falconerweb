@@ -15,38 +15,101 @@ class Application extends Component {
 		homePageState: 'down'
 	};
 
+	dataObjects = {
+		pageObject: object => {
+			return {
+				title: object.fields.title,
+				description: object.fields.description,
+				icon: object.fields.icon,
+				background: object.fields.background
+			}
+		},
+		skillObject: object => {
+			return {
+				title: object.fields.title,
+				text: object.fields.text
+			}
+		},
+		projectObject: object => {
+			return {
+				title: object.fields.title,
+				text: object.fields.text,
+				url: object.fields.url
+			}
+		},
+		demoObject: object => {
+			return {
+				title: object.fields.title,
+				text: object.fields.text,
+				path: object.fields.path
+			}
+		}
+	}
+
 	componentWillMount() {
 		const app = this,
 			xhr = new XMLHttpRequest();
 
 		xhr.onreadystatechange = () => {
 			if (xhr.readyState == 4) {
-				const data = JSON.parse(xhr.responseText);
-				let pages = [];
-
-				for (let page of data) {
-					pages.push({
-						title: page.fields.title,
-						description: page.fields.description,
-						icon: page.fields.icon,
-						background: page.fields.background
-					});
-				}
+				let data = JSON.parse(xhr.responseText);
+				console.log(data);
+				data = app.sortData(data);
 
 				app.setState({
 					...app.state,
-					pages: pages,
+					pages: data.pages,
+					skills: data.skills,
+					projects: data.projects,
+					demos: data.demos,
 					dataReady: true
 				});
 
-				app.changeDisplay();
+				app.changePage();
 			}
 		}
-		xhr.open('GET', 'pages/');
+		xhr.open('GET', 'data/');
 		xhr.send();
-	}
+	};
 
-	changeDisplay = (e, index=0) => {
+	sortData = data => {
+
+		const dataObjects = this.dataObjects;
+
+		let sortedData = {
+			'pages': [],
+			'skills': [],
+			'projects': [],
+			'demos': []
+		}
+
+		for (let object of data) {
+
+			switch(object.model) {
+				case 'pages.page':
+					sortedData.pages.push( dataObjects.pageObject(object) );
+					break;
+
+				case 'skills.skill':
+					sortedData.skills.push( dataObjects.skillObject(object) );
+					break;
+
+				case 'projects.project':
+					sortedData.projects.push( dataObjects.projectObject(object) );
+					break;
+
+				case 'demos.demo':
+					sortedData.demos.push( dataObjects.demoObject(object) );
+					break;
+
+				default:
+					console.log(`The model ${model} didn't find a match!`);
+			}
+		}
+		return sortedData;
+	};
+
+	changePage = (e, index=0) => {
 		if (e) e.preventDefault();
 
 		const targetPage = this.state.pages[index];
@@ -58,7 +121,7 @@ class Application extends Component {
 				currentPage: targetPage
 			});
 		} 
-	}
+	};
 
 	render() {
 		const pages = this.state.dataReady ? this.state.pages : [],
@@ -70,7 +133,7 @@ class Application extends Component {
 					<FrontCover
 						isFrontCover={this.state.currentPageIndex === 0}
 						pages={pages}
-						onClick={this.changeDisplay}
+						onClick={this.changePage}
 					/>
 					:
 					null
@@ -83,7 +146,7 @@ class Application extends Component {
 				}
 			</div>
 		)
-	}
+	};
 }
 
 ReactDOM.render(<Application/>, document.getElementById('application'));

@@ -15,14 +15,22 @@ backgrounds = (
     ('seigaiha.png', 'Seigaiha'),
 )
 
+modules = (
+	('skills', 'Skills Acordion'),
+    ('demos', 'Demos Menu'),
+    ('projects', 'Projects Menu'),
+)
+
 class Page(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	order = models.IntegerField(default=0)
 	icon = models.CharField(max_length=20, choices=icons)
 	background = models.CharField(max_length=20, choices=backgrounds)
-	title = models.CharField(max_length=255)
 	description = models.TextField()
-	body = models.TextField()
+	title = models.CharField(max_length=255)
+	intro_text = models.TextField()
+	body = models.TextField(blank=True)
+	module = models.CharField(max_length=20, choices=modules)
 
 	class Meta:
 		ordering = ['order',]
