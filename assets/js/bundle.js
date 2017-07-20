@@ -10497,7 +10497,7 @@ var Page = function Page(props) {
 
 	return _react2.default.createElement(
 		'section',
-		{ className: 'page' },
+		{ className: 'container' },
 		_react2.default.createElement(
 			'header',
 			{ className: 'header' },
@@ -10944,6 +10944,13 @@ var ModuleSkills = function (_Component) {
 					{ className: 'skillsfeature text' },
 					this.props.skills.map(function (skill, index) {
 
+						// need to substitute Django's linebreaks filter
+						// let TextContent = React.createElement(
+						// 	'span',
+						// 	html: skill.text
+						// );
+						// TextContent.dangerouslySetInnerHTML();
+
 						var isCurrentSkill = index == currentIndex;
 
 						var skillClass = isCurrentSkill ? 'skillsfeature__skill skillsfeature__skill--current' : 'skillsfeature__skill';
@@ -10999,11 +11006,7 @@ var ModuleSkills = function (_Component) {
 									_react2.default.createElement(
 										'div',
 										{ className: 'row row--center' },
-										_react2.default.createElement(
-											'div',
-											{ className: 'column column-xs-12 column-m-10' },
-											skill.text
-										)
+										_react2.default.createElement('div', { className: 'column column-xs-12 column-m-10', dangerouslySetInnerHTML: { __html: skill.text } })
 									)
 								),
 								_react2.default.createElement('div', { className: 'skillsfeature__overlay' })

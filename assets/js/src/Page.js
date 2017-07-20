@@ -9,7 +9,7 @@ const Page = props => {
 		moduleData = props.currentModuleData;
 	
 	return (
-		<section className="page">
+		<section className="container">
 			<header className="header">
 				<div className="header__content">
 					<h1>{page.title}</h1>

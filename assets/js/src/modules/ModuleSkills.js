@@ -34,6 +34,13 @@ class ModuleSkills extends Component {
 				<div className="skillsfeature text">
 					{this.props.skills.map((skill, index) => {
 
+						// need to substitute Django's linebreaks filter
+						// let TextContent = React.createElement(
+						// 	'span',
+						// 	html: skill.text
+						// );
+						// TextContent.dangerouslySetInnerHTML();
+
 						let isCurrentSkill = index == currentIndex;
 						
 						let skillClass = isCurrentSkill ? 'skillsfeature__skill skillsfeature__skill--current' : 'skillsfeature__skill';
@@ -60,8 +67,7 @@ class ModuleSkills extends Component {
 						        <div className="skillsfeature__content" style={heightStyle}>
 						            <div className="skillsfeature__contentinner">
 						            	<div className="row row--center">
-						            		<div className="column column-xs-12 column-m-10">
-						            			{skill.text}
+						            		<div className="column column-xs-12 column-m-10" dangerouslySetInnerHTML={{__html: skill.text}}>
 						            		</div>
 						            	</div>
 						            </div>
