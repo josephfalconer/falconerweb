@@ -10,54 +10,54 @@ class Application extends Component {
 	state = {
 		pages: [],
 		currentPageIndex: null,
-		currentPage: null,
+		currentPageData: null,
 		dataReady: false,
 		homePageState: 'down'
 	};
 
-	dataObjects = {
-		pageObject: object => {
+	dataModels = {
+		pageModel: fields => {
 			return {
-				title: object.fields.title,
-				description: object.fields.description,
-				icon: object.fields.icon,
-				background: object.fields.background
+				title: fields.title,
+				description: fields.description,
+				icon: fields.icon,
+				background: fields.background,
+				module: fields.module,
 			}
 		},
-		skillObject: object => {
+		skillModel: fields => {
 			return {
-				title: object.fields.title,
-				text: object.fields.text
+				title: fields.title,
+				text: fields.text
 			}
 		},
-		projectObject: object => {
+		projectModel: fields => {
 			return {
-				title: object.fields.title,
-				text: object.fields.text,
-				url: object.fields.url
+				title: fields.title,
+				text: fields.text,
+				url: fields.url
 			}
 		},
-		demoObject: object => {
+		demoModel: fields => {
 			return {
-				title: object.fields.title,
-				text: object.fields.text,
-				path: object.fields.path
+				title: fields.title,
+				text: fields.text,
+				path: fields.path
 			}
 		}
 	}
 
 	componentWillMount() {
-		const app = this,
+		const App = this,
 			xhr = new XMLHttpRequest();
 
 		xhr.onreadystatechange = () => {
 			if (xhr.readyState == 4) {
 				let data = JSON.parse(xhr.responseText);
-				console.log(data);
-				data = app.sortData(data);
+				data = App.sortData(data);
 
-				app.setState({
-					...app.state,
+				App.setState({
+					...App.state,
 					pages: data.pages,
 					skills: data.skills,
 					projects: data.projects,
@@ -65,7 +65,7 @@ class Application extends Component {
 					dataReady: true
 				});
 
-				app.changePage();
+				App.changePage();
 			}
 		}
 		xhr.open('GET', 'data/');
@@ -74,7 +74,7 @@ class Application extends Component {
 
 	sortData = data => {
 
-		const dataObjects = this.dataObjects;
+		const dataModels = this.dataModels;
 
 		let sortedData = {
 			'pages': [],
@@ -83,23 +83,23 @@ class Application extends Component {
 			'demos': []
 		}
 
-		for (let object of data) {
+		for (let dataItem of data) {
 
-			switch(object.model) {
+			switch(dataItem.model) {
 				case 'pages.page':
-					sortedData.pages.push( dataObjects.pageObject(object) );
+					sortedData.pages.push( dataModels.pageModel(dataItem.fields) );
 					break;
 
 				case 'skills.skill':
-					sortedData.skills.push( dataObjects.skillObject(object) );
+					sortedData.skills.push( dataModels.skillModel(dataItem.fields) );
 					break;
 
 				case 'projects.project':
-					sortedData.projects.push( dataObjects.projectObject(object) );
+					sortedData.projects.push( dataModels.projectModel(dataItem.fields) );
 					break;
 
 				case 'demos.demo':
-					sortedData.demos.push( dataObjects.demoObject(object) );
+					sortedData.demos.push( dataModels.demoModel(dataItem.fields) );
 					break;
 
 				default:
@@ -112,20 +112,27 @@ class Application extends Component {
 	changePage = (e, index=0) => {
 		if (e) e.preventDefault();
 
-		const targetPage = this.state.pages[index];
+		const targetPageData = this.state.pages[index];
 
-		if (targetPage) {
+		if (targetPageData) {
 			this.setState({
 				...this.state,
 				currentPageIndex: index,
-				currentPage: targetPage
+				currentPageData: targetPageData
 			});
 		} 
 	};
 
+	getModuleData = module => {
+		const { [module]:moduleData } = this.state;
+		return moduleData ? moduleData : [];
+	};
+
 	render() {
 		const pages = this.state.dataReady ? this.state.pages : [],
-			currentPage = this.state.currentPage;
+			currentPageData = this.state.currentPageData,
+			currentModuleName = currentPageData && currentPageData.module,
+			currentModuleData = currentPageData && this.getModuleData(currentModuleName);
 
 		return (
 			<div>
@@ -139,9 +146,11 @@ class Application extends Component {
 					null
 				}
 
-				{currentPage &&
+				{currentPageData &&
 					<Page 
-						currentPage={currentPage}
+						currentPageData={currentPageData}
+						currentModuleName={currentModuleName}
+						currentModuleData={currentModuleData}
 					/>
 				}
 			</div>

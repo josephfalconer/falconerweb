@@ -30,7 +30,7 @@ $skills-content-background: lighten($skills-background, 25%);
 			}
 		}
 
-		&.is-showing-skill {
+		@include m(current) {
 			.skillsfeature__read {
 				display: none;
 			}

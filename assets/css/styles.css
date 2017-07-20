@@ -184,6 +184,7 @@ body {
   position: fixed;
   top: -100%;
   left: 0;
+  z-index: 10;
   width: 100%;
   height: 100%;
   color: #fff;
@@ -825,17 +826,17 @@ body {
           box-shadow: none;
 }
 
-.skillsfeature__skill.is-showing-skill .skillsfeature__read {
+.skillsfeature__skill--current .skillsfeature__read {
   display: none;
 }
 
 @media (min-width: 992px) {
-  .skillsfeature__skill.is-showing-skill .skillsfeature__close {
+  .skillsfeature__skill--current .skillsfeature__close {
     display: block;
   }
 }
 
-.skillsfeature__skill.is-showing-skill .skillsfeature__overlay {
+.skillsfeature__skill--current .skillsfeature__overlay {
   opacity: 0;
   -webkit-transition: opacity 0.25s;
   transition: opacity 0.25s;
