@@ -16,7 +16,7 @@ const Navigation = props => {
 
 					return (
 						<li className={navItemClass} key={index}>
-							<a className="nav__link" href="#" onClick={e => { props.onClick(e, index) }}>
+							<a className="nav__link" href="#" onClick={e => { props.liftOrPullCover(true); props.changePage(e, index) }}>
 								<span className="nav__linkcircle">
 									{Icon}
 				                </span>
@@ -32,7 +32,8 @@ const Navigation = props => {
 
 Navigation.propTypes = {
 	pages: PropTypes.array.isRequired,
-	onClick: PropTypes.func.isRequired,
+	changePage: PropTypes.func.isRequired,
+	liftOrPullCover: PropTypes.func.isRequired,
 }
 
 export default Navigation;

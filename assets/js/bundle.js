@@ -9984,8 +9984,7 @@ var Application = function (_Component) {
 			pages: [],
 			currentPageIndex: 0,
 			currentPageData: null,
-			dataReady: false,
-			homePageState: 'down'
+			dataReady: false
 		}, _this.dataModels = {
 			pageModel: function pageModel(fields) {
 				return {
@@ -10124,7 +10123,7 @@ var Application = function (_Component) {
 					isFrontCover: this.state.currentPageIndex === 0,
 					pages: pages,
 					currentPageIndex: this.state.currentPageIndex,
-					onClick: this.changePage
+					changePage: this.changePage
 				}) : null,
 				currentPageData && _react2.default.createElement(_Page2.default, {
 					currentPageData: currentPageData,
@@ -10222,6 +10221,8 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
@@ -10240,33 +10241,77 @@ var _Navigation2 = _interopRequireDefault(_Navigation);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var FrontCover = function FrontCover(props) {
-	return _react2.default.createElement(
-		'div',
-		{ className: props.isFrontCover ? 'frontcover frontcover--down' : 'frontcover frontcover--down' },
-		_react2.default.createElement(_Slider2.default, {
-			pages: props.pages,
-			currentPageIndex: props.currentPageIndex
-		}),
-		_react2.default.createElement(_FrontCoverButtons2.default, {
-			noOfPages: props.pages.length,
-			currentPageIndex: props.currentPageIndex,
-			onClick: props.onClick
-		}),
-		_react2.default.createElement(_Navigation2.default, {
-			pages: props.pages,
-			onClick: props.onClick
-		})
-	);
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FrontCover = function (_Component) {
+	_inherits(FrontCover, _Component);
+
+	function FrontCover() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		_classCallCheck(this, FrontCover);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = FrontCover.__proto__ || Object.getPrototypeOf(FrontCover)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+			isCovering: true
+		}, _this.liftOrPullCover = function (isNavButton) {
+			var isCovering = _this.state.isCovering;
+
+			if (!isCovering || isNavButton) {
+				_this.setState({
+					isCovering: true
+				});
+			} else if (isCovering && !isNavButton) {
+				_this.setState({
+					isCovering: false
+				});
+			}
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
+
+	_createClass(FrontCover, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ className: this.state.isCovering ? 'frontcover frontcover--down' : 'frontcover' },
+				_react2.default.createElement(_Slider2.default, {
+					pages: this.props.pages,
+					currentPageIndex: this.props.currentPageIndex
+				}),
+				_react2.default.createElement(_FrontCoverButtons2.default, {
+					noOfPages: this.props.pages.length,
+					currentPageIndex: this.props.currentPageIndex,
+					changePage: this.props.changePage,
+					liftOrPullCover: this.liftOrPullCover
+				}),
+				_react2.default.createElement(_Navigation2.default, {
+					pages: this.props.pages,
+					changePage: this.props.changePage,
+					liftOrPullCover: this.liftOrPullCover
+				})
+			);
+		}
+	}]);
+
+	return FrontCover;
+}(_react.Component);
 
 FrontCover.propTypes = {
 	isFrontCover: _react.PropTypes.bool.isRequired,
 	pages: _react.PropTypes.array.isRequired,
 	currentPageIndex: _react.PropTypes.number.isRequired,
-	onClick: _react.PropTypes.func.isRequired
+	changePage: _react.PropTypes.func.isRequired
 };
-
 exports.default = FrontCover;
 
 /***/ }),
@@ -10293,16 +10338,23 @@ var FrontCoverButtons = function FrontCoverButtons(props) {
 		props.currentPageIndex > 0 && _react2.default.createElement("a", {
 			href: "#",
 			onClick: function onClick(e) {
-				props.onClick(e, props.currentPageIndex - 1);
+				props.changePage(e, props.currentPageIndex - 1);
 			},
 			className: "frontcover__button frontcover__button--prev"
 		}),
 		props.currentPageIndex + 1 < props.noOfPages && _react2.default.createElement("a", {
 			href: "#",
 			onClick: function onClick(e) {
-				props.onClick(e, props.currentPageIndex + 1);
+				props.changePage(e, props.currentPageIndex + 1);
 			},
 			className: "frontcover__button frontcover__button--next"
+		}),
+		props.currentPageIndex > 0 && _react2.default.createElement("a", {
+			href: "#",
+			onClick: function onClick(e) {
+				props.liftOrPullCover();
+			},
+			className: "frontcover__button frontcover__button--down"
 		})
 	);
 };
@@ -10310,7 +10362,8 @@ var FrontCoverButtons = function FrontCoverButtons(props) {
 FrontCoverButtons.propTypes = {
 	noOfPages: _react.PropTypes.number.isRequired,
 	currentPageIndex: _react.PropTypes.number.isRequired,
-	onClick: _react.PropTypes.func.isRequired
+	changePage: _react.PropTypes.func.isRequired,
+	liftOrPullCover: _react.PropTypes.func.isRequired
 };
 
 exports.default = FrontCoverButtons;
@@ -10357,7 +10410,7 @@ var Navigation = function Navigation(props) {
 					_react2.default.createElement(
 						'a',
 						{ className: 'nav__link', href: '#', onClick: function onClick(e) {
-								props.onClick(e, index);
+								props.liftOrPullCover(true);props.changePage(e, index);
 							} },
 						_react2.default.createElement(
 							'span',
@@ -10378,7 +10431,8 @@ var Navigation = function Navigation(props) {
 
 Navigation.propTypes = {
 	pages: _react.PropTypes.array.isRequired,
-	onClick: _react.PropTypes.func.isRequired
+	changePage: _react.PropTypes.func.isRequired,
+	liftOrPullCover: _react.PropTypes.func.isRequired
 };
 
 exports.default = Navigation;

@@ -14,18 +14,9 @@ $frontcover-button-margin: remcalc(20);
 	color: $white;
 	transition: top 1s;
 
-	@include e(buttons) {
-		display: flex;
-		position: absolute;
-		top: 40%;
-		left: 0;
-		width: 100%;
-		justify-content: space-between;
-	}
-
 	@include e(button) {
+		position: absolute;
 		display: flex;
-		position: relative;
 		border: 4px dotted rgba(255,255,255,0);
 		outline: none;
 		@include square(remcalc(40));
@@ -44,7 +35,8 @@ $frontcover-button-margin: remcalc(20);
 		}
 
 		@include m(prev) {
-			margin-left: $frontcover-button-margin;
+			top: 40%;
+			left: $frontcover-button-margin;
 			border-left-color: $orange--light;
 			border-bottom-color: $orange--light;
 
@@ -55,7 +47,8 @@ $frontcover-button-margin: remcalc(20);
 		}
 
 		@include m(next) {
-			margin-left: auto;
+			top: 40%;
+			right: 0;
 			margin-right: $frontcover-button-margin;
 			border-top-color: $orange--light;
 			border-right-color: $orange--light;
@@ -64,6 +57,15 @@ $frontcover-button-margin: remcalc(20);
 				border-top-color: $orange--light;
 				border-right-color: $orange--light;
 			}
+		}
+
+		@include m(down) {
+			position: absolute;
+		    left: 0;
+		    right: 0;
+		    bottom: 0;
+		    margin: 0 auto;
+			background: yellow;    
 		}
 	}
 }

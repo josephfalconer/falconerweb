@@ -195,24 +195,11 @@ body::-webkit-scrollbar {
   transition: top 1s;
 }
 
-.frontcover__buttons {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  position: absolute;
-  top: 40%;
-  left: 0;
-  width: 100%;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
 .frontcover__button {
+  position: absolute;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  position: relative;
   border: 4px dotted rgba(255, 255, 255, 0);
   outline: none;
   width: 2.5rem;
@@ -240,7 +227,8 @@ body::-webkit-scrollbar {
 }
 
 .frontcover__button--prev {
-  margin-left: 1.25rem;
+  top: 40%;
+  left: 1.25rem;
   border-left-color: #ffc04c;
   border-bottom-color: #ffc04c;
 }
@@ -251,7 +239,8 @@ body::-webkit-scrollbar {
 }
 
 .frontcover__button--next {
-  margin-left: auto;
+  top: 40%;
+  right: 0;
   margin-right: 1.25rem;
   border-top-color: #ffc04c;
   border-right-color: #ffc04c;
@@ -260,6 +249,15 @@ body::-webkit-scrollbar {
 .frontcover__button--next:after {
   border-top-color: #ffc04c;
   border-right-color: #ffc04c;
+}
+
+.frontcover__button--down {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  background: yellow;
 }
 
 .slider {
@@ -357,7 +355,6 @@ body::-webkit-scrollbar {
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 100%;
   height: 65px;
   background-color: rgba(119, 119, 119, 0.8);
   -webkit-box-pack: center;

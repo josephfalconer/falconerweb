@@ -19,7 +19,7 @@ $navtext-fontsize-lg: remcalc(12);
 	position: absolute;
 	left: 0;
 	bottom: 0;
-	@include sides(100%, $nav-height-xs);
+	height: $nav-height-xs;
 	background-color: transparentize($grey--primary, 0.2);
     justify-content: center;
     transform: translateY(100%);

@@ -11,8 +11,7 @@ class Application extends Component {
 		pages: [],
 		currentPageIndex: 0,
 		currentPageData: null,
-		dataReady: false,
-		homePageState: 'down'
+		dataReady: false
 	};
 
 	dataModels = {
@@ -141,7 +140,7 @@ class Application extends Component {
 						isFrontCover={this.state.currentPageIndex === 0}
 						pages={pages}
 						currentPageIndex={this.state.currentPageIndex}
-						onClick={this.changePage}
+						changePage={this.changePage}
 					/>
 					:
 					null
