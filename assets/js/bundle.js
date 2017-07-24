@@ -10377,9 +10377,9 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Navitem = __webpack_require__(103);
+var _Icons = __webpack_require__(58);
 
-var _Navitem2 = _interopRequireDefault(_Navitem);
+var _Icons2 = _interopRequireDefault(_Icons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10391,13 +10391,33 @@ var Navigation = function Navigation(props) {
 			'ul',
 			{ className: 'nav__menu list--plain' },
 			props.pages.map(function (page, index) {
-				return _react2.default.createElement(_Navitem2.default, {
-					key: index,
-					index: index,
-					title: page.title,
-					icon: page.icon,
-					onClick: props.onClick
-				});
+
+				var navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item';
+
+				var Icon = _Icons2.default[page.icon];
+
+				Icon = Icon.call();
+
+				return _react2.default.createElement(
+					'li',
+					{ className: navItemClass, key: index },
+					_react2.default.createElement(
+						'a',
+						{ className: 'nav__link', href: '#', onClick: function onClick(e) {
+								props.onClick(e, index);
+							} },
+						_react2.default.createElement(
+							'span',
+							{ className: 'nav__linkcircle' },
+							Icon
+						),
+						_react2.default.createElement(
+							'span',
+							{ className: 'nav__linktext' },
+							page.title
+						)
+					)
+				);
 			})
 		)
 	);
@@ -10411,65 +10431,7 @@ Navigation.propTypes = {
 exports.default = Navigation;
 
 /***/ }),
-/* 103 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Icons = __webpack_require__(58);
-
-var _Icons2 = _interopRequireDefault(_Icons);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NavItem = function NavItem(props) {
-	var navItemClass = props.index == 0 ? 'nav__item nav__item--logo' : 'nav__item';
-
-	var Icon = _Icons2.default[props.icon];
-
-	Icon = Icon.call();
-
-	return _react2.default.createElement(
-		'li',
-		{ className: navItemClass },
-		_react2.default.createElement(
-			'a',
-			{ className: 'nav__link', href: '#', onClick: function onClick(e) {
-					props.onClick(e, props.index);
-				} },
-			_react2.default.createElement(
-				'span',
-				{ className: 'nav__linkcircle' },
-				Icon
-			),
-			_react2.default.createElement(
-				'span',
-				{ className: 'nav__linktext' },
-				props.title
-			)
-		)
-	);
-};
-
-NavItem.propTypes = {
-	index: _react.PropTypes.number.isRequired,
-	title: _react.PropTypes.string.isRequired,
-	icon: _react.PropTypes.string.isRequired,
-	onClick: _react.PropTypes.func.isRequired
-};
-
-exports.default = NavItem;
-
-/***/ }),
+/* 103 */,
 /* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
