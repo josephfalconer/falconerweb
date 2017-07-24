@@ -1078,10 +1078,6 @@ body::-webkit-scrollbar {
           transform: none;
 }
 
-.frontcover--down .nav__item--logo {
-  width: 0;
-}
-
 .frontcover--down .nav__item:nth-child(2) .nav__linkcircle {
   -webkit-animation: orangeblink 1s 1s 1;
           animation: orangeblink 1s 1s 1;

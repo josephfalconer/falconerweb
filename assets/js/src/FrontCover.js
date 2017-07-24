@@ -5,67 +5,33 @@ import FrontCoverButtons from './FrontCoverButtons';
 import Navigation from './Navigation';
 
 
-class FrontCover extends Component {
+const FrontCover = props => {
+	return (
+		<div className={props.isFrontCover ? 'frontcover frontcover--down' : 'frontcover frontcover--down'}>
+			<Slider 
+				pages={props.pages}
+				currentPageIndex={props.currentPageIndex}
+			/>	
 
-	state = {
-		currentViewIndex: 0,
-		currentOffset: 0
-	};
+			<FrontCoverButtons
+				noOfPages={props.pages.length}
+				currentPageIndex={props.currentPageIndex}
+				onClick={props.onClick}
+			/>
 
-	static propTypes = {
-		isFrontCover: PropTypes.bool.isRequired,
-		pages: PropTypes.array.isRequired,
-		onClick: PropTypes.func.isRequired,
-	};
-
-	componentWillMount() {
-		const windowWidth = window.innerWidth;
-
-		this.setState({
-			...this.state,
-			windowWidth: windowWidth
-		});
-	};
-
-	moveSlider = direction => {
-		const windowWidth = this.state.windowWidth;
-		let currentIndex = this.state.currentViewIndex;
-
-		currentIndex = direction == 'LEFT' ? currentIndex - 1 : currentIndex + 1;
-
-		this.setState({
-			...this.state,
-			currentViewIndex: currentIndex,
-			currentOffset: windowWidth * currentIndex
-		});
-	}
-
-	render() {
-		const pages = this.props.pages,
-			widthValue = `${this.state.windowWidth}px`,
-			offsetStyle = { left: `-${this.state.currentOffset}px` }; 
-
-		return (
-			<div className={this.props.isFrontCover ? 'frontcover frontcover--down' : 'frontcover'}>
-				<Slider 
-					pages={pages}
-					widthValue={widthValue}
-					offsetStyle={offsetStyle}
-				/>	
-
-				<FrontCoverButtons
-					noOfPages={pages.length}
-					currentViewIndex={this.state.currentViewIndex + 1}
-					onClick={this.moveSlider}
-				/>
-
-				<Navigation 
-					pages={pages}
-					onClick={this.props.onClick}
-				/>
-			</div>
-		);
-	}		
+			<Navigation 
+				pages={props.pages}
+				onClick={props.onClick}
+			/>
+		</div>
+	);
 }
+
+FrontCover.propTypes = {
+	isFrontCover: PropTypes.bool.isRequired,
+	pages: PropTypes.array.isRequired,
+	currentPageIndex: PropTypes.number.isRequired,
+	onClick: PropTypes.func.isRequired,
+};
 
 export default FrontCover;

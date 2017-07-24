@@ -9,7 +9,7 @@ class Application extends Component {
 
 	state = {
 		pages: [],
-		currentPageIndex: null,
+		currentPageIndex: 0,
 		currentPageData: null,
 		dataReady: false,
 		homePageState: 'down'
@@ -109,15 +109,15 @@ class Application extends Component {
 		return sortedData;
 	};
 
-	changePage = (e, index=0) => {
+	changePage = (e, targetPageIndex=0) => {
 		if (e) e.preventDefault();
 
-		const targetPageData = this.state.pages[index];
+		const targetPageData = this.state.pages[targetPageIndex];
 
 		if (targetPageData) {
 			this.setState({
 				...this.state,
-				currentPageIndex: index,
+				currentPageIndex: targetPageIndex,
 				currentPageData: targetPageData
 			});
 		} 
@@ -140,6 +140,7 @@ class Application extends Component {
 					<FrontCover
 						isFrontCover={this.state.currentPageIndex === 0}
 						pages={pages}
+						currentPageIndex={this.state.currentPageIndex}
 						onClick={this.changePage}
 					/>
 					:

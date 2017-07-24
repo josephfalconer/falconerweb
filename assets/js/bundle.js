@@ -10031,7 +10031,7 @@ var Application = function (_Component) {
 
 		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Application.__proto__ || Object.getPrototypeOf(Application)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 			pages: [],
-			currentPageIndex: null,
+			currentPageIndex: 0,
 			currentPageData: null,
 			dataReady: false,
 			homePageState: 'down'
@@ -10114,15 +10114,15 @@ var Application = function (_Component) {
 			}
 			return sortedData;
 		}, _this.changePage = function (e) {
-			var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+			var targetPageIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
 			if (e) e.preventDefault();
 
-			var targetPageData = _this.state.pages[index];
+			var targetPageData = _this.state.pages[targetPageIndex];
 
 			if (targetPageData) {
 				_this.setState(_extends({}, _this.state, {
-					currentPageIndex: index,
+					currentPageIndex: targetPageIndex,
 					currentPageData: targetPageData
 				}));
 			}
@@ -10172,6 +10172,7 @@ var Application = function (_Component) {
 				pages.length > 0 ? _react2.default.createElement(_FrontCover2.default, {
 					isFrontCover: this.state.currentPageIndex === 0,
 					pages: pages,
+					currentPageIndex: this.state.currentPageIndex,
 					onClick: this.changePage
 				}) : null,
 				currentPageData && _react2.default.createElement(_Page2.default, {
@@ -10213,10 +10214,6 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
@@ -10235,87 +10232,33 @@ var _Navigation2 = _interopRequireDefault(_Navigation);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var FrontCover = function (_Component) {
-	_inherits(FrontCover, _Component);
-
-	function FrontCover() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
-		_classCallCheck(this, FrontCover);
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = FrontCover.__proto__ || Object.getPrototypeOf(FrontCover)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-			currentViewIndex: 0,
-			currentOffset: 0
-		}, _this.moveSlider = function (direction) {
-			var windowWidth = _this.state.windowWidth;
-			var currentIndex = _this.state.currentViewIndex;
-
-			currentIndex = direction == 'LEFT' ? currentIndex - 1 : currentIndex + 1;
-
-			_this.setState(_extends({}, _this.state, {
-				currentViewIndex: currentIndex,
-				currentOffset: windowWidth * currentIndex
-			}));
-		}, _temp), _possibleConstructorReturn(_this, _ret);
-	}
-
-	_createClass(FrontCover, [{
-		key: 'componentWillMount',
-		value: function componentWillMount() {
-			var windowWidth = window.innerWidth;
-
-			this.setState(_extends({}, this.state, {
-				windowWidth: windowWidth
-			}));
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var pages = this.props.pages,
-			    widthValue = this.state.windowWidth + 'px',
-			    offsetStyle = { left: '-' + this.state.currentOffset + 'px' };
-
-			return _react2.default.createElement(
-				'div',
-				{ className: this.props.isFrontCover ? 'frontcover frontcover--down' : 'frontcover' },
-				_react2.default.createElement(_Slider2.default, {
-					pages: pages,
-					widthValue: widthValue,
-					offsetStyle: offsetStyle
-				}),
-				_react2.default.createElement(_FrontCoverButtons2.default, {
-					noOfPages: pages.length,
-					currentViewIndex: this.state.currentViewIndex + 1,
-					onClick: this.moveSlider
-				}),
-				_react2.default.createElement(_Navigation2.default, {
-					pages: pages,
-					onClick: this.props.onClick
-				})
-			);
-		}
-	}]);
-
-	return FrontCover;
-}(_react.Component);
+var FrontCover = function FrontCover(props) {
+	return _react2.default.createElement(
+		'div',
+		{ className: props.isFrontCover ? 'frontcover frontcover--down' : 'frontcover frontcover--down' },
+		_react2.default.createElement(_Slider2.default, {
+			pages: props.pages,
+			currentPageIndex: props.currentPageIndex
+		}),
+		_react2.default.createElement(_FrontCoverButtons2.default, {
+			noOfPages: props.pages.length,
+			currentPageIndex: props.currentPageIndex,
+			onClick: props.onClick
+		}),
+		_react2.default.createElement(_Navigation2.default, {
+			pages: props.pages,
+			onClick: props.onClick
+		})
+	);
+};
 
 FrontCover.propTypes = {
 	isFrontCover: _react.PropTypes.bool.isRequired,
 	pages: _react.PropTypes.array.isRequired,
+	currentPageIndex: _react.PropTypes.number.isRequired,
 	onClick: _react.PropTypes.func.isRequired
 };
+
 exports.default = FrontCover;
 
 /***/ }),
@@ -10337,26 +10280,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var FrontCoverButtons = function FrontCoverButtons(props) {
 	return _react2.default.createElement(
-		'div',
-		{ className: 'frontcover__buttons' },
-		props.currentViewIndex > 1 && _react2.default.createElement('button', {
-			onClick: function onClick() {
-				props.onClick('LEFT');
+		"div",
+		{ className: "frontcover__buttons" },
+		props.currentPageIndex > 0 && _react2.default.createElement("a", {
+			href: "#",
+			onClick: function onClick(e) {
+				props.onClick(e, props.currentPageIndex - 1);
 			},
-			className: 'frontcover__button frontcover__button--prev'
+			className: "frontcover__button frontcover__button--prev"
 		}),
-		props.currentViewIndex < props.noOfPages && _react2.default.createElement('button', {
-			onClick: function onClick() {
-				props.onClick('RIGHT');
+		props.currentPageIndex + 1 < props.noOfPages && _react2.default.createElement("a", {
+			href: "#",
+			onClick: function onClick(e) {
+				props.onClick(e, props.currentPageIndex + 1);
 			},
-			className: 'frontcover__button frontcover__button--next'
+			className: "frontcover__button frontcover__button--next"
 		})
 	);
 };
 
 FrontCoverButtons.propTypes = {
 	noOfPages: _react.PropTypes.number.isRequired,
-	currentViewIndex: _react.PropTypes.number.isRequired,
+	currentPageIndex: _react.PropTypes.number.isRequired,
 	onClick: _react.PropTypes.func.isRequired
 };
 
@@ -10510,19 +10455,26 @@ var _Icons2 = _interopRequireDefault(_Icons);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Slider = function Slider(props) {
+
+	var windowWidth = window.innerWidth,
+	    currentOffset = windowWidth * props.currentPageIndex;
+
+	var widthValue = windowWidth + 'px',
+	    offsetStyle = { left: '-' + currentOffset + 'px' };
+
 	return _react2.default.createElement(
 		'div',
 		{ className: 'slider__track' },
 		_react2.default.createElement(
 			'div',
-			{ className: 'slider', style: props.offsetStyle },
+			{ className: 'slider', style: offsetStyle },
 			props.pages.map(function (page, index) {
 				var Icon = _Icons2.default[page.icon];
 
 
 				var backgroundStyleUrl = 'static/backgrounds/' + page.background;
 				var slideStyle = {
-					width: props.widthValue,
+					width: widthValue,
 					backgroundImage: 'url(' + backgroundStyleUrl + ')'
 				};
 
@@ -10562,8 +10514,9 @@ var Slider = function Slider(props) {
 
 Slider.propTypes = {
 	pages: _react.PropTypes.array.isRequired,
-	widthValue: _react.PropTypes.string.isRequired,
-	offsetStyle: _react.PropTypes.object.isRequired
+	currentPageIndex: _react.PropTypes.number.isRequired
+	// widthValue: PropTypes.string.isRequired,
+	// offsetStyle: PropTypes.object.isRequired
 };
 
 exports.default = Slider;

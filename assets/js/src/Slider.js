@@ -4,16 +4,23 @@ import Icons from './icons/Icons';
 
 
 const Slider = props => {
+
+	const windowWidth = window.innerWidth,
+		currentOffset = windowWidth * props.currentPageIndex;
+
+	const widthValue = `${windowWidth}px`,
+		offsetStyle = { left: `-${currentOffset}px` };
+
 	return (
 		<div className="slider__track">
-			<div className="slider" style={props.offsetStyle}>
+			<div className="slider" style={offsetStyle}>
 				{props.pages.map((page, index) => {
 
 					let { [page.icon]:Icon } = Icons; 
 
 					let backgroundStyleUrl = `static/backgrounds/${page.background}`;
 					let slideStyle = {
-						width: props.widthValue,
+						width: widthValue,
 						backgroundImage: `url(${backgroundStyleUrl})`
 					};
 
@@ -38,8 +45,9 @@ const Slider = props => {
 
 Slider.propTypes = {
 	pages: PropTypes.array.isRequired,
-	widthValue: PropTypes.string.isRequired,
-	offsetStyle: PropTypes.object.isRequired
+	currentPageIndex: PropTypes.number.isRequired,
+	// widthValue: PropTypes.string.isRequired,
+	// offsetStyle: PropTypes.object.isRequired
 }
 
 export default Slider;

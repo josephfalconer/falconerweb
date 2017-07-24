@@ -4,17 +4,19 @@ import React, { PropTypes } from 'react';
 const FrontCoverButtons = props => {
 	return (
 		<div className="frontcover__buttons">
-			{props.currentViewIndex > 1 &&
-				<button 
-					onClick={() => { props.onClick('LEFT'); }} 
+			{props.currentPageIndex > 0 &&
+				<a 
+					href="#"
+					onClick={e => { props.onClick(e, props.currentPageIndex - 1); }} 
 					className="frontcover__button frontcover__button--prev"
-				></button>
+				></a>
 			}
-			{props.currentViewIndex < props.noOfPages &&
-				<button 
-					onClick={() => { props.onClick('RIGHT'); }} 
+			{(props.currentPageIndex + 1 ) < props.noOfPages &&
+				<a 
+					href="#"
+					onClick={e => { props.onClick(e, props.currentPageIndex + 1); }} 
 					className="frontcover__button frontcover__button--next"
-				></button>
+				></a>
 			}
 		</div>
 	);	
@@ -22,7 +24,7 @@ const FrontCoverButtons = props => {
 
 FrontCoverButtons.propTypes = {
 	noOfPages: PropTypes.number.isRequired,
-	currentViewIndex: PropTypes.number.isRequired,
+	currentPageIndex: PropTypes.number.isRequired,
 	onClick: PropTypes.func.isRequired
 }
 
