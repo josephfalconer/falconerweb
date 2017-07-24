@@ -2,6 +2,20 @@
 // Full-size slider on frontcover
 // ==============================
 
+@keyframes fade-out-in {
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
 .slider {
 	display: flex;
 	position: absolute;
@@ -10,9 +24,15 @@
 	height: 100%;
 	transition: left 2s;
 
+	@include m(fade) {
+		transition: left 0s 1s;
+		animation: fade-out-in 2s 1;
+	}
+
 	@include e(track) {
 		position: relative;
 		@include square(100%);
+		background: $black;
 	}
 
 	@include e(slide) {

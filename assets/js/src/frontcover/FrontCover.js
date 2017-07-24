@@ -12,6 +12,7 @@ class FrontCover extends Component {
 		pages: PropTypes.array.isRequired,
 		currentPageIndex: PropTypes.number.isRequired,
 		changePage: PropTypes.func.isRequired,
+		sliderClass: PropTypes.string.isRequired,
 	};
 
 	state = {
@@ -40,6 +41,7 @@ class FrontCover extends Component {
 				<Slider 
 					pages={this.props.pages}
 					currentPageIndex={this.props.currentPageIndex}
+					sliderClass={this.props.sliderClass}
 				/>	
 
 				<FrontCoverButtons

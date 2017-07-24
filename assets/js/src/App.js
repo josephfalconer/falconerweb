@@ -11,7 +11,8 @@ class Application extends Component {
 		pages: [],
 		currentPageIndex: 0,
 		currentPageData: null,
-		dataReady: false
+		dataReady: false,
+		sliderClass: 'slider'
 	};
 
 	dataModels = {
@@ -111,15 +112,32 @@ class Application extends Component {
 	changePage = (e, targetPageIndex=0) => {
 		if (e) e.preventDefault();
 
-		const targetPageData = this.state.pages[targetPageIndex];
+		const app = this,
+			difference = Math.abs(this.state.currentPageIndex - targetPageIndex),
+			targetPageData = this.state.pages[targetPageIndex];
+
+		let sliderClass = "slider";
 
 		if (targetPageData) {
+
+			if (difference > 1) {
+				console.log("Going more than one space");
+				sliderClass = "slider slider--fade";
+
+				// make sure the animation persists
+				setTimeout(() => {
+					app.setState({...app.state, sliderClass: 'slider'});
+				}, 2000);
+			}
+
 			this.setState({
 				...this.state,
 				currentPageIndex: targetPageIndex,
-				currentPageData: targetPageData
+				currentPageData: targetPageData,
+				sliderClass: sliderClass
 			});
-		} 
+
+		}
 	};
 
 	getModuleData = module => {
@@ -141,6 +159,7 @@ class Application extends Component {
 						pages={pages}
 						currentPageIndex={this.state.currentPageIndex}
 						changePage={this.changePage}
+						sliderClass={this.state.sliderClass}
 					/>
 					:
 					null

@@ -13,7 +13,7 @@ const Slider = props => {
 
 	return (
 		<div className="slider__track">
-			<div className="slider" style={offsetStyle}>
+			<div className={props.sliderClass} style={offsetStyle}>
 				{props.pages.map((page, index) => {
 
 					let { [page.icon]:Icon } = Icons; 
@@ -46,8 +46,7 @@ const Slider = props => {
 Slider.propTypes = {
 	pages: PropTypes.array.isRequired,
 	currentPageIndex: PropTypes.number.isRequired,
-	// widthValue: PropTypes.string.isRequired,
-	// offsetStyle: PropTypes.object.isRequired
+	sliderClass: PropTypes.string.isRequired,
 }
 
 export default Slider;
