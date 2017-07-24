@@ -241,7 +241,7 @@ body::-webkit-scrollbar {
 .frontcover__button--next {
   top: 40%;
   right: 0;
-  margin-right: 1.25rem;
+  right: 1.25rem;
   border-top-color: #ffc04c;
   border-right-color: #ffc04c;
 }
@@ -255,9 +255,15 @@ body::-webkit-scrollbar {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 1.25rem;
   margin: 0 auto;
-  background: yellow;
+  border-right-color: #ffc04c;
+  border-bottom-color: #ffc04c;
+}
+
+.frontcover__button--down:after {
+  border-right-color: #ffc04c;
+  border-bottom-color: #ffc04c;
 }
 
 .slider {

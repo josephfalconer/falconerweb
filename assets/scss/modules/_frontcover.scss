@@ -2,7 +2,7 @@
 // Sliding frontcover module
 // =========================
 
-$frontcover-button-margin: remcalc(20);
+$frontcover-button-offset: remcalc(20);
 
 
 .frontcover {
@@ -36,7 +36,7 @@ $frontcover-button-margin: remcalc(20);
 
 		@include m(prev) {
 			top: 40%;
-			left: $frontcover-button-margin;
+			left: $frontcover-button-offset;
 			border-left-color: $orange--light;
 			border-bottom-color: $orange--light;
 
@@ -49,7 +49,7 @@ $frontcover-button-margin: remcalc(20);
 		@include m(next) {
 			top: 40%;
 			right: 0;
-			margin-right: $frontcover-button-margin;
+			right: $frontcover-button-offset;
 			border-top-color: $orange--light;
 			border-right-color: $orange--light;
 
@@ -63,9 +63,15 @@ $frontcover-button-margin: remcalc(20);
 			position: absolute;
 		    left: 0;
 		    right: 0;
-		    bottom: 0;
+		    bottom: $frontcover-button-offset;
 		    margin: 0 auto;
-			background: yellow;    
+			border-right-color: $orange--light;
+			border-bottom-color: $orange--light;
+
+			&:after {
+				border-right-color: $orange--light;
+				border-bottom-color: $orange--light;
+			}    
 		}
 	}
 }
