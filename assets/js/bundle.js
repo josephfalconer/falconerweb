@@ -10369,7 +10369,8 @@ var FrontCover = function (_Component) {
 				}),
 				_react2.default.createElement(_Navigation2.default, {
 					pages: this.props.pages,
-					changePage: this.props.changePage
+					changePage: this.props.changePage,
+					currentPageIndex: this.props.currentPageIndex
 				})
 			);
 		}
@@ -10471,7 +10472,8 @@ var Navigation = function Navigation(props) {
 			{ className: 'nav__menu list--plain' },
 			props.pages.map(function (page, index) {
 
-				var navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item';
+				var navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item',
+				    navLinkClass = index == props.currentPageIndex ? 'nav__link nav__link--current' : 'nav__link';
 
 				var Icon = _Icons2.default[page.icon];
 
@@ -10482,7 +10484,7 @@ var Navigation = function Navigation(props) {
 					{ className: navItemClass, key: index },
 					_react2.default.createElement(
 						'a',
-						{ className: 'nav__link', href: '#', onClick: function onClick(e) {
+						{ className: navLinkClass, href: '#', onClick: function onClick(e) {
 								props.changePage(e, index);
 							} },
 						_react2.default.createElement(
@@ -10504,6 +10506,7 @@ var Navigation = function Navigation(props) {
 
 Navigation.propTypes = {
 	pages: _react.PropTypes.array.isRequired,
+	currentPageIndex: _react.PropTypes.number.isRequired,
 	changePage: _react.PropTypes.func.isRequired
 };
 

@@ -9,14 +9,15 @@ const Navigation = props => {
 			<ul className="nav__menu list--plain">
 				{props.pages.map((page, index) => {
 
-					let navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item';
+					let navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item',
+						navLinkClass = index == props.currentPageIndex ? 'nav__link nav__link--current' : 'nav__link';
 
 					let { [page.icon]:Icon } = Icons;
 					Icon = Icon.call();
 
 					return (
 						<li className={navItemClass} key={index}>
-							<a className="nav__link" href="#" onClick={e => { props.changePage(e, index) }}>
+							<a className={navLinkClass} href="#" onClick={e => { props.changePage(e, index) }}>
 								<span className="nav__linkcircle">
 									{Icon}
 				                </span>
@@ -32,6 +33,7 @@ const Navigation = props => {
 
 Navigation.propTypes = {
 	pages: PropTypes.array.isRequired,
+	currentPageIndex: PropTypes.number.isRequired,
 	changePage: PropTypes.func.isRequired,
 }
 

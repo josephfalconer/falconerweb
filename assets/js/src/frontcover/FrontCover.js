@@ -38,6 +38,7 @@ class FrontCover extends Component {
 				<Navigation 
 					pages={this.props.pages}
 					changePage={this.props.changePage}
+					currentPageIndex={this.props.currentPageIndex}
 				/>
 			</div>
 		);
