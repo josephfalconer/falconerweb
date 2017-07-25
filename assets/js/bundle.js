@@ -10120,32 +10120,50 @@ var Application = function (_Component) {
 
 			if (e) e.preventDefault();
 
-			var difference = Math.abs(_this.state.currentPageIndex - targetPageIndex),
-			    targetPageData = _this.state.pages[targetPageIndex];
+			var app = _this,
+			    difference = Math.abs(app.state.currentPageIndex - targetPageIndex),
+			    targetPageData = app.state.pages[targetPageIndex];
 
 			var sliderClass = 'slider',
-			    containerClass = 'main-container is-down';
-
-			if (targetPageIndex != _this.state.currentPageIndex) {
-				console.log('Going to a different page!');
-
-				containerClass += ' is-changing-page';
-			}
+			    containerClass = 'main-container is-down',
+			    isChangingPage = targetPageIndex != app.state.currentPageIndex,
+			    isFrontCover = _this.state.isFrontCover;
 
 			if (targetPageData) {
 
-				if (difference > 1) {
-					sliderClass = _this.fadeAnimateSlider();
-				}
+				if (isChangingPage && !isFrontCover) {
+					_this.handleChangeFromPage(targetPageIndex, targetPageData);
+				} else {
 
-				_this.setState(_extends({}, _this.state, {
-					currentPageIndex: targetPageIndex,
-					currentPageData: targetPageData,
-					isFrontCover: true,
-					containerClass: containerClass,
-					sliderClass: sliderClass
-				}));
+					if (difference > 1) {
+						sliderClass = app.fadeAnimateSlider();
+					}
+
+					app.setState(_extends({}, app.state, {
+						currentPageIndex: targetPageIndex,
+						currentPageData: targetPageData,
+						isFrontCover: true,
+						containerClass: containerClass,
+						sliderClass: sliderClass
+					}));
+				}
 			}
+		}, _this.handleChangeFromPage = function (index, data) {
+			var app = _this,
+			    containerClass = 'main-container is-down is-changing-page';
+
+			app.setState(_extends({}, app.state, {
+				isFrontCover: true,
+				containerClass: containerClass
+			}));
+
+			// delay props update on page content
+			setTimeout(function () {
+				app.setState(_extends({}, app.state, {
+					currentPageIndex: index,
+					currentPageData: data
+				}));
+			}, 1000);
 		}, _this.getModuleData = function (module) {
 			var moduleData = _this.state[module];
 
@@ -10232,12 +10250,7 @@ __webpack_require__(126);
 module.exports = __webpack_require__(37).Symbol;
 
 /***/ }),
-/* 99 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 99 */,
 /* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10314,8 +10327,6 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
@@ -10334,57 +10345,28 @@ var _Navigation2 = _interopRequireDefault(_Navigation);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var FrontCover = function (_Component) {
-	_inherits(FrontCover, _Component);
-
-	function FrontCover() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
-		_classCallCheck(this, FrontCover);
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = FrontCover.__proto__ || Object.getPrototypeOf(FrontCover)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _temp), _possibleConstructorReturn(_this, _ret);
-	}
-
-	_createClass(FrontCover, [{
-		key: 'render',
-		value: function render() {
-			return _react2.default.createElement(
-				'div',
-				{ className: 'frontcover' },
-				_react2.default.createElement(_Slider2.default, {
-					pages: this.props.pages,
-					currentPageIndex: this.props.currentPageIndex,
-					sliderClass: this.props.sliderClass
-				}),
-				_react2.default.createElement(_FrontCoverButtons2.default, {
-					noOfPages: this.props.pages.length,
-					currentPageIndex: this.props.currentPageIndex,
-					changePage: this.props.changePage,
-					slideCoverUp: this.props.slideCoverUp
-				}),
-				_react2.default.createElement(_Navigation2.default, {
-					pages: this.props.pages,
-					changePage: this.props.changePage,
-					currentPageIndex: this.props.currentPageIndex
-				})
-			);
-		}
-	}]);
-
-	return FrontCover;
-}(_react.Component);
+var FrontCover = function FrontCover(props) {
+	return _react2.default.createElement(
+		'div',
+		{ className: 'frontcover' },
+		_react2.default.createElement(_Slider2.default, {
+			pages: props.pages,
+			currentPageIndex: props.currentPageIndex,
+			sliderClass: props.sliderClass
+		}),
+		_react2.default.createElement(_FrontCoverButtons2.default, {
+			noOfPages: props.pages.length,
+			currentPageIndex: props.currentPageIndex,
+			changePage: props.changePage,
+			slideCoverUp: props.slideCoverUp
+		}),
+		_react2.default.createElement(_Navigation2.default, {
+			pages: props.pages,
+			changePage: props.changePage,
+			currentPageIndex: props.currentPageIndex
+		})
+	);
+};
 
 FrontCover.propTypes = {
 	pages: _react.PropTypes.array.isRequired,
@@ -10393,6 +10375,7 @@ FrontCover.propTypes = {
 	sliderClass: _react.PropTypes.string.isRequired,
 	slideCoverUp: _react.PropTypes.func.isRequired
 };
+
 exports.default = FrontCover;
 
 /***/ }),
@@ -24193,7 +24176,17 @@ var _App2 = _interopRequireDefault(_App);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-__webpack_require__(99);
+__webpack_require__(234);
+
+/***/ }),
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

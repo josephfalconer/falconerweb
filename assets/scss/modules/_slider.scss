@@ -2,19 +2,7 @@
 // Full-size slider on frontcover
 // ==============================
 
-@keyframes fade-out-in {
-	0% {
-		opacity: 1;
-	}
 
-	50% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-	}
-}
 
 .slider {
 	display: flex;

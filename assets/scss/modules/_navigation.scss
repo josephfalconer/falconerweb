@@ -19,6 +19,7 @@ $navtext-fontsize-lg: remcalc(12);
 	position: absolute;
 	left: 0;
 	bottom: 0;
+	z-index: $navigation-z-index;
 	height: $nav-height-xs;
 	background-color: rgba(255,255,255,0);
     justify-content: center;

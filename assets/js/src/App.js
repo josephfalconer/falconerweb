@@ -114,38 +114,57 @@ class Application extends Component {
 	changePage = (e, targetPageIndex=0) => {
 		if (e) e.preventDefault();
 
-		const difference = Math.abs(this.state.currentPageIndex - targetPageIndex),
-			targetPageData = this.state.pages[targetPageIndex];
+		const app = this,
+			difference = Math.abs(app.state.currentPageIndex - targetPageIndex),
+			targetPageData = app.state.pages[targetPageIndex];
 
 		let sliderClass = 'slider',
-			containerClass = 'main-container is-down'
+			containerClass = 'main-container is-down',
+			isChangingPage = targetPageIndex != app.state.currentPageIndex,
 
-
-
-		if (targetPageIndex != this.state.currentPageIndex) {
-			console.log('Going to a different page!');
-
-			containerClass += ' is-changing-page';
-		}
-
-
-
+			isFrontCover = this.state.isFrontCover;
 		
 		if (targetPageData) {
 
-			if (difference > 1) {
-				sliderClass = this.fadeAnimateSlider();
-			}
+			if (isChangingPage && !isFrontCover) {
+				this.handleChangeFromPage(targetPageIndex, targetPageData);
 
-			this.setState({
-				...this.state,
-				currentPageIndex: targetPageIndex,
-				currentPageData: targetPageData,
-				isFrontCover: true,
-				containerClass: containerClass,
-				sliderClass: sliderClass
-			});
+			} else {
+
+				if (difference > 1) {
+					sliderClass = app.fadeAnimateSlider();
+				}
+
+				app.setState({
+					...app.state,
+					currentPageIndex: targetPageIndex,
+					currentPageData: targetPageData,
+					isFrontCover: true,
+					containerClass: containerClass,
+					sliderClass: sliderClass
+				});
+			}
 		}
+	}
+
+	handleChangeFromPage = (index, data) => {
+		const app =this,
+			containerClass = 'main-container is-down is-changing-page'
+
+		app.setState({
+			...app.state,
+			isFrontCover: true,
+			containerClass: containerClass,
+		});
+
+		// delay props update on page content
+		setTimeout(() => {
+			app.setState({
+				...app.state,
+				currentPageIndex: index,
+				currentPageData: data
+			});
+		}, 1000);
 	}
 
 	getModuleData = module => {
