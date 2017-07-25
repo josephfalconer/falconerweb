@@ -10123,7 +10123,14 @@ var Application = function (_Component) {
 			var difference = Math.abs(_this.state.currentPageIndex - targetPageIndex),
 			    targetPageData = _this.state.pages[targetPageIndex];
 
-			var sliderClass = "slider";
+			var sliderClass = 'slider',
+			    containerClass = 'main-container is-down';
+
+			if (targetPageIndex != _this.state.currentPageIndex) {
+				console.log('Going to a different page!');
+
+				containerClass += ' is-changing-page';
+			}
 
 			if (targetPageData) {
 
@@ -10135,7 +10142,7 @@ var Application = function (_Component) {
 					currentPageIndex: targetPageIndex,
 					currentPageData: targetPageData,
 					isFrontCover: true,
-					containerClass: 'main-container is-down',
+					containerClass: containerClass,
 					sliderClass: sliderClass
 				}));
 			}

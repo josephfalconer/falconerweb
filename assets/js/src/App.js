@@ -117,7 +117,19 @@ class Application extends Component {
 		const difference = Math.abs(this.state.currentPageIndex - targetPageIndex),
 			targetPageData = this.state.pages[targetPageIndex];
 
-		let sliderClass = "slider";
+		let sliderClass = 'slider',
+			containerClass = 'main-container is-down'
+
+
+
+		if (targetPageIndex != this.state.currentPageIndex) {
+			console.log('Going to a different page!');
+
+			containerClass += ' is-changing-page';
+		}
+
+
+
 		
 		if (targetPageData) {
 
@@ -130,7 +142,7 @@ class Application extends Component {
 				currentPageIndex: targetPageIndex,
 				currentPageData: targetPageData,
 				isFrontCover: true,
-				containerClass: 'main-container is-down',
+				containerClass: containerClass,
 				sliderClass: sliderClass
 			});
 		}

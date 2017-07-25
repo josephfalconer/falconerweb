@@ -33,6 +33,15 @@
 	}
 }
 
+.is-changing-page {
+	transition: top 0s $main-layout-transition;
+
+	.page {
+		opacity: 0;
+		transition: opacity $main-layout-transition;
+	}
+}
+
 
 body.is-noscroll {
 	position: fixed; 
