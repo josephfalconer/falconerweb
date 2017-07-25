@@ -1,19 +1,26 @@
+// ===========
+// General containers
 // ==================
-// General on page containers
-// ==========================
 
-// keep the footer at the bottom;
-body {
-	display: flex;
-	flex-direction: column;
+.main-container {
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: top 1s;
+}
+
+.page {
+	overflow-y: scroll;
+	overflow-x: hidden;
+
+    height: 100%;
+	background-image: url(/static/backgrounds/squares.png);
 
 	&::-webkit-scrollbar {
 		width: 0;
 	}
-}
-
-.main {
-	flex-grow: 1;
 }
 
 // control the max width of content

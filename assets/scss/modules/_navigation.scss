@@ -20,10 +20,10 @@ $navtext-fontsize-lg: remcalc(12);
 	left: 0;
 	bottom: 0;
 	height: $nav-height-xs;
-	background-color: transparentize($grey--primary, 0.2);
+	background-color: rgba(255,255,255,0);
     justify-content: center;
-    transform: translateY(100%);
-    transition: all 1s;
+    transform: none;
+    transition: transform 1s;
 
 	@include mq(md) {
 		padding: 0 5%

@@ -10033,7 +10033,9 @@ var Application = function (_Component) {
 			pages: [],
 			currentPageIndex: 0,
 			currentPageData: null,
-			dataReady: false,
+			isReadyData: false,
+			isFrontCover: true,
+			containerClass: 'main-container is-down',
 			sliderClass: 'slider'
 		}, _this.dataModels = {
 			pageModel: function pageModel(fields) {
@@ -10118,8 +10120,7 @@ var Application = function (_Component) {
 
 			if (e) e.preventDefault();
 
-			var app = _this,
-			    difference = Math.abs(_this.state.currentPageIndex - targetPageIndex),
+			var difference = Math.abs(_this.state.currentPageIndex - targetPageIndex),
 			    targetPageData = _this.state.pages[targetPageIndex];
 
 			var sliderClass = "slider";
@@ -10127,18 +10128,14 @@ var Application = function (_Component) {
 			if (targetPageData) {
 
 				if (difference > 1) {
-					console.log("Going more than one space");
-					sliderClass = "slider slider--fade";
-
-					// make sure the animation persists
-					setTimeout(function () {
-						app.setState(_extends({}, app.state, { sliderClass: 'slider' }));
-					}, 2000);
+					sliderClass = _this.fadeAnimateSlider();
 				}
 
 				_this.setState(_extends({}, _this.state, {
 					currentPageIndex: targetPageIndex,
 					currentPageData: targetPageData,
+					isFrontCover: true,
+					containerClass: 'main-container is-down',
 					sliderClass: sliderClass
 				}));
 			}
@@ -10146,6 +10143,19 @@ var Application = function (_Component) {
 			var moduleData = _this.state[module];
 
 			return moduleData ? moduleData : [];
+		}, _this.fadeAnimateSlider = function () {
+			var app = _this;
+			// reset the class attribute once animation completes
+			setTimeout(function () {
+				app.setState(_extends({}, app.state, { sliderClass: 'slider' }));
+			}, 2000);
+
+			return "slider slider--fade";
+		}, _this.slideCoverUp = function () {
+			_this.setState(_extends({}, _this.state, {
+				isFrontCover: false,
+				containerClass: 'main-container is-up'
+			}));
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -10165,7 +10175,7 @@ var Application = function (_Component) {
 						skills: data.skills,
 						projects: data.projects,
 						demos: data.demos,
-						dataReady: true
+						isReadyData: true
 					}));
 
 					App.changePage();
@@ -10177,20 +10187,20 @@ var Application = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var pages = this.state.dataReady ? this.state.pages : [],
+			var pages = this.state.isReadyData ? this.state.pages : [],
 			    currentPageData = this.state.currentPageData,
 			    currentModuleName = currentPageData && currentPageData.module,
 			    currentModuleData = currentPageData && this.getModuleData(currentModuleName);
 
 			return _react2.default.createElement(
 				'div',
-				null,
+				{ className: this.state.containerClass },
 				pages.length > 0 ? _react2.default.createElement(_FrontCover2.default, {
-					isFrontCover: this.state.currentPageIndex === 0,
 					pages: pages,
 					currentPageIndex: this.state.currentPageIndex,
 					changePage: this.changePage,
-					sliderClass: this.state.sliderClass
+					sliderClass: this.state.sliderClass,
+					slideCoverUp: this.slideCoverUp
 				}) : null,
 				currentPageData && _react2.default.createElement(_Page2.default, {
 					currentPageData: currentPageData,
@@ -10247,8 +10257,8 @@ var Page = function Page(props) {
 	    moduleData = props.currentModuleData;
 
 	return _react2.default.createElement(
-		'section',
-		{ className: 'container' },
+		'main',
+		{ className: 'page' },
 		_react2.default.createElement(
 			'header',
 			{ className: 'header' },
@@ -10265,7 +10275,16 @@ var Page = function Page(props) {
 		moduleName.length && moduleData.length ? _react2.default.createElement(_Modules2.default, {
 			name: moduleName,
 			data: moduleData
-		}) : null
+		}) : null,
+		_react2.default.createElement(
+			'footer',
+			null,
+			_react2.default.createElement(
+				'p',
+				null,
+				'Copyright \xA9 Joseph Falconer'
+			)
+		)
 	);
 };
 
@@ -10328,21 +10347,7 @@ var FrontCover = function (_Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = FrontCover.__proto__ || Object.getPrototypeOf(FrontCover)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-			isCovering: true
-		}, _this.liftOrPullCover = function (isNavButton) {
-			var isCovering = _this.state.isCovering;
-
-			if (!isCovering || isNavButton) {
-				_this.setState({
-					isCovering: true
-				});
-			} else if (isCovering && !isNavButton) {
-				_this.setState({
-					isCovering: false
-				});
-			}
-		}, _temp), _possibleConstructorReturn(_this, _ret);
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = FrontCover.__proto__ || Object.getPrototypeOf(FrontCover)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
 	_createClass(FrontCover, [{
@@ -10350,7 +10355,7 @@ var FrontCover = function (_Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ className: this.state.isCovering ? 'frontcover frontcover--down' : 'frontcover' },
+				{ className: 'frontcover' },
 				_react2.default.createElement(_Slider2.default, {
 					pages: this.props.pages,
 					currentPageIndex: this.props.currentPageIndex,
@@ -10360,12 +10365,11 @@ var FrontCover = function (_Component) {
 					noOfPages: this.props.pages.length,
 					currentPageIndex: this.props.currentPageIndex,
 					changePage: this.props.changePage,
-					liftOrPullCover: this.liftOrPullCover
+					slideCoverUp: this.props.slideCoverUp
 				}),
 				_react2.default.createElement(_Navigation2.default, {
 					pages: this.props.pages,
-					changePage: this.props.changePage,
-					liftOrPullCover: this.liftOrPullCover
+					changePage: this.props.changePage
 				})
 			);
 		}
@@ -10375,11 +10379,11 @@ var FrontCover = function (_Component) {
 }(_react.Component);
 
 FrontCover.propTypes = {
-	isFrontCover: _react.PropTypes.bool.isRequired,
 	pages: _react.PropTypes.array.isRequired,
 	currentPageIndex: _react.PropTypes.number.isRequired,
 	changePage: _react.PropTypes.func.isRequired,
-	sliderClass: _react.PropTypes.string.isRequired
+	sliderClass: _react.PropTypes.string.isRequired,
+	slideCoverUp: _react.PropTypes.func.isRequired
 };
 exports.default = FrontCover;
 
@@ -10421,7 +10425,7 @@ var FrontCoverButtons = function FrontCoverButtons(props) {
 		props.currentPageIndex > 0 && _react2.default.createElement("a", {
 			href: "#",
 			onClick: function onClick(e) {
-				props.liftOrPullCover();
+				props.slideCoverUp();
 			},
 			className: "frontcover__button frontcover__button--down"
 		})
@@ -10432,7 +10436,7 @@ FrontCoverButtons.propTypes = {
 	noOfPages: _react.PropTypes.number.isRequired,
 	currentPageIndex: _react.PropTypes.number.isRequired,
 	changePage: _react.PropTypes.func.isRequired,
-	liftOrPullCover: _react.PropTypes.func.isRequired
+	slideCoverUp: _react.PropTypes.func.isRequired
 };
 
 exports.default = FrontCoverButtons;
@@ -10479,7 +10483,7 @@ var Navigation = function Navigation(props) {
 					_react2.default.createElement(
 						'a',
 						{ className: 'nav__link', href: '#', onClick: function onClick(e) {
-								props.liftOrPullCover(true);props.changePage(e, index);
+								props.changePage(e, index);
 							} },
 						_react2.default.createElement(
 							'span',
@@ -10500,8 +10504,7 @@ var Navigation = function Navigation(props) {
 
 Navigation.propTypes = {
 	pages: _react.PropTypes.array.isRequired,
-	changePage: _react.PropTypes.func.isRequired,
-	liftOrPullCover: _react.PropTypes.func.isRequired
+	changePage: _react.PropTypes.func.isRequired
 };
 
 exports.default = Navigation;
@@ -11040,14 +11043,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Modules = function Modules(props) {
 	return _react2.default.createElement(
-		'div',
+		'section',
 		{ className: 'module' },
-		props.name == 'skills' ? _react2.default.createElement(_ModuleSkills2.default, {
-			skills: props.data
-		}) : null,
-		props.name == 'demos' ? _react2.default.createElement(_ModuleDemos2.default, {
-			demos: props.data
-		}) : null
+		_react2.default.createElement(
+			'div',
+			{ className: 'container' },
+			props.name == 'skills' ? _react2.default.createElement(_ModuleSkills2.default, {
+				skills: props.data
+			}) : null,
+			props.name == 'demos' ? _react2.default.createElement(_ModuleDemos2.default, {
+				demos: props.data
+			}) : null
+		)
 	);
 };
 

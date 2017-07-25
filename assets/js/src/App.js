@@ -11,9 +11,11 @@ class Application extends Component {
 		pages: [],
 		currentPageIndex: 0,
 		currentPageData: null,
-		dataReady: false,
-		sliderClass: 'slider'
-	};
+		isReadyData: false,
+		isFrontCover: true,
+		containerClass: 'main-container is-down', 
+		sliderClass: 'slider',
+	}
 
 	dataModels = {
 		pageModel: fields => {
@@ -62,7 +64,7 @@ class Application extends Component {
 					skills: data.skills,
 					projects: data.projects,
 					demos: data.demos,
-					dataReady: true
+					isReadyData: true
 				});
 
 				App.changePage();
@@ -70,7 +72,7 @@ class Application extends Component {
 		}
 		xhr.open('GET', 'data/');
 		xhr.send();
-	};
+	}
 
 	sortData = data => {
 
@@ -107,59 +109,71 @@ class Application extends Component {
 			}
 		}
 		return sortedData;
-	};
+	}
 
 	changePage = (e, targetPageIndex=0) => {
 		if (e) e.preventDefault();
 
-		const app = this,
-			difference = Math.abs(this.state.currentPageIndex - targetPageIndex),
+		const difference = Math.abs(this.state.currentPageIndex - targetPageIndex),
 			targetPageData = this.state.pages[targetPageIndex];
 
 		let sliderClass = "slider";
-
+		
 		if (targetPageData) {
 
 			if (difference > 1) {
-				console.log("Going more than one space");
-				sliderClass = "slider slider--fade";
-
-				// make sure the animation persists
-				setTimeout(() => {
-					app.setState({...app.state, sliderClass: 'slider'});
-				}, 2000);
+				sliderClass = this.fadeAnimateSlider();
 			}
 
 			this.setState({
 				...this.state,
 				currentPageIndex: targetPageIndex,
 				currentPageData: targetPageData,
+				isFrontCover: true,
+				containerClass: 'main-container is-down',
 				sliderClass: sliderClass
 			});
-
 		}
-	};
+	}
 
 	getModuleData = module => {
 		const { [module]:moduleData } = this.state;
 		return moduleData ? moduleData : [];
-	};
+	}
+
+	fadeAnimateSlider = () => {
+		const app = this;
+		// reset the class attribute once animation completes
+		setTimeout(() => {
+			app.setState({...app.state, sliderClass: 'slider'});
+		}, 2000);
+
+		return "slider slider--fade";
+	}
+
+	slideCoverUp = () => {
+		this.setState({
+			...this.state, 
+			isFrontCover: false,
+			containerClass: 'main-container is-up'
+		});
+	}
 
 	render() {
-		const pages = this.state.dataReady ? this.state.pages : [],
+		const pages = this.state.isReadyData ? this.state.pages : [],
 			currentPageData = this.state.currentPageData,
 			currentModuleName = currentPageData && currentPageData.module,
 			currentModuleData = currentPageData && this.getModuleData(currentModuleName);
 
 		return (
-			<div>
+			<div className={this.state.containerClass}>
 				{pages.length > 0 ? 
 					<FrontCover
-						isFrontCover={this.state.currentPageIndex === 0}
 						pages={pages}
 						currentPageIndex={this.state.currentPageIndex}
 						changePage={this.changePage}
 						sliderClass={this.state.sliderClass}
+						slideCoverUp={this.slideCoverUp}
 					/>
 					:
 					null

@@ -8,36 +8,20 @@ import Navigation from './Navigation';
 class FrontCover extends Component {
 
 	static propTypes = {
-		isFrontCover: PropTypes.bool.isRequired,
 		pages: PropTypes.array.isRequired,
 		currentPageIndex: PropTypes.number.isRequired,
 		changePage: PropTypes.func.isRequired,
 		sliderClass: PropTypes.string.isRequired,
+		slideCoverUp: PropTypes.func.isRequired,
 	};
 
 	state = {
-		isCovering: true
-	};
-
-	liftOrPullCover = isNavButton => {
-		const isCovering = this.state.isCovering;
-
-		if (!isCovering || isNavButton) {
-			this.setState({
-				isCovering: true
-			});
-
-		} else if (isCovering && !isNavButton){
-			this.setState({
-				isCovering: false
-			});
-		}
-
+		
 	};
 
 	render() {
 		return (
-			<div className={this.state.isCovering ? 'frontcover frontcover--down' : 'frontcover'}>
+			<div className="frontcover">
 				<Slider 
 					pages={this.props.pages}
 					currentPageIndex={this.props.currentPageIndex}
@@ -48,13 +32,12 @@ class FrontCover extends Component {
 					noOfPages={this.props.pages.length}
 					currentPageIndex={this.props.currentPageIndex}
 					changePage={this.props.changePage}
-					liftOrPullCover={this.liftOrPullCover}
+					slideCoverUp={this.props.slideCoverUp}
 				/>
 
 				<Navigation 
 					pages={this.props.pages}
 					changePage={this.props.changePage}
-					liftOrPullCover={this.liftOrPullCover}
 				/>
 			</div>
 		);

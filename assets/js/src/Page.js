@@ -9,7 +9,7 @@ const Page = props => {
 		moduleData = props.currentModuleData;
 	
 	return (
-		<section className="container">
+		<main className="page">
 			<header className="header">
 				<div className="header__content">
 					<h1>{page.title}</h1>
@@ -24,7 +24,10 @@ const Page = props => {
 				:
 				null
 			}
-		</section>
+			<footer>
+				<p>Copyright &copy; Joseph Falconer</p>
+			</footer>
+		</main>
 	)
 }
 

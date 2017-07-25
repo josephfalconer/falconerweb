@@ -6,22 +6,24 @@ import ModuleDemos from './ModuleDemos';
 
 const Modules = props => {
 	return (
-		<div className="module">
-			{props.name == 'skills' ?
-				<ModuleSkills
-					skills={props.data}
-				/>
-				:
-				null
-			}
-			{props.name == 'demos' ?
-				<ModuleDemos
-					demos={props.data}
-				/>
-				:
-				null
-			}
-		</div>
+		<section className="module">
+			<div className="container">
+				{props.name == 'skills' ?
+					<ModuleSkills
+						skills={props.data}
+					/>
+					:
+					null
+				}
+				{props.name == 'demos' ?
+					<ModuleDemos
+						demos={props.data}
+					/>
+					:
+					null
+				}
+			</div>
+		</section>
 	);	
 }
 

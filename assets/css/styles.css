@@ -145,24 +145,25 @@ svg {
   max-height: 100%;
 }
 
-body {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+.main-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: top 1s;
+  transition: top 1s;
 }
 
-body::-webkit-scrollbar {
+.page {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
+  background-image: url(/static/backgrounds/squares.png);
+}
+
+.page::-webkit-scrollbar {
   width: 0;
-}
-
-.main {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
 }
 
 @media (min-width: 768px) {
@@ -184,15 +185,9 @@ body::-webkit-scrollbar {
 }
 
 .frontcover {
-  position: fixed;
-  top: -100%;
-  left: 0;
-  z-index: 10;
   width: 100%;
   height: 100%;
   color: #fff;
-  -webkit-transition: top 1s;
-  transition: top 1s;
 }
 
 .frontcover__button {
@@ -394,14 +389,16 @@ body::-webkit-scrollbar {
   left: 0;
   bottom: 0;
   height: 65px;
-  background-color: rgba(119, 119, 119, 0.8);
+  background-color: rgba(255, 255, 255, 0);
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-transform: translateY(100%);
-          transform: translateY(100%);
-  -webkit-transition: all 1s;
-  transition: all 1s;
+  -webkit-transform: none;
+          transform: none;
+  -webkit-transition: -webkit-transform 1s;
+  transition: -webkit-transform 1s;
+  transition: transform 1s;
+  transition: transform 1s, -webkit-transform 1s;
 }
 
 @media (min-width: 768px) {
@@ -1103,29 +1100,34 @@ body::-webkit-scrollbar {
   }
 }
 
-.frontcover--down {
-  top: 0;
-}
-
-.frontcover--down .nav {
-  background-color: rgba(255, 255, 255, 0);
-  -webkit-transform: none;
-          transform: none;
-}
-
-.frontcover--down .nav__item:nth-child(2) .nav__linkcircle {
+.is-down .nav__item:nth-child(2) .nav__linkcircle {
   -webkit-animation: orangeblink 1s 1s 1;
           animation: orangeblink 1s 1s 1;
 }
 
-.frontcover--down .nav__item:nth-child(3) .nav__linkcircle {
+.is-down .nav__item:nth-child(3) .nav__linkcircle {
   -webkit-animation: orangeblink 1s 2s 1;
           animation: orangeblink 1s 2s 1;
 }
 
-.frontcover--down .nav__item:nth-child(4) .nav__linkcircle {
+.is-down .nav__item:nth-child(4) .nav__linkcircle {
   -webkit-animation: orangeblink 1s 3s 1;
           animation: orangeblink 1s 3s 1;
+}
+
+.is-up {
+  top: -100%;
+}
+
+.is-up .nav {
+  background-color: rgba(119, 119, 119, 0.8);
+  -webkit-transform: translateY(100%);
+          transform: translateY(100%);
+}
+
+.is-up .page {
+  -webkit-transform: none;
+          transform: none;
 }
 
 body.is-noscroll {

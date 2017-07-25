@@ -21,7 +21,7 @@ const FrontCoverButtons = props => {
 			{props.currentPageIndex > 0 &&
 				<a 
 					href="#"
-					onClick={e => { props.liftOrPullCover(); }} 
+					onClick={e => { props.slideCoverUp(); }} 
 					className="frontcover__button frontcover__button--down"
 				></a>
 			}
@@ -33,7 +33,7 @@ FrontCoverButtons.propTypes = {
 	noOfPages: PropTypes.number.isRequired,
 	currentPageIndex: PropTypes.number.isRequired,
 	changePage: PropTypes.func.isRequired,
-	liftOrPullCover: PropTypes.func.isRequired,
+	slideCoverUp: PropTypes.func.isRequired,
 }
 
 export default FrontCoverButtons;
