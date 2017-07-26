@@ -27,34 +27,17 @@ $navigation-border-grey: 1px solid $grey--accent;
 		border-bottom: none;
 	}
 
-	circle {
-		stroke: $grey--accent;
-	}
-
 	.fill {
-		fill: $grey--accent;
+		fill: darken($grey--accent, 5%);
 	}
 
 	.stroke {
-		stroke: $grey--accent;
+		stroke: darken($grey--accent, 5%);
 	}
 
 	circle {
-		stroke: $grey--accent;
+		stroke: darken($grey--accent, 5%);
 		fill: rgba(255,255,255,0);
-	}
-
-	.thumbhole {
-		fill: $grey--primary;
-	}
-
-	.arrow {
-		&::after {
-			background: $grey--accent;
-		}
-		&::before {
-			background: $grey--accent;
-		}
 	}
 
 	@include e(item) { 
@@ -68,30 +51,30 @@ $navigation-border-grey: 1px solid $grey--accent;
 	@include e(link) { 
 		&:hover, &:focus, &:active, &--current {
 			@include mq(md, max) {
-				color: $orange--active;
+				color: $orange--dark;
 			}
 
 			circle {
-				stroke: $orange--active;
+				stroke: $orange--dark;
 			}
 
 			.fill {
-				fill: $orange--active;
+				fill: $orange--dark;
 
 				@include m(onlyhover) {
-					fill: $orange--active;					
+					fill: $orange--dark;					
 				}
 			}
 
 			.stroke {
-				stroke: $orange--active;
+				stroke: $orange--dark;
 			}
 		}
 	}
 	
 	@include e(linkcircle) {
 		@include mq(lg) {
-			border: remcalc(2) solid darken($grey--accent, 10%);
+			border: remcalc(2) solid $emperor;
 		}
 	}
 }

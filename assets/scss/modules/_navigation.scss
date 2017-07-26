@@ -20,7 +20,7 @@ $navtext-fontsize-lg: remcalc(12);
 	left: 0;
 	bottom: 0;
 	z-index: $navigation-z-index;
-	height: $nav-height-xs;
+	@include sides(100%, $nav-height-xs);
 	background-color: rgba(255,255,255,0);
     justify-content: center;
     transform: none;
@@ -88,7 +88,7 @@ $navtext-fontsize-lg: remcalc(12);
 
 		@include m(logo) {
 			margin-right: remcalc(17.5);
-			border-right: solid 2px darken($grey--accent, 10%);
+			border-right: solid 2px $emperor;
 			overflow: hidden;
 			order: 0;
 

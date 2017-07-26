@@ -51,8 +51,8 @@ $grey--light	: #898989;
 
 // oranges
 $orange--active	: $sunglow;
+$orange--dark	: darken($orange--active, 5%);
 $orange--light	: lighten($orange--active, 5%);
-$orange--active-overlay : rgba(255,183,50,0.2);
 
 // text colours
 $text-color-main: $finlandia;

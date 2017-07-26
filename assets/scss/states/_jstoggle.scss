@@ -2,47 +2,70 @@
 // Classes toggled in JS
 // =====================
 
-@keyframes fade-out-in {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-	}
-}
-
-@keyframes fade-in {
-	0% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-	}
-}
-
 
 // sliding frontcover feature
 .is-down {
-	.nav__item {
-		$blink-delay: 1s;
+	.nav {
+		@include e(item) {
+			$blink-delay: 1s;
 
-		@for $i from 2 through 4 {
-			&:nth-child(#{$i}) {
+			@for $i from 2 through 4 {
+				&:nth-child(#{$i}) {
 
-				.nav__linkcircle {
-					animation: orangeblink 1s #{$blink-delay} 1;
+					.nav__linkcircle {
+						animation: orangeblink 1s #{$blink-delay} 1;
+					}
 				}
+
+				$blink-delay: $blink-delay + 1s;
 			}
 
-			$blink-delay: $blink-delay + 1s;
+			.fill {
+				fill: $grey--accent;
+			}
+
+			.stroke {
+				stroke: $grey--accent;
+			}
+
+			circle {
+				stroke: $grey--accent;
+				fill: rgba(255,255,255,0);
+			}
+
+			@include m(logo) {
+				border-color: darken($grey--accent, 10%);
+			}
 		}
-	}	
+
+		@include e(link) {
+			&:hover, &:focus, &:active, &--current {
+				@include mq(md, max) {
+					color: $orange--active;
+				}
+
+				circle {
+					stroke: $orange--active;
+				}
+
+				.fill {
+					fill: $orange--active;
+
+					@include m(onlyhover) {
+						fill: $orange--active;					
+					}
+				}
+
+				.stroke {
+					stroke: $orange--active;
+				}
+			}
+		}
+
+		@include e(linkcircle) {
+			border-color: darken($grey--accent, 10%);
+		}
+	}
 }
 
 .is-up {
@@ -65,7 +88,6 @@
 
 .is-changing-page {
 	transition: top 0s $main-layout-transition;
-	// animation: fade-in $main-layout-transition 1;
 
 	.slider {
 		transition: none;

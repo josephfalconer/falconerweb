@@ -101,6 +101,30 @@ circle, .fill, .stroke, .highlightfill {
   }
 }
 
+@-webkit-keyframes fade-out-in {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out-in {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -256,7 +280,7 @@ svg {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 1.25rem;
+  bottom: 82px;
   margin: 0 auto;
   border-right-color: #ffc04c;
   border-bottom-color: #ffc04c;
@@ -371,6 +395,7 @@ svg {
   left: 0;
   bottom: 0;
   z-index: 10;
+  width: 100%;
   height: 65px;
   background-color: rgba(255, 255, 255, 0);
   -webkit-box-pack: center;
@@ -473,7 +498,7 @@ svg {
 
 .nav__item--logo {
   margin-right: 1.09375rem;
-  border-right: solid 2px #343434;
+  border-right: solid 2px #555;
   overflow: hidden;
   -webkit-box-ordinal-group: 1;
       -ms-flex-order: 0;
@@ -1063,48 +1088,6 @@ svg {
   }
 }
 
-@-webkit-keyframes fade-out-in {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes fade-out-in {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 .is-down .nav__item:nth-child(2) .nav__linkcircle {
   -webkit-animation: orangeblink 1s 1s 1;
           animation: orangeblink 1s 1s 1;
@@ -1118,6 +1101,49 @@ svg {
 .is-down .nav__item:nth-child(4) .nav__linkcircle {
   -webkit-animation: orangeblink 1s 3s 1;
           animation: orangeblink 1s 3s 1;
+}
+
+.is-down .nav__item .fill {
+  fill: #4d4d4d;
+}
+
+.is-down .nav__item .stroke {
+  stroke: #4d4d4d;
+}
+
+.is-down .nav__item circle {
+  stroke: #4d4d4d;
+  fill: rgba(255, 255, 255, 0);
+}
+
+.is-down .nav__item--logo {
+  border-color: #343434;
+}
+
+@media (max-width: 991px) {
+  .is-down .nav__link:hover, .is-down .nav__link:focus, .is-down .nav__link:active, .is-down .nav__link--current {
+    color: #ffb732;
+  }
+}
+
+.is-down .nav__link:hover circle, .is-down .nav__link:focus circle, .is-down .nav__link:active circle, .is-down .nav__link--current circle {
+  stroke: #ffb732;
+}
+
+.is-down .nav__link:hover .fill, .is-down .nav__link:focus .fill, .is-down .nav__link:active .fill, .is-down .nav__link--current .fill {
+  fill: #ffb732;
+}
+
+.is-down .nav__link:hover .fill--onlyhover, .is-down .nav__link:focus .fill--onlyhover, .is-down .nav__link:active .fill--onlyhover, .is-down .nav__link--current .fill--onlyhover {
+  fill: #ffb732;
+}
+
+.is-down .nav__link:hover .stroke, .is-down .nav__link:focus .stroke, .is-down .nav__link:active .stroke, .is-down .nav__link--current .stroke {
+  stroke: #ffb732;
+}
+
+.is-down .nav__linkcircle {
+  border-color: #343434;
 }
 
 .is-up {
@@ -1182,33 +1208,17 @@ svg {
   }
 }
 
-.nav circle {
-  stroke: #4d4d4d;
-}
-
 .nav .fill {
-  fill: #4d4d4d;
+  fill: #404040;
 }
 
 .nav .stroke {
-  stroke: #4d4d4d;
+  stroke: #404040;
 }
 
 .nav circle {
-  stroke: #4d4d4d;
+  stroke: #404040;
   fill: rgba(255, 255, 255, 0);
-}
-
-.nav .thumbhole {
-  fill: #777;
-}
-
-.nav .arrow::after {
-  background: #4d4d4d;
-}
-
-.nav .arrow::before {
-  background: #4d4d4d;
 }
 
 .nav__item {
@@ -1223,29 +1233,29 @@ svg {
 
 @media (max-width: 991px) {
   .nav__link:hover, .nav__link:focus, .nav__link:active, .nav__link--current {
-    color: #ffb732;
+    color: #ffae19;
   }
 }
 
 .nav__link:hover circle, .nav__link:focus circle, .nav__link:active circle, .nav__link--current circle {
-  stroke: #ffb732;
+  stroke: #ffae19;
 }
 
 .nav__link:hover .fill, .nav__link:focus .fill, .nav__link:active .fill, .nav__link--current .fill {
-  fill: #ffb732;
+  fill: #ffae19;
 }
 
 .nav__link:hover .fill--onlyhover, .nav__link:focus .fill--onlyhover, .nav__link:active .fill--onlyhover, .nav__link--current .fill--onlyhover {
-  fill: #ffb732;
+  fill: #ffae19;
 }
 
 .nav__link:hover .stroke, .nav__link:focus .stroke, .nav__link:active .stroke, .nav__link--current .stroke {
-  stroke: #ffb732;
+  stroke: #ffae19;
 }
 
 @media (min-width: 992px) {
   .nav__linkcircle {
-    border: 0.125rem solid #343434;
+    border: 0.125rem solid #555;
   }
 }
 
