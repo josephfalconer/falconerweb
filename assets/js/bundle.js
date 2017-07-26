@@ -10945,20 +10945,10 @@ var ModuleSkills = function (_Component) {
 					{ className: 'skillsfeature text' },
 					this.props.skills.map(function (skill, index) {
 
-						// need to substitute Django's linebreaks filter
-						// let TextContent = React.createElement(
-						// 	'span',
-						// 	html: skill.text
-						// );
-						// TextContent.dangerouslySetInnerHTML();
-
-						var isCurrentSkill = index == currentIndex;
-
-						var skillClass = isCurrentSkill ? 'skillsfeature__skill skillsfeature__skill--current' : 'skillsfeature__skill';
-
-						var heightValue = isCurrentSkill ? _this2.state.currentSkillHeight : '6.25rem';
-
-						var heightStyle = {
+						var isCurrentSkill = index == currentIndex,
+						    skillClass = isCurrentSkill ? 'skillsfeature__skill skillsfeature__skill--current' : 'skillsfeature__skill',
+						    heightValue = isCurrentSkill ? _this2.state.currentSkillHeight : '6.25rem',
+						    heightStyle = {
 							height: heightValue
 						};
 
@@ -10975,25 +10965,21 @@ var ModuleSkills = function (_Component) {
 										} },
 									_react2.default.createElement(
 										'div',
-										{ className: 'row' },
+										{ className: 'column' },
 										_react2.default.createElement(
-											'div',
-											{ className: 'column column-xs-12' },
-											_react2.default.createElement(
-												'h3',
-												{ className: 'skillsfeature__title' },
-												skill.title
-											),
-											_react2.default.createElement(
-												'span',
-												{ className: 'skillsfeature__tooltip skillsfeature__read' },
-												'Read'
-											),
-											_react2.default.createElement(
-												'span',
-												{ className: 'skillsfeature__tooltip skillsfeature__close' },
-												'Close'
-											)
+											'h3',
+											{ className: 'skillsfeature__title' },
+											skill.title
+										),
+										_react2.default.createElement(
+											'span',
+											{ className: 'skillsfeature__tooltip skillsfeature__read' },
+											'Read'
+										),
+										_react2.default.createElement(
+											'span',
+											{ className: 'skillsfeature__tooltip skillsfeature__close' },
+											'Close'
 										)
 									)
 								)
@@ -11001,16 +10987,7 @@ var ModuleSkills = function (_Component) {
 							_react2.default.createElement(
 								'div',
 								{ className: 'skillsfeature__content', style: heightStyle },
-								_react2.default.createElement(
-									'div',
-									{ className: 'skillsfeature__contentinner' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'row row--center' },
-										_react2.default.createElement('div', { className: 'column column-xs-12 column-m-10', dangerouslySetInnerHTML: { __html: skill.text } })
-									)
-								),
-								_react2.default.createElement('div', { className: 'skillsfeature__overlay' })
+								_react2.default.createElement('div', { className: 'skillsfeature__contentinner', dangerouslySetInnerHTML: { __html: skill.text } })
 							)
 						);
 					})

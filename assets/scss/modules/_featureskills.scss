@@ -2,18 +2,15 @@
 // Style the accordion feature on 'Skills' page
 // ============================================
 
-$skills-content-hiddenheight: 100px;
-$skills-content-padding: 30px;
-$skills-heading-height: 85px;
-$skills-background: $grey--accent;
-$skills-content-background: lighten($skills-background, 25%);
+$skills-content-hiddenheight: remcalc(100);
+$skills-content-padding: remcalc(30);
+$skills-heading-height: remcalc(85);
 
 .skillsfeature {
-	background: #aeaeae;
-	color: $white;
+	background: $white;
 
 	@include mq(md) {
-		box-shadow: 0 0 10px $black-transparent;
+		box-shadow: 0 0 10px transparentize($black, 0.75);
 	}
 
 	@include mq(lg) {
@@ -22,8 +19,6 @@ $skills-content-background: lighten($skills-background, 25%);
 	}
 
 	@include e(skill) {
-		background: $skills-content-background;
-
 		&:first-child {
 			.skillsfeature__title {
 				box-shadow: none;
@@ -56,13 +51,13 @@ $skills-content-background: lighten($skills-background, 25%);
 		display: block;
 		position: relative;
 		height: $skills-heading-height;
+		background: darken($white, 10%);
 		line-height: $skills-heading-height;
-		background: $skills-background;
-		color: $white;
+		color: $text-color-main;
 		transition: background $transition-duration;
 
 		&:hover, &:focus {
-			background: lighten($skills-background, 5%);
+			background: darken($white, 20%);
 		}
 
 		&:hover {
@@ -76,7 +71,7 @@ $skills-content-background: lighten($skills-background, 25%);
 		margin: 0;
 
 		@include mq(md) {
-			box-shadow: 0 -5px 10px rgba(0,0,0,0.25);
+			box-shadow: 0 -#{remcalc(30)} remcalc(25) -#{remcalc(10)} $white;
 		}
 	}
 
@@ -101,8 +96,9 @@ $skills-content-background: lighten($skills-background, 25%);
 	}
 
 	@include e(content) {
-		position: relative;
-		height: $skills-content-hiddenheight;
+		margin: 0 auto;
+		@include sides(90%, $skills-content-hiddenheight);
+		max-width: remcalc(750);
 		overflow: hidden;
 		text-align: left;
 		transition: height $transition-duration * 2;
@@ -122,19 +118,4 @@ $skills-content-background: lighten($skills-background, 25%);
 			}
 		}
 	}
-
-	@include e(overlay) {
-		position: absolute;
-		top: 0;
-	    left: 0;
-		@include square(100%);
-		opacity: 1;
-		transition: opacity $transition-duration $transition-duration;
-
-		@include mq(md) {
-			background: linear-gradient(to bottom, 
-				$clean-transparent $skills-content-hiddenheight * 0.5,
-				$skills-content-background $skills-content-hiddenheight);
-		}
-	}	
 }
