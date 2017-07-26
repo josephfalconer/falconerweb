@@ -49,7 +49,7 @@ $navigation-border-grey: 1px solid $grey--accent;
 	}
 
 	@include e(link) { 
-		&:hover, &:focus, &:active, &--current {
+		&--current {
 			@include mq(md, max) {
 				color: $orange--dark;
 			}

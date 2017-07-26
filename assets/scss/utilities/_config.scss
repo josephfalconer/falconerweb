@@ -64,6 +64,7 @@ $bp-sm: 576px;
 $bp-md: 768px;
 $bp-lg: 992px;
 $bp-xl: 1200px;
+$bp-xxl: 1400px;
 
 // map the breakpoints
 $breakpoints: (
@@ -72,10 +73,12 @@ $breakpoints: (
 	'md-min': $bp-md,
 	'lg-min': $bp-lg,
 	'xl-min': $bp-xl,
+	'xxl-min': $bp-xxl,
 	'xs-max': $bp-sm - 1,
 	'sm-max': $bp-md - 1,
 	'md-max': $bp-lg - 1,
 	'lg-max': $bp-xl - 1,
+	'xl-max': $bp-xxl - 1,
 );
 
 // container max widths

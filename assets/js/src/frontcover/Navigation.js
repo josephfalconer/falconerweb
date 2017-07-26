@@ -20,8 +20,8 @@ const Navigation = props => {
 							<a className={navLinkClass} href="#" onClick={e => { props.changePage(e, index) }}>
 								<span className="nav__linkcircle">
 									{Icon}
+									<span className="nav__linktext">{page.title}</span>
 				                </span>
-								<span className="nav__linktext">{page.title}</span>
 							</a>
 						</li> 
 					);

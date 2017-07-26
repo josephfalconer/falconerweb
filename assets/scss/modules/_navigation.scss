@@ -5,14 +5,10 @@
 // variables namespaced to nav
 $mobile-menu-ln-ht : 25px;
 
-$nav-circlelink-width: 50;
+$nav-circlelink-width: 45;
+$nav-circlelink-width-xxl: 50;
 
-$nav-lowermenu-transition: 150ms;
 $nav-toplink-width-xl: 100px;
-$nav-lowerlink-width-xl: 85px;
-
-// text
-$navtext-fontsize-lg: remcalc(12);
 
 .nav {
 	display: flex;
@@ -31,7 +27,7 @@ $navtext-fontsize-lg: remcalc(12);
 	}
 
 	@include mq(lg) {
-		height: $nav-height-xl;
+		height: remcalc(75);
 		padding: 0;
 	}
 
@@ -53,7 +49,6 @@ $navtext-fontsize-lg: remcalc(12);
 		padding-left: 0;
 		padding-top: 0;
 		overflow: hidden;
-		transition: height $nav-lowermenu-transition, padding-top 0s $nav-lowermenu-transition;
 
 		@include mq(md) {
 			display: flex;
@@ -82,19 +77,26 @@ $navtext-fontsize-lg: remcalc(12);
 		}
 
 		@include mq(lg) {
-			width: $nav-lowerlink-width-xl;
+			width: remcalc(70);
+			margin: 0;
+		}
+
+		@include mq(xxl) {
+			width: remcalc(85);
 			margin: 0;
 		}
 
 		@include m(logo) {
-			margin-right: remcalc(17.5);
-			border-right: solid 2px $emperor;
 			overflow: hidden;
 			order: 0;
 
 			.nav__linkcircle {
 				border: none;
-				@include square(remcalc($nav-circlelink-width + 5));
+				padding: remcalc(1);
+			}
+
+			.nav__linktext {
+				display: none;
 			}
 		}
 	}
@@ -123,7 +125,7 @@ $navtext-fontsize-lg: remcalc(12);
 		&:hover {
 			@include mq(lg) {
 				.nav__linktext {
-					bottom: -$navtext-fontsize-lg;
+					transform: translate(-50%,remcalc(5));
 					opacity: 1;
 				}
 			}
@@ -140,8 +142,12 @@ $navtext-fontsize-lg: remcalc(12);
 	    margin: 0 auto;
 	    transition: all $transition-duration;
 
-	    @include mq (lg) {
+	    @include mq(lg) {
 			display: block;
+		}
+
+		@include mq(xxl) {
+			@include square(remcalc($nav-circlelink-width-xxl));
 		}
 
 		svg {
@@ -155,8 +161,8 @@ $navtext-fontsize-lg: remcalc(12);
 		@include mq(lg) {
 			position: absolute;
 			left: 50%;
-			bottom: -#{remcalc(5)};
-			font-size: $navtext-fontsize-lg;
+			bottom: -#{remcalc(10)};
+			font-size: remcalc(14);
 			opacity: 0;
 			transform: translateX(-50%);
 			transition: all 0.4s;

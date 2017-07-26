@@ -111,6 +111,11 @@ class Application extends Component {
 		return sortedData;
 	}
 
+	getModuleData = module => {
+		const { [module]:moduleData } = this.state;
+		return moduleData ? moduleData : [];
+	}
+
 	changePage = (e, targetPageIndex=0) => {
 		if (e) e.preventDefault();
 
@@ -118,9 +123,7 @@ class Application extends Component {
 			difference = Math.abs(app.state.currentPageIndex - targetPageIndex),
 			targetPageData = app.state.pages[targetPageIndex];
 
-		let sliderClass = 'slider',
-			containerClass = 'main-container is-down',
-			isChangingPage = targetPageIndex != app.state.currentPageIndex,
+		let isChangingPage = targetPageIndex != app.state.currentPageIndex,
 
 			isFrontCover = this.state.isFrontCover;
 		
@@ -131,17 +134,13 @@ class Application extends Component {
 
 			} else {
 
-				if (difference > 1) {
-					sliderClass = app.fadeAnimateSlider();
-				}
-
 				app.setState({
 					...app.state,
 					currentPageIndex: targetPageIndex,
 					currentPageData: targetPageData,
 					isFrontCover: true,
-					containerClass: containerClass,
-					sliderClass: sliderClass
+					containerClass: 'main-container is-down',
+					sliderClass: difference > 1 ? app.fadeAnimateSlider() : 'slider'
 				});
 			}
 		}
@@ -156,10 +155,11 @@ class Application extends Component {
 		app.setState({
 			...app.state,
 			isFrontCover: true,
-			containerClass: changingClass
+			containerClass: changingClass,
+			sliderClass: this.fadeAnimateSlider()
 		});
 
-		// delay props update on page content
+		// keep current page data until fade out completes
 		setTimeout(() => {
 			app.setState({
 				...app.state,
@@ -168,18 +168,13 @@ class Application extends Component {
 			});
 		}, 1000);
 
-		// remove animation class
+		// remove animation class once animation completes
 		setTimeout(() => {
 			app.setState({
 				...app.state,
 				containerClass: downClass
 			});
 		}, 2000);
-	}
-
-	getModuleData = module => {
-		const { [module]:moduleData } = this.state;
-		return moduleData ? moduleData : [];
 	}
 
 	fadeAnimateSlider = () => {

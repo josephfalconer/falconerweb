@@ -10115,6 +10115,10 @@ var Application = function (_Component) {
 				}
 			}
 			return sortedData;
+		}, _this.getModuleData = function (module) {
+			var moduleData = _this.state[module];
+
+			return moduleData ? moduleData : [];
 		}, _this.changePage = function (e) {
 			var targetPageIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
@@ -10124,9 +10128,7 @@ var Application = function (_Component) {
 			    difference = Math.abs(app.state.currentPageIndex - targetPageIndex),
 			    targetPageData = app.state.pages[targetPageIndex];
 
-			var sliderClass = 'slider',
-			    containerClass = 'main-container is-down',
-			    isChangingPage = targetPageIndex != app.state.currentPageIndex,
+			var isChangingPage = targetPageIndex != app.state.currentPageIndex,
 			    isFrontCover = _this.state.isFrontCover;
 
 			if (targetPageData) {
@@ -10135,16 +10137,12 @@ var Application = function (_Component) {
 					_this.handleChangeFromPage(targetPageIndex, targetPageData);
 				} else {
 
-					if (difference > 1) {
-						sliderClass = app.fadeAnimateSlider();
-					}
-
 					app.setState(_extends({}, app.state, {
 						currentPageIndex: targetPageIndex,
 						currentPageData: targetPageData,
 						isFrontCover: true,
-						containerClass: containerClass,
-						sliderClass: sliderClass
+						containerClass: 'main-container is-down',
+						sliderClass: difference > 1 ? app.fadeAnimateSlider() : 'slider'
 					}));
 				}
 			}
@@ -10156,10 +10154,11 @@ var Application = function (_Component) {
 
 			app.setState(_extends({}, app.state, {
 				isFrontCover: true,
-				containerClass: changingClass
+				containerClass: changingClass,
+				sliderClass: _this.fadeAnimateSlider()
 			}));
 
-			// delay props update on page content
+			// keep current page data until fade out completes
 			setTimeout(function () {
 				app.setState(_extends({}, app.state, {
 					currentPageIndex: index,
@@ -10167,16 +10166,12 @@ var Application = function (_Component) {
 				}));
 			}, 1000);
 
-			// remove animation class
+			// remove animation class once animation completes
 			setTimeout(function () {
 				app.setState(_extends({}, app.state, {
 					containerClass: downClass
 				}));
 			}, 2000);
-		}, _this.getModuleData = function (module) {
-			var moduleData = _this.state[module];
-
-			return moduleData ? moduleData : [];
 		}, _this.fadeAnimateSlider = function () {
 			var app = _this;
 			// reset the class attribute once animation completes
@@ -10498,12 +10493,12 @@ var Navigation = function Navigation(props) {
 						_react2.default.createElement(
 							'span',
 							{ className: 'nav__linkcircle' },
-							Icon
-						),
-						_react2.default.createElement(
-							'span',
-							{ className: 'nav__linktext' },
-							page.title
+							Icon,
+							_react2.default.createElement(
+								'span',
+								{ className: 'nav__linktext' },
+								page.title
+							)
 						)
 					)
 				);

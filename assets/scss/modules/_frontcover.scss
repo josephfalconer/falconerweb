@@ -12,19 +12,18 @@ $frontcover-button-offset: remcalc(20);
 	@include e(button) {
 		position: absolute;
 		display: flex;
-		border: 4px dotted rgba(255,255,255,0);
 		outline: none;
-		@include square(remcalc(40));
+		@include square(remcalc(30));
+		background: url(/static/arrow.svg) no-repeat center;
+		background-size: cover;
 		justify-content: center;
 		align-items: center;
-		background: none;
-		transform: rotate(45deg);
 
 		&:after {
 			content: "";
 			display: block;
 			@include square(remcalc(15));
-			border: 2px dotted rgba(255,255,255,0);
+			background-image: url(/static/arrow.svg);
 			opacity: 0;
 			animation: blink 1s 1s infinite;
 		}
@@ -32,12 +31,9 @@ $frontcover-button-offset: remcalc(20);
 		@include m(prev) {
 			top: 40%;
 			left: $frontcover-button-offset;
-			border-left-color: $orange--light;
-			border-bottom-color: $orange--light;
+			transform: rotate(-45deg);
 
 			&:after {
-				border-left-color: $orange--light;
-				border-bottom-color: $orange--light;
 			}
 		}
 
@@ -45,12 +41,9 @@ $frontcover-button-offset: remcalc(20);
 			top: 40%;
 			right: 0;
 			right: $frontcover-button-offset;
-			border-top-color: $orange--light;
-			border-right-color: $orange--light;
+			transform: rotate(135deg);
 
 			&:after {
-				border-top-color: $orange--light;
-				border-right-color: $orange--light;
 			}
 		}
 
@@ -60,12 +53,9 @@ $frontcover-button-offset: remcalc(20);
 		    right: 0;
 		    bottom: $nav-height-xl;
 		    margin: 0 auto;
-			border-right-color: $orange--light;
-			border-bottom-color: $orange--light;
+		    transform: rotate(225deg);
 
 			&:after {
-				border-right-color: $orange--light;
-				border-bottom-color: $orange--light;
 			}    
 		}
 	}
