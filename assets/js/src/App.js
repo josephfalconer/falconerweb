@@ -149,12 +149,14 @@ class Application extends Component {
 
 	handleChangeFromPage = (index, data) => {
 		const app =this,
-			containerClass = 'main-container is-down is-changing-page'
+			mainClass = 'main-container',
+			downClass = `${mainClass} is-down`,
+			changingClass = `${downClass} is-changing-page`;
 
 		app.setState({
 			...app.state,
 			isFrontCover: true,
-			containerClass: containerClass,
+			containerClass: changingClass
 		});
 
 		// delay props update on page content
@@ -165,6 +167,14 @@ class Application extends Component {
 				currentPageData: data
 			});
 		}, 1000);
+
+		// remove animation class
+		setTimeout(() => {
+			app.setState({
+				...app.state,
+				containerClass: downClass
+			});
+		}, 2000);
 	}
 
 	getModuleData = module => {

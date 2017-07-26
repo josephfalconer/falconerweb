@@ -10150,11 +10150,13 @@ var Application = function (_Component) {
 			}
 		}, _this.handleChangeFromPage = function (index, data) {
 			var app = _this,
-			    containerClass = 'main-container is-down is-changing-page';
+			    mainClass = 'main-container',
+			    downClass = mainClass + ' is-down',
+			    changingClass = downClass + ' is-changing-page';
 
 			app.setState(_extends({}, app.state, {
 				isFrontCover: true,
-				containerClass: containerClass
+				containerClass: changingClass
 			}));
 
 			// delay props update on page content
@@ -10164,6 +10166,13 @@ var Application = function (_Component) {
 					currentPageData: data
 				}));
 			}, 1000);
+
+			// remove animation class
+			setTimeout(function () {
+				app.setState(_extends({}, app.state, {
+					containerClass: downClass
+				}));
+			}, 2000);
 		}, _this.getModuleData = function (module) {
 			var moduleData = _this.state[module];
 
@@ -10250,7 +10259,12 @@ __webpack_require__(126);
 module.exports = __webpack_require__(37).Symbol;
 
 /***/ }),
-/* 99 */,
+/* 99 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10280,29 +10294,33 @@ var Page = function Page(props) {
 		'main',
 		{ className: 'page' },
 		_react2.default.createElement(
-			'header',
-			{ className: 'header' },
+			'div',
+			{ className: 'page__background' },
 			_react2.default.createElement(
-				'div',
-				{ className: 'header__content' },
+				'header',
+				{ className: 'header' },
 				_react2.default.createElement(
-					'h1',
-					null,
-					page.title
+					'div',
+					{ className: 'header__content' },
+					_react2.default.createElement(
+						'h1',
+						null,
+						page.title
+					)
 				)
-			)
-		),
-		moduleName.length && moduleData.length ? _react2.default.createElement(_Modules2.default, {
-			name: moduleName,
-			data: moduleData
-		}) : null,
-		_react2.default.createElement(
-			'footer',
-			null,
+			),
+			moduleName.length && moduleData.length ? _react2.default.createElement(_Modules2.default, {
+				name: moduleName,
+				data: moduleData
+			}) : null,
 			_react2.default.createElement(
-				'p',
+				'footer',
 				null,
-				'Copyright \xA9 Joseph Falconer'
+				_react2.default.createElement(
+					'p',
+					null,
+					'Copyright \xA9 Joseph Falconer'
+				)
 			)
 		)
 	);
@@ -24176,17 +24194,7 @@ var _App2 = _interopRequireDefault(_App);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-__webpack_require__(234);
-
-/***/ }),
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
+__webpack_require__(99);
 
 /***/ })
 /******/ ]);

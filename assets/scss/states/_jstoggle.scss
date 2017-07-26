@@ -65,7 +65,7 @@
 
 .is-changing-page {
 	transition: top 0s $main-layout-transition;
-	animation: fade-in $main-layout-transition 1;
+	// animation: fade-in $main-layout-transition 1;
 
 	.slider {
 		transition: none;

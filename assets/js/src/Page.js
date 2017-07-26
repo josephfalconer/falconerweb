@@ -10,23 +10,25 @@ const Page = props => {
 	
 	return (
 		<main className="page">
-			<header className="header">
-				<div className="header__content">
-					<h1>{page.title}</h1>
-				</div>
-			</header>
+			<div className="page__background">
+				<header className="header">
+					<div className="header__content">
+						<h1>{page.title}</h1>
+					</div>
+				</header>
 
-			{moduleName.length && moduleData.length ?
-				<Modules 
-					name={moduleName}
-					data={moduleData}
-				/>
-				:
-				null
-			}
-			<footer>
-				<p>Copyright &copy; Joseph Falconer</p>
-			</footer>
+				{moduleName.length && moduleData.length ?
+					<Modules 
+						name={moduleName}
+						data={moduleData}
+					/>
+					:
+					null
+				}
+				<footer>
+					<p>Copyright &copy; Joseph Falconer</p>
+				</footer>
+			</div>
 		</main>
 	)
 }
