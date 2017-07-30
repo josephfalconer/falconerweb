@@ -23086,6 +23086,9 @@ __webpack_require__(236);
 __webpack_require__(235);
 
 var requests = [{
+	url: '/pages/',
+	sortTo: 'pages'
+}, {
 	url: '/skills/',
 	sortTo: 'skills'
 }, {
@@ -23093,9 +23096,16 @@ var requests = [{
 	sortTo: 'demos'
 }];
 
-var successfulRequests = 0,
-    rendered = false,
-    sortedData = {};
+var renderApplication = function renderApplication(data) {
+	_reactDom2.default.render(_react2.default.createElement(_App2.default, {
+		pages: data.pages,
+		skills: data.skills,
+		demos: data.demos
+	}), document.getElementById('application'));
+};
+
+var sortedData = {},
+    rendered = false;
 
 var _loop = function _loop() {
 	if (_isArray) {
@@ -23111,8 +23121,8 @@ var _loop = function _loop() {
 
 
 	fetch(request.url).then(function (response) {
+
 		if (response.status == 200) {
-			successfulRequests++;
 			return response.json();
 		}
 	}).then(function (data) {
@@ -23137,12 +23147,10 @@ var _loop = function _loop() {
 		}
 
 		sortedData[request.sortTo] = fields;
-		console.log(sortedData);
 
-		if (successfulRequests == requests.length && !rendered) {
+		if (sortedData[requests[requests.length - 1].sortTo] && !rendered) {
 			console.log("All requests were received successfully!");
-
-			_reactDom2.default.render(_react2.default.createElement(_App2.default, null), document.getElementById('application'));
+			renderApplication(sortedData);
 			rendered = true;
 		}
 	});
@@ -24893,93 +24901,14 @@ var Application = function (_Component) {
 		}
 
 		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Application.__proto__ || Object.getPrototypeOf(Application)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-			pages: [],
 			currentPageIndex: 0,
 			currentPageData: null,
-			isReadyData: false,
+			isReadyPages: false,
 			isFrontCover: true,
 			containerClass: 'main-container is-down',
 			sliderClass: 'slider'
-		}, _this.dataModels = {
-			pageModel: function pageModel(fields) {
-				return {
-					title: fields.title,
-					description: fields.description,
-					icon: fields.icon,
-					background: fields.background,
-					module: fields.module_name
-				};
-			},
-			skillModel: function skillModel(fields) {
-				return {
-					title: fields.title,
-					text: fields.text
-				};
-			},
-			projectModel: function projectModel(fields) {
-				return {
-					title: fields.title,
-					text: fields.text,
-					url: fields.url
-				};
-			},
-			demoModel: function demoModel(fields) {
-				return {
-					title: fields.title,
-					text: fields.text,
-					path: fields.path
-				};
-			}
-		}, _this.sortData = function (data) {
-
-			var dataModels = _this.dataModels;
-
-			var sortedData = {
-				'pages': [],
-				'skills': [],
-				'projects': [],
-				'demos': []
-			};
-
-			for (var _iterator = data, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-				var _ref2;
-
-				if (_isArray) {
-					if (_i >= _iterator.length) break;
-					_ref2 = _iterator[_i++];
-				} else {
-					_i = _iterator.next();
-					if (_i.done) break;
-					_ref2 = _i.value;
-				}
-
-				var dataItem = _ref2;
-
-
-				switch (dataItem.model) {
-					case 'pages.page':
-						sortedData.pages.push(dataModels.pageModel(dataItem.fields));
-						break;
-
-					case 'skills.skill':
-						sortedData.skills.push(dataModels.skillModel(dataItem.fields));
-						break;
-
-					case 'projects.project':
-						sortedData.projects.push(dataModels.projectModel(dataItem.fields));
-						break;
-
-					case 'demos.demo':
-						sortedData.demos.push(dataModels.demoModel(dataItem.fields));
-						break;
-
-					default:
-						console.log('The model ' + model + ' didn\'t find a match!');
-				}
-			}
-			return sortedData;
 		}, _this.getModuleData = function (module) {
-			var moduleData = _this.state[module];
+			var moduleData = _this.props[module];
 
 			return moduleData ? moduleData : [];
 		}, _this.changePage = function (e) {
@@ -24989,7 +24918,7 @@ var Application = function (_Component) {
 
 			var app = _this,
 			    difference = Math.abs(app.state.currentPageIndex - targetPageIndex),
-			    targetPageData = app.state.pages[targetPageIndex];
+			    targetPageData = app.props.pages[targetPageIndex];
 
 			var isChangingPage = targetPageIndex != app.state.currentPageIndex,
 			    isFrontCover = _this.state.isFrontCover;
@@ -25054,46 +24983,25 @@ var Application = function (_Component) {
 	_createClass(Application, [{
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			var App = this,
-			    xhr = new XMLHttpRequest();
-
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState == 4) {
-					var data = JSON.parse(xhr.responseText);
-					data = App.sortData(data);
-
-					App.setState(_extends({}, App.state, {
-						pages: data.pages,
-						skills: data.skills,
-						projects: data.projects,
-						demos: data.demos,
-						isReadyData: true
-					}));
-
-					App.changePage();
-				}
-			};
-			xhr.open('GET', 'data/');
-			xhr.send();
+			this.changePage();
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			var pages = this.state.isReadyData ? this.state.pages : [],
-			    currentPageData = this.state.currentPageData,
-			    currentModuleName = currentPageData && currentPageData.module,
+			var currentPageData = this.state.currentPageData,
+			    currentModuleName = currentPageData && currentPageData.module_name,
 			    currentModuleData = currentPageData && this.getModuleData(currentModuleName);
 
 			return _react2.default.createElement(
 				'div',
 				{ className: this.state.containerClass },
-				pages.length > 0 ? _react2.default.createElement(_FrontCover2.default, {
-					pages: pages,
+				_react2.default.createElement(_FrontCover2.default, {
+					pages: this.props.pages,
 					currentPageIndex: this.state.currentPageIndex,
 					changePage: this.changePage,
 					sliderClass: this.state.sliderClass,
 					slideCoverUp: this.slideCoverUp
-				}) : null,
+				}),
 				currentPageData && _react2.default.createElement(_Page2.default, {
 					currentPageData: currentPageData,
 					currentModuleName: currentModuleName,

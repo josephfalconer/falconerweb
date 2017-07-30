@@ -12,12 +12,7 @@ def main(request):
 	return render(request, "main.html")
 
 def data(request):
-	pages = list(Page.objects.all())
-	skills = list(Skill.objects.all())
-	projects = list(Project.objects.all())
-	demos = list(Demo.objects.all())
-
-	data = pages + skills + projects + demos
+	data = Page.objects.all()
 	serialized_data = serializers.serialize("json", data)
 
 	return HttpResponse(serialized_data)

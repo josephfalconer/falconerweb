@@ -12,6 +12,10 @@ import Application from './containers/App';
 
 const requests = [
 	{
+		url: '/pages/',
+		sortTo: 'pages'
+	},
+	{
 		url: '/skills/',
 		sortTo: 'skills'
 	},
@@ -22,19 +26,28 @@ const requests = [
 	// '/projects/',
 ]
 
-let successfulRequests = 0,
-	rendered = false,
-	sortedData = {};
+const renderApplication = data => {
+	ReactDOM.render(
+		<Application
+			pages={data.pages}
+			skills={data.skills}
+			demos={data.demos}
+		/>, document.getElementById('application'));
+}
+
+let sortedData = {},
+	rendered = false;
 
 
 for (let request of requests) {
 
 	fetch(request.url)
 		.then(response => {
+
 			if (response.status == 200) {
-				successfulRequests++;
 				return response.json();
 			}
+
 		})
 		.then(function(data) {
 
@@ -45,13 +58,11 @@ for (let request of requests) {
 			}
 
 			sortedData[request.sortTo] = fields;
-			console.log(sortedData);
 
-			if (successfulRequests == requests.length && !rendered) {
+			if (sortedData[requests[requests.length - 1].sortTo] && !rendered) {
 				console.log("All requests were received successfully!");
-				
-				ReactDOM.render(<Application/>, document.getElementById('application'));
-				rendered = true;
+				renderApplication(sortedData);
+				rendered = true;				
 			}
 		});
 
