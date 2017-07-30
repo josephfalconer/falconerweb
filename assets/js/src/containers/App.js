@@ -9,7 +9,6 @@ class Application extends Component {
 	state = {
 		currentPageIndex: 0,
 		currentPageData: null,
-		isReadyPages: false,
 		isFrontCover: true,
 		containerClass: 'main-container is-down', 
 		sliderClass: 'slider',
