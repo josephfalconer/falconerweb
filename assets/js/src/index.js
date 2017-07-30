@@ -49,7 +49,7 @@ for (let request of requests) {
 			}
 
 		})
-		.then(function(data) {
+		.then(data => {
 
 			let fields = [];
 
@@ -59,6 +59,9 @@ for (let request of requests) {
 
 			sortedData[request.sortTo] = fields;
 			console.log(sortedData);
+
+		})
+		.then(() => {
 
 			if (sortedData[requests[requests.length - 1].sortTo] && !rendered) {
 				console.log("All requests were received successfully!");

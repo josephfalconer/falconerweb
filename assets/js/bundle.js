@@ -25812,6 +25812,7 @@ var _loop = function _loop() {
 
 		sortedData[request.sortTo] = fields;
 		console.log(sortedData);
+	}).then(function () {
 
 		if (sortedData[requests[requests.length - 1].sortTo] && !rendered) {
 			console.log("All requests were received successfully!");
