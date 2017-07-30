@@ -194,7 +194,7 @@ class Application extends Component {
 		});
 	}
 
-	render() {
+	render() {	
 		const pages = this.state.isReadyData ? this.state.pages : [],
 			currentPageData = this.state.currentPageData,
 			currentModuleName = currentPageData && currentPageData.module,

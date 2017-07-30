@@ -23085,38 +23085,75 @@ __webpack_require__(236);
 
 __webpack_require__(235);
 
-var requestURLS = ['/skills/', '/demos/'];
+var requests = [{
+	url: '/skills/',
+	sortTo: 'skills'
+}, {
+	url: '/demos/',
+	sortTo: 'demos'
+}];
 
-var successfulRequests = 0;
+var successfulRequests = 0,
+    rendered = false,
+    sortedData = {};
 
-for (var _iterator = requestURLS, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-	var _ref;
-
+var _loop = function _loop() {
 	if (_isArray) {
-		if (_i >= _iterator.length) break;
+		if (_i >= _iterator.length) return 'break';
 		_ref = _iterator[_i++];
 	} else {
 		_i = _iterator.next();
-		if (_i.done) break;
+		if (_i.done) return 'break';
 		_ref = _i.value;
 	}
 
-	var url = _ref;
+	var request = _ref;
 
 
-	fetch(url).then(function (response) {
-
+	fetch(request.url).then(function (response) {
 		if (response.status == 200) {
-			console.log(response.json());
 			successfulRequests++;
+			return response.json();
+		}
+	}).then(function (data) {
+
+		var fields = [];
+
+		for (var _iterator2 = data, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+			var _ref2;
+
+			if (_isArray2) {
+				if (_i2 >= _iterator2.length) break;
+				_ref2 = _iterator2[_i2++];
+			} else {
+				_i2 = _iterator2.next();
+				if (_i2.done) break;
+				_ref2 = _i2.value;
+			}
+
+			var dataObject = _ref2;
+
+			fields.push(dataObject.fields);
 		}
 
-		if (successfulRequests == requestURLS.length) {
+		sortedData[request.sortTo] = fields;
+		console.log(sortedData);
+
+		if (successfulRequests == requests.length && !rendered) {
 			console.log("All requests were received successfully!");
 
 			_reactDom2.default.render(_react2.default.createElement(_App2.default, null), document.getElementById('application'));
+			rendered = true;
 		}
 	});
+};
+
+for (var _iterator = requests, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+	var _ref;
+
+	var _ret = _loop();
+
+	if (_ret === 'break') break;
 }
 
 /***/ }),
