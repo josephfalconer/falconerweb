@@ -15,7 +15,7 @@ backgrounds = (
     ('seigaiha.png', 'Seigaiha'),
 )
 
-modules = (
+module_types = (
 	('skills', 'Skills Acordion'),
     ('demos', 'Demos Menu'),
     ('projects', 'Projects Menu'),
@@ -30,10 +30,17 @@ class Page(models.Model):
 	title = models.CharField(max_length=255)
 	intro_text = models.TextField()
 	body = models.TextField(blank=True)
-	module = models.CharField(max_length=20, choices=modules, blank=True)
 
 	class Meta:
 		ordering = ['order',]
 
 	def __str__(self):
 		return self.title
+
+
+
+class Module(models.Model):
+	created_at = models.DateTimeField(auto_now_add=True)
+	classification = models.CharField(max_length=20, choices=module_types)
+	page = models.ForeignKey(Page)
+	
