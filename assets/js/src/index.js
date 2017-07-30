@@ -65,6 +65,9 @@ for (let request of requests) {
 
 			if (sortedData[requests[requests.length - 1].sortTo] && !rendered) {
 				console.log("All requests were received successfully!");
+
+				// TODO - cant render based on this - not robust.
+				// TODO - feed props in via store or something as successful requests return 
 				renderApplication(sortedData);
 				rendered = true;				
 			}
