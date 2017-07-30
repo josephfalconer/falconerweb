@@ -11,8 +11,11 @@
   "author": "Joseph Falconer",
   "license": "ISC",
   "dependencies": {
+    "es6-promise": "^4.1.1",
+    "isomorphic-fetch": "^2.2.1",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.5"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
