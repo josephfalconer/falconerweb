@@ -4,7 +4,7 @@ require('isomorphic-fetch');
 
 require('../../scss/styles.scss');
 
-import Application from './App';
+import Application from './containers/App';
 
 
 fetch('/skills/').then(response => {

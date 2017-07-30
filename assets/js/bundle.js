@@ -9981,271 +9981,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ }),
-/* 97 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(145);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _FrontCover = __webpack_require__(101);
-
-var _FrontCover2 = _interopRequireDefault(_FrontCover);
-
-var _Page = __webpack_require__(100);
-
-var _Page2 = _interopRequireDefault(_Page);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Application = function (_Component) {
-	_inherits(Application, _Component);
-
-	function Application() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
-		_classCallCheck(this, Application);
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Application.__proto__ || Object.getPrototypeOf(Application)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-			pages: [],
-			currentPageIndex: 0,
-			currentPageData: null,
-			isReadyData: false,
-			isFrontCover: true,
-			containerClass: 'main-container is-down',
-			sliderClass: 'slider'
-		}, _this.dataModels = {
-			pageModel: function pageModel(fields) {
-				return {
-					title: fields.title,
-					description: fields.description,
-					icon: fields.icon,
-					background: fields.background,
-					module: fields.module_name
-				};
-			},
-			skillModel: function skillModel(fields) {
-				return {
-					title: fields.title,
-					text: fields.text
-				};
-			},
-			projectModel: function projectModel(fields) {
-				return {
-					title: fields.title,
-					text: fields.text,
-					url: fields.url
-				};
-			},
-			demoModel: function demoModel(fields) {
-				return {
-					title: fields.title,
-					text: fields.text,
-					path: fields.path
-				};
-			}
-		}, _this.sortData = function (data) {
-
-			var dataModels = _this.dataModels;
-
-			var sortedData = {
-				'pages': [],
-				'skills': [],
-				'projects': [],
-				'demos': []
-			};
-
-			for (var _iterator = data, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-				var _ref2;
-
-				if (_isArray) {
-					if (_i >= _iterator.length) break;
-					_ref2 = _iterator[_i++];
-				} else {
-					_i = _iterator.next();
-					if (_i.done) break;
-					_ref2 = _i.value;
-				}
-
-				var dataItem = _ref2;
-
-
-				switch (dataItem.model) {
-					case 'pages.page':
-						sortedData.pages.push(dataModels.pageModel(dataItem.fields));
-						break;
-
-					case 'skills.skill':
-						sortedData.skills.push(dataModels.skillModel(dataItem.fields));
-						break;
-
-					case 'projects.project':
-						sortedData.projects.push(dataModels.projectModel(dataItem.fields));
-						break;
-
-					case 'demos.demo':
-						sortedData.demos.push(dataModels.demoModel(dataItem.fields));
-						break;
-
-					default:
-						console.log('The model ' + model + ' didn\'t find a match!');
-				}
-			}
-			return sortedData;
-		}, _this.getModuleData = function (module) {
-			var moduleData = _this.state[module];
-
-			return moduleData ? moduleData : [];
-		}, _this.changePage = function (e) {
-			var targetPageIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-			if (e) e.preventDefault();
-
-			var app = _this,
-			    difference = Math.abs(app.state.currentPageIndex - targetPageIndex),
-			    targetPageData = app.state.pages[targetPageIndex];
-
-			var isChangingPage = targetPageIndex != app.state.currentPageIndex,
-			    isFrontCover = _this.state.isFrontCover;
-
-			if (targetPageData) {
-
-				if (isChangingPage && !isFrontCover) {
-					_this.handleChangeFromPage(targetPageIndex, targetPageData);
-				} else {
-
-					app.setState(_extends({}, app.state, {
-						currentPageIndex: targetPageIndex,
-						currentPageData: targetPageData,
-						isFrontCover: true,
-						containerClass: 'main-container is-down',
-						sliderClass: difference > 1 ? app.fadeAnimateSlider() : 'slider'
-					}));
-				}
-			}
-		}, _this.handleChangeFromPage = function (index, data) {
-			var app = _this,
-			    mainClass = 'main-container',
-			    downClass = mainClass + ' is-down',
-			    changingClass = downClass + ' is-changing-page';
-
-			app.setState(_extends({}, app.state, {
-				isFrontCover: true,
-				containerClass: changingClass,
-				sliderClass: _this.fadeAnimateSlider()
-			}));
-
-			// keep current page data until fade out completes
-			setTimeout(function () {
-				app.setState(_extends({}, app.state, {
-					currentPageIndex: index,
-					currentPageData: data
-				}));
-			}, 1000);
-
-			// remove animation class once animation completes
-			setTimeout(function () {
-				app.setState(_extends({}, app.state, {
-					containerClass: downClass
-				}));
-			}, 2000);
-		}, _this.fadeAnimateSlider = function () {
-			var app = _this;
-			// reset the class attribute once animation completes
-			setTimeout(function () {
-				app.setState(_extends({}, app.state, { sliderClass: 'slider' }));
-			}, 2000);
-
-			return "slider slider--fade";
-		}, _this.slideCoverUp = function () {
-			_this.setState(_extends({}, _this.state, {
-				isFrontCover: false,
-				containerClass: 'main-container is-up'
-			}));
-		}, _temp), _possibleConstructorReturn(_this, _ret);
-	}
-
-	_createClass(Application, [{
-		key: 'componentWillMount',
-		value: function componentWillMount() {
-			var App = this,
-			    xhr = new XMLHttpRequest();
-
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState == 4) {
-					var data = JSON.parse(xhr.responseText);
-					data = App.sortData(data);
-
-					App.setState(_extends({}, App.state, {
-						pages: data.pages,
-						skills: data.skills,
-						projects: data.projects,
-						demos: data.demos,
-						isReadyData: true
-					}));
-
-					App.changePage();
-				}
-			};
-			xhr.open('GET', 'data/');
-			xhr.send();
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var pages = this.state.isReadyData ? this.state.pages : [],
-			    currentPageData = this.state.currentPageData,
-			    currentModuleName = currentPageData && currentPageData.module,
-			    currentModuleData = currentPageData && this.getModuleData(currentModuleName);
-
-			return _react2.default.createElement(
-				'div',
-				{ className: this.state.containerClass },
-				pages.length > 0 ? _react2.default.createElement(_FrontCover2.default, {
-					pages: pages,
-					currentPageIndex: this.state.currentPageIndex,
-					changePage: this.changePage,
-					sliderClass: this.state.sliderClass,
-					slideCoverUp: this.slideCoverUp
-				}) : null,
-				currentPageData && _react2.default.createElement(_Page2.default, {
-					currentPageData: currentPageData,
-					currentModuleName: currentModuleName,
-					currentModuleData: currentModuleData
-				})
-			);
-		}
-	}]);
-
-	return Application;
-}(_react.Component);
-
-_reactDom2.default.render(_react2.default.createElement(Application, null), document.getElementById('application'));
-
-/***/ }),
+/* 97 */,
 /* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10255,76 +9991,7 @@ module.exports = __webpack_require__(37).Symbol;
 
 /***/ }),
 /* 99 */,
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Modules = __webpack_require__(111);
-
-var _Modules2 = _interopRequireDefault(_Modules);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Page = function Page(props) {
-	var page = props.currentPageData,
-	    moduleName = props.currentModuleName,
-	    moduleData = props.currentModuleData;
-
-	return _react2.default.createElement(
-		'main',
-		{ className: 'page' },
-		_react2.default.createElement(
-			'div',
-			{ className: 'page__background' },
-			_react2.default.createElement(
-				'header',
-				{ className: 'header' },
-				_react2.default.createElement(
-					'div',
-					{ className: 'header__content' },
-					_react2.default.createElement(
-						'h1',
-						null,
-						page.title
-					)
-				)
-			),
-			moduleName && moduleData ? _react2.default.createElement(_Modules2.default, {
-				name: moduleName,
-				data: moduleData
-			}) : null,
-			_react2.default.createElement(
-				'footer',
-				null,
-				_react2.default.createElement(
-					'p',
-					null,
-					'Copyright \xA9 Joseph Falconer'
-				)
-			)
-		)
-	);
-};
-
-Page.propTypes = {
-	currentPageData: _react.PropTypes.object.isRequired,
-	currentModuleName: _react.PropTypes.string,
-	currentModuleData: _react.PropTypes.array
-};
-
-exports.default = Page;
-
-/***/ }),
+/* 100 */,
 /* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24155,7 +23822,7 @@ var _symbol = __webpack_require__(98);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _App = __webpack_require__(97);
+var _App = __webpack_require__(241);
 
 var _App2 = _interopRequireDefault(_App);
 
@@ -25855,6 +25522,342 @@ module.exports = g;
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 240 */,
+/* 241 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(145);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _FrontCover = __webpack_require__(101);
+
+var _FrontCover2 = _interopRequireDefault(_FrontCover);
+
+var _Page = __webpack_require__(242);
+
+var _Page2 = _interopRequireDefault(_Page);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Application = function (_Component) {
+	_inherits(Application, _Component);
+
+	function Application() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		_classCallCheck(this, Application);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Application.__proto__ || Object.getPrototypeOf(Application)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+			pages: [],
+			currentPageIndex: 0,
+			currentPageData: null,
+			isReadyData: false,
+			isFrontCover: true,
+			containerClass: 'main-container is-down',
+			sliderClass: 'slider'
+		}, _this.dataModels = {
+			pageModel: function pageModel(fields) {
+				return {
+					title: fields.title,
+					description: fields.description,
+					icon: fields.icon,
+					background: fields.background,
+					module: fields.module_name
+				};
+			},
+			skillModel: function skillModel(fields) {
+				return {
+					title: fields.title,
+					text: fields.text
+				};
+			},
+			projectModel: function projectModel(fields) {
+				return {
+					title: fields.title,
+					text: fields.text,
+					url: fields.url
+				};
+			},
+			demoModel: function demoModel(fields) {
+				return {
+					title: fields.title,
+					text: fields.text,
+					path: fields.path
+				};
+			}
+		}, _this.sortData = function (data) {
+
+			var dataModels = _this.dataModels;
+
+			var sortedData = {
+				'pages': [],
+				'skills': [],
+				'projects': [],
+				'demos': []
+			};
+
+			for (var _iterator = data, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+				var _ref2;
+
+				if (_isArray) {
+					if (_i >= _iterator.length) break;
+					_ref2 = _iterator[_i++];
+				} else {
+					_i = _iterator.next();
+					if (_i.done) break;
+					_ref2 = _i.value;
+				}
+
+				var dataItem = _ref2;
+
+
+				switch (dataItem.model) {
+					case 'pages.page':
+						sortedData.pages.push(dataModels.pageModel(dataItem.fields));
+						break;
+
+					case 'skills.skill':
+						sortedData.skills.push(dataModels.skillModel(dataItem.fields));
+						break;
+
+					case 'projects.project':
+						sortedData.projects.push(dataModels.projectModel(dataItem.fields));
+						break;
+
+					case 'demos.demo':
+						sortedData.demos.push(dataModels.demoModel(dataItem.fields));
+						break;
+
+					default:
+						console.log('The model ' + model + ' didn\'t find a match!');
+				}
+			}
+			return sortedData;
+		}, _this.getModuleData = function (module) {
+			var moduleData = _this.state[module];
+
+			return moduleData ? moduleData : [];
+		}, _this.changePage = function (e) {
+			var targetPageIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+			if (e) e.preventDefault();
+
+			var app = _this,
+			    difference = Math.abs(app.state.currentPageIndex - targetPageIndex),
+			    targetPageData = app.state.pages[targetPageIndex];
+
+			var isChangingPage = targetPageIndex != app.state.currentPageIndex,
+			    isFrontCover = _this.state.isFrontCover;
+
+			if (targetPageData) {
+
+				if (isChangingPage && !isFrontCover) {
+					_this.handleChangeFromPage(targetPageIndex, targetPageData);
+				} else {
+
+					app.setState(_extends({}, app.state, {
+						currentPageIndex: targetPageIndex,
+						currentPageData: targetPageData,
+						isFrontCover: true,
+						containerClass: 'main-container is-down',
+						sliderClass: difference > 1 ? app.fadeAnimateSlider() : 'slider'
+					}));
+				}
+			}
+		}, _this.handleChangeFromPage = function (index, data) {
+			var app = _this,
+			    mainClass = 'main-container',
+			    downClass = mainClass + ' is-down',
+			    changingClass = downClass + ' is-changing-page';
+
+			app.setState(_extends({}, app.state, {
+				isFrontCover: true,
+				containerClass: changingClass,
+				sliderClass: _this.fadeAnimateSlider()
+			}));
+
+			// keep current page data until fade out completes
+			setTimeout(function () {
+				app.setState(_extends({}, app.state, {
+					currentPageIndex: index,
+					currentPageData: data
+				}));
+			}, 1000);
+
+			// remove animation class once animation completes
+			setTimeout(function () {
+				app.setState(_extends({}, app.state, {
+					containerClass: downClass
+				}));
+			}, 2000);
+		}, _this.fadeAnimateSlider = function () {
+			var app = _this;
+			// reset the class attribute once animation completes
+			setTimeout(function () {
+				app.setState(_extends({}, app.state, { sliderClass: 'slider' }));
+			}, 2000);
+
+			return "slider slider--fade";
+		}, _this.slideCoverUp = function () {
+			_this.setState(_extends({}, _this.state, {
+				isFrontCover: false,
+				containerClass: 'main-container is-up'
+			}));
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
+
+	_createClass(Application, [{
+		key: 'componentWillMount',
+		value: function componentWillMount() {
+			var App = this,
+			    xhr = new XMLHttpRequest();
+
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4) {
+					var data = JSON.parse(xhr.responseText);
+					data = App.sortData(data);
+
+					App.setState(_extends({}, App.state, {
+						pages: data.pages,
+						skills: data.skills,
+						projects: data.projects,
+						demos: data.demos,
+						isReadyData: true
+					}));
+
+					App.changePage();
+				}
+			};
+			xhr.open('GET', 'data/');
+			xhr.send();
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var pages = this.state.isReadyData ? this.state.pages : [],
+			    currentPageData = this.state.currentPageData,
+			    currentModuleName = currentPageData && currentPageData.module,
+			    currentModuleData = currentPageData && this.getModuleData(currentModuleName);
+
+			return _react2.default.createElement(
+				'div',
+				{ className: this.state.containerClass },
+				pages.length > 0 ? _react2.default.createElement(_FrontCover2.default, {
+					pages: pages,
+					currentPageIndex: this.state.currentPageIndex,
+					changePage: this.changePage,
+					sliderClass: this.state.sliderClass,
+					slideCoverUp: this.slideCoverUp
+				}) : null,
+				currentPageData && _react2.default.createElement(_Page2.default, {
+					currentPageData: currentPageData,
+					currentModuleName: currentModuleName,
+					currentModuleData: currentModuleData
+				})
+			);
+		}
+	}]);
+
+	return Application;
+}(_react.Component);
+
+_reactDom2.default.render(_react2.default.createElement(Application, null), document.getElementById('application'));
+
+/***/ }),
+/* 242 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Modules = __webpack_require__(111);
+
+var _Modules2 = _interopRequireDefault(_Modules);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Page = function Page(props) {
+	var page = props.currentPageData,
+	    moduleName = props.currentModuleName,
+	    moduleData = props.currentModuleData;
+
+	return _react2.default.createElement(
+		'main',
+		{ className: 'page' },
+		_react2.default.createElement(
+			'div',
+			{ className: 'page__background' },
+			_react2.default.createElement(
+				'header',
+				{ className: 'header' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'header__content' },
+					_react2.default.createElement(
+						'h1',
+						null,
+						page.title
+					)
+				)
+			),
+			moduleName && moduleData ? _react2.default.createElement(_Modules2.default, {
+				name: moduleName,
+				data: moduleData
+			}) : null,
+			_react2.default.createElement(
+				'footer',
+				null,
+				_react2.default.createElement(
+					'p',
+					null,
+					'Copyright \xA9 Joseph Falconer'
+				)
+			)
+		)
+	);
+};
+
+Page.propTypes = {
+	currentPageData: _react.PropTypes.object.isRequired,
+	currentModuleName: _react.PropTypes.string,
+	currentModuleData: _react.PropTypes.array
+};
+
+exports.default = Page;
 
 /***/ })
 /******/ ]);

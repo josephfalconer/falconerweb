@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import FrontCover from './frontcover/FrontCover';
+import FrontCover from '../frontcover/FrontCover';
 import Page from './Page';
 
 
