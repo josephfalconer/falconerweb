@@ -24166,6 +24166,10 @@ __webpack_require__(236);
 
 __webpack_require__(235);
 
+fetch('/skills/').then(function (response) {
+	console.log(response.json());
+});
+
 /***/ }),
 /* 230 */,
 /* 231 */,

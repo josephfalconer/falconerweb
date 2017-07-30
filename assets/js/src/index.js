@@ -5,3 +5,8 @@ require('isomorphic-fetch');
 require('../../scss/styles.scss');
 
 import Application from './App';
+
+
+fetch('/skills/').then(response => {
+	console.log(response.json());
+});
