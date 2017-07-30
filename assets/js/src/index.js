@@ -58,6 +58,7 @@ for (let request of requests) {
 			}
 
 			sortedData[request.sortTo] = fields;
+			console.log(sortedData);
 
 			if (sortedData[requests[requests.length - 1].sortTo] && !rendered) {
 				console.log("All requests were received successfully!");
