@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import Icons from '../icons/Icons';
+import Icons from './icons/Icons';
 
 
 const Slider = props => {

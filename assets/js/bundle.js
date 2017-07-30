@@ -6677,55 +6677,7 @@ module.exports = lowPriorityWarning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _IconLogo = __webpack_require__(106);
-
-var _IconLogo2 = _interopRequireDefault(_IconLogo);
-
-var _IconProjects = __webpack_require__(107);
-
-var _IconProjects2 = _interopRequireDefault(_IconProjects);
-
-var _IconSkills = __webpack_require__(108);
-
-var _IconSkills2 = _interopRequireDefault(_IconSkills);
-
-var _IconDemos = __webpack_require__(105);
-
-var _IconDemos2 = _interopRequireDefault(_IconDemos);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Icons = {
-	logo: function logo() {
-		return _react2.default.createElement(_IconLogo2.default, null);
-	},
-	skills: function skills() {
-		return _react2.default.createElement(_IconSkills2.default, null);
-	},
-	projects: function projects() {
-		return _react2.default.createElement(_IconProjects2.default, null);
-	},
-	demos: function demos() {
-		return _react2.default.createElement(_IconDemos2.default, null);
-	}
-}; // Manifest for icon components
-exports.default = Icons;
-
-/***/ }),
+/* 58 */,
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9992,397 +9944,14 @@ module.exports = __webpack_require__(37).Symbol;
 /***/ }),
 /* 99 */,
 /* 100 */,
-/* 101 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Slider = __webpack_require__(104);
-
-var _Slider2 = _interopRequireDefault(_Slider);
-
-var _FrontCoverButtons = __webpack_require__(102);
-
-var _FrontCoverButtons2 = _interopRequireDefault(_FrontCoverButtons);
-
-var _Navigation = __webpack_require__(103);
-
-var _Navigation2 = _interopRequireDefault(_Navigation);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var FrontCover = function FrontCover(props) {
-	return _react2.default.createElement(
-		'div',
-		{ className: 'frontcover' },
-		_react2.default.createElement(_Slider2.default, {
-			pages: props.pages,
-			currentPageIndex: props.currentPageIndex,
-			sliderClass: props.sliderClass
-		}),
-		_react2.default.createElement(_FrontCoverButtons2.default, {
-			noOfPages: props.pages.length,
-			currentPageIndex: props.currentPageIndex,
-			changePage: props.changePage,
-			slideCoverUp: props.slideCoverUp
-		}),
-		_react2.default.createElement(_Navigation2.default, {
-			pages: props.pages,
-			changePage: props.changePage,
-			currentPageIndex: props.currentPageIndex
-		})
-	);
-};
-
-FrontCover.propTypes = {
-	pages: _react.PropTypes.array.isRequired,
-	currentPageIndex: _react.PropTypes.number.isRequired,
-	changePage: _react.PropTypes.func.isRequired,
-	sliderClass: _react.PropTypes.string.isRequired,
-	slideCoverUp: _react.PropTypes.func.isRequired
-};
-
-exports.default = FrontCover;
-
-/***/ }),
-/* 102 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var FrontCoverButtons = function FrontCoverButtons(props) {
-	return _react2.default.createElement(
-		"div",
-		{ className: "frontcover__buttons" },
-		props.currentPageIndex > 0 && _react2.default.createElement("a", {
-			href: "#",
-			onClick: function onClick(e) {
-				props.changePage(e, props.currentPageIndex - 1);
-			},
-			className: "frontcover__button frontcover__button--prev"
-		}),
-		props.currentPageIndex + 1 < props.noOfPages && _react2.default.createElement("a", {
-			href: "#",
-			onClick: function onClick(e) {
-				props.changePage(e, props.currentPageIndex + 1);
-			},
-			className: "frontcover__button frontcover__button--next"
-		}),
-		props.currentPageIndex > 0 && _react2.default.createElement("a", {
-			href: "#",
-			onClick: function onClick(e) {
-				props.slideCoverUp();
-			},
-			className: "frontcover__button frontcover__button--down"
-		})
-	);
-};
-
-FrontCoverButtons.propTypes = {
-	noOfPages: _react.PropTypes.number.isRequired,
-	currentPageIndex: _react.PropTypes.number.isRequired,
-	changePage: _react.PropTypes.func.isRequired,
-	slideCoverUp: _react.PropTypes.func.isRequired
-};
-
-exports.default = FrontCoverButtons;
-
-/***/ }),
-/* 103 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Icons = __webpack_require__(58);
-
-var _Icons2 = _interopRequireDefault(_Icons);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Navigation = function Navigation(props) {
-	return _react2.default.createElement(
-		'nav',
-		{ className: 'nav' },
-		_react2.default.createElement(
-			'ul',
-			{ className: 'nav__menu list--plain' },
-			props.pages.map(function (page, index) {
-
-				var navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item',
-				    navLinkClass = index == props.currentPageIndex ? 'nav__link nav__link--current' : 'nav__link';
-
-				var Icon = _Icons2.default[page.icon];
-
-				Icon = Icon.call();
-
-				return _react2.default.createElement(
-					'li',
-					{ className: navItemClass, key: index },
-					_react2.default.createElement(
-						'a',
-						{ className: navLinkClass, href: '#', onClick: function onClick(e) {
-								props.changePage(e, index);
-							} },
-						_react2.default.createElement(
-							'span',
-							{ className: 'nav__linkcircle' },
-							Icon,
-							_react2.default.createElement(
-								'span',
-								{ className: 'nav__linktext' },
-								page.title
-							)
-						)
-					)
-				);
-			})
-		)
-	);
-};
-
-Navigation.propTypes = {
-	pages: _react.PropTypes.array.isRequired,
-	currentPageIndex: _react.PropTypes.number.isRequired,
-	changePage: _react.PropTypes.func.isRequired
-};
-
-exports.default = Navigation;
-
-/***/ }),
-/* 104 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Icons = __webpack_require__(58);
-
-var _Icons2 = _interopRequireDefault(_Icons);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Slider = function Slider(props) {
-
-	var windowWidth = window.innerWidth,
-	    currentOffset = windowWidth * props.currentPageIndex;
-
-	var widthValue = windowWidth + 'px',
-	    offsetStyle = { left: '-' + currentOffset + 'px' };
-
-	return _react2.default.createElement(
-		'div',
-		{ className: 'slider__track' },
-		_react2.default.createElement(
-			'div',
-			{ className: props.sliderClass, style: offsetStyle },
-			props.pages.map(function (page, index) {
-				var Icon = _Icons2.default[page.icon];
-
-
-				var backgroundStyleUrl = 'static/backgrounds/' + page.background;
-				var slideStyle = {
-					width: widthValue,
-					backgroundImage: 'url(' + backgroundStyleUrl + ')'
-				};
-
-				Icon = Icon.call();
-
-				return _react2.default.createElement(
-					'section',
-					{ className: 'slider__slide text', key: index, style: slideStyle },
-					_react2.default.createElement(
-						'article',
-						{ className: 'slider__slideinner' },
-						_react2.default.createElement(
-							'figure',
-							{ className: 'slider__icon' },
-							Icon
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: 'slider__textcontent' },
-							_react2.default.createElement(
-								'h1',
-								{ className: 'slider__heading' },
-								page.title
-							),
-							_react2.default.createElement(
-								'p',
-								{ className: 'slider__intro' },
-								page.description
-							)
-						)
-					)
-				);
-			})
-		)
-	);
-};
-
-Slider.propTypes = {
-	pages: _react.PropTypes.array.isRequired,
-	currentPageIndex: _react.PropTypes.number.isRequired,
-	sliderClass: _react.PropTypes.string.isRequired
-};
-
-exports.default = Slider;
-
-/***/ }),
-/* 105 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DemosIcon = function DemosIcon(props) {
-	return _react2.default.createElement(
-		"svg",
-		{ viewBox: "-100 -70 705.821 705.82" },
-		_react2.default.createElement("circle", { className: "stroke bubble--bob1", strokeWidth: "8", strokeMiterlimit: "10", cx: "180", cy: "410", r: "40.5" }),
-		_react2.default.createElement("circle", { className: "stroke bubble--bob2", strokeWidth: "8", strokeMiterlimit: "10", cx: "250", cy: "390", r: "20.5" }),
-		_react2.default.createElement("circle", { className: "stroke bubble--bob3", strokeWidth: "8", strokeMiterlimit: "10", cx: "320", cy: "400", r: "30.5" }),
-		_react2.default.createElement("circle", { className: "stroke bubble--rise3", strokeWidth: "8", strokeMiterlimit: "10", cx: "286.911", cy: "405", r: "34.5" }),
-		_react2.default.createElement("circle", { className: "stroke bubble--rise2", strokeWidth: "8", strokeMiterlimit: "10", cx: "237.911", cy: "390", r: "20.5" }),
-		_react2.default.createElement("circle", { className: "stroke bubble--rise1", strokeWidth: "8", strokeMiterlimit: "10", cx: "281.411", cy: "380", r: "11" }),
-		_react2.default.createElement("path", { className: "fill", d: "M505.045,467.323c0,21.226-23.136,38.497-51.595,38.497H53.385c-28.479,0-51.611-17.271-51.611-38.497\r c0-2.059,0.511-4.104,1.493-6.023L141.84,190.374c0.048-0.429,0.131-0.86,0.203-1.283V33.848h-16.374\r c-12.534,0-22.676-7.578-22.676-16.925C102.994,7.578,113.136,0,125.67,0h39.05c12.534,0,22.694,7.578,22.694,16.923v173.475\r c0,0.976-0.114,1.939-0.332,2.899c0,2.066-0.667,4.844-1.664,6.762l-83.47,163.182h300.969L316.683,200.24\r c-0.934-1.756-1.458-3.611-1.567-5.488l-0.19-1.022c-0.096-0.668-0.143-1.333-0.143-1.998V16.923\r C314.783,7.578,324.922,0,337.458,0h40.074c12.536,0,22.676,7.578,22.676,16.923c0,9.348-10.14,16.925-22.676,16.925h-17.407\r v156.357L503.454,461.11C504.509,463.097,505.045,465.195,505.045,467.323z" })
-	);
-};
-
-exports.default = DemosIcon;
-
-/***/ }),
-/* 106 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var LogoIcon = function LogoIcon(props) {
-	return _react2.default.createElement(
-		"svg",
-		{ className: "nav__svg", width: "60px", height: "60px", viewBox: "0 0 60 60" },
-		_react2.default.createElement("polyline", { className: "fill", points: "54.667,27.473 22.589,27.473 22.589,16.793 60,16.8 60,5.147 11.492,5.147 11.492,60 22.589,60 \r 22.589,38.965 54.667,38.967 " }),
-		_react2.default.createElement("path", { fill: "#FFFFFF", d: "M44.646,1.183h10.058v45.379c0.004,4.621-4.185,9.936-10.042,9.945H22.589l-12.324-0.012\r c-2.233,0-9.891-2.98-9.891-9.939c0-0.006,0-5.479,0-5.479l9.92-0.002l0.001,5.482l12.294,0.01l22.058-0.006V1.183z" }),
-		_react2.default.createElement("polyline", { className: "fill", points: "54.641,27.464 22.563,27.464 22.563,38.956 54.641,38.957 " }),
-		_react2.default.createElement("polyline", { className: "fill--onlyhover", fill: "rgba(255,255,255,0)", points: "54.667,27.473 22.589,27.473 22.589,16.793 60,16.8 60,5.147 11.492,5.147 11.492,60 22.589,60 \r 22.589,38.965 54.667,38.967 " })
-	);
-};
-
-exports.default = LogoIcon;
-
-/***/ }),
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ProjectsIcon = function ProjectsIcon(props) {
-	return _react2.default.createElement(
-		"svg",
-		{ viewBox: "0 0 60 60" },
-		_react2.default.createElement("path", { className: "fill iconbit iconbit--at", d: "M38.051,43.488v-27.25c0-1.063-0.43-2.028-1.283-2.895c-0.855-0.867-1.826-1.3-2.912-1.3h-8.945\r c-1.317,0-2.276,0.243-2.878,0.728c-0.601,0.485-1.219,1.323-1.854,2.514s-1.52,1.785-2.651,1.785\r c-0.902,0-1.624-0.277-2.167-0.832c-0.543-0.555-0.815-1.202-0.815-1.941c0-1.479,0.942-3.195,2.826-5.148\r c1.883-1.953,4.107-2.929,6.674-2.929h9.95c2.564,0,4.854,1.011,6.863,3.034c2.012,2.022,3.018,4.42,3.018,7.193v27.387\r c0,2.174-0.855,4.115-2.566,5.824c-1.711,1.711-3.721,2.566-6.031,2.566c-2.428,0-4.416-0.764-5.963-2.289\r c-1.525,1.525-3.49,2.289-5.895,2.289c-2.473,0-4.559-0.867-6.257-2.601c-1.699-1.733-2.548-3.663-2.548-5.79V32.637\r c0-2.403,0.861-4.472,2.583-6.206s3.797-2.6,6.223-2.6h5.686c2.081,0,3.122,1.04,3.122,3.12v16.537\r c0,0.809,0.281,1.496,0.848,2.063s1.254,0.85,2.064,0.85c0.785,0,1.467-0.283,2.045-0.85C37.76,44.984,38.051,44.297,38.051,43.488\r z M26.402,43.488V29.655h-2.635c-2.173,0-3.26,1.086-3.26,3.259v10.574c0,0.809,0.289,1.496,0.867,2.063\r c0.577,0.566,1.26,0.85,2.045,0.85c0.81,0,1.509-0.283,2.098-0.85C26.107,44.984,26.402,44.297,26.402,43.488z" })
-	);
-};
-
-exports.default = ProjectsIcon;
-
-/***/ }),
-/* 108 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DemosIcon = function DemosIcon(props) {
-	return _react2.default.createElement(
-		"svg",
-		{ viewBox: "2 0 60 60" },
-		_react2.default.createElement("path", { id: "spanner", className: "fill iconbit iconbit--spanner", d: "M38.13,24.788c0.868,1.235,1.734,2.468,2.608,3.694\r c0.914,1.283,1.841,2.55,2.753,3.827c0.485,0.68,0.938,1.388,1.432,2.057c0.906,1.233,2.078,1.917,3.378,2.347\r c1.596,0.528,2.657,1.74,3.344,3.538c0.512,1.34,0.68,2.732,0.718,4.113c0.038,1.366-0.201,2.745-0.854,3.909\r c-0.112,0.199-0.492,0.186-0.748,0.264c-0.414,0.128-0.828,0.248-1.273,0.378c-0.728-1.629-1.444-3.211-2.145-4.801\r c-0.194-0.442-0.336-0.912-0.518-1.362c-0.273-0.667-1.063-1.125-1.65-0.913c-0.821,0.297-1.465,0.833-1.908,1.761\r c-0.359,0.756-0.012,1.347,0.217,1.938c0.535,1.39,1.151,2.734,1.723,4.102c0.214,0.511,0.405,1.041,0.655,1.686\r c-0.461,0.172-0.888,0.285-1.279,0.482c-0.884,0.443-1.648,0.01-2.428-0.465c-1.002-0.612-1.952-1.313-2.641-2.396\r c-0.616-0.967-1.088-2.027-1.174-3.232c-0.081-1.156,0.002-2.334-0.153-3.479c-0.109-0.799-0.386-1.646-0.78-2.32\r c-0.852-1.445-1.81-2.805-2.756-4.174c-1.396-2.026-2.828-4.025-4.232-6.044c-0.727-1.042-1.417-2.115-2.151-3.144\r c-0.369-0.519-0.793-0.981-1.206-1.454c-0.396-0.459-0.827-0.883-1.21-1.358c-0.737-0.912-1.69-1.169-2.658-1.303\r c-1.635-0.229-3.055-1.068-4.196-2.421c-0.634-0.751-1.091-1.801-1.409-2.804c-0.312-0.986-0.395-2.077-0.473-3.129\r c-0.024-0.329,0.282-0.683,0.447-1.019c0.103-0.209,0.201-0.434,0.341-0.608c0.181-0.228,0.39-0.35,0.675-0.093\r c1.122,1.007,2.257,1.996,3.388,2.991c0.518,0.455,1.035,0.914,1.56,1.365c0.27,0.232,0.897,0.109,1.199-0.219\r c0.083-0.088,0.153-0.196,0.246-0.262c0.934-0.672,1.105-1.745,1.001-2.938c-0.02-0.228-0.169-0.508-0.329-0.654\r c-1.435-1.307-2.888-2.584-4.327-3.882c-0.612-0.551-0.626-0.809-0.174-1.515c0.134-0.208,0.239-0.438,0.354-0.663\r c0.252-0.492,0.619-0.742,1.109-0.852c1.919-0.437,3.76-0.024,5.434,1.183c1.236,0.893,2.334,2.063,2.684,3.854\r c0.176,0.904,0.319,1.819,0.416,2.737c0.131,1.285,0.656,2.352,1.308,3.36" }),
-		_react2.default.createElement("path", { id: "screwdriver", className: "fill iconbit iconbit--screwdriver", d: "M42.677,11.227c-0.365,0.267-0.709,0.556-1.012,0.878\r c-0.334,0.355-0.665,0.718-0.894,1.152c-0.227,0.437-0.208,1.054-0.497,1.435c-1.85,2.432-3.753,4.821-5.645,7.218\r c-0.051,0.066-0.146,0.144-0.248,0.116c-0.607-0.173-0.89,0.023-1.115,0.316c-0.856,1.104-1.708,2.211-2.605,3.282\r c-0.563,0.675-1.217,1.279-1.811,1.932c-0.255,0.283-0.405,0.657-1.042,0.557c-0.156-0.025-0.269,0.079-0.367,0.155\r c-0.529,0.407-1.021,0.853-1.576,1.235c-0.578,0.402-1.28,0.688-1.805,1.137c-0.751,0.639-1.704,1.066-2.613,1.544\r c-0.462,0.241-0.934,0.481-1.295,0.814c-0.407,0.372-0.681,0.857-1.037,1.276c-0.237,0.28-0.454,0.56-0.28,1.083\r c0.036,0.11-0.041,0.204-0.099,0.279c-0.339,0.448-0.672,0.898-1.043,1.32c-0.106,0.121-0.307,0.183-0.509,0.204\r c-0.426,0.048-0.85,0.116-1.328,0.06c-1.013-0.116-1.854-0.024-2.602,0.261c-0.027,0.012-0.054,0.015-0.077,0.026\r c-0.205,0.114-0.426,0.223-0.604,0.348c-0.531,0.37-1.019,0.617-1.421,1c-0.554,0.521-1.126,1.183-1.22,1.948\r c-0.027,0.217,0.038,0.485,0.084,0.706c0.067,0.325,0.132,0.651,0.243,0.893c0.389,0.838,0.676,1.531,1.233,2.501\r c0.587,0.851,1.211,1.686,2.183,2.399c1.464,1.073,2.801,2.349,4.455,3.12c0.679,0.317,1.326,0.637,1.985,0.778\r c0.647,0.14,1.275,0.292,1.864,0.253c0.689-0.047,0.689-0.047,1.193-0.245c0.123-0.048,0.677-0.288,0.867-0.37\r c0.078-0.034,0.547-0.329,0.706-0.589c0.35-0.576,0.644-1.208,0.791-1.914c0.094-0.447,0.021-0.81-0.213-1.729\r c-0.079-0.768-0.045-0.276-0.056-0.465c-0.036-0.607-0.066-1.215-0.101-1.822c-0.025-0.448-0.269-0.972,0.087-1.266\r c0.427-0.352,0.697-0.847,1.04-1.274c0.176-0.219,0.176-0.219,0.831-0.335c0.092,0.037,0.178-0.089,0.238-0.163\r c0.434-0.547,0.891-1.076,1.285-1.654c0.314-0.458,0.547-0.972,0.812-1.465c0.021-0.04,0.036-0.111,0.001-0.156\r c-0.616-0.806,0.024-1.041,0.028-1.56c0.005-0.452,0.275-0.79,0.506-1.122c0.372-0.546,0.58-1.184,0.772-1.845\r c0.157-0.541,0.504-0.971,0.768-1.448c0.033-0.065,0.066-0.129,0.098-0.202c0.133-0.324,0.254-0.654,0.407-0.965\r c0.116-0.229,0.294-0.416,0.409-0.648c0.286-0.562,0.471-1.203,0.84-1.702c1.008-1.378,2.094-2.696,3.137-4.049\r c0.072-0.091,0.038-0.269,0.053-0.405c0.021-0.201-0.032-0.46,0.072-0.595c1.626-2.106,3.272-4.194,4.916-6.288\r c0.29-0.372,0.534-0.787,0.891-1.104c0.427-0.375,1.072-0.567,1.404-1.008c0.634-0.842,1.115-1.801,1.651-2.715\r c0.225-0.382,0.437-0.771,0.65-1.158c-0.551-0.433-1.077-0.845-1.664-1.305" })
-	);
-};
-
-exports.default = DemosIcon;
-
-/***/ }),
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
 /* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25543,7 +25112,7 @@ var _reactDom = __webpack_require__(145);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _FrontCover = __webpack_require__(101);
+var _FrontCover = __webpack_require__(243);
 
 var _FrontCover2 = _interopRequireDefault(_FrontCover);
 
@@ -25858,6 +25427,446 @@ Page.propTypes = {
 };
 
 exports.default = Page;
+
+/***/ }),
+/* 243 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Slider = __webpack_require__(246);
+
+var _Slider2 = _interopRequireDefault(_Slider);
+
+var _FrontCoverButtons = __webpack_require__(244);
+
+var _FrontCoverButtons2 = _interopRequireDefault(_FrontCoverButtons);
+
+var _Navigation = __webpack_require__(245);
+
+var _Navigation2 = _interopRequireDefault(_Navigation);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var FrontCover = function FrontCover(props) {
+	return _react2.default.createElement(
+		'div',
+		{ className: 'frontcover' },
+		_react2.default.createElement(_Slider2.default, {
+			pages: props.pages,
+			currentPageIndex: props.currentPageIndex,
+			sliderClass: props.sliderClass
+		}),
+		_react2.default.createElement(_FrontCoverButtons2.default, {
+			noOfPages: props.pages.length,
+			currentPageIndex: props.currentPageIndex,
+			changePage: props.changePage,
+			slideCoverUp: props.slideCoverUp
+		}),
+		_react2.default.createElement(_Navigation2.default, {
+			pages: props.pages,
+			changePage: props.changePage,
+			currentPageIndex: props.currentPageIndex
+		})
+	);
+};
+
+FrontCover.propTypes = {
+	pages: _react.PropTypes.array.isRequired,
+	currentPageIndex: _react.PropTypes.number.isRequired,
+	changePage: _react.PropTypes.func.isRequired,
+	sliderClass: _react.PropTypes.string.isRequired,
+	slideCoverUp: _react.PropTypes.func.isRequired
+};
+
+exports.default = FrontCover;
+
+/***/ }),
+/* 244 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var FrontCoverButtons = function FrontCoverButtons(props) {
+	return _react2.default.createElement(
+		"div",
+		{ className: "frontcover__buttons" },
+		props.currentPageIndex > 0 && _react2.default.createElement("a", {
+			href: "#",
+			onClick: function onClick(e) {
+				props.changePage(e, props.currentPageIndex - 1);
+			},
+			className: "frontcover__button frontcover__button--prev"
+		}),
+		props.currentPageIndex + 1 < props.noOfPages && _react2.default.createElement("a", {
+			href: "#",
+			onClick: function onClick(e) {
+				props.changePage(e, props.currentPageIndex + 1);
+			},
+			className: "frontcover__button frontcover__button--next"
+		}),
+		props.currentPageIndex > 0 && _react2.default.createElement("a", {
+			href: "#",
+			onClick: function onClick(e) {
+				props.slideCoverUp();
+			},
+			className: "frontcover__button frontcover__button--down"
+		})
+	);
+};
+
+FrontCoverButtons.propTypes = {
+	noOfPages: _react.PropTypes.number.isRequired,
+	currentPageIndex: _react.PropTypes.number.isRequired,
+	changePage: _react.PropTypes.func.isRequired,
+	slideCoverUp: _react.PropTypes.func.isRequired
+};
+
+exports.default = FrontCoverButtons;
+
+/***/ }),
+/* 245 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Icons = __webpack_require__(251);
+
+var _Icons2 = _interopRequireDefault(_Icons);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Navigation = function Navigation(props) {
+	return _react2.default.createElement(
+		'nav',
+		{ className: 'nav' },
+		_react2.default.createElement(
+			'ul',
+			{ className: 'nav__menu list--plain' },
+			props.pages.map(function (page, index) {
+
+				var navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item',
+				    navLinkClass = index == props.currentPageIndex ? 'nav__link nav__link--current' : 'nav__link';
+
+				var Icon = _Icons2.default[page.icon];
+
+				Icon = Icon.call();
+
+				return _react2.default.createElement(
+					'li',
+					{ className: navItemClass, key: index },
+					_react2.default.createElement(
+						'a',
+						{ className: navLinkClass, href: '#', onClick: function onClick(e) {
+								props.changePage(e, index);
+							} },
+						_react2.default.createElement(
+							'span',
+							{ className: 'nav__linkcircle' },
+							Icon,
+							_react2.default.createElement(
+								'span',
+								{ className: 'nav__linktext' },
+								page.title
+							)
+						)
+					)
+				);
+			})
+		)
+	);
+};
+
+Navigation.propTypes = {
+	pages: _react.PropTypes.array.isRequired,
+	currentPageIndex: _react.PropTypes.number.isRequired,
+	changePage: _react.PropTypes.func.isRequired
+};
+
+exports.default = Navigation;
+
+/***/ }),
+/* 246 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Icons = __webpack_require__(251);
+
+var _Icons2 = _interopRequireDefault(_Icons);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Slider = function Slider(props) {
+
+	var windowWidth = window.innerWidth,
+	    currentOffset = windowWidth * props.currentPageIndex;
+
+	var widthValue = windowWidth + 'px',
+	    offsetStyle = { left: '-' + currentOffset + 'px' };
+
+	return _react2.default.createElement(
+		'div',
+		{ className: 'slider__track' },
+		_react2.default.createElement(
+			'div',
+			{ className: props.sliderClass, style: offsetStyle },
+			props.pages.map(function (page, index) {
+				var Icon = _Icons2.default[page.icon];
+
+
+				var backgroundStyleUrl = 'static/backgrounds/' + page.background;
+				var slideStyle = {
+					width: widthValue,
+					backgroundImage: 'url(' + backgroundStyleUrl + ')'
+				};
+
+				Icon = Icon.call();
+
+				return _react2.default.createElement(
+					'section',
+					{ className: 'slider__slide text', key: index, style: slideStyle },
+					_react2.default.createElement(
+						'article',
+						{ className: 'slider__slideinner' },
+						_react2.default.createElement(
+							'figure',
+							{ className: 'slider__icon' },
+							Icon
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'slider__textcontent' },
+							_react2.default.createElement(
+								'h1',
+								{ className: 'slider__heading' },
+								page.title
+							),
+							_react2.default.createElement(
+								'p',
+								{ className: 'slider__intro' },
+								page.description
+							)
+						)
+					)
+				);
+			})
+		)
+	);
+};
+
+Slider.propTypes = {
+	pages: _react.PropTypes.array.isRequired,
+	currentPageIndex: _react.PropTypes.number.isRequired,
+	sliderClass: _react.PropTypes.string.isRequired
+};
+
+exports.default = Slider;
+
+/***/ }),
+/* 247 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DemosIcon = function DemosIcon(props) {
+	return _react2.default.createElement(
+		"svg",
+		{ viewBox: "-100 -70 705.821 705.82" },
+		_react2.default.createElement("circle", { className: "stroke bubble--bob1", strokeWidth: "8", strokeMiterlimit: "10", cx: "180", cy: "410", r: "40.5" }),
+		_react2.default.createElement("circle", { className: "stroke bubble--bob2", strokeWidth: "8", strokeMiterlimit: "10", cx: "250", cy: "390", r: "20.5" }),
+		_react2.default.createElement("circle", { className: "stroke bubble--bob3", strokeWidth: "8", strokeMiterlimit: "10", cx: "320", cy: "400", r: "30.5" }),
+		_react2.default.createElement("circle", { className: "stroke bubble--rise3", strokeWidth: "8", strokeMiterlimit: "10", cx: "286.911", cy: "405", r: "34.5" }),
+		_react2.default.createElement("circle", { className: "stroke bubble--rise2", strokeWidth: "8", strokeMiterlimit: "10", cx: "237.911", cy: "390", r: "20.5" }),
+		_react2.default.createElement("circle", { className: "stroke bubble--rise1", strokeWidth: "8", strokeMiterlimit: "10", cx: "281.411", cy: "380", r: "11" }),
+		_react2.default.createElement("path", { className: "fill", d: "M505.045,467.323c0,21.226-23.136,38.497-51.595,38.497H53.385c-28.479,0-51.611-17.271-51.611-38.497\r c0-2.059,0.511-4.104,1.493-6.023L141.84,190.374c0.048-0.429,0.131-0.86,0.203-1.283V33.848h-16.374\r c-12.534,0-22.676-7.578-22.676-16.925C102.994,7.578,113.136,0,125.67,0h39.05c12.534,0,22.694,7.578,22.694,16.923v173.475\r c0,0.976-0.114,1.939-0.332,2.899c0,2.066-0.667,4.844-1.664,6.762l-83.47,163.182h300.969L316.683,200.24\r c-0.934-1.756-1.458-3.611-1.567-5.488l-0.19-1.022c-0.096-0.668-0.143-1.333-0.143-1.998V16.923\r C314.783,7.578,324.922,0,337.458,0h40.074c12.536,0,22.676,7.578,22.676,16.923c0,9.348-10.14,16.925-22.676,16.925h-17.407\r v156.357L503.454,461.11C504.509,463.097,505.045,465.195,505.045,467.323z" })
+	);
+};
+
+exports.default = DemosIcon;
+
+/***/ }),
+/* 248 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LogoIcon = function LogoIcon(props) {
+	return _react2.default.createElement(
+		"svg",
+		{ className: "nav__svg", width: "60px", height: "60px", viewBox: "0 0 60 60" },
+		_react2.default.createElement("polyline", { className: "fill", points: "54.667,27.473 22.589,27.473 22.589,16.793 60,16.8 60,5.147 11.492,5.147 11.492,60 22.589,60 \r 22.589,38.965 54.667,38.967 " }),
+		_react2.default.createElement("path", { fill: "#FFFFFF", d: "M44.646,1.183h10.058v45.379c0.004,4.621-4.185,9.936-10.042,9.945H22.589l-12.324-0.012\r c-2.233,0-9.891-2.98-9.891-9.939c0-0.006,0-5.479,0-5.479l9.92-0.002l0.001,5.482l12.294,0.01l22.058-0.006V1.183z" }),
+		_react2.default.createElement("polyline", { className: "fill", points: "54.641,27.464 22.563,27.464 22.563,38.956 54.641,38.957 " }),
+		_react2.default.createElement("polyline", { className: "fill--onlyhover", fill: "rgba(255,255,255,0)", points: "54.667,27.473 22.589,27.473 22.589,16.793 60,16.8 60,5.147 11.492,5.147 11.492,60 22.589,60 \r 22.589,38.965 54.667,38.967 " })
+	);
+};
+
+exports.default = LogoIcon;
+
+/***/ }),
+/* 249 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ProjectsIcon = function ProjectsIcon(props) {
+	return _react2.default.createElement(
+		"svg",
+		{ viewBox: "0 0 60 60" },
+		_react2.default.createElement("path", { className: "fill iconbit iconbit--at", d: "M38.051,43.488v-27.25c0-1.063-0.43-2.028-1.283-2.895c-0.855-0.867-1.826-1.3-2.912-1.3h-8.945\r c-1.317,0-2.276,0.243-2.878,0.728c-0.601,0.485-1.219,1.323-1.854,2.514s-1.52,1.785-2.651,1.785\r c-0.902,0-1.624-0.277-2.167-0.832c-0.543-0.555-0.815-1.202-0.815-1.941c0-1.479,0.942-3.195,2.826-5.148\r c1.883-1.953,4.107-2.929,6.674-2.929h9.95c2.564,0,4.854,1.011,6.863,3.034c2.012,2.022,3.018,4.42,3.018,7.193v27.387\r c0,2.174-0.855,4.115-2.566,5.824c-1.711,1.711-3.721,2.566-6.031,2.566c-2.428,0-4.416-0.764-5.963-2.289\r c-1.525,1.525-3.49,2.289-5.895,2.289c-2.473,0-4.559-0.867-6.257-2.601c-1.699-1.733-2.548-3.663-2.548-5.79V32.637\r c0-2.403,0.861-4.472,2.583-6.206s3.797-2.6,6.223-2.6h5.686c2.081,0,3.122,1.04,3.122,3.12v16.537\r c0,0.809,0.281,1.496,0.848,2.063s1.254,0.85,2.064,0.85c0.785,0,1.467-0.283,2.045-0.85C37.76,44.984,38.051,44.297,38.051,43.488\r z M26.402,43.488V29.655h-2.635c-2.173,0-3.26,1.086-3.26,3.259v10.574c0,0.809,0.289,1.496,0.867,2.063\r c0.577,0.566,1.26,0.85,2.045,0.85c0.81,0,1.509-0.283,2.098-0.85C26.107,44.984,26.402,44.297,26.402,43.488z" })
+	);
+};
+
+exports.default = ProjectsIcon;
+
+/***/ }),
+/* 250 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DemosIcon = function DemosIcon(props) {
+	return _react2.default.createElement(
+		"svg",
+		{ viewBox: "2 0 60 60" },
+		_react2.default.createElement("path", { id: "spanner", className: "fill iconbit iconbit--spanner", d: "M38.13,24.788c0.868,1.235,1.734,2.468,2.608,3.694\r c0.914,1.283,1.841,2.55,2.753,3.827c0.485,0.68,0.938,1.388,1.432,2.057c0.906,1.233,2.078,1.917,3.378,2.347\r c1.596,0.528,2.657,1.74,3.344,3.538c0.512,1.34,0.68,2.732,0.718,4.113c0.038,1.366-0.201,2.745-0.854,3.909\r c-0.112,0.199-0.492,0.186-0.748,0.264c-0.414,0.128-0.828,0.248-1.273,0.378c-0.728-1.629-1.444-3.211-2.145-4.801\r c-0.194-0.442-0.336-0.912-0.518-1.362c-0.273-0.667-1.063-1.125-1.65-0.913c-0.821,0.297-1.465,0.833-1.908,1.761\r c-0.359,0.756-0.012,1.347,0.217,1.938c0.535,1.39,1.151,2.734,1.723,4.102c0.214,0.511,0.405,1.041,0.655,1.686\r c-0.461,0.172-0.888,0.285-1.279,0.482c-0.884,0.443-1.648,0.01-2.428-0.465c-1.002-0.612-1.952-1.313-2.641-2.396\r c-0.616-0.967-1.088-2.027-1.174-3.232c-0.081-1.156,0.002-2.334-0.153-3.479c-0.109-0.799-0.386-1.646-0.78-2.32\r c-0.852-1.445-1.81-2.805-2.756-4.174c-1.396-2.026-2.828-4.025-4.232-6.044c-0.727-1.042-1.417-2.115-2.151-3.144\r c-0.369-0.519-0.793-0.981-1.206-1.454c-0.396-0.459-0.827-0.883-1.21-1.358c-0.737-0.912-1.69-1.169-2.658-1.303\r c-1.635-0.229-3.055-1.068-4.196-2.421c-0.634-0.751-1.091-1.801-1.409-2.804c-0.312-0.986-0.395-2.077-0.473-3.129\r c-0.024-0.329,0.282-0.683,0.447-1.019c0.103-0.209,0.201-0.434,0.341-0.608c0.181-0.228,0.39-0.35,0.675-0.093\r c1.122,1.007,2.257,1.996,3.388,2.991c0.518,0.455,1.035,0.914,1.56,1.365c0.27,0.232,0.897,0.109,1.199-0.219\r c0.083-0.088,0.153-0.196,0.246-0.262c0.934-0.672,1.105-1.745,1.001-2.938c-0.02-0.228-0.169-0.508-0.329-0.654\r c-1.435-1.307-2.888-2.584-4.327-3.882c-0.612-0.551-0.626-0.809-0.174-1.515c0.134-0.208,0.239-0.438,0.354-0.663\r c0.252-0.492,0.619-0.742,1.109-0.852c1.919-0.437,3.76-0.024,5.434,1.183c1.236,0.893,2.334,2.063,2.684,3.854\r c0.176,0.904,0.319,1.819,0.416,2.737c0.131,1.285,0.656,2.352,1.308,3.36" }),
+		_react2.default.createElement("path", { id: "screwdriver", className: "fill iconbit iconbit--screwdriver", d: "M42.677,11.227c-0.365,0.267-0.709,0.556-1.012,0.878\r c-0.334,0.355-0.665,0.718-0.894,1.152c-0.227,0.437-0.208,1.054-0.497,1.435c-1.85,2.432-3.753,4.821-5.645,7.218\r c-0.051,0.066-0.146,0.144-0.248,0.116c-0.607-0.173-0.89,0.023-1.115,0.316c-0.856,1.104-1.708,2.211-2.605,3.282\r c-0.563,0.675-1.217,1.279-1.811,1.932c-0.255,0.283-0.405,0.657-1.042,0.557c-0.156-0.025-0.269,0.079-0.367,0.155\r c-0.529,0.407-1.021,0.853-1.576,1.235c-0.578,0.402-1.28,0.688-1.805,1.137c-0.751,0.639-1.704,1.066-2.613,1.544\r c-0.462,0.241-0.934,0.481-1.295,0.814c-0.407,0.372-0.681,0.857-1.037,1.276c-0.237,0.28-0.454,0.56-0.28,1.083\r c0.036,0.11-0.041,0.204-0.099,0.279c-0.339,0.448-0.672,0.898-1.043,1.32c-0.106,0.121-0.307,0.183-0.509,0.204\r c-0.426,0.048-0.85,0.116-1.328,0.06c-1.013-0.116-1.854-0.024-2.602,0.261c-0.027,0.012-0.054,0.015-0.077,0.026\r c-0.205,0.114-0.426,0.223-0.604,0.348c-0.531,0.37-1.019,0.617-1.421,1c-0.554,0.521-1.126,1.183-1.22,1.948\r c-0.027,0.217,0.038,0.485,0.084,0.706c0.067,0.325,0.132,0.651,0.243,0.893c0.389,0.838,0.676,1.531,1.233,2.501\r c0.587,0.851,1.211,1.686,2.183,2.399c1.464,1.073,2.801,2.349,4.455,3.12c0.679,0.317,1.326,0.637,1.985,0.778\r c0.647,0.14,1.275,0.292,1.864,0.253c0.689-0.047,0.689-0.047,1.193-0.245c0.123-0.048,0.677-0.288,0.867-0.37\r c0.078-0.034,0.547-0.329,0.706-0.589c0.35-0.576,0.644-1.208,0.791-1.914c0.094-0.447,0.021-0.81-0.213-1.729\r c-0.079-0.768-0.045-0.276-0.056-0.465c-0.036-0.607-0.066-1.215-0.101-1.822c-0.025-0.448-0.269-0.972,0.087-1.266\r c0.427-0.352,0.697-0.847,1.04-1.274c0.176-0.219,0.176-0.219,0.831-0.335c0.092,0.037,0.178-0.089,0.238-0.163\r c0.434-0.547,0.891-1.076,1.285-1.654c0.314-0.458,0.547-0.972,0.812-1.465c0.021-0.04,0.036-0.111,0.001-0.156\r c-0.616-0.806,0.024-1.041,0.028-1.56c0.005-0.452,0.275-0.79,0.506-1.122c0.372-0.546,0.58-1.184,0.772-1.845\r c0.157-0.541,0.504-0.971,0.768-1.448c0.033-0.065,0.066-0.129,0.098-0.202c0.133-0.324,0.254-0.654,0.407-0.965\r c0.116-0.229,0.294-0.416,0.409-0.648c0.286-0.562,0.471-1.203,0.84-1.702c1.008-1.378,2.094-2.696,3.137-4.049\r c0.072-0.091,0.038-0.269,0.053-0.405c0.021-0.201-0.032-0.46,0.072-0.595c1.626-2.106,3.272-4.194,4.916-6.288\r c0.29-0.372,0.534-0.787,0.891-1.104c0.427-0.375,1.072-0.567,1.404-1.008c0.634-0.842,1.115-1.801,1.651-2.715\r c0.225-0.382,0.437-0.771,0.65-1.158c-0.551-0.433-1.077-0.845-1.664-1.305" })
+	);
+};
+
+exports.default = DemosIcon;
+
+/***/ }),
+/* 251 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _IconLogo = __webpack_require__(248);
+
+var _IconLogo2 = _interopRequireDefault(_IconLogo);
+
+var _IconProjects = __webpack_require__(249);
+
+var _IconProjects2 = _interopRequireDefault(_IconProjects);
+
+var _IconSkills = __webpack_require__(250);
+
+var _IconSkills2 = _interopRequireDefault(_IconSkills);
+
+var _IconDemos = __webpack_require__(247);
+
+var _IconDemos2 = _interopRequireDefault(_IconDemos);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Icons = {
+	logo: function logo() {
+		return _react2.default.createElement(_IconLogo2.default, null);
+	},
+	skills: function skills() {
+		return _react2.default.createElement(_IconSkills2.default, null);
+	},
+	projects: function projects() {
+		return _react2.default.createElement(_IconProjects2.default, null);
+	},
+	demos: function demos() {
+		return _react2.default.createElement(_IconDemos2.default, null);
+	}
+}; // Manifest for icon components
+exports.default = Icons;
 
 /***/ })
 /******/ ]);
