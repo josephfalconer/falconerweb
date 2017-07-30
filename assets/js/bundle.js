@@ -23066,6 +23066,14 @@ var _symbol = __webpack_require__(98);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(145);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _App = __webpack_require__(241);
 
 var _App2 = _interopRequireDefault(_App);
@@ -23095,6 +23103,7 @@ for (var _iterator = requestURLS, _isArray = Array.isArray(_iterator), _i = 0, _
 
 	var url = _ref;
 
+
 	fetch(url).then(function (response) {
 
 		if (response.status == 200) {
@@ -23104,6 +23113,8 @@ for (var _iterator = requestURLS, _isArray = Array.isArray(_iterator), _i = 0, _
 
 		if (successfulRequests == requestURLS.length) {
 			console.log("All requests were received successfully!");
+
+			_reactDom2.default.render(_react2.default.createElement(_App2.default, null), document.getElementById('application'));
 		}
 	});
 }
@@ -24802,6 +24813,10 @@ module.exports = g;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -24809,10 +24824,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(145);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _FrontCover = __webpack_require__(243);
 
@@ -25058,7 +25069,7 @@ var Application = function (_Component) {
 	return Application;
 }(_react.Component);
 
-_reactDom2.default.render(_react2.default.createElement(Application, null), document.getElementById('application'));
+exports.default = Application;
 
 /***/ }),
 /* 242 */,
