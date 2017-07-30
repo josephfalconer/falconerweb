@@ -30,6 +30,7 @@ class Page(models.Model):
 	title = models.CharField(max_length=255)
 	intro_text = models.TextField()
 	body = models.TextField(blank=True)
+	module_name = models.CharField(max_length=20, choices=module_types, blank=True)
 
 	class Meta:
 		ordering = ['order',]

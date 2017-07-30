@@ -17,7 +17,7 @@ const Page = props => {
 					</div>
 				</header>
 
-				{moduleName.length && moduleData.length ?
+				{moduleName && moduleData ?
 					<Modules 
 						name={moduleName}
 						data={moduleData}
@@ -35,8 +35,8 @@ const Page = props => {
 
 Page.propTypes = {
 	currentPageData: PropTypes.object.isRequired,
-	currentModuleName: PropTypes.string.isRequired,
-	currentModuleData: PropTypes.array.isRequired,
+	currentModuleName: PropTypes.string,
+	currentModuleData: PropTypes.array,
 }
 
 export default Page;

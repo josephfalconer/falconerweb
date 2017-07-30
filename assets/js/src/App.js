@@ -24,7 +24,7 @@ class Application extends Component {
 				description: fields.description,
 				icon: fields.icon,
 				background: fields.background,
-				module: fields.module,
+				module: fields.module_name,
 			}
 		},
 		skillModel: fields => {

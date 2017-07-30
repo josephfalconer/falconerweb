@@ -10044,7 +10044,7 @@ var Application = function (_Component) {
 					description: fields.description,
 					icon: fields.icon,
 					background: fields.background,
-					module: fields.module
+					module: fields.module_name
 				};
 			},
 			skillModel: function skillModel(fields) {
@@ -10299,7 +10299,7 @@ var Page = function Page(props) {
 					)
 				)
 			),
-			moduleName.length && moduleData.length ? _react2.default.createElement(_Modules2.default, {
+			moduleName && moduleData ? _react2.default.createElement(_Modules2.default, {
 				name: moduleName,
 				data: moduleData
 			}) : null,
@@ -10318,8 +10318,8 @@ var Page = function Page(props) {
 
 Page.propTypes = {
 	currentPageData: _react.PropTypes.object.isRequired,
-	currentModuleName: _react.PropTypes.string.isRequired,
-	currentModuleData: _react.PropTypes.array.isRequired
+	currentModuleName: _react.PropTypes.string,
+	currentModuleData: _react.PropTypes.array
 };
 
 exports.default = Page;
