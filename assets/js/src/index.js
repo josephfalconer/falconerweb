@@ -7,6 +7,24 @@ require('../../scss/styles.scss');
 import Application from './containers/App';
 
 
-fetch('/skills/').then(response => {
-	console.log(response.json());
-});
+const requestURLS = [
+	'/skills/',
+	'/demos/',
+]
+
+let successfulRequests = 0;
+
+for (let url of requestURLS) {
+	fetch(url).then(response => {
+
+		if (response.status == 200) {
+			console.log(response.json());
+			successfulRequests++;
+		}
+		
+		if (successfulRequests == requestURLS.length) {
+			console.log("All requests were received successfully!");
+		}
+
+	});
+}

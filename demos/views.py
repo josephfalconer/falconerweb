@@ -1,11 +1,11 @@
 from django.http import HttpResponse
 from django.core import serializers
 
-from .models import Skill
+from .models import Demo
 
 
 def data(request):
-	data = Skill.objects.all()
+	data = Demo.objects.all()
 	serialized_data = serializers.serialize("json", data)
 
 	return HttpResponse(serialized_data)

@@ -23077,9 +23077,36 @@ __webpack_require__(236);
 
 __webpack_require__(235);
 
-fetch('/skills/').then(function (response) {
-	console.log(response.json());
-});
+var requestURLS = ['/skills/', '/demos/'];
+
+var successfulRequests = 0;
+
+for (var _iterator = requestURLS, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+	var _ref;
+
+	if (_isArray) {
+		if (_i >= _iterator.length) break;
+		_ref = _iterator[_i++];
+	} else {
+		_i = _iterator.next();
+		if (_i.done) break;
+		_ref = _i.value;
+	}
+
+	var url = _ref;
+
+	fetch(url).then(function (response) {
+
+		if (response.status == 200) {
+			console.log(response.json());
+			successfulRequests++;
+		}
+
+		if (successfulRequests == requestURLS.length) {
+			console.log("All requests were received successfully!");
+		}
+	});
+}
 
 /***/ }),
 /* 230 */,
