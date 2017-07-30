@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import FrontCover from '../components/FrontCover';
-import Page from './Page';
+import Page from '../components/Page';
 
 
 class Application extends Component {

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import Modules from '../modules/Modules';
+import Modules from './modules/Modules';
 
 
 const Page = props => {
