@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
+import DataFetcher from './DataFetcher';
 import FrontCover from '../components/FrontCover';
 import Page from '../components/Page';
 
@@ -14,8 +16,8 @@ class Application extends Component {
 		sliderClass: 'slider',
 	}
 
-	componentWillMount() {
-		this.changePage();
+	componentDidMount() {
+		// this.changePage();
 	}
 
 	getModuleData = module => {
@@ -110,6 +112,8 @@ class Application extends Component {
 		return (
 			<div className={this.state.containerClass}>
 
+				<DataFetcher />
+
 				<FrontCover
 					pages={this.props.pages}
 					currentPageIndex={this.state.currentPageIndex}
@@ -130,4 +134,13 @@ class Application extends Component {
 	};
 }
 
-export default Application;
+const mapStateToProps = state => (
+    {
+        pages: state.pages,
+        skills: state.skills,
+        demos: state.demos,
+        projects: state.projects
+    }
+);
+
+export default connect(mapStateToProps)(Application);

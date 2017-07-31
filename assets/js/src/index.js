@@ -4,73 +4,23 @@ require('isomorphic-fetch');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 require('../../scss/styles.scss');
 
+import DataReducer from './reducers/reducer_data.js';
 import Application from './containers/App';
 
 
-const requests = [
-	{
-		url: '/pages/',
-		sortTo: 'pages'
-	},
-	{
-		url: '/skills/',
-		sortTo: 'skills'
-	},
-	{
-		url: '/demos/',
-		sortTo: 'demos'
-	},
-	// '/projects/',
-]
+const store = createStore(
+	DataReducer,
+	window.devToolsExtension && window.devToolsExtension()
+);
 
-const renderApplication = data => {
-	ReactDOM.render(
-		<Application
-			pages={data.pages}
-			skills={data.skills}
-			demos={data.demos}
-		/>, document.getElementById('application'));
-}
-
-let sortedData = {},
-	rendered = false;
-
-
-for (let request of requests) {
-
-	fetch(request.url)
-		.then(response => {
-
-			if (response.status == 200) {
-				return response.json();
-			}
-
-		})
-		.then(data => {
-
-			let fields = [];
-
-			for (let dataObject of data) {
-				fields.push(dataObject.fields);
-			}
-
-			sortedData[request.sortTo] = fields;
-			console.log(sortedData);
-
-		})
-		.then(() => {
-
-			if (sortedData[requests[requests.length - 1].sortTo] && !rendered) {
-				console.log("All requests were received successfully!");
-
-				// TODO - cant render based on this - not robust.
-				// TODO - feed props in via store or something as successful requests return 
-				renderApplication(sortedData);
-				rendered = true;				
-			}
-		});
-
-}
+ReactDOM.render(
+	<Provider store={store}>
+		<Application />
+	</Provider>,
+	document.getElementById('application')
+);
