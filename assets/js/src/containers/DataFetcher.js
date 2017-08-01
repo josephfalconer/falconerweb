@@ -9,6 +9,10 @@ class DataFetcher extends Component {
 
 	requests = [
 		{
+			url: '/navigation/',
+			type: 'ADD_NAVIGATION'
+		},
+		{
 			url: '/pages/',
 			type: 'ADD_PAGES'
 		},

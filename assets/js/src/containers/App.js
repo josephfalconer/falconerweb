@@ -115,6 +115,7 @@ class Application extends Component {
 				<DataFetcher />
 
 				<FrontCover
+					navigationLinks={this.props.navigationLinks}
 					pages={this.props.pages}
 					currentPageIndex={this.state.currentPageIndex}
 					changePage={this.changePage}
@@ -136,6 +137,7 @@ class Application extends Component {
 
 const mapStateToProps = state => (
     {
+    	navigationLinks: state.navigationLinks,
         pages: state.pages,
         skills: state.skills,
         demos: state.demos,

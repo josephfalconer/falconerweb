@@ -21,7 +21,8 @@ const FrontCover = props => {
 				slideCoverUp={props.slideCoverUp}
 			/>
 
-			<Navigation 
+			<Navigation
+				navigationLinks={props.navigationLinks}
 				pages={props.pages}
 				changePage={props.changePage}
 				currentPageIndex={props.currentPageIndex}
@@ -31,6 +32,7 @@ const FrontCover = props => {
 }
 
 FrontCover.propTypes = {
+	navigationLinks: PropTypes.array.isRequired,
 	pages: PropTypes.array.isRequired,
 	currentPageIndex: PropTypes.number.isRequired,
 	changePage: PropTypes.func.isRequired,
