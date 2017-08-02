@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import {HashRouter, Route} from 'react-router-dom';
+import { HashRouter, Route} from 'react-router-dom';
 
 require('../../scss/styles.scss');
 

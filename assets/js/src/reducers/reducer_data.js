@@ -2,7 +2,7 @@ import * as DataActionTypes from '../actiontypes/data';
 
 const initialState = {
 	navigationLinks: [],
-	pages: [],
+	regions: [],
 	skills: [],
 	demos: [],
 	projects: []
@@ -19,10 +19,10 @@ export default function Data(state=initialState, action) {
 			};
 		}
 
-		case DataActionTypes.ADD_PAGES: {
+		case DataActionTypes.ADD_REGIONS: {
 			return {
 				...state,
-				pages: action.data
+				regions: action.data
 			};
 		}
 

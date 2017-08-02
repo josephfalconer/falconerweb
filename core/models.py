@@ -1,11 +1,16 @@
 from django.db import models
 
+from regions.models import Region
 
-navigation_paths = (
-	('/skills/', 'Skills'),
-	('/demos/', 'Demos'),
-	('/projects/', 'Projects'),
-)
+
+
+
+
+# navigation_paths = (
+# 	('/skills/', 'Skills'),
+# 	('/demos/', 'Demos'),
+# 	('/projects/', 'Projects'),
+# )
 
 
 class ModuleIterable(models.Model):
@@ -23,10 +28,19 @@ class ModuleIterable(models.Model):
 
 
 class NavigationLink(models.Model):
+	regions = Region.objects.all()
+	region_path_hashes = []
+
+	for region in regions:
+		region_path_hashes.append((region.path_hash, region.title))
+
 	text = models.CharField(max_length=25)
-	target = models.CharField(max_length=50, choices=navigation_paths)
+	linked_region = models.CharField(max_length=50, choices=region_path_hashes, blank=True, default=None)
 
 	def __str__(self):
 		return self.text
+
+
+	
 
 		

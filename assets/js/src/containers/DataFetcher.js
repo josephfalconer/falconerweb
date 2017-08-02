@@ -13,8 +13,8 @@ class DataFetcher extends Component {
 			type: 'ADD_NAVIGATION'
 		},
 		{
-			url: '/pages/',
-			type: 'ADD_PAGES'
+			url: '/regions/',
+			type: 'ADD_REGIONS'
 		},
 		{
 			url: '/skills/',

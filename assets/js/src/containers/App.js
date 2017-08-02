@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink, Route } from 'react-router-dom';
 
 import DataFetcher from './DataFetcher';
-import FrontCover from '../components/FrontCover';
-import Page from '../components/Page';
+import Region from '../components/Region';
 
 
 class Application extends Component {
@@ -110,35 +110,49 @@ class Application extends Component {
 			currentModuleData = currentPageData && this.getModuleData(currentModuleName);
 
 		return (
-			<div className={this.state.containerClass}>
-
+			<div>
 				<DataFetcher />
 
-				<FrontCover
-					navigationLinks={this.props.navigationLinks}
-					pages={this.props.pages}
-					currentPageIndex={this.state.currentPageIndex}
-					changePage={this.changePage}
-					sliderClass={this.state.sliderClass}
-					slideCoverUp={this.slideCoverUp}
-				/>
+				<nav className="list--plain">
+					{this.props.navigationLinks.map((link, index) => {
+						let hash = `/${link.linked_region}`;
+						return (
+							<li key={index}>
+								<NavLink
+									to={hash}
+									activeClassName="selected"
+									activeStyle={{
+									    fontWeight: 'bold',
+									    color: 'tomato'
+									   }}
+									exact
+									>{link.text}</NavLink>
+							</li>
+						);
+					})}
+				</nav>
 
-				{currentPageData &&
-					<Page 
-						currentPageData={currentPageData}
-						currentModuleName={currentModuleName}
-						currentModuleData={currentModuleData}
-					/>
-				}
+				{this.props.regions.map((region, index) => {
+					let hash = `/${region.path_hash}`;
+					return (
+						<Route 
+							key={index}
+							path={hash}
+							render={() => (<Region title={region.title}/>)} 						
+						/>
+					);
+				})}
+
 			</div>
 		)
 	};
 }
 
+
 const mapStateToProps = state => (
     {
     	navigationLinks: state.navigationLinks,
-        pages: state.pages,
+        regions: state.regions,
         skills: state.skills,
         demos: state.demos,
         projects: state.projects
