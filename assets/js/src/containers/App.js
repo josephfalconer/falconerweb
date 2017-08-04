@@ -1,148 +1,107 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { NavLink, Route } from 'react-router-dom';
+import TransitionGroup from "react-transition-group/TransitionGroup";
+
 
 import DataFetcher from './DataFetcher';
 import Region from '../components/Region';
-
+import * as RegionActionCreators from '../actions/regions';
 
 class Application extends Component {
 
 	state = {
-		currentPageIndex: 0,
-		currentPageData: null,
-		isFrontCover: true,
-		containerClass: 'main-container is-down', 
-		sliderClass: 'slider',
+		isMovingView: false
 	}
 
-	componentDidMount() {
-		// this.changePage();
-	}
+	updateCurrentRegion = index => {
 
-	getModuleData = module => {
-		const { [module]:moduleData } = this.props;
-		return moduleData ? moduleData : [];
-	}
+		const Application = this,
+			{ dispatch } = this.props,
+			updateRegionData = bindActionCreators(RegionActionCreators.updateRegionData, dispatch);
 
-	changePage = (e, targetPageIndex=0) => {
-		if (e) e.preventDefault();
+		const currentX = this.props.currentRegion.x,
+			currentY = this.props.currentRegion.y,
+			targetX = this.props.regions[index].x,
+			targetY = this.props.regions[index].y;
 
-		const app = this,
-			difference = Math.abs(app.state.currentPageIndex - targetPageIndex),
-			targetPageData = app.props.pages[targetPageIndex];
+		let regionsClass = "regions",
+			transitionClass;
 
-		let isChangingPage = targetPageIndex != app.state.currentPageIndex,
+		if (currentX == targetX) {
+			transitionClass = targetY > currentY ? "js-move-up" : "js-move-down";
+			transitionClass = `js-column ${transitionClass}`;
+			console.log(targetY > currentY ? "Move down" : "Move up");
 
-			isFrontCover = this.state.isFrontCover;
-		
-		if (targetPageData) {
+		} else if (currentY == targetY) {
+			transitionClass = targetX > currentX ? "js-move-left" : "js-move-right";
 
-			if (isChangingPage && !isFrontCover) {
-				this.handleChangeFromPage(targetPageIndex, targetPageData);
-
-			} else {
-
-				app.setState({
-					...app.state,
-					currentPageIndex: targetPageIndex,
-					currentPageData: targetPageData,
-					isFrontCover: true,
-					containerClass: 'main-container is-down',
-					sliderClass: difference > 1 ? app.fadeAnimateSlider() : 'slider'
-				});
-			}
+		} else {
+			console.log("View is moving diagonal - fade transition");
 		}
-	}
 
-	handleChangeFromPage = (index, data) => {
-		const app =this,
-			mainClass = 'main-container',
-			downClass = `${mainClass} is-down`,
-			changingClass = `${downClass} is-changing-page`;
+		Application.setState({...Application.state, isMovingView: true});
+		setTimeout(() => { 
+			Application.setState({
+				...Application.state, 
+				isMovingView: false
+			}); 
+			updateRegionData(regionsClass, 'SET_TRANSITION_CLASS');
+		}, 5000);
 
-		app.setState({
-			...app.state,
-			isFrontCover: true,
-			containerClass: changingClass,
-			sliderClass: this.fadeAnimateSlider()
-		});
-
-		// keep current page data until fade out completes
-		setTimeout(() => {
-			app.setState({
-				...app.state,
-				currentPageIndex: index,
-				currentPageData: data
-			});
-		}, 1000);
-
-		// remove animation class once animation completes
-		setTimeout(() => {
-			app.setState({
-				...app.state,
-				containerClass: downClass
-			});
-		}, 2000);
-	}
-
-	fadeAnimateSlider = () => {
-		const app = this;
-		// reset the class attribute once animation completes
-		setTimeout(() => {
-			app.setState({...app.state, sliderClass: 'slider'});
-		}, 2000);
-
-		return "slider slider--fade";
-	}
-
-	slideCoverUp = () => {
-		this.setState({
-			...this.state, 
-			isFrontCover: false,
-			containerClass: 'main-container is-up'
-		});
+		updateRegionData(`${regionsClass} ${transitionClass}`, 'SET_TRANSITION_CLASS');
+		updateRegionData(this.props.regions[index], 'SET_CURRENT_REGION');
 	}
 
 	render() {	
-		const currentPageData = this.state.currentPageData,
-			currentModuleName = currentPageData && currentPageData.module_name,
-			currentModuleData = currentPageData && this.getModuleData(currentModuleName);
+		const { regions, navigationLinks } = this.props;
 
 		return (
 			<div>
 				<DataFetcher />
 
-				<nav className="list--plain">
-					{this.props.navigationLinks.map((link, index) => {
-						let hash = `/${link.linked_region}`;
+				{navigationLinks &&
+					<nav className="nav">
+						<ul className="nav__menu list--plain">
+							{navigationLinks.map((link, index) => {
+								let hash = `/${link.linked_region}`;
+								return (
+									<li key={index} onClick={() => { this.updateCurrentRegion(index); }}>
+										<NavLink
+											to={hash}
+											activeClassName="selected"
+											activeStyle={{
+											    fontWeight: 'bold',
+											    color: 'tomato'
+											   }}
+											exact
+											>{link.text}</NavLink>
+									</li>
+								);
+							})}
+						</ul>
+					</nav>
+				}
+
+				<section className={this.props.transitionClass}>
+					{this.state.isMovingView &&
+						<article className="region text">
+							<h1>PLACEHOLDER PREVIOUS</h1>
+							<div><p>This was the previous view</p></div>
+						</article>
+					}
+					{regions && regions.map((region, index) => {
+						let hash = `/${region.path_hash}`;
 						return (
-							<li key={index}>
-								<NavLink
-									to={hash}
-									activeClassName="selected"
-									activeStyle={{
-									    fontWeight: 'bold',
-									    color: 'tomato'
-									   }}
-									exact
-									>{link.text}</NavLink>
-							</li>
+							<Route 
+								key={index}
+								path={hash}
+								render={() => (<Region data={region} onTran/>)} 						
+							/>
 						);
 					})}
-				</nav>
-
-				{this.props.regions.map((region, index) => {
-					let hash = `/${region.path_hash}`;
-					return (
-						<Route 
-							key={index}
-							path={hash}
-							render={() => (<Region title={region.title}/>)} 						
-						/>
-					);
-				})}
-
+				</section>
 			</div>
 		)
 	};
@@ -151,11 +110,14 @@ class Application extends Component {
 
 const mapStateToProps = state => (
     {
-    	navigationLinks: state.navigationLinks,
-        regions: state.regions,
-        skills: state.skills,
-        demos: state.demos,
-        projects: state.projects
+    	navigationLinks: state.data.navigationLinks,
+        regions: state.data.regions,
+        updateRegionData: state.regions.updateRegionData,
+        currentRegion: state.regions.currentRegion,
+        transitionClass: state.regions.transitionClass
+     //    skills: state.skills,
+     //    demos: state.demos,
+     //    projects: state.projects
     }
 );
 

@@ -2,28 +2,24 @@
 // Keyframes available globally
 // ============================
 
+$regions-keyframes: (
+	'move-up': '0,-100%',
+	'move-down': '0,100%',
+	'move-left': '-100%',
+	'move-right': '100%',
+);
+
+@each $name, $value in $regions-keyframes {
+	@keyframes #{$name} {
+		100% {
+			transform: translate(#{$value;})
+		}
+	}
+}
+
+
 @keyframes orangeblink {
 	50% {
 		border-color: $orange--light;
-	}
-}
-
-@keyframes blink {
-	50% {
-		opacity: 1;
-	}
-}
-
-@keyframes fade-out-in {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
 	}
 }

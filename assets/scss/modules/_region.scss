@@ -1,0 +1,36 @@
+// ======
+// Main navigable regions
+// ======================
+
+.regions {
+	display: flex;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: $region-z-index;
+	@include square(100%);
+	// transition: transform 1s;
+
+	&.js-move-up {
+		transform: translateY(-100%);
+	}
+}
+
+.region {
+	height: 100%;
+	flex: 1 0 100%;
+
+	@include e(icon) {
+		display: block;
+		margin: 0 auto;
+		max-width: remcalc(200);
+
+		.stroke {
+			stroke: darken($white, 20%);
+		}
+
+		.fill {
+			fill: darken($white, 20%);
+		}
+	}
+}

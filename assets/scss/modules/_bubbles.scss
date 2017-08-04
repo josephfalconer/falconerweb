@@ -63,7 +63,7 @@ $bubbles-bob-stagger: 2s;
 
 // apply animation to rising bubbles
 @for $i from 1 through $bubbles-rising {
-	.slider {
+	.region {
 		.bubble--rise#{$i} {
 			animation: rise $bubbles-rise-duration $bubbles-rise-delay infinite;
 		}
@@ -75,7 +75,7 @@ $bubbles-bob-stagger: 2s;
 
 // apply animations to bobbing bubbles
 @for $i from 1 through $bubbles-bobbing {
-	.slider {
+	.region {
 		.bubble--bob#{$i} {
 			animation: bob $bubbles-bob-duration $bubbles-bob-delay infinite;
 		}

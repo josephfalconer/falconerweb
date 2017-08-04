@@ -6,24 +6,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { HashRouter, Route} from 'react-router-dom';
+import { BrowserRouter, Route} from 'react-router-dom';
 
 require('../../scss/styles.scss');
 
-import DataReducer from './reducers/reducer_data.js';
+import reducers from './reducers';
 import Application from './containers/App';
 
 
 const store = createStore(
-	DataReducer,
+	reducers,
 	window.devToolsExtension && window.devToolsExtension()
 );
 
 ReactDOM.render(
 	<Provider store={store}>
-		<HashRouter>
+		<BrowserRouter>
 			<Route path="/" component={Application} />
-		</HashRouter>
+		</BrowserRouter>
 	</Provider>,
 	document.getElementById('application')
 );

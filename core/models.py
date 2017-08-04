@@ -3,16 +3,6 @@ from django.db import models
 from regions.models import Region
 
 
-
-
-
-# navigation_paths = (
-# 	('/skills/', 'Skills'),
-# 	('/demos/', 'Demos'),
-# 	('/projects/', 'Projects'),
-# )
-
-
 class ModuleIterable(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	order = models.IntegerField(default=0)

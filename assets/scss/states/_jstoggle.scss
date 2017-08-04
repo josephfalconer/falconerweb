@@ -99,3 +99,15 @@
 		transition: opacity $main-layout-transition;
 	}
 }
+
+$regions-keyframes-keys: map-keys($regions-keyframes);
+
+@each $key in $regions-keyframes-keys {
+	.js-#{$key} {
+		animation: #{$key} 5s;
+	}
+}
+
+.js-column {
+	flex-direction: column;
+}

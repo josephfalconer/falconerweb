@@ -1,0 +1,2 @@
+export const SET_CURRENT_REGION = 'data/SET_CURRENT_REGION';
+export const SET_TRANSITION_CLASS = 'data/SET_TRANSITION_CLASS';
