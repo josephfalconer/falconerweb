@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { BrowserRouter, Route} from 'react-router-dom';
+import { HashRouter, Route} from 'react-router-dom';
 
 require('../../scss/styles.scss');
 
@@ -21,9 +21,9 @@ const store = createStore(
 
 ReactDOM.render(
 	<Provider store={store}>
-		<BrowserRouter>
+		<HashRouter>
 			<Route path="/" component={Application} />
-		</BrowserRouter>
+		</HashRouter>
 	</Provider>,
 	document.getElementById('application')
 );

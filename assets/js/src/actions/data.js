@@ -10,7 +10,7 @@ export const addData = (data, type) => {
 			if (x == 4)
 				x = 0, y++;
 
-			region.i = i, i++, region.x = x, region.y = y, x++;
+			region.index = i, i++, region.x = x, region.y = y, x++;
 		}
 	} 
 

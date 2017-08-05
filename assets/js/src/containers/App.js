@@ -5,7 +5,7 @@ import { NavLink, Route } from 'react-router-dom';
 
 import DataFetcher from './DataFetcher';
 import Region from '../components/Region';
-import DirectionButtons from '../components/FrontCoverButtons';
+import DirectionButtons from '../components/DirectionButtons';
 import * as RegionActionCreators from '../actions/regions';
 
 class Application extends Component {

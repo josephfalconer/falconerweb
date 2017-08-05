@@ -101,6 +101,18 @@ circle, .fill, .stroke, .highlightfill {
   }
 }
 
+@-webkit-keyframes blink {
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 1;
+  }
+}
+
 @-webkit-keyframes orangeblink {
   50% {
     border-color: #ffc04c;
