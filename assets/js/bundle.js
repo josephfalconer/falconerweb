@@ -31042,7 +31042,7 @@ var DirectionButtons = function DirectionButtons(props) {
 	var dispatch = props.dispatch,
 	    setRegionData = (0, _redux.bindActionCreators)(RegionActionCreators.setRegionData, dispatch),
 	    currentRegion = props.currentRegion,
-	    baseClass = 'frontcover__button frontcover__button',
+	    baseClass = 'direction direction',
 	    directionButtons = [{
 		condition: currentRegion.index > 0,
 		targetIndex: currentRegion.index - 1,
@@ -31072,12 +31072,13 @@ var DirectionButtons = function DirectionButtons(props) {
 
 	return _react2.default.createElement(
 		'div',
-		{ className: 'frontcover__buttons' },
+		{ className: 'directions' },
 		directionButtons.map(function (directionButton, index) {
 			if (directionButtons[index].condition) {
 				return _react2.default.createElement(
 					_reactRouterDom.Link,
 					{
+						key: index,
 						to: props.regions[directionButtons[index].targetIndex].path_hash,
 						onClick: function onClick(e) {
 							_onClick(e, directionButtons[index].targetIndex);
@@ -31086,8 +31087,18 @@ var DirectionButtons = function DirectionButtons(props) {
 					},
 					_react2.default.createElement(
 						'span',
-						null,
-						props.regions[directionButtons[index].targetIndex].title
+						{ className: 'direction__inner' },
+						_react2.default.createElement(
+							'span',
+							{ className: 'direction__text' },
+							props.regions[directionButtons[index].targetIndex].title
+						),
+						_react2.default.createElement(
+							'span',
+							{ className: 'direction__icon' },
+							_react2.default.createElement('i', null),
+							_react2.default.createElement('i', null)
+						)
 					)
 				);
 			} else {

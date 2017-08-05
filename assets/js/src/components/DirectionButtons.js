@@ -10,7 +10,7 @@ const DirectionButtons = props => {
 	const { dispatch } = props,
 		setRegionData = bindActionCreators(RegionActionCreators.setRegionData, dispatch),
 		currentRegion = props.currentRegion,
-		baseClass = 'frontcover__button frontcover__button',
+		baseClass = 'direction direction',
 		directionButtons = [
 			{
 				condition: currentRegion.index > 0,
@@ -43,16 +43,23 @@ const DirectionButtons = props => {
 	}
 
 	return (
-		<div className="frontcover__buttons">
+		<div className="directions">
 			{directionButtons.map((directionButton, index) => {
 				if (directionButtons[index].condition) {
 					return (
 						<Link 
+							key={index}
 							to={props.regions[directionButtons[index].targetIndex].path_hash}
 							onClick={e => { onClick(e, directionButtons[index].targetIndex); }} 
 							className={directionButtons[index].className}
 						>
-							<span>{props.regions[directionButtons[index].targetIndex].title}</span>
+							<span className="direction__inner">
+								<span className="direction__text">{props.regions[directionButtons[index].targetIndex].title}</span>
+								<span className="direction__icon">
+									<i></i>
+									<i></i>
+								</span>
+							</span>
 						</Link>
 					)
 				} else {

@@ -2,11 +2,9 @@
 // Manifest: module partials
 // =========================
 
-
 // global modules
 @import 'region';
-@import 'frontcover';
-// @import 'slider';
+@import 'directions';
 @import 'navigation';
 @import 'header';
 @import 'footer';
@@ -20,6 +18,3 @@
 @import 'bubbles';
 @import 'featureskills';
 @import 'featuredemos';
-
-
-// @import 'viewer/index';
