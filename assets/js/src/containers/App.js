@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavLink, Route } from 'react-router-dom';
-import TransitionGroup from "react-transition-group/TransitionGroup";
-
 
 import DataFetcher from './DataFetcher';
 import Region from '../components/Region';
+import DirectionButtons from '../components/FrontCoverButtons';
 import * as RegionActionCreators from '../actions/regions';
 
 class Application extends Component {
@@ -15,31 +14,17 @@ class Application extends Component {
 		isMovingView: false
 	}
 
-	updateCurrentRegion = index => {
-
+	setCurrentRegion = targetIndex => {
 		const Application = this,
 			{ dispatch } = this.props,
-			updateRegionData = bindActionCreators(RegionActionCreators.updateRegionData, dispatch);
-
-		const currentX = this.props.currentRegion.x,
-			currentY = this.props.currentRegion.y,
-			targetX = this.props.regions[index].x,
-			targetY = this.props.regions[index].y;
+			setRegionData = bindActionCreators(RegionActionCreators.setRegionData, dispatch);
 
 		let regionsClass = "regions",
-			transitionClass;
+			transitionClass = this.getTransitionClass(targetIndex),
+			timeoutDelay = transitionClass == "js-fade" ? 500 : 1000;
 
-		if (currentX == targetX) {
-			transitionClass = targetY > currentY ? "js-move-up" : "js-move-down";
-			transitionClass = `js-column ${transitionClass}`;
-			console.log(targetY > currentY ? "Move down" : "Move up");
+		setRegionData(this.props.currentRegion, 'SET_OUTGOING_REGION');
 
-		} else if (currentY == targetY) {
-			transitionClass = targetX > currentX ? "js-move-left" : "js-move-right";
-
-		} else {
-			console.log("View is moving diagonal - fade transition");
-		}
 
 		Application.setState({...Application.state, isMovingView: true});
 		setTimeout(() => { 
@@ -47,15 +32,36 @@ class Application extends Component {
 				...Application.state, 
 				isMovingView: false
 			}); 
-			updateRegionData(regionsClass, 'SET_TRANSITION_CLASS');
-		}, 5000);
+			setRegionData(regionsClass, 'SET_TRANSITION_CLASS');
+		}, timeoutDelay);
 
-		updateRegionData(`${regionsClass} ${transitionClass}`, 'SET_TRANSITION_CLASS');
-		updateRegionData(this.props.regions[index], 'SET_CURRENT_REGION');
+		setRegionData(`${regionsClass} ${transitionClass}`, 'SET_TRANSITION_CLASS');
+		setRegionData(this.props.regions[targetIndex], 'SET_CURRENT_REGION');
+	}
+
+	getTransitionClass = targetIndex => {
+		const currentX = this.props.currentRegion.x,
+			currentY = this.props.currentRegion.y,
+			targetX = this.props.regions[targetIndex].x,
+			targetY = this.props.regions[targetIndex].y;
+
+		let transitionClass = "js-move ";
+
+		if ( currentX == targetX && Math.abs(currentY - targetY) == 1 ) {
+			transitionClass += targetY > currentY ? "js-column js-move-up" : "js-column-reverse js-move-down";
+
+		} else if (currentY == targetY && Math.abs(currentX - targetX) == 1 ) {
+			transitionClass += targetX > currentX ? "js-move-left" : "js-row-reverse js-move-right";
+
+		} else {
+			transitionClass = "js-fade";
+		}
+		return transitionClass;
 	}
 
 	render() {	
-		const { regions, navigationLinks } = this.props;
+		const { regions, navigationLinks } = this.props,
+			{ isMovingView } = this.state;
 
 		return (
 			<div>
@@ -67,7 +73,11 @@ class Application extends Component {
 							{navigationLinks.map((link, index) => {
 								let hash = `/${link.linked_region}`;
 								return (
-									<li key={index} onClick={() => { this.updateCurrentRegion(index); }}>
+									<li 
+										key={index} 
+										className="nav__item"
+										onClick={() => { if (!isMovingView) this.setCurrentRegion(index); }}
+									>
 										<NavLink
 											to={hash}
 											activeClassName="selected"
@@ -76,7 +86,12 @@ class Application extends Component {
 											    color: 'tomato'
 											   }}
 											exact
-											>{link.text}</NavLink>
+											onClick={e => { if (isMovingView) e.preventDefault(); }}
+										>{link.text}</NavLink>
+
+										{isMovingView && 
+											<span className="nav__itemoverlay"></span>
+										}
 									</li>
 								);
 							})}
@@ -84,12 +99,14 @@ class Application extends Component {
 					</nav>
 				}
 
+				<DirectionButtons
+					setCurrentRegion={this.setCurrentRegion}
+					isMovingView={isMovingView} 
+				/>
+
 				<section className={this.props.transitionClass}>
-					{this.state.isMovingView &&
-						<article className="region text">
-							<h1>PLACEHOLDER PREVIOUS</h1>
-							<div><p>This was the previous view</p></div>
-						</article>
+					{isMovingView &&
+						<Region data={this.props.outgoingRegion} />
 					}
 					{regions && regions.map((region, index) => {
 						let hash = `/${region.path_hash}`;
@@ -97,7 +114,7 @@ class Application extends Component {
 							<Route 
 								key={index}
 								path={hash}
-								render={() => (<Region data={region} onTran/>)} 						
+								render={() => (<Region data={region} />)} 						
 							/>
 						);
 					})}
@@ -112,12 +129,10 @@ const mapStateToProps = state => (
     {
     	navigationLinks: state.data.navigationLinks,
         regions: state.data.regions,
-        updateRegionData: state.regions.updateRegionData,
+        setRegionData: state.regions.setRegionData,
+        outgoingRegion: state.regions.outgoingRegion,
         currentRegion: state.regions.currentRegion,
         transitionClass: state.regions.transitionClass
-     //    skills: state.skills,
-     //    demos: state.demos,
-     //    projects: state.projects
     }
 );
 

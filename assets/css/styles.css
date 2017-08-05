@@ -77,59 +77,27 @@ circle, .fill, .stroke, .highlightfill {
   font-family: "Roboto", Helvetica, Arial, sans-serif;
 }
 
-@-webkit-keyframes move-up {
+@-webkit-keyframes fade-out-in {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
   100% {
-    -webkit-transform: translate(0,-100%);
-            transform: translate(0,-100%);
+    opacity: 1;
   }
 }
 
-@keyframes move-up {
-  100% {
-    -webkit-transform: translate(0,-100%);
-            transform: translate(0,-100%);
+@keyframes fade-out-in {
+  0% {
+    opacity: 1;
   }
-}
-
-@-webkit-keyframes move-down {
-  100% {
-    -webkit-transform: translate(0,100%);
-            transform: translate(0,100%);
+  50% {
+    opacity: 0;
   }
-}
-
-@keyframes move-down {
   100% {
-    -webkit-transform: translate(0,100%);
-            transform: translate(0,100%);
-  }
-}
-
-@-webkit-keyframes move-left {
-  100% {
-    -webkit-transform: translate(-100%);
-            transform: translate(-100%);
-  }
-}
-
-@keyframes move-left {
-  100% {
-    -webkit-transform: translate(-100%);
-            transform: translate(-100%);
-  }
-}
-
-@-webkit-keyframes move-right {
-  100% {
-    -webkit-transform: translate(100%);
-            transform: translate(100%);
-  }
-}
-
-@keyframes move-right {
-  100% {
-    -webkit-transform: translate(100%);
-            transform: translate(100%);
+    opacity: 1;
   }
 }
 
@@ -246,11 +214,6 @@ svg {
   height: 100%;
 }
 
-.regions.js-move-up {
-  -webkit-transform: translateY(-100%);
-          transform: translateY(-100%);
-}
-
 .region {
   height: 100%;
   -webkit-box-flex: 1;
@@ -270,6 +233,69 @@ svg {
 
 .region__icon .fill {
   fill: #cccccc;
+}
+
+.frontcover__buttons {
+  position: fixed;
+  top: 50%;
+  z-index: 10;
+  width: 100%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.frontcover__button {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  outline: none;
+  width: 1.875rem;
+  height: 1.875rem;
+  background: url(/static/arrow.svg) no-repeat center;
+  background-size: cover;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.frontcover__button:after {
+  content: "";
+  display: block;
+  width: 0.9375rem;
+  height: 0.9375rem;
+  background-image: url(/static/arrow.svg);
+  opacity: 0;
+  -webkit-animation: blink 1s 1s infinite;
+          animation: blink 1s 1s infinite;
+}
+
+.frontcover__button--prev {
+  top: 40%;
+  left: 1.25rem;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+
+.frontcover__button--next {
+  top: 40%;
+  right: 0;
+  right: 1.25rem;
+  -webkit-transform: rotate(135deg);
+          transform: rotate(135deg);
+}
+
+.frontcover__button--down {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 82px;
+  margin: 0 auto;
+  -webkit-transform: rotate(225deg);
+          transform: rotate(225deg);
 }
 
 .nav {
@@ -338,6 +364,15 @@ svg {
     display: flex;
     width: initial;
     height: 64px;
+    width: 400px;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .nav__menu li {
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 25%;
+            flex: 1 0 25%;
+    height: 18px;
   }
 }
 
@@ -1045,62 +1080,30 @@ svg {
   border-color: #343434;
 }
 
-.is-up {
-  top: -100%;
-}
-
-.is-up .nav {
-  background-color: rgba(119, 119, 119, 0.8);
-  -webkit-transform: translateY(100%);
-          transform: translateY(100%);
-}
-
-.is-up .page {
-  -webkit-transform: none;
-          transform: none;
-}
-
-.slider--fade {
-  -webkit-transition: left 0s 1s;
-  transition: left 0s 1s;
-  -webkit-animation: fade-out-in 2s 1;
-          animation: fade-out-in 2s 1;
-}
-
-.is-changing-page {
-  -webkit-transition: top 0s 1s;
-  transition: top 0s 1s;
-}
-
-.is-changing-page .slider {
-  -webkit-transition: none;
-  transition: none;
-}
-
-.is-changing-page .page {
-  opacity: 0;
-  -webkit-transition: opacity 1s;
-  transition: opacity 1s;
-}
-
-.js-move-up {
-  -webkit-animation: move-up 5s;
-          animation: move-up 5s;
-}
-
-.js-move-down {
-  -webkit-animation: move-down 5s;
-          animation: move-down 5s;
+.js-move {
+  -webkit-transition: all 1s;
+  transition: all 1s;
 }
 
 .js-move-left {
-  -webkit-animation: move-left 5s;
-          animation: move-left 5s;
+  left: -100%;
 }
 
 .js-move-right {
-  -webkit-animation: move-right 5s;
-          animation: move-right 5s;
+  left: 100%;
+}
+
+.js-move-up {
+  top: -100%;
+}
+
+.js-move-down {
+  top: 100%;
+}
+
+.js-fade {
+  -webkit-animation: fade-out-in 1s;
+          animation: fade-out-in 1s;
 }
 
 .js-column {
@@ -1108,6 +1111,20 @@ svg {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+
+.js-column-reverse {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+}
+
+.js-row-reverse {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
 }
 
 .nav--grey.active .topmenu__trigger {

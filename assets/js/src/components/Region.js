@@ -25,12 +25,4 @@ Region.propTypes = {
 	data: PropTypes.object.isRequired,
 }
 
-
-const mapStateToProps = state => (
-    {
-        regions: state.regions,
-    }
-);
-
-// export default connect(mapStateToProps)(Region);
 export default Region;

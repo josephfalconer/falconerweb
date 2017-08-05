@@ -68,46 +68,42 @@
 	}
 }
 
-.is-up {
-	top: -100%;
 
-	.nav {
-		background-color: transparentize($grey--primary, 0.2);
-		transform: translateY(100%);
+// region transitions
+.js {
+	&-move {
+		transition: all 1s;
 	}
-
-	.page {
-		transform: none;
+	
+	&-move-left {
+		left: -100%;
 	}
-}
-
-.slider--fade {
-	transition: left 0s 1s;
-	animation: fade-out-in ($main-layout-transition * 2) 1;
-}
-
-.is-changing-page {
-	transition: top 0s $main-layout-transition;
-
-	.slider {
-		transition: none;
-		// animation: fade-out-in 2s 1;
+	
+	&-move-right {
+		left: 100%;
 	}
-
-	.page {
-		opacity: 0;
-		transition: opacity $main-layout-transition;
+	
+	&-move-up {
+		top: -100%;
 	}
-}
-
-$regions-keyframes-keys: map-keys($regions-keyframes);
-
-@each $key in $regions-keyframes-keys {
-	.js-#{$key} {
-		animation: #{$key} 5s;
+	
+	&-move-down {
+		top: 100%;
 	}
-}
-
-.js-column {
-	flex-direction: column;
+	
+	&-fade {
+		animation: fade-out-in 1s;
+	}
+	
+	&-column {
+		flex-direction: column;
+	}
+	
+	&-column-reverse {
+		flex-direction: column-reverse;
+	}
+	
+	&-row-reverse {
+		flex-direction: row-reverse;
+	}
 }

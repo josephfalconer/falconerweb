@@ -6,8 +6,13 @@ $frontcover-button-offset: remcalc(20);
 
 
 .frontcover {
-	@include square(100%);
-	color: $white;
+	@include e(buttons) {
+		position: fixed;
+	    top: 50%;
+	    z-index: $navigation-z-index;
+	    width: 100%;
+	    transform: translateY(-50%);
+	}
 
 	@include e(button) {
 		position: absolute;

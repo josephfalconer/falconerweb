@@ -4,13 +4,13 @@ export const addData = (data, type) => {
 
 	// each region gets x-y position values
 	if (type == 'ADD_REGIONS') {
-		let	x = 0, y = 0;
+		let	i = 0, x = 0, y = 0;
 
 		for (let region of data) {
 			if (x == 4)
 				x = 0, y++;
 
-			region.x = x, region.y = y, x++;
+			region.i = i, i++, region.x = x, region.y = y, x++;
 		}
 	} 
 

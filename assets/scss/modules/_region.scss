@@ -9,11 +9,6 @@
 	left: 0;
 	z-index: $region-z-index;
 	@include square(100%);
-	// transition: transform 1s;
-
-	&.js-move-up {
-		transform: translateY(-100%);
-	}
 }
 
 .region {

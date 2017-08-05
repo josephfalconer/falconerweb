@@ -54,6 +54,14 @@ $nav-toplink-width-xl: 100px;
 			display: flex;
 			width: initial;
 			height: 64px;
+
+			width: 400px;
+		    flex-wrap: wrap;
+
+		    li {
+		    	flex: 1 0 25%;
+		    	height: 18px
+		    }
 		}
 
 		@include mq(lg) {
