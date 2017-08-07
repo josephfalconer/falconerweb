@@ -10,27 +10,27 @@ const DirectionButtons = props => {
 	const { dispatch } = props,
 		setRegionData = bindActionCreators(RegionActionCreators.setRegionData, dispatch),
 		currentRegion = props.currentRegion,
-		baseClass = 'direction direction',
+		baseClass = 'direction',
 		directionButtons = [
 			{
 				condition: currentRegion.index > 0,
 				targetIndex: currentRegion.index - 1,
-				className: `${baseClass}--prev`
+				className: `${baseClass} ${baseClass}--side ${baseClass}--prev`
 			},
 			{
 				condition: currentRegion.index < 3,
 				targetIndex: currentRegion.index + 1,
-				className: `${baseClass}--next`
+				className: `${baseClass} ${baseClass}--side ${baseClass}--next`
 			},
 			{
 				condition: currentRegion.y == 0,
 				targetIndex: currentRegion.index + 4,
-				className: `${baseClass}--down`
+				className: `${baseClass} ${baseClass}--vert ${baseClass}--down`
 			},
 			{
 				condition: currentRegion.y == 1,
 				targetIndex: currentRegion.index - 4,
-				className: `${baseClass}--up`
+				className: `${baseClass} ${baseClass}--vert ${baseClass}--up`
 			}
 		];
 

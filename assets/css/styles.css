@@ -259,17 +259,9 @@ svg {
   fill: #cccccc;
 }
 
-.directions {
-  position: fixed;
-  top: 50%;
-  z-index: 10;
-  width: 100%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-}
-
 .direction {
-  position: absolute;
+  position: fixed;
+  z-index: 10;
   outline: none;
   width: 1.875rem;
   height: 1.875rem;
@@ -286,60 +278,42 @@ svg {
   opacity: 0;
 }
 
-.direction:hover .direction__icon i:first-of-type {
+.direction--side {
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.direction--side:hover i:first-of-type {
   -webkit-transform: rotate(135deg);
           transform: rotate(135deg);
 }
 
-.direction:hover .direction__icon i:last-of-type {
+.direction--side:hover i:last-of-type {
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
 }
 
-.direction i {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url(/static/arrow-line.svg) no-repeat center;
-  background-size: cover;
-  -webkit-transition: -webkit-transform 0.25s;
-  transition: -webkit-transform 0.25s;
-  transition: transform 0.25s;
-  transition: transform 0.25s, -webkit-transform 0.25s;
-}
-
-.direction__icon {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.direction__icon i:first-of-type {
-  -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
-}
-
-.direction__icon::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 50%;
+.direction--vert {
   left: 50%;
-  width: 0.9375rem;
-  height: 0.9375rem;
-  background-image: url(/static/arrow.svg);
-  -webkit-animation: fade-in-out 1s infinite;
-          animation: fade-in-out 1s infinite;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  -webkit-transition: opacity 0.25s;
-  transition: opacity 0.25s;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.direction--vert .direction__text {
+  left: -2.1875rem;
+  width: 6.25rem;
+  text-align: center;
+}
+
+.direction--vert:hover i {
+  -webkit-transform: translate(-10px, 10px) rotate(45deg);
+          transform: translate(-10px, 10px) rotate(45deg);
+}
+
+.direction--vert:hover i:first-of-type {
+  -webkit-transform: translate(10px, -10px) rotate(45deg);
+          transform: translate(10px, -10px) rotate(45deg);
 }
 
 .direction--prev {
@@ -368,12 +342,17 @@ svg {
           transform: rotate(135deg);
 }
 
+.direction--up {
+  top: 1.25rem;
+}
+
+.direction--up .direction__icon {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
 .direction--down {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 82px;
-  margin: 0 auto;
+  bottom: 5.625rem;
 }
 
 .direction--down .direction__icon {
@@ -395,6 +374,52 @@ svg {
   opacity: 0;
   -webkit-transition: opacity 0.25s;
   transition: opacity 0.25s;
+}
+
+.direction__icon {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.direction__icon::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.9375rem;
+  height: 0.9375rem;
+  background-image: url(/static/arrow.svg);
+  -webkit-animation: fade-in-out 1s infinite;
+          animation: fade-in-out 1s infinite;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transition: opacity 0.25s;
+  transition: opacity 0.25s;
+}
+
+.direction i {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url(/static/arrow-line.svg) no-repeat -0.03125rem;
+  background-size: cover;
+  -webkit-transition: -webkit-transform 0.25s;
+  transition: -webkit-transform 0.25s;
+  transition: transform 0.25s;
+  transition: transform 0.25s, -webkit-transform 0.25s;
+}
+
+.direction i:first-of-type {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
 }
 
 .nav {
@@ -461,17 +486,13 @@ svg {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    width: initial;
+    width: 18.75rem;
     height: 64px;
-    width: 400px;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
   }
   .nav__menu li {
     -webkit-box-flex: 1;
         -ms-flex: 1 0 25%;
             flex: 1 0 25%;
-    height: 18px;
   }
 }
 

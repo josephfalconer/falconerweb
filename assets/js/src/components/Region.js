@@ -5,7 +5,8 @@ import Icons from './icons/Icons';
 
 
 const Region = props => {
-	const backgroundStyle = { backgroundImage: `url(${props.data.background})` };
+	const backgroundStyle = { backgroundImage: `url(${props.data.background})` },
+		longTitle = props.data.long_title;
 	let { [props.data.icon]:Icon } = Icons;
 
 	if (Icon) {
@@ -15,7 +16,7 @@ const Region = props => {
 	return (
 		<article className="region text" style={backgroundStyle}>
 			{Icon && <figure className="region__icon">{Icon}</figure>}
-			<h1>{props.data.title}</h1>
+			<h1>{longTitle ? longTitle : props.data.title}</h1>
 			<div dangerouslySetInnerHTML={{__html: props.data.intro_text}}></div>
 		</article>		
 	)

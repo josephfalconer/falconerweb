@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { NavLink, Route } from 'react-router-dom';
 
 import DataFetcher from './DataFetcher';
+import Navigation from '../components/Navigation';
 import Region from '../components/Region';
 import DirectionButtons from '../components/DirectionButtons';
 import * as RegionActionCreators from '../actions/regions';
@@ -68,35 +69,10 @@ class Application extends Component {
 				<DataFetcher />
 
 				{navigationLinks &&
-					<nav className="nav">
-						<ul className="nav__menu list--plain">
-							{navigationLinks.map((link, index) => {
-								let hash = `/${link.linked_region}`;
-								return (
-									<li 
-										key={index} 
-										className="nav__item"
-										onClick={() => { if (!isMovingView) this.setCurrentRegion(index); }}
-									>
-										<NavLink
-											to={hash}
-											activeClassName="selected"
-											activeStyle={{
-											    fontWeight: 'bold',
-											    color: 'tomato'
-											   }}
-											exact
-											onClick={e => { if (isMovingView) e.preventDefault(); }}
-										>{link.text}</NavLink>
-
-										{isMovingView && 
-											<span className="nav__itemoverlay"></span>
-										}
-									</li>
-								);
-							})}
-						</ul>
-					</nav>
+					<Navigation 
+						setCurrentRegion={this.setCurrentRegion} 
+						isMovingView={isMovingView}
+					/>
 				}
 
 				<DirectionButtons

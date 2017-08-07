@@ -2,20 +2,12 @@
 // Sliding frontcover module
 // =========================
 
-$direction-offset: remcalc(20);
+$direction-offset: 20;
 $direction-size: remcalc(30);
 
-
-.directions {
-	position: fixed;
-    top: 50%;
-    z-index: $navigation-z-index;
-    width: 100%;
-    transform: translateY(-50%);
-}
-
 .direction {
-	position: absolute;
+	position: fixed;
+	z-index: $navigation-z-index;
 	outline: none;
 	@include square($direction-size);
 	color: $white;
@@ -30,7 +22,14 @@ $direction-size: remcalc(30);
 				animation: none;
 				opacity: 0;
 			}
+		}
+	}
 
+	@include m(side) {
+		top: 50%;
+		transform: translateY(-50%);
+
+		&:hover {
 			i {
 				&:first-of-type {
 					transform: rotate(135deg);
@@ -43,15 +42,79 @@ $direction-size: remcalc(30);
 		}
 	}
 
-	i {
+	@include m(vert) {
+		left: 50%;
+		transform: translateX(-50%);
+
+		.direction__text {
+			left: remcalc(-35);
+			width: remcalc(100);
+			text-align: center;
+		}
+
+		&:hover {
+			i {
+				transform: translate(-10px,10px) rotate(45deg);
+
+				&:first-of-type {
+					transform: translate(10px,-10px) rotate(45deg);
+				}
+			}
+		}
+	}
+
+	@include m(prev) {
+		left: remcalc($direction-offset);
+
+		.direction__text {
+			left: 0;
+		}
+
+		.direction__icon {
+			transform: rotate(-45deg);
+		}
+	}
+
+	@include m(next) {
+		right: remcalc($direction-offset);
+
+		.direction__text {
+			right: 0;
+		}
+		
+		.direction__icon {
+			transform: rotate(135deg);
+		}
+	}
+
+	@include m(up) {
+		top: remcalc($direction-offset);
+		
+		.direction__icon {
+			transform: rotate(45deg);
+		}
+	}
+
+	@include m(down) {
+		bottom: remcalc($direction-offset * 4.5);
+		
+		.direction__icon {
+			transform: rotate(225deg);
+		}
+	}
+
+	@include e(inner) {
 		display: block;
+		position: relative;
+		@include square(100%);
+	}
+
+	@include e(text) {
 		position: absolute;
 		top: 0;
-		left: 0;
-		@include square(100%);
-		background: url(/static/arrow-line.svg) no-repeat center;
-		background-size: cover;
-		transition: transform $transition-duration;
+		line-height: $direction-size;
+		opacity: 0;
+		transition: opacity $transition-duration;
 	}
 
 	@include e(icon) {
@@ -59,11 +122,7 @@ $direction-size: remcalc(30);
 		position: absolute;
 		top: 0;
 		left: 0;
-		@include square(100%);
-
-		i:first-of-type {
-			transform: rotate(90deg);
-		}
+		@include square(100%);		
 
 		&::after {
 			content: "";
@@ -79,53 +138,18 @@ $direction-size: remcalc(30);
 		}
 	}
 
-	@include m(prev) {
-		left: $direction-offset;
-
-		.direction__text {
-			left: 0;
-		}
-
-		.direction__icon {
-			transform: rotate(-45deg);
-		}
-	}
-
-	@include m(next) {
-		right: $direction-offset;
-
-		.direction__text {
-			right: 0;
-		}
-		
-		.direction__icon {
-			transform: rotate(135deg);
-		}
-	}
-
-	@include m(down) {
-		position: absolute;
-	    left: 0;
-	    right: 0;
-	    bottom: $nav-height-xl;
-	    margin: 0 auto;
-
-	    .direction__icon {
-			transform: rotate(225deg);
-		}  
-	}
-
-	@include e(inner) {
+	i {
 		display: block;
-		position: relative;
-		@include square(100%);
-	}
-
-	@include e(text) {
 		position: absolute;
 		top: 0;
-		line-height: $direction-size;
-		opacity: 0;
-		transition: opacity $transition-duration;
+		left: 0;
+		@include square(100%);
+		background: url(/static/arrow-line.svg) no-repeat remcalc(-0.5);
+		background-size: cover;
+		transition: transform $transition-duration;
+
+		&:first-of-type {
+			transform: rotate(90deg);
+		}
 	}
 }

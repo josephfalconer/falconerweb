@@ -22,7 +22,8 @@ class Region(models.Model):
 	path_hash = models.CharField(max_length=255, blank=True)
 	icon = models.CharField(max_length=200, choices=icons, blank=True)
 	background = models.CharField(max_length=200, choices=backgrounds, blank=True)
-	title = models.CharField(max_length=255)
+	title = models.CharField(max_length=20)
+	long_title = models.CharField(max_length=255, blank=True)
 	intro_text = models.TextField(blank=True)
 
 	def __str__(self):

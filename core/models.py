@@ -3,6 +3,13 @@ from django.db import models
 from regions.models import Region
 
 
+icons = (
+	('logo', 'Logo'),
+    ('skills', 'Spanner and Screwdriver'),
+    ('projects', '@ symbol'),
+    ('demos', 'Laboratory Beaker'),
+)
+
 class ModuleIterable(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	order = models.IntegerField(default=0)
@@ -20,11 +27,14 @@ class ModuleIterable(models.Model):
 class NavigationLink(models.Model):
 	regions = Region.objects.all()
 	region_path_hashes = []
+	region_titles = []
 
 	for region in regions:
 		region_path_hashes.append((region.path_hash, region.title))
+		region_titles.append((region.title, region.title))
 
-	text = models.CharField(max_length=25)
+	icon = models.CharField(max_length=200, choices=icons, blank=True)
+	text = models.CharField(max_length=20, choices=region_titles)
 	linked_region = models.CharField(max_length=50, choices=region_path_hashes, blank=True, default=None)
 
 	def __str__(self):
