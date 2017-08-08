@@ -16,6 +16,12 @@ backgrounds = (
     ('/static/backgrounds/squares.png', 'Grey and White Squares'),
 )
 
+content_module_types = (
+	('text', 'Text'),
+	('skills_accordion', 'Skills Accordion'),
+	('demos_menu', 'Demos Menu')
+)
+
 class Region(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	order = models.IntegerField(default=0)
@@ -28,3 +34,8 @@ class Region(models.Model):
 
 	def __str__(self):
 		return self.title
+
+
+class ContentModule(models.Model):
+	module_type = models.CharField(max_length=100, choices=content_module_types)
+	region = models.ForeignKey(Region)
