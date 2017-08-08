@@ -14,6 +14,17 @@
 .region {
 	height: 100%;
 	flex: 1 0 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+
+	&::-webkit-scrollbar {
+		width: 0px;
+	}
+
+	@include e(inner) {
+		width: 100%;
+		min-height: 100%;
+	}
 
 	@include e(icon) {
 		display: block;

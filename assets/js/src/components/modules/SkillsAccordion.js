@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
 
 
 class ModuleSkills extends Component {
@@ -64,5 +65,10 @@ class ModuleSkills extends Component {
 	} 	
 }
 
+const mapStateToProps = state => (
+    { 
+    	skills: state.data.skills,
+    }
+);
 
-export default ModuleSkills;
+export default connect(mapStateToProps)(ModuleSkills);

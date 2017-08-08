@@ -10,11 +10,15 @@ class DataFetcher extends Component {
 	requests = [
 		{
 			url: '/navigation/',
-			type: 'ADD_NAVIGATION'
+			type: 'ADD_NAVIGATION_ITEMS'
 		},
 		{
-			url: '/regions/',
+			url: '/regions/data-regions',
 			type: 'ADD_REGIONS'
+		},
+		{
+			url: '/regions/data-content-modules',
+			type: 'ADD_CONTENT_MODULES'
 		},
 		{
 			url: '/skills/',
@@ -52,13 +56,18 @@ class DataFetcher extends Component {
 				})
 				.then(data => {
 
-					let fields = [];
+					let dataFields = [];
 
-					for (let dataObject of data) {
-						fields.push(dataObject.fields);
+					for (let dataItem of data) {
+
+						if (request.type == "ADD_REGIONS") {
+							dataItem.fields.pk = dataItem.pk;
+						}
+
+						dataFields.push(dataItem.fields);
 					}
 
-					addData(fields, request.type);
+					addData(dataFields, request.type);
 				});
         }
 

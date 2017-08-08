@@ -3,6 +3,7 @@ import * as DataActionTypes from '../actiontypes/data';
 const initialState = {
 	navigationLinks: [],
 	regions: [],
+	contentModules: [],
 	skills: [],
 	demos: [],
 	projects: []
@@ -12,7 +13,7 @@ export default function Data(state=initialState, action) {
 
 	switch(action.type) {
 
-		case DataActionTypes.ADD_NAVIGATION: {
+		case DataActionTypes.ADD_NAVIGATION_ITEMS: {
 			return {
 				...state,
 				navigationLinks: action.data
@@ -23,6 +24,13 @@ export default function Data(state=initialState, action) {
 			return {
 				...state,
 				regions: action.data
+			};
+		}
+
+		case DataActionTypes.ADD_CONTENT_MODULES: {
+			return {
+				...state,
+				contentModules: action.data
 			};
 		}
 
