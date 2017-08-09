@@ -2,7 +2,11 @@ import * as RegionActionTypes from '../actiontypes/regions';
 
 const initialState = {
 	outgoingRegion: {},
-	currentRegion: {},
+	currentRegion: {
+		index: 0,
+		x: 0,
+		y: 0,
+	},
 	transitionClass: 'regions'
 }
 

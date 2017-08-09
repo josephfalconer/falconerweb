@@ -15,29 +15,35 @@ class Application extends Component {
 		isMovingView: false
 	}
 
+	componentDidMount() {
+		const { dispatch } = this.props;
+		this.setRegionData = bindActionCreators(RegionActionCreators.setRegionData, dispatch);
+		// 	this.setRegionData(this.props.regions[0], 'SET_OUTGOING_REGION');
+	}
+
 	setCurrentRegion = targetIndex => {
-		const Application = this,
-			{ dispatch } = this.props,
-			setRegionData = bindActionCreators(RegionActionCreators.setRegionData, dispatch);
+		const App = this,
+			currentRegion = !this.isSet ? this.props.regions[0] : this.props.currentRegion;
 
 		let regionsClass = "regions",
 			transitionClass = this.getTransitionClass(targetIndex),
 			timeoutDelay = transitionClass == "js-fade" ? 500 : 1000;
 
-		setRegionData(this.props.currentRegion, 'SET_OUTGOING_REGION');
+		this.isSet = true;
 
+		App.setRegionData(currentRegion, 'SET_OUTGOING_REGION');
 
-		Application.setState({...Application.state, isMovingView: true});
+		App.setState({...App.state, isMovingView: true});
 		setTimeout(() => { 
-			Application.setState({
-				...Application.state, 
+			App.setState({
+				...App.state, 
 				isMovingView: false
 			}); 
-			setRegionData(regionsClass, 'SET_TRANSITION_CLASS');
+			App.setRegionData(regionsClass, 'SET_TRANSITION_CLASS');
 		}, timeoutDelay);
 
-		setRegionData(`${regionsClass} ${transitionClass}`, 'SET_TRANSITION_CLASS');
-		setRegionData(this.props.regions[targetIndex], 'SET_CURRENT_REGION');
+		App.setRegionData(`${regionsClass} ${transitionClass}`, 'SET_TRANSITION_CLASS');
+		App.setRegionData(this.props.regions[targetIndex], 'SET_CURRENT_REGION');
 	}
 
 	getTransitionClass = targetIndex => {
@@ -89,6 +95,7 @@ class Application extends Component {
 						return (
 							<Route 
 								key={index}
+								exact
 								path={hash}
 								render={() => (<Region data={region} />)} 						
 							/>

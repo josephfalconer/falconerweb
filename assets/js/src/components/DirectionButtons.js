@@ -42,32 +42,38 @@ const DirectionButtons = props => {
 		}
 	}
 
-	return (
-		<div className="directions">
-			{directionButtons.map((directionButton, index) => {
-				if (directionButtons[index].condition) {
-					return (
-						<Link 
-							key={index}
-							to={props.regions[directionButtons[index].targetIndex].path_hash}
-							onClick={e => { onClick(e, directionButtons[index].targetIndex); }} 
-							className={directionButtons[index].className}
-						>
-							<span className="direction__inner">
-								<span className="direction__text">{props.regions[directionButtons[index].targetIndex].title}</span>
-								<span className="direction__icon">
-									<i></i>
-									<i></i>
+	if (props.regions.length) {		
+		return (
+			<div className="directions">
+				{directionButtons.map((button, index) => {
+					if (button.condition) {
+						return (
+							<Link 
+								key={index}
+								to={props.regions[button.targetIndex].path_hash}
+								onClick={e => { onClick(e, button.targetIndex); }} 
+								className={button.className}
+							>
+								<span className="direction__inner">
+									<span className="direction__text">{props.regions[button.targetIndex].title}</span>
+									<span className="direction__icon">
+										<i></i>
+										<i></i>
+									</span>
 								</span>
-							</span>
-						</Link>
-					)
-				} else {
-					return null;
-				}
-			})}
-		</div>		
-	);
+							</Link>
+						)
+					} else {
+						return null;
+					}
+				})}
+			</div>		
+		)
+	} else {
+		return null;
+	}
+
+	
 }
 
 DirectionButtons.propTypes = {
