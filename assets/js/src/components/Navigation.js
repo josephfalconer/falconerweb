@@ -21,7 +21,7 @@ const Navigation = props => {
 						<li 
 							key={index} 
 							className={navItemClass}
-							onClick={() => { if (!props.isMovingView) props.setCurrentRegion(index); }}
+							onClick={() => { if (!props.isMovingView) props.transitionRegion(index); }}
 						>
 							<NavLink
 								to={hash}
@@ -46,7 +46,7 @@ const Navigation = props => {
 
 Navigation.propTypes = {
 	navigationLinks: PropTypes.array.isRequired,
-	setCurrentRegion: PropTypes.func.isRequired,
+	transitionRegion: PropTypes.func.isRequired,
 	isMovingView: PropTypes.bool.isRequired,
 }
 

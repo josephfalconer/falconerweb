@@ -7,29 +7,27 @@ import * as RegionActionCreators from '../actions/regions';
 
 
 const DirectionButtons = props => {
-	const { dispatch } = props,
-		setRegionData = bindActionCreators(RegionActionCreators.setRegionData, dispatch),
-		currentRegion = props.currentRegion,
+	const { regions, regionsWidth, currentRegion, transitionRegion } = props,
 		baseClass = 'direction',
 		directionButtons = [
 			{
-				condition: currentRegion.index > 0,
+				condition: currentRegion.x > 0 && currentRegion.y == 0,
 				targetIndex: currentRegion.index - 1,
 				className: `${baseClass} ${baseClass}--side ${baseClass}--prev`
 			},
 			{
-				condition: currentRegion.index < 3,
+				condition: currentRegion.x < (regionsWidth - 1),
 				targetIndex: currentRegion.index + 1,
 				className: `${baseClass} ${baseClass}--side ${baseClass}--next`
 			},
 			{
 				condition: currentRegion.y == 0,
-				targetIndex: currentRegion.index + 4,
+				targetIndex: currentRegion.index + regionsWidth,
 				className: `${baseClass} ${baseClass}--vert ${baseClass}--down`
 			},
 			{
 				condition: currentRegion.y == 1,
-				targetIndex: currentRegion.index - 4,
+				targetIndex: currentRegion.index - regionsWidth,
 				className: `${baseClass} ${baseClass}--vert ${baseClass}--up`
 			}
 		];
@@ -38,11 +36,11 @@ const DirectionButtons = props => {
 		if (props.isMovingView) {
 			e.preventDefault();
 		} else {
-			props.setCurrentRegion(targetIndex);
+			transitionRegion(targetIndex);
 		}
 	}
 
-	if (props.regions.length) {		
+	if (currentRegion) {		
 		return (
 			<div className="directions">
 				{directionButtons.map((button, index) => {
@@ -50,12 +48,12 @@ const DirectionButtons = props => {
 						return (
 							<Link 
 								key={index}
-								to={props.regions[button.targetIndex].path_hash}
+								to={regions[button.targetIndex].path_hash}
 								onClick={e => { onClick(e, button.targetIndex); }} 
 								className={button.className}
 							>
 								<span className="direction__inner">
-									<span className="direction__text">{props.regions[button.targetIndex].title}</span>
+									<span className="direction__text">{regions[button.targetIndex].title}</span>
 									<span className="direction__icon">
 										<i></i>
 										<i></i>
@@ -79,13 +77,14 @@ const DirectionButtons = props => {
 DirectionButtons.propTypes = {
 	regions: PropTypes.array.isRequired,
 	currentRegion: PropTypes.object.isRequired,
-	setCurrentRegion: PropTypes.func.isRequired,
+	transitionRegion: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => (
     {
     	regions: state.data.regions,
     	currentRegion: state.regions.currentRegion,
+    	regionsWidth: state.regions.regionsWidth
     }
 );
 

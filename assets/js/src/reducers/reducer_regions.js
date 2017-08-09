@@ -1,13 +1,8 @@
 import * as RegionActionTypes from '../actiontypes/regions';
 
 const initialState = {
-	outgoingRegion: {},
-	currentRegion: {
-		index: 0,
-		x: 0,
-		y: 0,
-	},
-	transitionClass: 'regions'
+	regionsWidth: 4,
+	regionsClass: 'regions'
 }
 
 export default function Regions(state=initialState, action) {
@@ -31,7 +26,7 @@ export default function Regions(state=initialState, action) {
 		case RegionActionTypes.SET_TRANSITION_CLASS: {
 			return {
 				...state,
-				transitionClass: action.data
+				regionsClass: action.data
 			};
 		}
 			

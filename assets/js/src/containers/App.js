@@ -18,18 +18,19 @@ class Application extends Component {
 	componentDidMount() {
 		const { dispatch } = this.props;
 		this.setRegionData = bindActionCreators(RegionActionCreators.setRegionData, dispatch);
-		// 	this.setRegionData(this.props.regions[0], 'SET_OUTGOING_REGION');
 	}
 
-	setCurrentRegion = targetIndex => {
+	transitionRegion = targetIndex => {
 		const App = this,
-			currentRegion = !this.isSet ? this.props.regions[0] : this.props.currentRegion;
+			{ currentRegion } = App.props;
+
+		if (!currentRegion) {
+			return;
+		}
 
 		let regionsClass = "regions",
 			transitionClass = this.getTransitionClass(targetIndex),
 			timeoutDelay = transitionClass == "js-fade" ? 500 : 1000;
-
-		this.isSet = true;
 
 		App.setRegionData(currentRegion, 'SET_OUTGOING_REGION');
 
@@ -43,7 +44,6 @@ class Application extends Component {
 		}, timeoutDelay);
 
 		App.setRegionData(`${regionsClass} ${transitionClass}`, 'SET_TRANSITION_CLASS');
-		App.setRegionData(this.props.regions[targetIndex], 'SET_CURRENT_REGION');
 	}
 
 	getTransitionClass = targetIndex => {
@@ -67,8 +67,11 @@ class Application extends Component {
 	}
 
 	render() {	
-		const { regions, navigationLinks } = this.props,
-			{ isMovingView } = this.state;
+		const { regions, regionsClass, currentRegion, outgoingRegion, navigationLinks } = this.props,
+			{ isMovingView } = this.state,
+			transitionRegion = this.transitionRegion;
+
+		const App = this;
 
 		return (
 			<div>
@@ -76,19 +79,21 @@ class Application extends Component {
 
 				{navigationLinks &&
 					<Navigation 
-						setCurrentRegion={this.setCurrentRegion} 
+						transitionRegion={transitionRegion} 
 						isMovingView={isMovingView}
 					/>
 				}
 
-				<DirectionButtons
-					setCurrentRegion={this.setCurrentRegion}
-					isMovingView={isMovingView} 
-				/>
-
-				<section className={this.props.transitionClass}>
+				{currentRegion &&
+					<DirectionButtons
+						transitionRegion={transitionRegion}
+						isMovingView={isMovingView} 
+					/>
+				}
+				
+				<section className={regionsClass}>
 					{isMovingView &&
-						<Region data={this.props.outgoingRegion} />
+						<Region data={outgoingRegion} />
 					}
 					{regions && regions.map((region, index) => {
 						let hash = `/${region.path_hash}`;
@@ -97,7 +102,12 @@ class Application extends Component {
 								key={index}
 								exact
 								path={hash}
-								render={() => (<Region data={region} />)} 						
+								render={() => (
+									<Region 
+										data={region} 
+										transitionRegion={App.transitionRegion} 
+									/>
+								)} 						
 							/>
 						);
 					})}
@@ -115,7 +125,7 @@ const mapStateToProps = state => (
         setRegionData: state.regions.setRegionData,
         outgoingRegion: state.regions.outgoingRegion,
         currentRegion: state.regions.currentRegion,
-        transitionClass: state.regions.transitionClass
+        regionsClass: state.regions.regionsClass
     }
 );
 

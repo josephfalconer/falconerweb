@@ -12623,15 +12623,18 @@ var Application = function (_Component) {
 
 		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Application.__proto__ || Object.getPrototypeOf(Application)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 			isMovingView: false
-		}, _this.setCurrentRegion = function (targetIndex) {
+		}, _this.transitionRegion = function (targetIndex) {
 			var App = _this,
-			    currentRegion = !_this.isSet ? _this.props.regions[0] : _this.props.currentRegion;
+			    currentRegion = App.props.currentRegion;
+
+
+			if (!currentRegion) {
+				return;
+			}
 
 			var regionsClass = "regions",
 			    transitionClass = _this.getTransitionClass(targetIndex),
 			    timeoutDelay = transitionClass == "js-fade" ? 500 : 1000;
-
-			_this.isSet = true;
 
 			App.setRegionData(currentRegion, 'SET_OUTGOING_REGION');
 
@@ -12644,7 +12647,6 @@ var Application = function (_Component) {
 			}, timeoutDelay);
 
 			App.setRegionData(regionsClass + ' ' + transitionClass, 'SET_TRANSITION_CLASS');
-			App.setRegionData(_this.props.regions[targetIndex], 'SET_CURRENT_REGION');
 		}, _this.getTransitionClass = function (targetIndex) {
 			var currentX = _this.props.currentRegion.x,
 			    currentY = _this.props.currentRegion.y,
@@ -12670,33 +12672,38 @@ var Application = function (_Component) {
 			var dispatch = this.props.dispatch;
 
 			this.setRegionData = (0, _redux.bindActionCreators)(RegionActionCreators.setRegionData, dispatch);
-			// 	this.setRegionData(this.props.regions[0], 'SET_OUTGOING_REGION');
 		}
 	}, {
 		key: 'render',
 		value: function render() {
 			var _props = this.props,
 			    regions = _props.regions,
+			    regionsClass = _props.regionsClass,
+			    currentRegion = _props.currentRegion,
+			    outgoingRegion = _props.outgoingRegion,
 			    navigationLinks = _props.navigationLinks,
-			    isMovingView = this.state.isMovingView;
+			    isMovingView = this.state.isMovingView,
+			    transitionRegion = this.transitionRegion;
 
+
+			var App = this;
 
 			return _react2.default.createElement(
 				'div',
 				null,
 				_react2.default.createElement(_DataFetcher2.default, null),
 				navigationLinks && _react2.default.createElement(_Navigation2.default, {
-					setCurrentRegion: this.setCurrentRegion,
+					transitionRegion: transitionRegion,
 					isMovingView: isMovingView
 				}),
-				_react2.default.createElement(_DirectionButtons2.default, {
-					setCurrentRegion: this.setCurrentRegion,
+				currentRegion && _react2.default.createElement(_DirectionButtons2.default, {
+					transitionRegion: transitionRegion,
 					isMovingView: isMovingView
 				}),
 				_react2.default.createElement(
 					'section',
-					{ className: this.props.transitionClass },
-					isMovingView && _react2.default.createElement(_Region2.default, { data: this.props.outgoingRegion }),
+					{ className: regionsClass },
+					isMovingView && _react2.default.createElement(_Region2.default, { data: outgoingRegion }),
 					regions && regions.map(function (region, index) {
 						var hash = '/' + region.path_hash;
 						return _react2.default.createElement(_reactRouterDom.Route, {
@@ -12704,7 +12711,10 @@ var Application = function (_Component) {
 							exact: true,
 							path: hash,
 							render: function render() {
-								return _react2.default.createElement(_Region2.default, { data: region });
+								return _react2.default.createElement(_Region2.default, {
+									data: region,
+									transitionRegion: App.transitionRegion
+								});
 							}
 						});
 					})
@@ -12723,7 +12733,7 @@ var mapStateToProps = function mapStateToProps(state) {
 		setRegionData: state.regions.setRegionData,
 		outgoingRegion: state.regions.outgoingRegion,
 		currentRegion: state.regions.currentRegion,
-		transitionClass: state.regions.transitionClass
+		regionsClass: state.regions.regionsClass
 	};
 };
 
@@ -13932,7 +13942,12 @@ return Promise$2;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(73)))
 
 /***/ }),
-/* 132 */,
+/* 132 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14036,25 +14051,26 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DirectionButtons = function DirectionButtons(props) {
-	var dispatch = props.dispatch,
-	    setRegionData = (0, _redux.bindActionCreators)(RegionActionCreators.setRegionData, dispatch),
+	var regions = props.regions,
+	    regionsWidth = props.regionsWidth,
 	    currentRegion = props.currentRegion,
+	    transitionRegion = props.transitionRegion,
 	    baseClass = 'direction',
 	    directionButtons = [{
-		condition: currentRegion.index > 0,
+		condition: currentRegion.x > 0 && currentRegion.y == 0,
 		targetIndex: currentRegion.index - 1,
 		className: baseClass + ' ' + baseClass + '--side ' + baseClass + '--prev'
 	}, {
-		condition: currentRegion.index < 3,
+		condition: currentRegion.x < regionsWidth - 1,
 		targetIndex: currentRegion.index + 1,
 		className: baseClass + ' ' + baseClass + '--side ' + baseClass + '--next'
 	}, {
 		condition: currentRegion.y == 0,
-		targetIndex: currentRegion.index + 4,
+		targetIndex: currentRegion.index + regionsWidth,
 		className: baseClass + ' ' + baseClass + '--vert ' + baseClass + '--down'
 	}, {
 		condition: currentRegion.y == 1,
-		targetIndex: currentRegion.index - 4,
+		targetIndex: currentRegion.index - regionsWidth,
 		className: baseClass + ' ' + baseClass + '--vert ' + baseClass + '--up'
 	}];
 
@@ -14063,11 +14079,11 @@ var DirectionButtons = function DirectionButtons(props) {
 		if (props.isMovingView) {
 			e.preventDefault();
 		} else {
-			props.setCurrentRegion(targetIndex);
+			transitionRegion(targetIndex);
 		}
 	};
 
-	if (props.regions.length) {
+	if (currentRegion) {
 		return _react2.default.createElement(
 			'div',
 			{ className: 'directions' },
@@ -14077,7 +14093,7 @@ var DirectionButtons = function DirectionButtons(props) {
 						_reactRouterDom.Link,
 						{
 							key: index,
-							to: props.regions[button.targetIndex].path_hash,
+							to: regions[button.targetIndex].path_hash,
 							onClick: function onClick(e) {
 								_onClick(e, button.targetIndex);
 							},
@@ -14089,7 +14105,7 @@ var DirectionButtons = function DirectionButtons(props) {
 							_react2.default.createElement(
 								'span',
 								{ className: 'direction__text' },
-								props.regions[button.targetIndex].title
+								regions[button.targetIndex].title
 							),
 							_react2.default.createElement(
 								'span',
@@ -14112,13 +14128,14 @@ var DirectionButtons = function DirectionButtons(props) {
 DirectionButtons.propTypes = {
 	regions: _react.PropTypes.array.isRequired,
 	currentRegion: _react.PropTypes.object.isRequired,
-	setCurrentRegion: _react.PropTypes.func.isRequired
+	transitionRegion: _react.PropTypes.func.isRequired
 };
 
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		regions: state.data.regions,
-		currentRegion: state.regions.currentRegion
+		currentRegion: state.regions.currentRegion,
+		regionsWidth: state.regions.regionsWidth
 	};
 };
 
@@ -14170,7 +14187,7 @@ var Navigation = function Navigation(props) {
 						key: index,
 						className: navItemClass,
 						onClick: function onClick() {
-							if (!props.isMovingView) props.setCurrentRegion(index);
+							if (!props.isMovingView) props.transitionRegion(index);
 						}
 					},
 					_react2.default.createElement(
@@ -14203,7 +14220,7 @@ var Navigation = function Navigation(props) {
 
 Navigation.propTypes = {
 	navigationLinks: _react.PropTypes.array.isRequired,
-	setCurrentRegion: _react.PropTypes.func.isRequired,
+	transitionRegion: _react.PropTypes.func.isRequired,
 	isMovingView: _react.PropTypes.bool.isRequired
 };
 
@@ -14226,11 +14243,15 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(16);
+
+var _redux = __webpack_require__(21);
 
 var _Icons = __webpack_require__(77);
 
@@ -14240,57 +14261,99 @@ var _ContentModules = __webpack_require__(143);
 
 var _ContentModules2 = _interopRequireDefault(_ContentModules);
 
+var _regions = __webpack_require__(74);
+
+var RegionActionCreators = _interopRequireWildcard(_regions);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Region = function Region(props) {
-	var backgroundStyle = { backgroundImage: 'url(' + props.data.background + ')' },
-	    longTitle = props.data.long_title;
-	var Icon = _Icons2.default[props.data.icon];
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	if (Icon) {
-		Icon = Icon.call();
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Region = function (_Component) {
+	_inherits(Region, _Component);
+
+	function Region() {
+		_classCallCheck(this, Region);
+
+		return _possibleConstructorReturn(this, (Region.__proto__ || Object.getPrototypeOf(Region)).apply(this, arguments));
 	}
 
-	return _react2.default.createElement(
-		'article',
-		{ className: 'region text' },
-		_react2.default.createElement(
-			'div',
-			{ className: 'region__inner', style: backgroundStyle },
-			_react2.default.createElement(
-				'header',
-				null,
-				Icon && _react2.default.createElement(
-					'figure',
-					{ className: 'region__icon' },
-					Icon
-				),
+	_createClass(Region, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _props = this.props,
+			    dispatch = _props.dispatch,
+			    data = _props.data;
+
+			this.setRegionData = (0, _redux.bindActionCreators)(RegionActionCreators.setRegionData, dispatch);
+			this.setRegionData(data, 'SET_CURRENT_REGION');
+
+			// console.log(this.props.transitionRegion);
+			// this.props.transitionRegion(data.index);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var data = this.props.data,
+			    backgroundStyle = { backgroundImage: 'url(' + data.background + ')' },
+			    longTitle = data.long_title;
+			var Icon = _Icons2.default[data.icon];
+
+
+			if (Icon) {
+				Icon = Icon.call();
+			}
+			return _react2.default.createElement(
+				'article',
+				{ className: 'region text' },
 				_react2.default.createElement(
-					'h1',
-					null,
-					longTitle ? longTitle : props.data.title
-				),
-				_react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: props.data.intro_text } })
-			),
-			props.contentModules.map(function (contentModule, index) {
-				if (contentModule.region == props.data.pk) {
-					return _react2.default.createElement(_ContentModules2.default, {
-						key: index,
-						moduleType: contentModule.module_type
-					});
-				} else {
-					return null;
-				}
-			})
-		)
-	);
-};
+					'div',
+					{ className: 'region__inner', style: backgroundStyle },
+					_react2.default.createElement(
+						'header',
+						null,
+						Icon && _react2.default.createElement(
+							'figure',
+							{ className: 'region__icon' },
+							Icon
+						),
+						_react2.default.createElement(
+							'h1',
+							null,
+							longTitle ? longTitle : data.title
+						),
+						_react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: data.intro_text } })
+					),
+					this.props.contentModules.map(function (contentModule, index) {
+						if (contentModule.region == data.pk) {
+							return _react2.default.createElement(_ContentModules2.default, {
+								key: index,
+								moduleType: contentModule.module_type
+							});
+						} else {
+							return null;
+						}
+					})
+				)
+			);
+		}
+	}]);
+
+	return Region;
+}(_react.Component);
 
 Region.propTypes = {
 	data: _react.PropTypes.object.isRequired,
 	contentModules: _react.PropTypes.array.isRequired
+	// transitionRegion: PropTypes.func.isRequired,
 };
+
 
 var mapStateToProps = function mapStateToProps(state) {
 	return {
@@ -15034,13 +15097,8 @@ var RegionActionTypes = _interopRequireWildcard(_regions);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var initialState = {
-	outgoingRegion: {},
-	currentRegion: {
-		index: 0,
-		x: 0,
-		y: 0
-	},
-	transitionClass: 'regions'
+	regionsWidth: 4,
+	regionsClass: 'regions'
 };
 
 function Regions() {
@@ -15067,7 +15125,7 @@ function Regions() {
 		case RegionActionTypes.SET_TRANSITION_CLASS:
 			{
 				return _extends({}, state, {
-					transitionClass: action.data
+					regionsClass: action.data
 				});
 			}
 
@@ -31579,7 +31637,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 __webpack_require__(131).polyfill();
 __webpack_require__(133);
 
-__webpack_require__(321);
+__webpack_require__(132);
 
 var store = (0, _redux.createStore)(_reducers2.default, window.devToolsExtension && window.devToolsExtension());
 
@@ -31592,16 +31650,6 @@ _reactDom2.default.render(_react2.default.createElement(
 		_react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _App2.default })
 	)
 ), document.getElementById('application'));
-
-/***/ }),
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
