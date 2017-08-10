@@ -7,16 +7,18 @@ import * as RegionActionCreators from '../actions/regions';
 
 
 const DirectionButtons = props => {
-	const { regions, regionsWidth, currentRegion, transitionRegion } = props,
-		baseClass = 'direction',
-		directionButtons = [
+	const { regions, regionsWidth, currentRegion, isMovingRegions } = props,
+		baseClass = 'direction';
+
+	if (regions && currentRegion) {
+		const directionButtons = [
 			{
 				condition: currentRegion.x > 0 && currentRegion.y == 0,
 				targetIndex: currentRegion.index - 1,
 				className: `${baseClass} ${baseClass}--side ${baseClass}--prev`
 			},
 			{
-				condition: currentRegion.x < (regionsWidth - 1),
+				condition: currentRegion.x < (regionsWidth - 1) && currentRegion.y == 0,
 				targetIndex: currentRegion.index + 1,
 				className: `${baseClass} ${baseClass}--side ${baseClass}--next`
 			},
@@ -32,15 +34,6 @@ const DirectionButtons = props => {
 			}
 		];
 
-	const onClick = (e, targetIndex) => {
-		if (props.isMovingView) {
-			e.preventDefault();
-		} else {
-			transitionRegion(targetIndex);
-		}
-	}
-
-	if (currentRegion) {		
 		return (
 			<div className="directions">
 				{directionButtons.map((button, index) => {
@@ -49,7 +42,7 @@ const DirectionButtons = props => {
 							<Link 
 								key={index}
 								to={regions[button.targetIndex].path_hash}
-								onClick={e => { onClick(e, button.targetIndex); }} 
+								onClick={e => { if (isMovingRegions) e.preventDefault(); }} 
 								className={button.className}
 							>
 								<span className="direction__inner">
@@ -68,23 +61,23 @@ const DirectionButtons = props => {
 			</div>		
 		)
 	} else {
-		return null;
+		return null
 	}
-
-	
 }
 
 DirectionButtons.propTypes = {
-	regions: PropTypes.array.isRequired,
-	currentRegion: PropTypes.object.isRequired,
-	transitionRegion: PropTypes.func.isRequired,
+	regionsWidth: PropTypes.number.isRequired,
+	regions: PropTypes.array,
+	currentRegion: PropTypes.object,
+	isMovingRegions: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => (
-    {
+    {	
     	regions: state.data.regions,
+    	regionsWidth: state.regions.regionsWidth,
     	currentRegion: state.regions.currentRegion,
-    	regionsWidth: state.regions.regionsWidth
+    	isMovingRegions: state.regions.isMovingRegions
     }
 );
 

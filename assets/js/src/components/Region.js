@@ -11,21 +11,87 @@ class Region extends Component {
 
 	static propTypes = {
 		data: PropTypes.object.isRequired,
-		contentModules: PropTypes.array.isRequired,
-		// transitionRegion: PropTypes.func.isRequired,
+		contentModules: PropTypes.array,
+		isOutgoingRegion: PropTypes.string
 	}
 	
 	componentDidMount() {
-		const { dispatch, data } = this.props;
-		this.setRegionData = bindActionCreators(RegionActionCreators.setRegionData, dispatch);
-		this.setRegionData(data, 'SET_CURRENT_REGION');
+		// shadow region is only presentational
+		if (this.props.isOutgoingRegion) {
+			return;
+		}
 
-		// console.log(this.props.transitionRegion);
-		// this.props.transitionRegion(data.index);
+		const Region = this,
+			{ dispatch, outgoingRegion, data, isOutgoingRegion } = Region.props;
+
+		let { timeoutDelay } = Region.props;
+		
+		Region.setRegionsData = bindActionCreators(RegionActionCreators.setRegionsData, dispatch);
+		
+		// direction buttons depend on currentRegion in Redux state
+		Region.setRegionsData(data, 'SET_CURRENT_REGION');
+
+		if (outgoingRegion) {
+			const transitionClass = Region.setTransitionClass();
+
+			if (transitionClass == 'js-fade') {
+				timeoutDelay = timeoutDelay / 2;
+			}
+		}
+
+		// allow outgoing shadow region to render
+		Region.setRegionsData(true, 'SET_MOVING_REGIONS');
+
+		// outgoing shadow region not rendered 
+		// next transition will show this Region instance outgoing
+		setTimeout(() => {
+			Region.setRegionsData(false, 'SET_MOVING_REGIONS');
+			Region.setRegionsData(data, 'SET_OUTGOING_REGION');
+		}, timeoutDelay);
+
+	}
+
+	setTransitionClass = () => {
+		// compare outgoing region data - direct from Redux store -
+		// to incoming region data - passed from Application 
+		const Region = this,
+			{ outgoingRegion, data } = Region.props,
+			outgoingX = outgoingRegion.x,
+			outgoingY = outgoingRegion.y,
+			incomingX = data.x,
+			incomingY = data.y,
+			regionsClass = 'regions';
+
+		let { timeoutDelay } = Region.props,
+			transitionClass = "js-move ";
+
+		// sideways
+		if ( outgoingX == incomingX && Math.abs(outgoingY - incomingY) == 1 ) {
+			transitionClass += incomingY > outgoingY ? "js-column js-move-up" : "js-column-reverse js-move-down";
+
+		// vertical
+		} else if (outgoingY == incomingY && Math.abs(outgoingX - incomingX) == 1 ) {
+			transitionClass += incomingX > outgoingX ? "js-move-left" : "js-row-reverse js-move-right";
+
+		// diagonal or more than one space
+		} else {
+			transitionClass = "js-fade";
+			timeoutDelay = timeoutDelay / 2;
+		}
+
+		// set the transition
+		Region.setRegionsData(`${regionsClass} ${transitionClass}`, 'SET_TRANSITION_CLASS');
+
+		// reset regions container class to base 'regions'
+		setTimeout(() => {
+			Region.setRegionsData(`${regionsClass}`, 'SET_TRANSITION_CLASS');
+		}, timeoutDelay);
+
+		return transitionClass;
 	}
 
 	render() {
-		const { data } = this.props,
+		const { data, contentModules } = this.props,
 			backgroundStyle = { backgroundImage: `url(${data.background})` },
 			longTitle = data.long_title;
 		let { [data.icon]:Icon } = Icons;
@@ -42,7 +108,7 @@ class Region extends Component {
 						<div dangerouslySetInnerHTML={{__html: data.intro_text}}></div>
 					</header>
 
-					{this.props.contentModules.map((contentModule, index) => {	
+					{contentModules.map((contentModule, index) => {	
 						if (contentModule.region == data.pk) {
 							return (
 								<ContentModules 
@@ -62,7 +128,9 @@ class Region extends Component {
 
 const mapStateToProps = state => (
     { 
-    	contentModules: state.data.contentModules
+    	contentModules: state.data.contentModules,
+    	outgoingRegion: state.regions.outgoingRegion,
+    	timeoutDelay: state.regions.regionTransitionTimeout
     }
 );
 

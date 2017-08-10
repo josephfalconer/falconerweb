@@ -2,12 +2,21 @@ import * as RegionActionTypes from '../actiontypes/regions';
 
 const initialState = {
 	regionsWidth: 4,
-	regionsClass: 'regions'
+	isMovingRegions: false,
+	regionTransitionTimeout: 1000,
+	regionsContainerClass: 'regions'
 }
 
 export default function Regions(state=initialState, action) {
 
 	switch(action.type) {
+
+		case RegionActionTypes.SET_MOVING_REGIONS: {
+			return {
+				...state,
+				isMovingRegions: action.data
+			};
+		}
 
 		case RegionActionTypes.SET_OUTGOING_REGION: {
 			return {
@@ -26,7 +35,7 @@ export default function Regions(state=initialState, action) {
 		case RegionActionTypes.SET_TRANSITION_CLASS: {
 			return {
 				...state,
-				regionsClass: action.data
+				regionsContainerClass: action.data
 			};
 		}
 			
