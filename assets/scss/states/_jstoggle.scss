@@ -5,23 +5,55 @@
 // region transitions
 .js {
 	&-move {
-		transition: all 1s;
+		display: flex;
 	}
 	
 	&-move-left {
+		width: 200%;
+		right: initial;
 		left: -100%;
+		transition: left 1s;
+
+		.region {
+			width: 50%;
+			flex-grow: 1;
+		}
 	}
 	
 	&-move-right {
-		left: 100%;
+		width: 200%;
+		left: initial;
+		right: -100%;
+		transition: right 1s;
+
+		.region {
+			width: 50%;
+			flex-grow: 1;
+		}
 	}
 	
 	&-move-up {
+		height: 200%;
+		bottom: initial;
 		top: -100%;
+		transition: top 1s;
+
+		.region {
+			height: 50%;
+			flex-grow: 1;
+		}
 	}
 	
 	&-move-down {
-		top: 100%;
+		height: 200%;
+		bottom: -100%;
+		top: initial;
+		transition: bottom 1s;
+
+		.region {
+			height: 50%;
+			flex-grow: 1;
+		}
 	}
 	
 	&-fade {
