@@ -8,16 +8,13 @@
 	left: 0;
 	z-index: $region-z-index;
 	@include square(100%);
-
-	border: yellow 10px solid;
 }
 
 .region {
+	display: inline-block;
 	@include square(100%);
 	overflow-x: hidden;
 	overflow-y: scroll;
-
-	border: purple 5px solid;
 
 	&::-webkit-scrollbar {
 		width: 0px;

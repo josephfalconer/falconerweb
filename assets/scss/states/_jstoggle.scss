@@ -4,14 +4,6 @@
 
 // region transitions
 .js {
-	&-move {
-		display: flex;
-
-		.region {
-			flex-grow: 1;
-		}
-	}
-
 	&-move-sideways {
 		width: 200%;
 		transition: left 1s;
@@ -36,18 +28,6 @@
 	
 	&-move-up {
 		transform: translateY(-50%);
-	}
-		
-	&-column {
-		flex-direction: column;
-
-		&-reverse {
-			flex-direction: column-reverse;
-		}
-	}
-	
-	&-row-reverse {
-		flex-direction: row-reverse;
 	}
 
 	&-fade {

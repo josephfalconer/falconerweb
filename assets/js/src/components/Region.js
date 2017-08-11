@@ -65,39 +65,27 @@ class Region extends Component {
 			windowHeight = window.innerHeight;
 
 		let { timeoutDelay } = Region.props,
-			transitionClass = 'js-move ',
-			regionsOffsets = {
-				top: 0,
-				left: 0
-			};
+			transitionClass,
+			regionsStyle = { top: 0, left: 0 };
 
 		// sideways
 		if (outgoingY == incomingY && Math.abs(outgoingX - incomingX) == 1 ) {
-			transitionClass += 'js-move-sideways ';
+			transitionClass = incomingX < outgoingX ? 'js-move-sideways js-move-right' : 'js-move-sideways';
+			regionsStyle.left = incomingX < outgoingX ? `${windowWidth}px` : `-${windowWidth}px`;
 
 			// move regions rightwards
 			if (incomingX < outgoingX) {
-				transitionClass += 'js-row-reverse js-move-right';
-				regionsOffsets.left = `${windowWidth}px`;
-
-			// move regions leftwards
-			} else {
-				regionsOffsets.left = `-${windowWidth}px`;
-			}
+				Region.setRegionsData(true, 'SET_OUTGOING_REGION_POSITION');
+			} 
 			
 		// vertical
 		} else if (outgoingX == incomingX && Math.abs(outgoingY - incomingY) == 1) {
-			transitionClass += 'js-move-vertical ';
-
-			// move downwards
-			if (incomingY > outgoingY) {
-				transitionClass += 'js-column';
-				regionsOffsets.top = `-${windowHeight}px`;
+			transitionClass = incomingY > outgoingY ? 'js-move-vertical' : 'js-move-vertical js-move-up';
+			regionsStyle.top = incomingY > outgoingY ? `-${windowHeight}px` : `${windowHeight}px`;
 
 			// move upwards
-			} else {
-				transitionClass += 'js-column-reverse js-move-up';
-				regionsOffsets.top = `${windowHeight}px`;
+			if (incomingY < outgoingY) {
+				Region.setRegionsData(true, 'SET_OUTGOING_REGION_POSITION');
 			}
 
 		// diagonal or more than one space
@@ -110,12 +98,13 @@ class Region extends Component {
 		Region.setRegionsData(`${regionsClass} ${transitionClass}`, 'SET_TRANSITION_CLASS');
 
 		// set top/left offsets
-		Region.setRegionsData(regionsOffsets, 'SET_REGIONS_OFFSETS');
+		Region.setRegionsData(regionsStyle, 'SET_REGIONS_OFFSETS');
 
-		// reset regions container class and offset styles
+		// reset regions container class, offset styles and outgoing position
 		setTimeout(() => {
 			Region.setRegionsData(`${regionsClass}`, 'SET_TRANSITION_CLASS');
-			Region.setRegionsData({ top:0, left:0}, 'SET_REGIONS_OFFSETS');
+			Region.setRegionsData({ top:0, left:0 }, 'SET_REGIONS_OFFSETS');
+			Region.setRegionsData(false, 'SET_OUTGOING_REGION_POSITION');
 		}, timeoutDelay);
 
 		return transitionClass;

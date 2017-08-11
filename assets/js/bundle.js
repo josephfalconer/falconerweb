@@ -7632,6 +7632,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var SET_MOVING_REGIONS = exports.SET_MOVING_REGIONS = 'data/SET_MOVING_REGIONS';
+var SET_OUTGOING_REGION_POSITION = exports.SET_OUTGOING_REGION_POSITION = 'data/SET_OUTGOING_REGION_POSITION';
 var SET_OUTGOING_REGION = exports.SET_OUTGOING_REGION = 'data/SET_OUTGOING_REGION';
 var SET_CURRENT_REGION = exports.SET_CURRENT_REGION = 'data/SET_CURRENT_REGION';
 var SET_TRANSITION_CLASS = exports.SET_TRANSITION_CLASS = 'data/SET_TRANSITION_CLASS';
@@ -12565,6 +12566,7 @@ var Application = function (_Component) {
 			var _props = this.props,
 			    regions = _props.regions,
 			    isMovingRegions = _props.isMovingRegions,
+			    isAfterOutgoing = _props.isAfterOutgoing,
 			    outgoingRegion = _props.outgoingRegion,
 			    regionsContainerClass = _props.regionsContainerClass,
 			    regionsStyleOffsets = _props.regionsStyleOffsets,
@@ -12580,7 +12582,7 @@ var Application = function (_Component) {
 				_react2.default.createElement(
 					'section',
 					{ className: regionsContainerClass, style: regionsStyleOffsets },
-					outgoingRegion && isMovingRegions && _react2.default.createElement(_Region2.default, {
+					outgoingRegion && isMovingRegions && !isAfterOutgoing && _react2.default.createElement(_Region2.default, {
 						data: outgoingRegion,
 						isOutgoingRegion: 'true'
 					}),
@@ -12594,6 +12596,10 @@ var Application = function (_Component) {
 								return _react2.default.createElement(_Region2.default, { data: region });
 							}
 						});
+					}),
+					outgoingRegion && isMovingRegions && isAfterOutgoing && _react2.default.createElement(_Region2.default, {
+						data: outgoingRegion,
+						isOutgoingRegion: 'true'
 					})
 				)
 			);
@@ -12606,6 +12612,7 @@ var Application = function (_Component) {
 Application.propTypes = {
 	regions: _react.PropTypes.array,
 	isMovingRegions: _react.PropTypes.bool.isRequired,
+	isAfterOutgoing: _react.PropTypes.bool.isRequired,
 	outgoingRegion: _react.PropTypes.object,
 	regionsContainerClass: _react.PropTypes.string.isRequired,
 	regionsStyleOffsets: _react.PropTypes.object.isRequired
@@ -12616,6 +12623,7 @@ var mapStateToProps = function mapStateToProps(state) {
 	return {
 		regions: state.data.regions,
 		isMovingRegions: state.regions.isMovingRegions,
+		isAfterOutgoing: state.regions.isAfterOutgoing,
 		outgoingRegion: state.regions.outgoingRegion,
 		regionsContainerClass: state.regions.regionsContainerClass,
 		regionsClass: state.regions.regionsClass,
@@ -14187,39 +14195,27 @@ var Region = function (_Component) {
 			    windowWidth = window.innerWidth,
 			    windowHeight = window.innerHeight;
 			var timeoutDelay = Region.props.timeoutDelay,
-			    transitionClass = 'js-move ',
-			    regionsOffsets = {
-				top: 0,
-				left: 0
-			};
+			    transitionClass = void 0,
+			    regionsStyle = { top: 0, left: 0 };
 
 			// sideways
 			if (outgoingY == incomingY && Math.abs(outgoingX - incomingX) == 1) {
-				transitionClass += 'js-move-sideways ';
+				transitionClass = incomingX < outgoingX ? 'js-move-sideways js-move-right' : 'js-move-sideways';
+				regionsStyle.left = incomingX < outgoingX ? windowWidth + 'px' : '-' + windowWidth + 'px';
 
 				// move regions rightwards
 				if (incomingX < outgoingX) {
-					transitionClass += 'js-row-reverse js-move-right';
-					regionsOffsets.left = windowWidth + 'px';
-
-					// move regions leftwards
-				} else {
-					regionsOffsets.left = '-' + windowWidth + 'px';
+					Region.setRegionsData(true, 'SET_OUTGOING_REGION_POSITION');
 				}
 
 				// vertical
 			} else if (outgoingX == incomingX && Math.abs(outgoingY - incomingY) == 1) {
-				transitionClass += 'js-move-vertical ';
+				transitionClass = incomingY > outgoingY ? 'js-move-vertical' : 'js-move-vertical js-move-up';
+				regionsStyle.top = incomingY > outgoingY ? '-' + windowHeight + 'px' : windowHeight + 'px';
 
-				// move downwards
-				if (incomingY > outgoingY) {
-					transitionClass += 'js-column';
-					regionsOffsets.top = '-' + windowHeight + 'px';
-
-					// move upwards
-				} else {
-					transitionClass += 'js-column-reverse js-move-up';
-					regionsOffsets.top = windowHeight + 'px';
+				// move upwards
+				if (incomingY < outgoingY) {
+					Region.setRegionsData(true, 'SET_OUTGOING_REGION_POSITION');
 				}
 
 				// diagonal or more than one space
@@ -14232,12 +14228,13 @@ var Region = function (_Component) {
 			Region.setRegionsData(regionsClass + ' ' + transitionClass, 'SET_TRANSITION_CLASS');
 
 			// set top/left offsets
-			Region.setRegionsData(regionsOffsets, 'SET_REGIONS_OFFSETS');
+			Region.setRegionsData(regionsStyle, 'SET_REGIONS_OFFSETS');
 
-			// reset regions container class and offset styles
+			// reset regions container class, offset styles and outgoing position
 			setTimeout(function () {
 				Region.setRegionsData('' + regionsClass, 'SET_TRANSITION_CLASS');
 				Region.setRegionsData({ top: 0, left: 0 }, 'SET_REGIONS_OFFSETS');
+				Region.setRegionsData(false, 'SET_OUTGOING_REGION_POSITION');
 			}, timeoutDelay);
 
 			return transitionClass;
@@ -15142,6 +15139,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var initialState = {
 	regionsWidth: 4,
 	isMovingRegions: false,
+	isAfterOutgoing: false,
 	regionTransitionTimeout: 1000,
 	regionsContainerClass: 'regions',
 	regionsStyleOffsets: {
@@ -15168,6 +15166,13 @@ function Regions() {
 			{
 				return _extends({}, state, {
 					outgoingRegion: action.data
+				});
+			}
+
+		case RegionActionTypes.SET_OUTGOING_REGION_POSITION:
+			{
+				return _extends({}, state, {
+					isAfterOutgoing: action.data
 				});
 			}
 

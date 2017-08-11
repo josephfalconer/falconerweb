@@ -12,13 +12,14 @@ class Application extends Component {
 	static propTypes = {
         regions: PropTypes.array,
         isMovingRegions: PropTypes.bool.isRequired,
+        isAfterOutgoing: PropTypes.bool.isRequired,
         outgoingRegion: PropTypes.object,
         regionsContainerClass: PropTypes.string.isRequired,
         regionsStyleOffsets: PropTypes.object.isRequired,
 	}
 
 	render() {	
-		const { regions, isMovingRegions, outgoingRegion, regionsContainerClass, regionsStyleOffsets } = this.props,
+		const { regions, isMovingRegions, isAfterOutgoing, outgoingRegion, regionsContainerClass, regionsStyleOffsets } = this.props,
 			transitionRegion = this.transitionRegion;
 
 		return (
@@ -30,7 +31,7 @@ class Application extends Component {
 				<DirectionButtons />
 				
 				<section className={regionsContainerClass} style={regionsStyleOffsets}>
-					{outgoingRegion && isMovingRegions &&
+					{outgoingRegion && isMovingRegions && !isAfterOutgoing &&
 						<Region 
 							data={outgoingRegion} 
 							isOutgoingRegion="true" 
@@ -49,6 +50,12 @@ class Application extends Component {
 							/>
 						);
 					})}
+					{outgoingRegion && isMovingRegions && isAfterOutgoing &&
+						<Region 
+							data={outgoingRegion} 
+							isOutgoingRegion="true" 
+						/>
+					}
 				</section>
 			</div>
 		)
@@ -59,6 +66,7 @@ const mapStateToProps = state => (
     {
         regions: state.data.regions,
         isMovingRegions: state.regions.isMovingRegions,
+        isAfterOutgoing: state.regions.isAfterOutgoing,
         outgoingRegion: state.regions.outgoingRegion,
         regionsContainerClass: state.regions.regionsContainerClass,
         regionsClass: state.regions.regionsClass,

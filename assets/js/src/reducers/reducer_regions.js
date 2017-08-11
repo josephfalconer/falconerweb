@@ -3,6 +3,7 @@ import * as RegionActionTypes from '../actiontypes/regions';
 const initialState = {
 	regionsWidth: 4,
 	isMovingRegions: false,
+	isAfterOutgoing: false,
 	regionTransitionTimeout: 1000,
 	regionsContainerClass: 'regions',
 	regionsStyleOffsets: {
@@ -29,6 +30,13 @@ export default function Regions(state=initialState, action) {
 			};
 		}
 
+		case RegionActionTypes.SET_OUTGOING_REGION_POSITION: {
+			return {
+				...state,
+				isAfterOutgoing: action.data
+			};
+		}
+
 		case RegionActionTypes.SET_CURRENT_REGION: {
 			return {
 				...state,
@@ -49,6 +57,8 @@ export default function Regions(state=initialState, action) {
 				regionsStyleOffsets: action.data
 			};
 		}
+
+
 			
 		default:
 			return state
