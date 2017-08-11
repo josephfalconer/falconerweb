@@ -12,14 +12,13 @@ class Application extends Component {
 	static propTypes = {
         regions: PropTypes.array,
         isMovingRegions: PropTypes.bool.isRequired,
-        isAfterOutgoing: PropTypes.bool.isRequired,
-        outgoingRegion: PropTypes.object,
-        regionsContainerClass: PropTypes.string.isRequired,
-        regionsStyleOffsets: PropTypes.object.isRequired,
+        isLastChildOutgoing: PropTypes.bool.isRequired,
+        outgoing: PropTypes.object,
+        regionsContainerClass: PropTypes.string.isRequired
 	}
 
 	render() {	
-		const { regions, isMovingRegions, isAfterOutgoing, outgoingRegion, regionsContainerClass, regionsStyleOffsets } = this.props,
+		const { regions, isMovingRegions, isLastChildOutgoing, outgoing, regionsContainerClass, regionsOffsetStyles } = this.props,
 			transitionRegion = this.transitionRegion;
 
 		return (
@@ -30,11 +29,11 @@ class Application extends Component {
 
 				<DirectionButtons />
 				
-				<section className={regionsContainerClass} style={regionsStyleOffsets}>
-					{outgoingRegion && isMovingRegions && !isAfterOutgoing &&
+				<section className={regionsContainerClass}>
+					{outgoing && isMovingRegions && !isLastChildOutgoing &&
 						<Region 
-							data={outgoingRegion} 
-							isOutgoingRegion="true" 
+							data={outgoing} 
+							isOutgoing="true" 
 						/>
 					}
 					{regions && regions.map((region, index) => {
@@ -50,10 +49,10 @@ class Application extends Component {
 							/>
 						);
 					})}
-					{outgoingRegion && isMovingRegions && isAfterOutgoing &&
+					{outgoing && isMovingRegions && isLastChildOutgoing &&
 						<Region 
-							data={outgoingRegion} 
-							isOutgoingRegion="true" 
+							data={outgoing} 
+							isOutgoing="true" 
 						/>
 					}
 				</section>
@@ -66,11 +65,10 @@ const mapStateToProps = state => (
     {
         regions: state.data.regions,
         isMovingRegions: state.regions.isMovingRegions,
-        isAfterOutgoing: state.regions.isAfterOutgoing,
-        outgoingRegion: state.regions.outgoingRegion,
+        isLastChildOutgoing: state.regions.isLastChildOutgoing,
+        outgoing: state.regions.outgoing,
         regionsContainerClass: state.regions.regionsContainerClass,
-        regionsClass: state.regions.regionsClass,
-        regionsStyleOffsets: state.regions.regionsStyleOffsets
+        regionsClass: state.regions.regionsClass
     }
 );
 

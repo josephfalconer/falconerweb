@@ -2,16 +2,10 @@
 // Main navigable regions
 // ======================
 
-.regions {
+.region {
 	position: absolute;
 	top: 0;
 	left: 0;
-	z-index: $region-z-index;
-	@include square(100%);
-}
-
-.region {
-	display: inline-block;
 	@include square(100%);
 	overflow-x: hidden;
 	overflow-y: scroll;

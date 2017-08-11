@@ -3,13 +3,9 @@ import * as RegionActionTypes from '../actiontypes/regions';
 const initialState = {
 	regionsWidth: 4,
 	isMovingRegions: false,
-	isAfterOutgoing: false,
+	isLastChildOutgoing: false,
 	regionTransitionTimeout: 1000,
 	regionsContainerClass: 'regions',
-	regionsStyleOffsets: {
-		left: 0,
-		top: 0,
-	}
 }
 
 export default function Regions(state=initialState, action) {
@@ -26,14 +22,14 @@ export default function Regions(state=initialState, action) {
 		case RegionActionTypes.SET_OUTGOING_REGION: {
 			return {
 				...state,
-				outgoingRegion: action.data
+				outgoing: action.data
 			};
 		}
 
-		case RegionActionTypes.SET_OUTGOING_REGION_POSITION: {
+		case RegionActionTypes.SET_OUTGOING_LAST_CHILD: {
 			return {
 				...state,
-				isAfterOutgoing: action.data
+				isLastChildOutgoing: action.data
 			};
 		}
 
@@ -50,15 +46,6 @@ export default function Regions(state=initialState, action) {
 				regionsContainerClass: action.data
 			};
 		}
-
-		case RegionActionTypes.SET_REGIONS_OFFSETS: {
-			return {
-				...state,
-				regionsStyleOffsets: action.data
-			};
-		}
-
-
 			
 		default:
 			return state

@@ -12,17 +12,17 @@ class Region extends Component {
 	static propTypes = {
 		data: PropTypes.object.isRequired,
 		contentModules: PropTypes.array,
-		isOutgoingRegion: PropTypes.string
+		isOutgoing: PropTypes.string,
 	}
 	
 	componentDidMount() {
 		// shadow region is only presentational
-		if (this.props.isOutgoingRegion) {
+		if (this.props.isOutgoing) {
 			return;
 		}
 
 		const Region = this,
-			{ dispatch, outgoingRegion, data, isOutgoingRegion } = Region.props;
+			{ dispatch, outgoing, data, isOutgoing } = Region.props;
 
 		let { timeoutDelay } = Region.props;
 		
@@ -31,12 +31,8 @@ class Region extends Component {
 		// direction buttons depend on currentRegion in Redux state
 		Region.setRegionsData(data, 'SET_CURRENT_REGION');
 
-		if (outgoingRegion) {
+		if (outgoing) {
 			const transitionClass = Region.setTransitionClass();
-
-			if (transitionClass == 'js-fade') {
-				timeoutDelay = timeoutDelay / 2;
-			}
 		}
 
 		// allow outgoing shadow region to render
@@ -55,63 +51,55 @@ class Region extends Component {
 		// compare outgoing region data - direct from Redux store -
 		// to incoming region data - passed from Application 
 		const Region = this,
-			{ outgoingRegion, data } = Region.props,
-			outgoingX = outgoingRegion.x,
-			outgoingY = outgoingRegion.y,
-			incomingX = data.x,
-			incomingY = data.y,
+			{ outgoing, data } = Region.props,
+			isSideways = outgoing.y == data.y,
+			isVertical = outgoing.x == data.x,
+			isRightwards = data.x < outgoing.x,
+			isDownwards = data.y < outgoing.y,
 			regionsClass = 'regions',
 			windowWidth = window.innerWidth,
 			windowHeight = window.innerHeight;
 
 		let { timeoutDelay } = Region.props,
-			transitionClass,
-			regionsStyle = { top: 0, left: 0 };
+			transitionClass;
 
-		// sideways
-		if (outgoingY == incomingY && Math.abs(outgoingX - incomingX) == 1 ) {
-			transitionClass = incomingX < outgoingX ? 'js-move-sideways js-move-right' : 'js-move-sideways';
-			regionsStyle.left = incomingX < outgoingX ? `${windowWidth}px` : `-${windowWidth}px`;
+		if (isSideways && Math.abs(outgoing.x - data.x) == 1 ) {
 
-			// move regions rightwards
-			if (incomingX < outgoingX) {
-				Region.setRegionsData(true, 'SET_OUTGOING_REGION_POSITION');
-			} 
+			transitionClass = isRightwards ? 'js-move-right' : 'js-move-left';
+
+			if (isRightwards) {
+				Region.setRegionsData(true, 'SET_OUTGOING_LAST_CHILD');
+			}
+
+		} else if (isVertical && Math.abs(outgoing.y - data.y) == 1) {
 			
-		// vertical
-		} else if (outgoingX == incomingX && Math.abs(outgoingY - incomingY) == 1) {
-			transitionClass = incomingY > outgoingY ? 'js-move-vertical' : 'js-move-vertical js-move-up';
-			regionsStyle.top = incomingY > outgoingY ? `-${windowHeight}px` : `${windowHeight}px`;
+			transitionClass = isDownwards ? 'js-move-down' : 'js-move-up';
 
-			// move upwards
-			if (incomingY < outgoingY) {
-				Region.setRegionsData(true, 'SET_OUTGOING_REGION_POSITION');
+			if (isDownwards) {
+				Region.setRegionsData(true, 'SET_OUTGOING_LAST_CHILD');
 			}
 
 		// diagonal or more than one space
 		} else {
 			transitionClass = 'js-fade';
-			timeoutDelay = timeoutDelay / 2;
+
+			setTimeout(() => {
+				Region.setRegionsData(false, 'SET_MOVING_REGIONS');
+			}, timeoutDelay / 2);			
 		}
 
-		// set the transition
 		Region.setRegionsData(`${regionsClass} ${transitionClass}`, 'SET_TRANSITION_CLASS');
 
-		// set top/left offsets
-		Region.setRegionsData(regionsStyle, 'SET_REGIONS_OFFSETS');
-
-		// reset regions container class, offset styles and outgoing position
 		setTimeout(() => {
+			Region.setRegionsData(false, 'SET_OUTGOING_LAST_CHILD');
 			Region.setRegionsData(`${regionsClass}`, 'SET_TRANSITION_CLASS');
-			Region.setRegionsData({ top:0, left:0 }, 'SET_REGIONS_OFFSETS');
-			Region.setRegionsData(false, 'SET_OUTGOING_REGION_POSITION');
 		}, timeoutDelay);
 
 		return transitionClass;
 	}
 
 	render() {
-		const { data, contentModules } = this.props,
+		const { data, contentModules, offsetStyles } = this.props,
 			backgroundStyle = { backgroundImage: `url(${data.background})` },
 			longTitle = data.long_title;
 		let { [data.icon]:Icon } = Icons;
@@ -149,8 +137,8 @@ class Region extends Component {
 const mapStateToProps = state => (
     { 
     	contentModules: state.data.contentModules,
-    	outgoingRegion: state.regions.outgoingRegion,
-    	timeoutDelay: state.regions.regionTransitionTimeout
+    	outgoing: state.regions.outgoing,
+    	timeoutDelay: state.regions.regionTransitionTimeout,
     }
 );
 

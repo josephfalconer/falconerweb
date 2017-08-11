@@ -2,35 +2,161 @@
 // Classes toggled in JS
 // =====================
 
+$regions-animation-duration: 1s;
+
+// for .js-move-left
+@keyframes in-from-right {
+	0% {
+		left: 100%;
+	}
+
+	100% {
+		left: 0;
+	}
+}
+
+@keyframes out-to-left {
+	0% {
+		left: 0;
+	}
+
+	100% {
+		left: -100%;
+	}
+}
+
+// for .js-move-right
+@keyframes in-from-left {
+	0% {
+		left: -100%;
+	}
+
+	100% {
+		left: 0;
+	}
+}
+
+@keyframes out-to-right {
+	0% {
+		left: 0;
+	}
+
+	100% {
+		left: 100%;
+	}
+}
+
+// for .js-move-up
+@keyframes in-from-bottom {
+	0% {
+		top: 100%;
+	}
+
+	100% {
+		top: 0;
+	}
+}
+
+@keyframes out-to-top {
+	0% {
+		top: 0;
+	}
+
+	100% {
+		top: -100%;
+	}
+}
+
+// for .js-move-down
+@keyframes in-from-top {
+	0% {
+		top: -100%;
+	}
+
+	100% {
+		top: 0;
+	}
+}
+
+@keyframes out-to-bottom {
+	0% {
+		top: 0;
+	}
+
+	100% {
+		top: 100%;
+	}
+}
+
 // region transitions
 .js {
-	&-move-sideways {
-		width: 200%;
-		transition: left 1s;
-
+	&-move-left {
 		.region {
-			width: 50%;
+			&:first-child {
+				animation: out-to-left $regions-animation-duration;
+				z-index: $navigation-z-index - 2;
+			}
+
+			&:last-child {
+				animation: in-from-right $regions-animation-duration;
+				z-index: $navigation-z-index - 1;
+			}
 		}
 	}
 
-	&-move-vertical {
-		height: 200%;
-		transition: top 1s;
-
-		.region {
-			height: 50%;
-		}
-	}
-	
 	&-move-right {
-		transform: translateX(-50%);
+		.region {
+			&:first-child {
+				animation: in-from-left $regions-animation-duration;
+				z-index: $navigation-z-index - 1;
+			}
+
+			&:last-child {
+				animation: out-to-right $regions-animation-duration;
+				z-index: $navigation-z-index - 2;
+			}
+		}
 	}
-	
+
 	&-move-up {
-		transform: translateY(-50%);
+		.region {
+			&:first-child {
+				animation: out-to-top $regions-animation-duration;
+				z-index: $navigation-z-index - 2;
+			}
+
+			&:last-child {
+				animation: in-from-bottom $regions-animation-duration;
+				z-index: $navigation-z-index - 1;
+			}
+		}
+	}
+
+	&-move-down {
+		.region {
+			&:first-child {
+				animation: in-from-top $regions-animation-duration;
+				z-index: $navigation-z-index - 1;
+			}
+
+			&:last-child {
+				animation: out-to-bottom $regions-animation-duration;
+				z-index: $navigation-z-index - 2;
+			}
+		}
 	}
 
 	&-fade {
-		animation: fade-out-in 1s;
+		animation: fade-out-in $regions-animation-duration;
+
+		.region {
+			&:first-child {
+				z-index: $navigation-z-index - 1;
+			}
+
+			&:last-child {
+				z-index: $navigation-z-index - 2;
+			}
+		}
 	}
 }
