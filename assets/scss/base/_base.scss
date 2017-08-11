@@ -21,6 +21,14 @@ body {
 	color: $text-color-main;
 }
 
+#application {
+	@include square(100%); 
+
+	> div {
+		@include square(100%); 
+	}
+}
+
 a {
 	text-decoration: none;
 }

@@ -158,6 +158,16 @@ body {
   color: #5b5c5b;
 }
 
+#application {
+  width: 100%;
+  height: 100%;
+}
+
+#application > div {
+  width: 100%;
+  height: 100%;
+}
+
 a {
   text-decoration: none;
 }
@@ -225,6 +235,12 @@ svg {
   .container {
     max-width: 1140px;
   }
+}
+
+.regions {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .region {

@@ -2,6 +2,11 @@
 // Main navigable regions
 // ======================
 
+.regions {
+	@include square(100%);
+	position: relative;
+}
+
 .region {
 	position: absolute;
 	top: 0;
