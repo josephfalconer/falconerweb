@@ -63,19 +63,21 @@ class Region extends Component {
 			regionsClass = 'regions';
 
 		let { timeoutDelay } = Region.props,
-			transitionClass = "js-move ";
+			transitionClass = 'js-move ';
 
 		// sideways
-		if ( outgoingX == incomingX && Math.abs(outgoingY - incomingY) == 1 ) {
-			transitionClass += incomingY > outgoingY ? "js-column js-move-up" : "js-column-reverse js-move-down";
+		if (outgoingY == incomingY && Math.abs(outgoingX - incomingX) == 1 ) {
+			transitionClass += 'js-move-sideways ';
+			transitionClass += incomingX > outgoingX ? 'js-move-left' : 'js-row-reverse js-move-right';
 
 		// vertical
-		} else if (outgoingY == incomingY && Math.abs(outgoingX - incomingX) == 1 ) {
-			transitionClass += incomingX > outgoingX ? "js-move-left" : "js-row-reverse js-move-right";
+		} else if (outgoingX == incomingX && Math.abs(outgoingY - incomingY) == 1) {
+			transitionClass += 'js-move-vertical ';
+			transitionClass += incomingY > outgoingY ? 'js-column js-move-up' : 'js-column-reverse js-move-down';
 
 		// diagonal or more than one space
 		} else {
-			transitionClass = "js-fade";
+			transitionClass = 'js-fade';
 			timeoutDelay = timeoutDelay / 2;
 		}
 

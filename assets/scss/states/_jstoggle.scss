@@ -6,69 +6,60 @@
 .js {
 	&-move {
 		display: flex;
+		transition: transform 1s;
+
+		.region {
+			flex-grow: 1;
+		}
+	}
+
+	&-move-sideways {
+		width: 200%;
+
+		.region {
+			width: 50%;
+		}
+	}
+
+	&-move-vertical {
+		height: 200%;
+
+		.region {
+			height: 50%;
+		}
 	}
 	
 	&-move-left {
-		width: 200%;
-		right: initial;
-		left: -100%;
-		transition: left 1s;
-
-		.region {
-			width: 50%;
-			flex-grow: 1;
-		}
+		transform: translateX(-50%);
 	}
 	
 	&-move-right {
-		width: 200%;
-		left: initial;
-		right: -100%;
-		transition: right 1s;
-
-		.region {
-			width: 50%;
-			flex-grow: 1;
-		}
+		left: -100%;
+		transform: translateX(50%);
 	}
 	
 	&-move-up {
-		height: 200%;
-		bottom: initial;
-		top: -100%;
-		transition: top 1s;
-
-		.region {
-			height: 50%;
-			flex-grow: 1;
-		}
+		transform: translateY(-50%);
 	}
 	
 	&-move-down {
-		height: 200%;
-		bottom: -100%;
-		top: initial;
-		transition: bottom 1s;
-
-		.region {
-			height: 50%;
-			flex-grow: 1;
-		}
+		top: -100%;
+		transform: translateY(50%);
 	}
-	
-	&-fade {
-		animation: fade-out-in 1s;
-	}
-	
+		
 	&-column {
 		flex-direction: column;
-	}
-	
-	&-column-reverse {
-		flex-direction: column-reverse;
+
+		&-reverse {
+			flex-direction: column-reverse;
+		}
 	}
 	
 	&-row-reverse {
 		flex-direction: row-reverse;
+	}
+
+	&-fade {
+		animation: fade-out-in 1s;
 	}
 }
