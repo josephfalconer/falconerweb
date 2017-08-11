@@ -13,11 +13,12 @@ class Application extends Component {
         regions: PropTypes.array,
         isMovingRegions: PropTypes.bool.isRequired,
         outgoingRegion: PropTypes.object,
-        regionsContainerClass: PropTypes.string.isRequired
+        regionsContainerClass: PropTypes.string.isRequired,
+        regionsStyleOffsets: PropTypes.object.isRequired,
 	}
 
 	render() {	
-		const { regions, isMovingRegions, outgoingRegion, regionsContainerClass } = this.props,
+		const { regions, isMovingRegions, outgoingRegion, regionsContainerClass, regionsStyleOffsets } = this.props,
 			transitionRegion = this.transitionRegion;
 
 		return (
@@ -28,7 +29,7 @@ class Application extends Component {
 
 				<DirectionButtons />
 				
-				<section className={regionsContainerClass}>
+				<section className={regionsContainerClass} style={regionsStyleOffsets}>
 					{outgoingRegion && isMovingRegions &&
 						<Region 
 							data={outgoingRegion} 
@@ -60,7 +61,8 @@ const mapStateToProps = state => (
         isMovingRegions: state.regions.isMovingRegions,
         outgoingRegion: state.regions.outgoingRegion,
         regionsContainerClass: state.regions.regionsContainerClass,
-        regionsClass: state.regions.regionsClass
+        regionsClass: state.regions.regionsClass,
+        regionsStyleOffsets: state.regions.regionsStyleOffsets
     }
 );
 

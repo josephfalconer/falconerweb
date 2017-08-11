@@ -4,7 +4,11 @@ const initialState = {
 	regionsWidth: 4,
 	isMovingRegions: false,
 	regionTransitionTimeout: 1000,
-	regionsContainerClass: 'regions'
+	regionsContainerClass: 'regions',
+	regionsStyleOffsets: {
+		left: 0,
+		top: 0,
+	}
 }
 
 export default function Regions(state=initialState, action) {
@@ -36,6 +40,13 @@ export default function Regions(state=initialState, action) {
 			return {
 				...state,
 				regionsContainerClass: action.data
+			};
+		}
+
+		case RegionActionTypes.SET_REGIONS_OFFSETS: {
+			return {
+				...state,
+				regionsStyleOffsets: action.data
 			};
 		}
 			

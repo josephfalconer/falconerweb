@@ -228,12 +228,13 @@ svg {
 }
 
 .regions {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   z-index: 5;
   width: 100%;
   height: 100%;
+  border: yellow 10px solid;
 }
 
 .region {
@@ -241,6 +242,7 @@ svg {
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+  border: purple 5px solid;
 }
 
 .region::-webkit-scrollbar {
@@ -1153,10 +1155,6 @@ svg {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-transition: -webkit-transform 1s;
-  transition: -webkit-transform 1s;
-  transition: transform 1s;
-  transition: transform 1s, -webkit-transform 1s;
 }
 
 .js-move .region {
@@ -1167,6 +1165,8 @@ svg {
 
 .js-move-sideways {
   width: 200%;
+  -webkit-transition: left 1s;
+  transition: left 1s;
 }
 
 .js-move-sideways .region {
@@ -1175,32 +1175,22 @@ svg {
 
 .js-move-vertical {
   height: 200%;
+  -webkit-transition: top 1s;
+  transition: top 1s;
 }
 
 .js-move-vertical .region {
   height: 50%;
 }
 
-.js-move-left {
+.js-move-right {
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
-}
-
-.js-move-right {
-  left: -100%;
-  -webkit-transform: translateX(50%);
-          transform: translateX(50%);
 }
 
 .js-move-up {
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
-}
-
-.js-move-down {
-  top: -100%;
-  -webkit-transform: translateY(50%);
-          transform: translateY(50%);
 }
 
 .js-column {

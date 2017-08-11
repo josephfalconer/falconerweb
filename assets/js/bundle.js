@@ -7635,6 +7635,7 @@ var SET_MOVING_REGIONS = exports.SET_MOVING_REGIONS = 'data/SET_MOVING_REGIONS';
 var SET_OUTGOING_REGION = exports.SET_OUTGOING_REGION = 'data/SET_OUTGOING_REGION';
 var SET_CURRENT_REGION = exports.SET_CURRENT_REGION = 'data/SET_CURRENT_REGION';
 var SET_TRANSITION_CLASS = exports.SET_TRANSITION_CLASS = 'data/SET_TRANSITION_CLASS';
+var SET_REGIONS_OFFSETS = exports.SET_REGIONS_OFFSETS = 'data/SET_REGIONS_OFFSETS';
 
 /***/ }),
 /* 77 */
@@ -12566,6 +12567,7 @@ var Application = function (_Component) {
 			    isMovingRegions = _props.isMovingRegions,
 			    outgoingRegion = _props.outgoingRegion,
 			    regionsContainerClass = _props.regionsContainerClass,
+			    regionsStyleOffsets = _props.regionsStyleOffsets,
 			    transitionRegion = this.transitionRegion;
 
 
@@ -12577,7 +12579,7 @@ var Application = function (_Component) {
 				_react2.default.createElement(_DirectionButtons2.default, null),
 				_react2.default.createElement(
 					'section',
-					{ className: regionsContainerClass },
+					{ className: regionsContainerClass, style: regionsStyleOffsets },
 					outgoingRegion && isMovingRegions && _react2.default.createElement(_Region2.default, {
 						data: outgoingRegion,
 						isOutgoingRegion: 'true'
@@ -12605,7 +12607,8 @@ Application.propTypes = {
 	regions: _react.PropTypes.array,
 	isMovingRegions: _react.PropTypes.bool.isRequired,
 	outgoingRegion: _react.PropTypes.object,
-	regionsContainerClass: _react.PropTypes.string.isRequired
+	regionsContainerClass: _react.PropTypes.string.isRequired,
+	regionsStyleOffsets: _react.PropTypes.object.isRequired
 };
 
 
@@ -12615,7 +12618,8 @@ var mapStateToProps = function mapStateToProps(state) {
 		isMovingRegions: state.regions.isMovingRegions,
 		outgoingRegion: state.regions.outgoingRegion,
 		regionsContainerClass: state.regions.regionsContainerClass,
-		regionsClass: state.regions.regionsClass
+		regionsClass: state.regions.regionsClass,
+		regionsStyleOffsets: state.regions.regionsStyleOffsets
 	};
 };
 
@@ -14179,19 +14183,44 @@ var Region = function (_Component) {
 			    outgoingY = outgoingRegion.y,
 			    incomingX = data.x,
 			    incomingY = data.y,
-			    regionsClass = 'regions';
+			    regionsClass = 'regions',
+			    windowWidth = window.innerWidth,
+			    windowHeight = window.innerHeight;
 			var timeoutDelay = Region.props.timeoutDelay,
-			    transitionClass = 'js-move ';
+			    transitionClass = 'js-move ',
+			    regionsOffsets = {
+				top: 0,
+				left: 0
+			};
 
 			// sideways
 			if (outgoingY == incomingY && Math.abs(outgoingX - incomingX) == 1) {
 				transitionClass += 'js-move-sideways ';
-				transitionClass += incomingX > outgoingX ? 'js-move-left' : 'js-row-reverse js-move-right';
+
+				// move regions rightwards
+				if (incomingX < outgoingX) {
+					transitionClass += 'js-row-reverse js-move-right';
+					regionsOffsets.left = windowWidth + 'px';
+
+					// move regions leftwards
+				} else {
+					regionsOffsets.left = '-' + windowWidth + 'px';
+				}
 
 				// vertical
 			} else if (outgoingX == incomingX && Math.abs(outgoingY - incomingY) == 1) {
 				transitionClass += 'js-move-vertical ';
-				transitionClass += incomingY > outgoingY ? 'js-column js-move-up' : 'js-column-reverse js-move-down';
+
+				// move downwards
+				if (incomingY > outgoingY) {
+					transitionClass += 'js-column';
+					regionsOffsets.top = '-' + windowHeight + 'px';
+
+					// move upwards
+				} else {
+					transitionClass += 'js-column-reverse js-move-up';
+					regionsOffsets.top = windowHeight + 'px';
+				}
 
 				// diagonal or more than one space
 			} else {
@@ -14202,9 +14231,13 @@ var Region = function (_Component) {
 			// set the transition
 			Region.setRegionsData(regionsClass + ' ' + transitionClass, 'SET_TRANSITION_CLASS');
 
-			// reset regions container class to base 'regions'
+			// set top/left offsets
+			Region.setRegionsData(regionsOffsets, 'SET_REGIONS_OFFSETS');
+
+			// reset regions container class and offset styles
 			setTimeout(function () {
 				Region.setRegionsData('' + regionsClass, 'SET_TRANSITION_CLASS');
+				Region.setRegionsData({ top: 0, left: 0 }, 'SET_REGIONS_OFFSETS');
 			}, timeoutDelay);
 
 			return transitionClass;
@@ -15110,7 +15143,11 @@ var initialState = {
 	regionsWidth: 4,
 	isMovingRegions: false,
 	regionTransitionTimeout: 1000,
-	regionsContainerClass: 'regions'
+	regionsContainerClass: 'regions',
+	regionsStyleOffsets: {
+		left: 0,
+		top: 0
+	}
 };
 
 function Regions() {
@@ -15145,6 +15182,13 @@ function Regions() {
 			{
 				return _extends({}, state, {
 					regionsContainerClass: action.data
+				});
+			}
+
+		case RegionActionTypes.SET_REGIONS_OFFSETS:
+			{
+				return _extends({}, state, {
+					regionsStyleOffsets: action.data
 				});
 			}
 

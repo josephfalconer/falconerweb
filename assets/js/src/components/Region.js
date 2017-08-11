@@ -60,20 +60,45 @@ class Region extends Component {
 			outgoingY = outgoingRegion.y,
 			incomingX = data.x,
 			incomingY = data.y,
-			regionsClass = 'regions';
+			regionsClass = 'regions',
+			windowWidth = window.innerWidth,
+			windowHeight = window.innerHeight;
 
 		let { timeoutDelay } = Region.props,
-			transitionClass = 'js-move ';
+			transitionClass = 'js-move ',
+			regionsOffsets = {
+				top: 0,
+				left: 0
+			};
 
 		// sideways
 		if (outgoingY == incomingY && Math.abs(outgoingX - incomingX) == 1 ) {
 			transitionClass += 'js-move-sideways ';
-			transitionClass += incomingX > outgoingX ? 'js-move-left' : 'js-row-reverse js-move-right';
 
+			// move regions rightwards
+			if (incomingX < outgoingX) {
+				transitionClass += 'js-row-reverse js-move-right';
+				regionsOffsets.left = `${windowWidth}px`;
+
+			// move regions leftwards
+			} else {
+				regionsOffsets.left = `-${windowWidth}px`;
+			}
+			
 		// vertical
 		} else if (outgoingX == incomingX && Math.abs(outgoingY - incomingY) == 1) {
 			transitionClass += 'js-move-vertical ';
-			transitionClass += incomingY > outgoingY ? 'js-column js-move-up' : 'js-column-reverse js-move-down';
+
+			// move downwards
+			if (incomingY > outgoingY) {
+				transitionClass += 'js-column';
+				regionsOffsets.top = `-${windowHeight}px`;
+
+			// move upwards
+			} else {
+				transitionClass += 'js-column-reverse js-move-up';
+				regionsOffsets.top = `${windowHeight}px`;
+			}
 
 		// diagonal or more than one space
 		} else {
@@ -84,9 +109,13 @@ class Region extends Component {
 		// set the transition
 		Region.setRegionsData(`${regionsClass} ${transitionClass}`, 'SET_TRANSITION_CLASS');
 
-		// reset regions container class to base 'regions'
+		// set top/left offsets
+		Region.setRegionsData(regionsOffsets, 'SET_REGIONS_OFFSETS');
+
+		// reset regions container class and offset styles
 		setTimeout(() => {
 			Region.setRegionsData(`${regionsClass}`, 'SET_TRANSITION_CLASS');
+			Region.setRegionsData({ top:0, left:0}, 'SET_REGIONS_OFFSETS');
 		}, timeoutDelay);
 
 		return transitionClass;
