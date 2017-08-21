@@ -16,6 +16,11 @@ backgrounds = (
     ('/static/backgrounds/squares.png', 'Grey and White Squares'),
 )
 
+text_colours = (
+	('light', 'Light Text'),
+    ('dark', 'Dark Text'),
+)
+
 content_module_types = (
 	('text', 'Text'),
 	('skills_accordion', 'Skills Accordion'),
@@ -28,6 +33,7 @@ class Region(models.Model):
 	path_hash = models.CharField(max_length=255, blank=True)
 	icon = models.CharField(max_length=200, choices=icons, blank=True)
 	background = models.CharField(max_length=200, choices=backgrounds, blank=True)
+	text_colour = models.CharField(max_length=200, choices=text_colours, blank=True)
 	title = models.CharField(max_length=20)
 	long_title = models.CharField(max_length=255, blank=True)
 	intro_text = models.TextField(blank=True)
