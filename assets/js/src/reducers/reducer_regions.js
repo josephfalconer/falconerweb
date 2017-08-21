@@ -6,6 +6,7 @@ const initialState = {
 	isLastChildOutgoing: false,
 	regionTransitionTimeout: 1000,
 	regionsContainerClass: 'regions',
+	currentTextColour: 'light'
 }
 
 export default function Regions(state=initialState, action) {
@@ -44,6 +45,13 @@ export default function Regions(state=initialState, action) {
 			return {
 				...state,
 				regionsContainerClass: action.data
+			};
+		}
+
+		case RegionActionTypes.SET_TEXT_COLOUR: {
+			return {
+				...state,
+				currentTextColour: action.data
 			};
 		}
 			

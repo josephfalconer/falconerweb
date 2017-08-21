@@ -257,6 +257,10 @@ svg {
   width: 0px;
 }
 
+.region--lighttext {
+  color: #fff;
+}
+
 .region__inner {
   width: 100%;
   min-height: 100%;
@@ -479,6 +483,10 @@ svg {
           transform: translateY(-200px);
 }
 
+.nav--background .nav__menu {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 .nav a {
   -webkit-transition: color 0.25s;
   transition: color 0.25s;
@@ -491,11 +499,14 @@ svg {
 }
 
 .nav__menu {
+  border-radius: 1.25rem 1.25rem 0 0;
   width: 100%;
   height: 0;
   padding-left: 0;
   padding-top: 0;
   overflow: hidden;
+  -webkit-transition: background-color 0.25s;
+  transition: background-color 0.25s;
 }
 
 @media (min-width: 768px) {

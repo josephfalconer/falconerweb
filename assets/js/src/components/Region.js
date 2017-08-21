@@ -31,6 +31,9 @@ class Region extends Component {
 		// direction buttons depend on currentRegion in Redux state
 		Region.setRegionsData(data, 'SET_CURRENT_REGION');
 
+		// nav/direction buttons need this
+		Region.setRegionsData(data.text_colour, 'SET_TEXT_COLOUR');
+
 		if (outgoing) {
 			const transitionClass = Region.setTransitionClass();
 		}
@@ -98,15 +101,18 @@ class Region extends Component {
 
 	render() {
 		const { data, contentModules, offsetStyles } = this.props,
+			regionClass = `region region--${data.text_colour}text text`,
 			backgroundStyle = { backgroundImage: `url(${data.background})` },
 			longTitle = data.long_title;
+
 		let { [data.icon]:Icon } = Icons;
 
 		if (Icon) {
 			Icon = Icon.call();
 		}
+
 		return (
-			<article className="region text">
+			<article className={regionClass}>
 				<div className="region__inner" style={backgroundStyle}>
 					<header>
 						{Icon && <figure className="region__icon">{Icon}</figure>}

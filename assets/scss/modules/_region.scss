@@ -19,6 +19,10 @@
 		width: 0px;
 	}
 
+	@include m(lighttext) {
+		color: $white;
+	}
+
 	@include e(inner) {
 		width: 100%;
 		min-height: 100%;

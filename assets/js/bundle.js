@@ -7638,6 +7638,7 @@ var SET_OUTGOING_LAST_CHILD = exports.SET_OUTGOING_LAST_CHILD = 'data/SET_OUTGOI
 var SET_OUTGOING_REGION = exports.SET_OUTGOING_REGION = 'data/SET_OUTGOING_REGION';
 var SET_CURRENT_REGION = exports.SET_CURRENT_REGION = 'data/SET_CURRENT_REGION';
 var SET_TRANSITION_CLASS = exports.SET_TRANSITION_CLASS = 'data/SET_TRANSITION_CLASS';
+var SET_TEXT_COLOUR = exports.SET_TEXT_COLOUR = 'data/SET_TEXT_COLOUR';
 
 /***/ }),
 /* 77 */
@@ -14103,13 +14104,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Navigation = function Navigation(props) {
 	var navigationLinks = props.navigationLinks,
-	    isMovingRegions = props.isMovingRegions;
+	    isMovingRegions = props.isMovingRegions,
+	    regionTextColour = props.regionTextColour;
 
 
 	if (navigationLinks.length) {
 		return _react2.default.createElement(
 			'nav',
-			{ className: 'nav' },
+			{ className: regionTextColour == 'dark' ? 'nav nav--background' : 'nav' },
 			_react2.default.createElement(
 				'ul',
 				{ className: 'nav__menu list--plain' },
@@ -14157,13 +14159,15 @@ var Navigation = function Navigation(props) {
 
 Navigation.propTypes = {
 	navigationLinks: _react.PropTypes.array.isRequired,
-	isMovingRegions: _react.PropTypes.bool.isRequired
+	isMovingRegions: _react.PropTypes.bool.isRequired,
+	regionTextColour: _react.PropTypes.string.isRequired
 };
 
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		navigationLinks: state.data.navigationLinks,
-		isMovingRegions: state.regions.isMovingRegions
+		isMovingRegions: state.regions.isMovingRegions,
+		regionTextColour: state.regions.currentTextColour
 	};
 };
 
@@ -14299,6 +14303,9 @@ var Region = function (_Component) {
 			// direction buttons depend on currentRegion in Redux state
 			Region.setRegionsData(data, 'SET_CURRENT_REGION');
 
+			// nav/direction buttons need this
+			Region.setRegionsData(data.text_colour, 'SET_TEXT_COLOUR');
+
 			if (outgoing) {
 				var transitionClass = Region.setTransitionClass();
 			}
@@ -14320,6 +14327,7 @@ var Region = function (_Component) {
 			    data = _props.data,
 			    contentModules = _props.contentModules,
 			    offsetStyles = _props.offsetStyles,
+			    regionClass = 'region region--' + data.text_colour + 'text text',
 			    backgroundStyle = { backgroundImage: 'url(' + data.background + ')' },
 			    longTitle = data.long_title;
 			var Icon = _Icons2.default[data.icon];
@@ -14328,9 +14336,10 @@ var Region = function (_Component) {
 			if (Icon) {
 				Icon = Icon.call();
 			}
+
 			return _react2.default.createElement(
 				'article',
-				{ className: 'region text' },
+				{ className: regionClass },
 				_react2.default.createElement(
 					'div',
 					{ className: 'region__inner', style: backgroundStyle },
@@ -15122,7 +15131,8 @@ var initialState = {
 	isMovingRegions: false,
 	isLastChildOutgoing: false,
 	regionTransitionTimeout: 1000,
-	regionsContainerClass: 'regions'
+	regionsContainerClass: 'regions',
+	currentTextColour: 'light'
 };
 
 function Regions() {
@@ -15164,6 +15174,13 @@ function Regions() {
 			{
 				return _extends({}, state, {
 					regionsContainerClass: action.data
+				});
+			}
+
+		case RegionActionTypes.SET_TEXT_COLOUR:
+			{
+				return _extends({}, state, {
+					currentTextColour: action.data
 				});
 			}
 

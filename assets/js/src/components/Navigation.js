@@ -6,11 +6,11 @@ import Icons from './icons/Icons';
 
 
 const Navigation = props => {
-	const { navigationLinks, isMovingRegions } = props;
+	const { navigationLinks, isMovingRegions, regionTextColour } = props;
 
 	if (navigationLinks.length) {
 		return (
-			<nav className="nav">
+			<nav className={regionTextColour == 'dark' ? 'nav nav--background' : 'nav'}>
 				<ul className="nav__menu list--plain">
 					{navigationLinks.map((link, index) => {
 						
@@ -49,12 +49,14 @@ const Navigation = props => {
 Navigation.propTypes = {
 	navigationLinks: PropTypes.array.isRequired,
 	isMovingRegions: PropTypes.bool.isRequired,
+	regionTextColour: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = state => (
     {
     	navigationLinks: state.data.navigationLinks,
-    	isMovingRegions: state.regions.isMovingRegions
+    	isMovingRegions: state.regions.isMovingRegions,
+    	regionTextColour: state.regions.currentTextColour,
     }
 );
 
