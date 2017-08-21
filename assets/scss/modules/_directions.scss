@@ -3,13 +3,21 @@
 // =========================
 
 $direction-offset: 20;
-$direction-size: remcalc(30);
+$direction-size: 30;
+
+.directions {
+	@include m(background) {
+		.direction {
+			background-color: $black-transparent;
+		}
+	}
+}
 
 .direction {
 	position: fixed;
 	z-index: $navigation-z-index;
 	outline: none;
-	@include square($direction-size);
+	@include square( remcalc($direction-size + 10) );
 	color: $white;
 
 	&:hover {
@@ -88,7 +96,13 @@ $direction-size: remcalc(30);
 	}
 
 	@include m(up) {
-		top: remcalc($direction-offset);
+		top: 0;
+		border-radius: 0 0 remcalc(10) remcalc(10);
+		@include sides( remcalc(70), remcalc(50) );
+
+		.direction__inner {
+			margin: remcalc($direction-offset) auto 0;
+		}
 		
 		.direction__icon {
 			transform: rotate(45deg);
@@ -106,13 +120,13 @@ $direction-size: remcalc(30);
 	@include e(inner) {
 		display: block;
 		position: relative;
-		@include square(100%);
+		@include square( remcalc($direction-size) );
 	}
 
 	@include e(text) {
 		position: absolute;
 		top: 0;
-		line-height: $direction-size;
+		line-height: remcalc($direction-size);
 		opacity: 0;
 		transition: opacity $transition-duration;
 	}

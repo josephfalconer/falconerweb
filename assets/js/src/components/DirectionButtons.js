@@ -7,7 +7,7 @@ import * as RegionActionCreators from '../actions/regions';
 
 
 const DirectionButtons = props => {
-	const { regions, regionsWidth, currentRegion, isMovingRegions } = props,
+	const { regions, regionsWidth, currentRegion, isMovingRegions, regionTextColour } = props,
 		baseClass = 'direction';
 
 	if (regions && currentRegion) {
@@ -35,7 +35,7 @@ const DirectionButtons = props => {
 		];
 
 		return (
-			<div className="directions">
+			<div className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
 				{directionButtons.map((button, index) => {
 					if (button.condition) {
 						return (
@@ -69,7 +69,8 @@ DirectionButtons.propTypes = {
 	regionsWidth: PropTypes.number.isRequired,
 	regions: PropTypes.array,
 	currentRegion: PropTypes.object,
-	isMovingRegions: PropTypes.bool.isRequired
+	isMovingRegions: PropTypes.bool.isRequired,
+	regionTextColour: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = state => (
@@ -77,7 +78,8 @@ const mapStateToProps = state => (
     	regions: state.data.regions,
     	regionsWidth: state.regions.regionsWidth,
     	currentRegion: state.regions.currentRegion,
-    	isMovingRegions: state.regions.isMovingRegions
+    	isMovingRegions: state.regions.isMovingRegions,
+    	regionTextColour: state.regions.currentTextColour,
     }
 );
 

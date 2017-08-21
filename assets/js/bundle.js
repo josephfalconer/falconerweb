@@ -13996,6 +13996,7 @@ var DirectionButtons = function DirectionButtons(props) {
 	    regionsWidth = props.regionsWidth,
 	    currentRegion = props.currentRegion,
 	    isMovingRegions = props.isMovingRegions,
+	    regionTextColour = props.regionTextColour,
 	    baseClass = 'direction';
 
 
@@ -14020,7 +14021,7 @@ var DirectionButtons = function DirectionButtons(props) {
 
 		return _react2.default.createElement(
 			'div',
-			{ className: 'directions' },
+			{ className: regionTextColour == 'dark' ? 'directions directions--background' : 'directions' },
 			directionButtons.map(function (button, index) {
 				if (button.condition) {
 					return _react2.default.createElement(
@@ -14063,7 +14064,8 @@ DirectionButtons.propTypes = {
 	regionsWidth: _react.PropTypes.number.isRequired,
 	regions: _react.PropTypes.array,
 	currentRegion: _react.PropTypes.object,
-	isMovingRegions: _react.PropTypes.bool.isRequired
+	isMovingRegions: _react.PropTypes.bool.isRequired,
+	regionTextColour: _react.PropTypes.string.isRequired
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -14071,7 +14073,8 @@ var mapStateToProps = function mapStateToProps(state) {
 		regions: state.data.regions,
 		regionsWidth: state.regions.regionsWidth,
 		currentRegion: state.regions.currentRegion,
-		isMovingRegions: state.regions.isMovingRegions
+		isMovingRegions: state.regions.isMovingRegions,
+		regionTextColour: state.regions.currentTextColour
 	};
 };
 
