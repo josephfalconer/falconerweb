@@ -14233,25 +14233,23 @@ var Region = function (_Component) {
 			    _Region$props = Region.props,
 			    outgoing = _Region$props.outgoing,
 			    data = _Region$props.data,
-			    isSideways = outgoing.y == data.y,
-			    isVertical = outgoing.x == data.x,
+			    isSideways = outgoing.y == data.y && Math.abs(outgoing.x - data.x) == 1,
+			    isVertical = outgoing.x == data.x && Math.abs(outgoing.y - data.y) == 1,
 			    isRightwards = data.x < outgoing.x,
 			    isDownwards = data.y < outgoing.y,
-			    regionsClass = 'regions',
-			    windowWidth = window.innerWidth,
-			    windowHeight = window.innerHeight;
+			    regionsClass = 'regions';
 			var timeoutDelay = Region.props.timeoutDelay,
 			    transitionClass = void 0;
 
 
-			if (isSideways && Math.abs(outgoing.x - data.x) == 1) {
+			if (isSideways) {
 
 				transitionClass = isRightwards ? 'js-move-right' : 'js-move-left';
 
 				if (isRightwards) {
 					Region.setRegionsData(true, 'SET_OUTGOING_LAST_CHILD');
 				}
-			} else if (isVertical && Math.abs(outgoing.y - data.y) == 1) {
+			} else if (isVertical) {
 
 				transitionClass = isDownwards ? 'js-move-down' : 'js-move-up';
 
