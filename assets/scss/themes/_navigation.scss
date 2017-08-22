@@ -21,12 +21,6 @@ $navigation-border-grey: 1px solid $grey--accent;
 }
 
 .nav {
-	border-bottom: remcalc(2) solid $grey--accent; 
-
-	@include mq(md) {
-		border-bottom: none;
-	}
-
 	.fill {
 		fill: darken($grey--accent, 5%);
 	}
@@ -38,14 +32,6 @@ $navigation-border-grey: 1px solid $grey--accent;
 	circle {
 		stroke: darken($grey--accent, 5%);
 		fill: rgba(255,255,255,0);
-	}
-
-	@include e(item) { 
-		border-bottom: remcalc(2) solid $grey--accent; 
-
-		@include mq(md) {
-			border-bottom: none;
-		}
 	}
 
 	@include e(link) { 

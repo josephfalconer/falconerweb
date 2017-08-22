@@ -31,7 +31,7 @@ const Navigation = props => {
 								>
 									<span className="nav__linkcircle">
 										{Icon}
-										<span className="nav__linktext">{link.text}</span>
+										<span className="nav__linktext is-displayed-lg">{link.text}</span>
 					                </span>
 								</NavLink>
 							</li>

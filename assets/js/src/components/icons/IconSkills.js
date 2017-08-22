@@ -3,7 +3,7 @@ import React from 'react';
 
 const DemosIcon = props => {
 	return (
-		<svg viewBox="2 0 60 60">
+		<svg className="is-displayed-lg" viewBox="2 0 60 60">
 			<path id="spanner" className="fill iconbit iconbit--spanner" d="M38.13,24.788c0.868,1.235,1.734,2.468,2.608,3.694
 			c0.914,1.283,1.841,2.55,2.753,3.827c0.485,0.68,0.938,1.388,1.432,2.057c0.906,1.233,2.078,1.917,3.378,2.347
 			c1.596,0.528,2.657,1.74,3.344,3.538c0.512,1.34,0.68,2.732,0.718,4.113c0.038,1.366-0.201,2.745-0.854,3.909

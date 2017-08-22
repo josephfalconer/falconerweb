@@ -16,7 +16,7 @@ $nav-toplink-width-xl: 100px;
 	left: 0;
 	bottom: 0;
 	z-index: $navigation-z-index;
-	@include sides(100%, $nav-height-xs);
+	@include sides(100%, remcalc(50));
 	background-color: rgba(255,255,255,0);
     justify-content: center;
     transform: none;
@@ -51,21 +51,16 @@ $nav-toplink-width-xl: 100px;
 	}
 
 	@include e(menu) {
+		display: flex;
 		border-radius: remcalc(20) remcalc(20) 0 0;
-		@include sides(100%, 0);
+		margin: 0 auto;
+		width: remcalc(220);
 		padding-left: 0;
 		padding-top: 0;
-		overflow: hidden;
 		transition: background-color $transition-duration;
 
 		@include mq(md) {
-			display: flex;
 			width: remcalc(300);
-			height: 64px;
-
-		    li {
-		    	flex: 1 0 25%;
-		    }
 		}
 
 		@include mq(lg) {
@@ -75,18 +70,12 @@ $nav-toplink-width-xl: 100px;
 	}
 
 	@include e(item) {
-		width: 50%;
-		margin: 0 auto;
+		display: flex;
+		flex: 1 0 25%;
 		order: 1;
+		justify-content: center;
+	    align-items: center;
 		transition: all 1s;
-
-		@include mq(md) {
-			width: initial;
-		}
-
-		@include mq(md, only) {
-			height: 100%;
-		}
 
 		@include mq(lg) {
 			width: remcalc(70);
@@ -99,12 +88,14 @@ $nav-toplink-width-xl: 100px;
 		}
 
 		@include m(logo) {
-			overflow: hidden;
 			order: 0;
 
 			.nav__linkcircle {
-				border: none;
 				padding: remcalc(1);
+
+				@include mq(lg) {
+					border: none;
+				}
 			}
 
 			.nav__linktext {
@@ -115,20 +106,6 @@ $nav-toplink-width-xl: 100px;
 
 	@include e(link) {
 		display: block;
-		
-		@include mq(md, max) {
-			font-weight: $font-weight--bold;
-		}
-
-		@include mq(md, only) {
-			@include dimensions(initial, 100%);
-			padding: 0 15px;
-			line-height: 65px;
-		}
-
-		@include mq(sm, max) {
-			line-height: 40px;
-		}
 
 		@include mq(lg) {
 			position: relative;
@@ -142,20 +119,28 @@ $nav-toplink-width-xl: 100px;
 				}
 			}
 		}
+
+		@include m(current) {
+			.nav__linkcircle {
+				@include mq(md, max) {
+					background-color: $orange--active;
+				}
+			}
+		}
 	}
 
 	@include e(linkcircle) {
-		display: none;
+		display: block;
 		position: relative;
-		border: remcalc(2) solid #1791E5;
-		@include square(remcalc($nav-circlelink-width));
+		border: remcalc(2) solid $orange--active;
+		@include square(remcalc(15));
 		padding: remcalc(3);
 	    border-radius: 50%;
 	    margin: 0 auto;
 	    transition: all $transition-duration;
 
 	    @include mq(lg) {
-			display: block;
+			@include square(remcalc($nav-circlelink-width));
 		}
 
 		@include mq(xxl) {

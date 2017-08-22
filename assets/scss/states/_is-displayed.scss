@@ -32,8 +32,18 @@
 }
 
 .is-displayed-lg {
-	@include mq(md, max) {
-		display: none;
+	display: none;
+	
+	@include mq(lg) {
+		display: block;
+	}
+}
+
+.is-displayed-md {
+	display: none;
+
+	@include mq(md) {
+		display: block;
 	}
 }
 
