@@ -1398,24 +1398,24 @@ svg {
 }
 
 @media (max-width: 61.9375rem) {
-  .nav__link--current {
+  .nav__link--current, .nav__link:hover, .nav__link:focus {
     color: #ffae19;
   }
 }
 
-.nav__link--current circle {
+.nav__link--current circle, .nav__link:hover circle, .nav__link:focus circle {
   stroke: #ffae19;
 }
 
-.nav__link--current .fill {
+.nav__link--current .fill, .nav__link:hover .fill, .nav__link:focus .fill {
   fill: #ffae19;
 }
 
-.nav__link--current .fill--onlyhover {
+.nav__link--current .fill--onlyhover, .nav__link:hover .fill--onlyhover, .nav__link:focus .fill--onlyhover {
   fill: #ffae19;
 }
 
-.nav__link--current .stroke {
+.nav__link--current .stroke, .nav__link:hover .stroke, .nav__link:focus .stroke {
   stroke: #ffae19;
 }
 

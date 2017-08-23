@@ -35,7 +35,7 @@ $navigation-border-grey: 1px solid $grey--accent;
 	}
 
 	@include e(link) { 
-		&--current {
+		&--current, &:hover, &:focus {
 			@include mq(md, max) {
 				color: $orange--dark;
 			}
