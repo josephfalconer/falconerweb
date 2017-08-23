@@ -26,7 +26,7 @@ const Navigation = props => {
 									to={hash}
 									className="nav__link"
 									activeClassName="nav__link nav__link--current"
-									// exact
+									exact
 									onClick={e => { if (isMovingRegions) e.preventDefault(); }}
 								>
 									<span className="nav__linkcircle">

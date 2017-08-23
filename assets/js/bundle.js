@@ -14134,9 +14134,9 @@ var Navigation = function Navigation(props) {
 							{
 								to: hash,
 								className: 'nav__link',
-								activeClassName: 'nav__link nav__link--current'
-								// exact
-								, onClick: function onClick(e) {
+								activeClassName: 'nav__link nav__link--current',
+								exact: true,
+								onClick: function onClick(e) {
 									if (isMovingRegions) e.preventDefault();
 								}
 							},
