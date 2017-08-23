@@ -59,12 +59,12 @@ $text-color-main: $finlandia;
 $text-color-light: lighten($finlandia, 20%);
 
 // breakpoints 
-$bp-xs: 1px;
-$bp-sm: 576px;
-$bp-md: 768px;
-$bp-lg: 992px;
-$bp-xl: 1200px;
-$bp-xxl: 1400px;
+$bp-xs: 1;
+$bp-sm: 576;
+$bp-md: 768;
+$bp-lg: 992;
+$bp-xl: 1200;
+$bp-xxl: 1400;
 
 // map the breakpoints
 $breakpoints: (

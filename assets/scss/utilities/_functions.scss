@@ -9,11 +9,12 @@
 
 // return a specified breakpoint from the map
 @function break($key) {
-	@return map-get($breakpoints, $key)
+	$pixel-size: map-get($breakpoints, $key);
+	@return remcalc($pixel-size);
 }
 
 // convert to rem
 @function remcalc($size) {
-	$remSize: $size / 16;
-	@return #{$remSize}rem;
+	$rem-size: $size / 16;
+	@return #{$rem-size}rem;
 }
