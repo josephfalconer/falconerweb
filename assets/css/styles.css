@@ -971,13 +971,8 @@ svg {
 
 .skillsfeature__title {
   margin: 0;
-}
-
-@media (min-width: 768px) {
-  .skillsfeature__title {
-    -webkit-box-shadow: 0 -1.875rem 1.5625rem -0.625rem #fff;
-            box-shadow: 0 -1.875rem 1.5625rem -0.625rem #fff;
-  }
+  -webkit-box-shadow: 0 -1.875rem 1.5625rem -0.625rem #fff;
+          box-shadow: 0 -1.875rem 1.5625rem -0.625rem #fff;
 }
 
 .skillsfeature__tooltip {

@@ -43,10 +43,6 @@ $skills-heading-height: remcalc(85);
 		}
 	}
 
-	@include e(heading) {
-		
-	}
-
 	@include e(trigger) {
 		display: block;
 		position: relative;
@@ -69,10 +65,7 @@ $skills-heading-height: remcalc(85);
 
 	@include e(title) {
 		margin: 0;
-
-		@include mq(md) {
-			box-shadow: 0 -#{remcalc(30)} remcalc(25) -#{remcalc(10)} $white;
-		}
+		box-shadow: 0 -#{remcalc(30)} remcalc(25) -#{remcalc(10)} $white;
 	}
 
 	@include e(tooltip) {
