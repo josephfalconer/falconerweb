@@ -59,11 +59,8 @@ $nav-toplink-width-xl: 100px;
 		padding-top: 0;
 		transition: background-color $transition-duration;
 
-		@include mq(md) {
-			width: remcalc(300);
-		}
-
 		@include mq(lg) {
+			@include sides(remcalc(300), initial);
 			height: initial;
 			align-items: center; 
 		}

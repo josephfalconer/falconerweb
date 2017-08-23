@@ -7,84 +7,68 @@ $regions-animation-duration: 1s;
 // for .js-move-left
 @keyframes in-from-right {
 	0% {
-		left: 100%;
+		transform: translateX(100%);
 	}
 
 	100% {
-		left: 0;
+		transform: translateX(0);
 	}
 }
 
 @keyframes out-to-left {
-	0% {
-		left: 0;
-	}
-
 	100% {
-		left: -100%;
+		transform: translateX(-100%);
 	}
 }
 
 // for .js-move-right
 @keyframes in-from-left {
 	0% {
-		left: -100%;
+		transform: translateX(-100%);
 	}
 
 	100% {
-		left: 0;
+		transform: translateX(0);
 	}
 }
 
 @keyframes out-to-right {
-	0% {
-		left: 0;
-	}
-
 	100% {
-		left: 100%;
+		transform: translateX(100%);
 	}
 }
 
 // for .js-move-up
 @keyframes in-from-bottom {
 	0% {
-		top: 100%;
+		transform: translateY(100%);
 	}
 
 	100% {
-		top: 0;
+		transform: translateY(0);
 	}
 }
 
 @keyframes out-to-top {
-	0% {
-		top: 0;
-	}
-
 	100% {
-		top: -100%;
+		transform: translateY(-100%);
 	}
 }
 
 // for .js-move-down
 @keyframes in-from-top {
 	0% {
-		top: -100%;
+		transform: translateY(-100%);
 	}
 
 	100% {
-		top: 0;
+		transform: translateY(0);
 	}
 }
 
 @keyframes out-to-bottom {
-	0% {
-		top: 0;
-	}
-
 	100% {
-		top: 100%;
+		transform: translateY(100%);
 	}
 }
 
