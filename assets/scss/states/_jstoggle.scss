@@ -2,7 +2,7 @@
 // Classes toggled in JS
 // =====================
 
-$regions-animation-duration: 1s;
+$regions-animation-duration: 10s;
 
 // for .js-move-left
 @keyframes in-from-right {
@@ -75,30 +75,26 @@ $regions-animation-duration: 1s;
 // region transitions
 .js {
 	&-move-left {
-		.region {
-			&:first-child {
-				animation: out-to-left $regions-animation-duration;
-				z-index: $navigation-z-index - 2;
-			}
+		.region:first-child {
+			animation: out-to-left $regions-animation-duration;
+			z-index: $navigation-z-index - 2;
+		}
 
-			&:last-child {
-				animation: in-from-right $regions-animation-duration;
-				z-index: $navigation-z-index - 1;
-			}
+		.primaryregion:last-child .region {
+			animation: in-from-right $regions-animation-duration;
+			z-index: $navigation-z-index - 1;
 		}
 	}
 
 	&-move-right {
-		.region {
-			&:first-child {
-				animation: in-from-left $regions-animation-duration;
-				z-index: $navigation-z-index - 1;
-			}
+		.primaryregion:first-child .region {
+			animation: in-from-left $regions-animation-duration;
+			z-index: $navigation-z-index - 1;
+		}
 
-			&:last-child {
-				animation: out-to-right $regions-animation-duration;
-				z-index: $navigation-z-index - 2;
-			}
+		.region:last-child {
+			animation: out-to-right $regions-animation-duration;
+			z-index: $navigation-z-index - 2;
 		}
 	}
 
@@ -143,4 +139,10 @@ $regions-animation-duration: 1s;
 			}
 		}
 	}
+}
+
+// TODO: set h1 f sizes
+h1 {
+	border: solid 1px;
+	font-size: remcalc(30);
 }

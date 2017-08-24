@@ -5,6 +5,7 @@ import { Route } from 'react-router-dom';
 import DataFetcher from './DataFetcher';
 import Navigation from '../components/Navigation';
 import Region from '../components/Region';
+import PrimaryRegion from '../components/PrimaryRegion';
 import DirectionButtons from '../components/DirectionButtons';
 
 class Application extends Component {
@@ -29,7 +30,7 @@ class Application extends Component {
 
 				<DirectionButtons />
 				
-				<section className={regionsContainerClass}>
+				<main className={regionsContainerClass}>
 					{outgoing && isMovingRegions && !isLastChildOutgoing &&
 						<Region 
 							data={outgoing} 
@@ -44,7 +45,7 @@ class Application extends Component {
 								exact
 								path={hash}
 								render={() => (
-									<Region data={region}/>
+									<PrimaryRegion data={region}/>
 								)} 						
 							/>
 						);
@@ -55,7 +56,7 @@ class Application extends Component {
 							isOutgoing="true" 
 						/>
 					}
-				</section>
+				</main>
 			</div>
 		)
 	};

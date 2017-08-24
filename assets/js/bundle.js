@@ -7612,6 +7612,7 @@ var SET_MOVING_REGIONS = exports.SET_MOVING_REGIONS = 'data/SET_MOVING_REGIONS';
 var SET_OUTGOING_LAST_CHILD = exports.SET_OUTGOING_LAST_CHILD = 'data/SET_OUTGOING_LAST_CHILD';
 var SET_OUTGOING_REGION = exports.SET_OUTGOING_REGION = 'data/SET_OUTGOING_REGION';
 var SET_CURRENT_REGION = exports.SET_CURRENT_REGION = 'data/SET_CURRENT_REGION';
+var SET_CURRENT_CHILD_REGIONS = exports.SET_CURRENT_CHILD_REGIONS = 'data/SET_CURRENT_CHILD_REGIONS';
 var SET_TRANSITION_CLASS = exports.SET_TRANSITION_CLASS = 'data/SET_TRANSITION_CLASS';
 var SET_TEXT_COLOUR = exports.SET_TEXT_COLOUR = 'data/SET_TEXT_COLOUR';
 
@@ -12516,6 +12517,10 @@ var _Region = __webpack_require__(137);
 
 var _Region2 = _interopRequireDefault(_Region);
 
+var _PrimaryRegion = __webpack_require__(322);
+
+var _PrimaryRegion2 = _interopRequireDefault(_PrimaryRegion);
+
 var _DirectionButtons = __webpack_require__(135);
 
 var _DirectionButtons2 = _interopRequireDefault(_DirectionButtons);
@@ -12557,7 +12562,7 @@ var Application = function (_Component) {
 				_react2.default.createElement(_Navigation2.default, null),
 				_react2.default.createElement(_DirectionButtons2.default, null),
 				_react2.default.createElement(
-					'section',
+					'main',
 					{ className: regionsContainerClass },
 					outgoing && isMovingRegions && !isLastChildOutgoing && _react2.default.createElement(_Region2.default, {
 						data: outgoing,
@@ -12570,7 +12575,7 @@ var Application = function (_Component) {
 							exact: true,
 							path: hash,
 							render: function render() {
-								return _react2.default.createElement(_Region2.default, { data: region });
+								return _react2.default.createElement(_PrimaryRegion2.default, { data: region });
 							}
 						});
 					}),
@@ -13858,11 +13863,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var addData = exports.addData = function addData(data, type) {
 
-	var isPrimaryRegions = type == 'ADD_PRIMARY_REGIONS',
-	    isChildRegions = type == 'ADD_CHILD_REGIONS';
-
-	// each region gets x-y position values
-	if (isPrimaryRegions) {
+	if (type == 'ADD_PRIMARY_REGIONS') {
 		var i = 0;
 
 		for (var _iterator = data, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
@@ -13879,15 +13880,8 @@ var addData = exports.addData = function addData(data, type) {
 
 			var region = _ref;
 
-			region.index = i;
-
-			region.x = i;
-			region.y = 0;
-
-			i++;
+			region.index = i, region.x = i, region.y = 0, i++;
 		}
-
-		console.log(data);
 	}
 
 	return {
@@ -13952,6 +13946,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var DirectionButtons = function DirectionButtons(props) {
 	var primaryRegions = props.primaryRegions,
+	    currentChildRegions = props.currentChildRegions,
 	    regionsWidth = props.regionsWidth,
 	    currentRegion = props.currentRegion,
 	    isMovingRegions = props.isMovingRegions,
@@ -13971,7 +13966,7 @@ var DirectionButtons = function DirectionButtons(props) {
 		}];
 
 		return _react2.default.createElement(
-			'div',
+			'nav',
 			{ className: regionTextColour == 'dark' ? 'directions directions--background' : 'directions' },
 			directionButtons.map(function (button, index) {
 				if (button.condition) {
@@ -14013,6 +14008,7 @@ var DirectionButtons = function DirectionButtons(props) {
 
 DirectionButtons.propTypes = {
 	primaryRegions: _react.PropTypes.array,
+	currentChildRegions: _react.PropTypes.array,
 	currentRegion: _react.PropTypes.object,
 	isMovingRegions: _react.PropTypes.bool.isRequired,
 	regionTextColour: _react.PropTypes.string.isRequired
@@ -14022,6 +14018,7 @@ var mapStateToProps = function mapStateToProps(state) {
 	return {
 		primaryRegions: state.data.primaryRegions,
 		currentRegion: state.transitions.currentRegion,
+		currentChildRegions: state.transitions.currentChildRegions,
 		isMovingRegions: state.transitions.isMovingRegions,
 		regionTextColour: state.transitions.currentTextColour
 	};
@@ -14870,11 +14867,10 @@ var DataFetcher = function (_Component) {
 		}, {
 			url: '/regions/primary-regions',
 			type: 'ADD_PRIMARY_REGIONS'
+		}, {
+			url: '/regions/child-regions',
+			type: 'ADD_CHILD_REGIONS'
 		},
-		// {
-		// 	url: '/regions/child-regions',
-		// 	type: 'ADD_CHILD_REGIONS'
-		// },
 		// {
 		// 	url: '/regions/content-modules',
 		// 	type: 'ADD_CONTENT_MODULES'
@@ -14936,7 +14932,7 @@ var DataFetcher = function (_Component) {
 						var dataItem = _ref3;
 
 
-						if (request.type == "ADD_REGIONS") {
+						if (request.type == "ADD_PRIMARY_REGIONS") {
 							dataItem.fields.pk = dataItem.pk;
 						}
 
@@ -15156,7 +15152,7 @@ var initialState = {
 	regionsWidth: 4,
 	isMovingRegions: false,
 	isLastChildOutgoing: false,
-	regionTransitionTimeout: 1000,
+	regionTransitionTimeout: 10000,
 	regionsContainerClass: 'regions',
 	currentTextColour: 'light'
 };
@@ -15193,6 +15189,13 @@ function Regions() {
 			{
 				return _extends({}, state, {
 					currentRegion: action.data
+				});
+			}
+
+		case RegionActionTypes.SET_CURRENT_CHILD_REGIONS:
+			{
+				return _extends({}, state, {
+					currentChildRegions: action.data
 				});
 			}
 
@@ -31812,6 +31815,149 @@ module.exports = function(module) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _redux = __webpack_require__(21);
+
+var _reactRedux = __webpack_require__(16);
+
+var _reactRouterDom = __webpack_require__(34);
+
+var _Region = __webpack_require__(137);
+
+var _Region2 = _interopRequireDefault(_Region);
+
+var _transitions = __webpack_require__(134);
+
+var RegionActionCreators = _interopRequireWildcard(_transitions);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PrimaryRegion = function (_Component) {
+	_inherits(PrimaryRegion, _Component);
+
+	function PrimaryRegion() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		_classCallCheck(this, PrimaryRegion);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PrimaryRegion.__proto__ || Object.getPrototypeOf(PrimaryRegion)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+			childRegionsData: []
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
+
+	_createClass(PrimaryRegion, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _props = this.props,
+			    data = _props.data,
+			    childRegions = _props.childRegions,
+			    dispatch = _props.dispatch;
+
+
+			var setRegionsData = (0, _redux.bindActionCreators)(RegionActionCreators.setRegionsData, dispatch);
+
+			var childRegionsData = [];
+
+			for (var _iterator = childRegions, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+				var _ref2;
+
+				if (_isArray) {
+					if (_i >= _iterator.length) break;
+					_ref2 = _iterator[_i++];
+				} else {
+					_i = _iterator.next();
+					if (_i.done) break;
+					_ref2 = _i.value;
+				}
+
+				var childRegion = _ref2;
+
+				if (childRegion.parent_region == data.pk) {
+					childRegionsData.push(childRegion);
+				}
+			}
+
+			this.setState({ childRegionsData: childRegionsData });
+			setRegionsData(childRegionsData, 'SET_CURRENT_CHILD_REGIONS');
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var data = this.props.data;
+			var childRegionsData = this.state.childRegionsData;
+
+
+			console.log(this.state.childRegionsData);
+
+			return _react2.default.createElement(
+				'section',
+				{ className: 'primaryregion' },
+				_react2.default.createElement(_Region2.default, { data: data }),
+				childRegionsData && childRegionsData.map(function (childRegion, index) {
+					return _react2.default.createElement(_reactRouterDom.Route, {
+						key: index,
+						exact: true,
+						path: hash,
+						render: function render() {
+							return _react2.default.createElement(_Region2.default, { data: childRegion });
+						}
+					});
+				})
+			);
+		}
+	}]);
+
+	return PrimaryRegion;
+}(_react.Component);
+
+PrimaryRegion.propTypes = {
+	childRegions: _react.PropTypes.array
+};
+
+
+var mapStateToProps = function mapStateToProps(state) {
+	return {
+		childRegions: state.data.childRegions,
+		childRegionsData: state.data.childRegionsData
+	};
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(PrimaryRegion);
 
 /***/ })
 /******/ ]);

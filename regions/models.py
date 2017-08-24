@@ -41,6 +41,7 @@ class Region(models.Model):
 
 	class Meta:
 		abstract = True
+		ordering = ['order',]
 
 	def __str__(self):
 		return self.title

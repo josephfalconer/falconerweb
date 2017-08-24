@@ -16,10 +16,10 @@ class DataFetcher extends Component {
 			url: '/regions/primary-regions',
 			type: 'ADD_PRIMARY_REGIONS'
 		},
-		// {
-		// 	url: '/regions/child-regions',
-		// 	type: 'ADD_CHILD_REGIONS'
-		// },
+		{
+			url: '/regions/child-regions',
+			type: 'ADD_CHILD_REGIONS'
+		},
 		// {
 		// 	url: '/regions/content-modules',
 		// 	type: 'ADD_CONTENT_MODULES'
@@ -64,7 +64,7 @@ class DataFetcher extends Component {
 
 					for (let dataItem of data) {
 
-						if (request.type == "ADD_REGIONS") {
+						if (request.type == "ADD_PRIMARY_REGIONS") {
 							dataItem.fields.pk = dataItem.pk;
 						}
 
