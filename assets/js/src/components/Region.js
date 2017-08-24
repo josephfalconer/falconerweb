@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import Icons from './icons/Icons';
 import ContentModules from './modules/ContentModules';
-import * as RegionActionCreators from '../actions/regions';
+import * as RegionActionCreators from '../actions/transitions';
 
 
 class Region extends Component {

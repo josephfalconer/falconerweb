@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
-import * as RegionActionCreators from '../actions/regions';
+import * as RegionActionCreators from '../actions/transitions';
 
 
 const DirectionButtons = props => {

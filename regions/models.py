@@ -35,7 +35,7 @@ class Region(models.Model):
 	background = models.CharField(max_length=200, choices=backgrounds, blank=True)
 	text_colour = models.CharField(max_length=200, choices=text_colours, blank=True)
 	title = models.CharField(max_length=20)
-	long_title = models.CharField(max_length=255, blank=True)
+	display_title = models.CharField(max_length=255, blank=True)
 	intro_text = models.TextField(blank=True)
 
 	def __str__(self):
