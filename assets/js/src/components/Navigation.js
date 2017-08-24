@@ -55,8 +55,8 @@ Navigation.propTypes = {
 const mapStateToProps = state => (
     {
     	navigationLinks: state.data.navigationLinks,
-    	isMovingRegions: state.regions.isMovingRegions,
-    	regionTextColour: state.regions.currentTextColour,
+    	isMovingRegions: state.transitions.isMovingRegions,
+    	regionTextColour: state.transitions.currentTextColour,
     }
 );
 

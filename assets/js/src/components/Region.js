@@ -141,8 +141,8 @@ class Region extends Component {
 const mapStateToProps = state => (
     { 
     	contentModules: state.data.contentModules,
-    	outgoing: state.regions.outgoing,
-    	timeoutDelay: state.regions.regionTransitionTimeout,
+    	outgoing: state.transitions.outgoing,
+    	timeoutDelay: state.transitions.regionTransitionTimeout,
     }
 );
 

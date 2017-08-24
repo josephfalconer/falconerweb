@@ -10,7 +10,7 @@ import DirectionButtons from '../components/DirectionButtons';
 class Application extends Component {
 
 	static propTypes = {
-        regions: PropTypes.array,
+        primaryRegions: PropTypes.array,
         isMovingRegions: PropTypes.bool.isRequired,
         isLastChildOutgoing: PropTypes.bool.isRequired,
         outgoing: PropTypes.object,
@@ -18,7 +18,7 @@ class Application extends Component {
 	}
 
 	render() {	
-		const { regions, isMovingRegions, isLastChildOutgoing, outgoing, regionsContainerClass, regionsOffsetStyles } = this.props,
+		const { primaryRegions, isMovingRegions, isLastChildOutgoing, outgoing, regionsContainerClass, regionsOffsetStyles } = this.props,
 			transitionRegion = this.transitionRegion;
 
 		return (
@@ -36,7 +36,7 @@ class Application extends Component {
 							isOutgoing="true" 
 						/>
 					}
-					{regions && regions.map((region, index) => {
+					{primaryRegions && primaryRegions.map((region, index) => {
 						let hash = `/${region.path_hash}`;
 						return (
 							<Route 
@@ -63,13 +63,12 @@ class Application extends Component {
 
 const mapStateToProps = state => (
     {
-        regions: state.data.regions,
         primaryRegions: state.data.primaryRegions,
-        isMovingRegions: state.regions.isMovingRegions,
-        isLastChildOutgoing: state.regions.isLastChildOutgoing,
-        outgoing: state.regions.outgoing,
-        regionsContainerClass: state.regions.regionsContainerClass,
-        regionsClass: state.regions.regionsClass
+        isMovingRegions: state.transitions.isMovingRegions,
+        isLastChildOutgoing: state.transitions.isLastChildOutgoing,
+        outgoing: state.transitions.outgoing,
+        regionsContainerClass: state.transitions.regionsContainerClass,
+        regionsClass: state.transitions.regionsClass
     }
 );
 

@@ -12541,7 +12541,7 @@ var Application = function (_Component) {
 		key: 'render',
 		value: function render() {
 			var _props = this.props,
-			    regions = _props.regions,
+			    primaryRegions = _props.primaryRegions,
 			    isMovingRegions = _props.isMovingRegions,
 			    isLastChildOutgoing = _props.isLastChildOutgoing,
 			    outgoing = _props.outgoing,
@@ -12563,7 +12563,7 @@ var Application = function (_Component) {
 						data: outgoing,
 						isOutgoing: 'true'
 					}),
-					regions && regions.map(function (region, index) {
+					primaryRegions && primaryRegions.map(function (region, index) {
 						var hash = '/' + region.path_hash;
 						return _react2.default.createElement(_reactRouterDom.Route, {
 							key: index,
@@ -12587,7 +12587,7 @@ var Application = function (_Component) {
 }(_react.Component);
 
 Application.propTypes = {
-	regions: _react.PropTypes.array,
+	primaryRegions: _react.PropTypes.array,
 	isMovingRegions: _react.PropTypes.bool.isRequired,
 	isLastChildOutgoing: _react.PropTypes.bool.isRequired,
 	outgoing: _react.PropTypes.object,
@@ -12597,13 +12597,12 @@ Application.propTypes = {
 
 var mapStateToProps = function mapStateToProps(state) {
 	return {
-		regions: state.data.regions,
 		primaryRegions: state.data.primaryRegions,
-		isMovingRegions: state.regions.isMovingRegions,
-		isLastChildOutgoing: state.regions.isLastChildOutgoing,
-		outgoing: state.regions.outgoing,
-		regionsContainerClass: state.regions.regionsContainerClass,
-		regionsClass: state.regions.regionsClass
+		isMovingRegions: state.transitions.isMovingRegions,
+		isLastChildOutgoing: state.transitions.isLastChildOutgoing,
+		outgoing: state.transitions.outgoing,
+		regionsContainerClass: state.transitions.regionsContainerClass,
+		regionsClass: state.transitions.regionsClass
 	};
 };
 
@@ -12634,7 +12633,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var rootReducer = (0, _redux.combineReducers)({
 	data: _reducer_data2.default,
-	regions: _reducer_transitions2.default
+	transitions: _reducer_transitions2.default
 });
 
 exports.default = rootReducer;
@@ -13946,7 +13945,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DirectionButtons = function DirectionButtons(props) {
-	var regions = props.regions,
+	var primaryRegions = props.primaryRegions,
 	    regionsWidth = props.regionsWidth,
 	    currentRegion = props.currentRegion,
 	    isMovingRegions = props.isMovingRegions,
@@ -13954,7 +13953,7 @@ var DirectionButtons = function DirectionButtons(props) {
 	    baseClass = 'direction';
 
 
-	if (regions && currentRegion) {
+	if (primaryRegions && currentRegion) {
 		var directionButtons = [{
 			condition: currentRegion.x > 0 && currentRegion.y == 0,
 			targetIndex: currentRegion.index - 1,
@@ -13963,14 +13962,6 @@ var DirectionButtons = function DirectionButtons(props) {
 			condition: currentRegion.x < regionsWidth - 1 && currentRegion.y == 0,
 			targetIndex: currentRegion.index + 1,
 			className: baseClass + ' ' + baseClass + '--side ' + baseClass + '--next'
-		}, {
-			condition: currentRegion.y == 0,
-			targetIndex: currentRegion.index + regionsWidth,
-			className: baseClass + ' ' + baseClass + '--vert ' + baseClass + '--down'
-		}, {
-			condition: currentRegion.y == 1,
-			targetIndex: currentRegion.index - regionsWidth,
-			className: baseClass + ' ' + baseClass + '--vert ' + baseClass + '--up'
 		}];
 
 		return _react2.default.createElement(
@@ -14016,7 +14007,7 @@ var DirectionButtons = function DirectionButtons(props) {
 
 DirectionButtons.propTypes = {
 	regionsWidth: _react.PropTypes.number.isRequired,
-	regions: _react.PropTypes.array,
+	primaryRegions: _react.PropTypes.array,
 	currentRegion: _react.PropTypes.object,
 	isMovingRegions: _react.PropTypes.bool.isRequired,
 	regionTextColour: _react.PropTypes.string.isRequired
@@ -14024,11 +14015,11 @@ DirectionButtons.propTypes = {
 
 var mapStateToProps = function mapStateToProps(state) {
 	return {
-		regions: state.data.regions,
-		regionsWidth: state.regions.regionsWidth,
-		currentRegion: state.regions.currentRegion,
-		isMovingRegions: state.regions.isMovingRegions,
-		regionTextColour: state.regions.currentTextColour
+		primaryRegions: state.data.primaryRegions,
+		regionsWidth: state.transitions.regionsWidth,
+		currentRegion: state.transitions.currentRegion,
+		isMovingRegions: state.transitions.isMovingRegions,
+		regionTextColour: state.transitions.currentTextColour
 	};
 };
 
@@ -14123,8 +14114,8 @@ Navigation.propTypes = {
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		navigationLinks: state.data.navigationLinks,
-		isMovingRegions: state.regions.isMovingRegions,
-		regionTextColour: state.regions.currentTextColour
+		isMovingRegions: state.transitions.isMovingRegions,
+		regionTextColour: state.transitions.currentTextColour
 	};
 };
 
@@ -14343,8 +14334,8 @@ Region.propTypes = {
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		contentModules: state.data.contentModules,
-		outgoing: state.regions.outgoing,
-		timeoutDelay: state.regions.regionTransitionTimeout
+		outgoing: state.transitions.outgoing,
+		timeoutDelay: state.transitions.regionTransitionTimeout
 	};
 };
 

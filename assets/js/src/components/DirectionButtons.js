@@ -7,10 +7,10 @@ import * as RegionActionCreators from '../actions/transitions';
 
 
 const DirectionButtons = props => {
-	const { regions, regionsWidth, currentRegion, isMovingRegions, regionTextColour } = props,
+	const { primaryRegions, regionsWidth, currentRegion, isMovingRegions, regionTextColour } = props,
 		baseClass = 'direction';
 
-	if (regions && currentRegion) {
+	if (primaryRegions && currentRegion) {
 		const directionButtons = [
 			{
 				condition: currentRegion.x > 0 && currentRegion.y == 0,
@@ -22,16 +22,16 @@ const DirectionButtons = props => {
 				targetIndex: currentRegion.index + 1,
 				className: `${baseClass} ${baseClass}--side ${baseClass}--next`
 			},
-			{
-				condition: currentRegion.y == 0,
-				targetIndex: currentRegion.index + regionsWidth,
-				className: `${baseClass} ${baseClass}--vert ${baseClass}--down`
-			},
-			{
-				condition: currentRegion.y == 1,
-				targetIndex: currentRegion.index - regionsWidth,
-				className: `${baseClass} ${baseClass}--vert ${baseClass}--up`
-			}
+			// {
+			// 	condition: currentRegion.y == 0,
+			// 	targetIndex: currentRegion.index + regionsWidth,
+			// 	className: `${baseClass} ${baseClass}--vert ${baseClass}--down`
+			// },
+			// {
+			// 	condition: currentRegion.y == 1,
+			// 	targetIndex: currentRegion.index - regionsWidth,
+			// 	className: `${baseClass} ${baseClass}--vert ${baseClass}--up`
+			// }
 		];
 
 		return (
@@ -67,7 +67,7 @@ const DirectionButtons = props => {
 
 DirectionButtons.propTypes = {
 	regionsWidth: PropTypes.number.isRequired,
-	regions: PropTypes.array,
+	primaryRegions: PropTypes.array,
 	currentRegion: PropTypes.object,
 	isMovingRegions: PropTypes.bool.isRequired,
 	regionTextColour: PropTypes.string.isRequired,
@@ -75,11 +75,11 @@ DirectionButtons.propTypes = {
 
 const mapStateToProps = state => (
     {	
-    	regions: state.data.regions,
-    	regionsWidth: state.regions.regionsWidth,
-    	currentRegion: state.regions.currentRegion,
-    	isMovingRegions: state.regions.isMovingRegions,
-    	regionTextColour: state.regions.currentTextColour,
+    	primaryRegions: state.data.primaryRegions,
+    	regionsWidth: state.transitions.regionsWidth,
+    	currentRegion: state.transitions.currentRegion,
+    	isMovingRegions: state.transitions.isMovingRegions,
+    	regionTextColour: state.transitions.currentTextColour,
     }
 );
 
