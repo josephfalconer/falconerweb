@@ -31922,17 +31922,17 @@ var PrimaryRegion = function (_Component) {
 			var childRegionsData = this.state.childRegionsData;
 
 
-			console.log(this.state.childRegionsData);
-
 			return _react2.default.createElement(
 				'section',
 				{ className: 'primaryregion' },
 				_react2.default.createElement(_Region2.default, { data: data }),
 				childRegionsData && childRegionsData.map(function (childRegion, index) {
+					var hash = '/' + childRegion.path_hash;
+					console.log(childRegion);
 					return _react2.default.createElement(_reactRouterDom.Route, {
-						key: index,
-						exact: true,
-						path: hash,
+						key: index
+						// exact
+						, path: hash,
 						render: function render() {
 							return _react2.default.createElement(_Region2.default, { data: childRegion });
 						}

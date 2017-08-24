@@ -38,17 +38,17 @@ class PrimaryRegion extends Component {
 		const { data } = this.props;
 		const { childRegionsData } = this.state;
 
-		console.log(this.state.childRegionsData);
-
 		return(
 			<section className="primaryregion">
 				<Region data={data} />
 
 				{childRegionsData && childRegionsData.map((childRegion, index) => {
+					let hash = `/${childRegion.path_hash}`;
+					console.log(childRegion)
 					return (
 						<Route 
 							key={index}
-							exact
+							// exact
 							path={hash}
 							render={() => (
 								<Region data={childRegion}/>
