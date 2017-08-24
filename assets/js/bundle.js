@@ -14864,12 +14864,10 @@ var DataFetcher = function (_Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DataFetcher.__proto__ || Object.getPrototypeOf(DataFetcher)).call.apply(_ref, [this].concat(args))), _this), _this.requests = [
-		// {
-		// 	url: '/navigation/',
-		// 	type: 'ADD_NAVIGATION_ITEMS'
-		// },
-		{
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DataFetcher.__proto__ || Object.getPrototypeOf(DataFetcher)).call.apply(_ref, [this].concat(args))), _this), _this.requests = [{
+			url: '/navigation/',
+			type: 'ADD_NAVIGATION_ITEMS'
+		}, {
 			url: '/regions/primary-regions',
 			type: 'ADD_PRIMARY_REGIONS'
 		},

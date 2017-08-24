@@ -15,7 +15,6 @@ export const addData = (data, type) => {
 			region.x = i;
 			region.y = 0;
 
-
 			i++;
 		}
 

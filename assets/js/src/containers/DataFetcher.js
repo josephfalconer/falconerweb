@@ -8,10 +8,10 @@ import * as DataActionCreators from '../actions/data';
 class DataFetcher extends Component {
 
 	requests = [
-		// {
-		// 	url: '/navigation/',
-		// 	type: 'ADD_NAVIGATION_ITEMS'
-		// },
+		{
+			url: '/navigation/',
+			type: 'ADD_NAVIGATION_ITEMS'
+		},
 		{
 			url: '/regions/primary-regions',
 			type: 'ADD_PRIMARY_REGIONS'
