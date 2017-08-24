@@ -13858,11 +13858,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var addData = exports.addData = function addData(data, type) {
 
+	var isPrimaryRegions = type == 'ADD_PRIMARY_REGIONS',
+	    isChildRegions = type == 'ADD_CHILD_REGIONS';
+
 	// each region gets x-y position values
-	if (type == 'ADD_REGIONS') {
-		var i = 0,
-		    x = 0,
-		    y = 0;
+	if (isPrimaryRegions) {
+		var i = 0;
 
 		for (var _iterator = data, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
 			var _ref;
@@ -13878,10 +13879,15 @@ var addData = exports.addData = function addData(data, type) {
 
 			var region = _ref;
 
-			if (x == 4) x = 0, y++;
+			region.index = i;
 
-			region.index = i, i++, region.x = x, region.y = y, x++;
+			region.x = i;
+			region.y = 0;
+
+			i++;
 		}
+
+		console.log(data);
 	}
 
 	return {
@@ -13955,11 +13961,11 @@ var DirectionButtons = function DirectionButtons(props) {
 
 	if (primaryRegions && currentRegion) {
 		var directionButtons = [{
-			condition: currentRegion.x > 0 && currentRegion.y == 0,
+			condition: currentRegion.index > 0,
 			targetIndex: currentRegion.index - 1,
 			className: baseClass + ' ' + baseClass + '--side ' + baseClass + '--prev'
 		}, {
-			condition: currentRegion.x < regionsWidth - 1 && currentRegion.y == 0,
+			condition: currentRegion.index < primaryRegions.length - 1,
 			targetIndex: currentRegion.index + 1,
 			className: baseClass + ' ' + baseClass + '--side ' + baseClass + '--next'
 		}];
@@ -13973,7 +13979,7 @@ var DirectionButtons = function DirectionButtons(props) {
 						_reactRouterDom.Link,
 						{
 							key: index,
-							to: regions[button.targetIndex].path_hash,
+							to: primaryRegions[button.targetIndex].path_hash,
 							onClick: function onClick(e) {
 								if (isMovingRegions) e.preventDefault();
 							},
@@ -13985,7 +13991,7 @@ var DirectionButtons = function DirectionButtons(props) {
 							_react2.default.createElement(
 								'span',
 								{ className: 'direction__text' },
-								regions[button.targetIndex].title
+								primaryRegions[button.targetIndex].title
 							),
 							_react2.default.createElement(
 								'span',
@@ -14006,7 +14012,6 @@ var DirectionButtons = function DirectionButtons(props) {
 };
 
 DirectionButtons.propTypes = {
-	regionsWidth: _react.PropTypes.number.isRequired,
 	primaryRegions: _react.PropTypes.array,
 	currentRegion: _react.PropTypes.object,
 	isMovingRegions: _react.PropTypes.bool.isRequired,
@@ -14016,7 +14021,6 @@ DirectionButtons.propTypes = {
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		primaryRegions: state.data.primaryRegions,
-		regionsWidth: state.transitions.regionsWidth,
 		currentRegion: state.transitions.currentRegion,
 		isMovingRegions: state.transitions.isMovingRegions,
 		regionTextColour: state.transitions.currentTextColour
@@ -14916,8 +14920,6 @@ var DataFetcher = function (_Component) {
 					}
 					return response.json();
 				}).then(function (data) {
-
-					console.log(data);
 
 					var dataFields = [];
 

@@ -2,16 +2,24 @@ import * as DataActionTypes from '../actiontypes/data';
 
 export const addData = (data, type) => {
 
+	const isPrimaryRegions = type == 'ADD_PRIMARY_REGIONS',
+		isChildRegions = type == 'ADD_CHILD_REGIONS';
+
 	// each region gets x-y position values
-	if (type == 'ADD_REGIONS') {
-		let	i = 0, x = 0, y = 0;
+	if (isPrimaryRegions) {
+		let	i = 0;
 
 		for (let region of data) {
-			if (x == 4)
-				x = 0, y++;
+			region.index = i;
 
-			region.index = i, i++, region.x = x, region.y = y, x++;
+			region.x = i;
+			region.y = 0;
+
+
+			i++;
 		}
+
+		console.log(data);
 	} 
 
 	return {

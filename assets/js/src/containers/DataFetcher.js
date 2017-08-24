@@ -60,8 +60,6 @@ class DataFetcher extends Component {
 				})
 				.then(data => {
 
-					console.log(data);
-
 					let dataFields = [];
 
 					for (let dataItem of data) {
