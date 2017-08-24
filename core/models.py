@@ -1,13 +1,13 @@
 from django.db import models
 
-from regions.models import Region
+from regions.models import PrimaryRegion
 
 
-regions = Region.objects.all()
-region_path_hashes = []
+# regions = PrimaryRegion.objects.all()
+# region_path_hashes = []
 
-for region in regions:
-	region_path_hashes.append((region.path_hash, region.title))
+# for region in regions:
+# 	region_path_hashes.append((region.path_hash, region.title))
 
 
 icons = (
@@ -31,17 +31,17 @@ class ModuleIterable(models.Model):
 		ordering = ['order',]
 
 
-class NavigationLink(models.Model):
-	order = models.IntegerField(default=0)
-	icon = models.CharField(max_length=200, choices=icons, blank=True)
-	text = models.CharField(max_length=20)
-	linked_region = models.CharField(max_length=50, choices=region_path_hashes, blank=True, default=None)
+# class NavigationLink(models.Model):
+# 	order = models.IntegerField(default=0)
+# 	icon = models.CharField(max_length=200, choices=icons, blank=True)
+# 	text = models.CharField(max_length=20)
+# 	linked_region = models.CharField(max_length=50, choices=region_path_hashes, blank=True, default=None)
 
-	def __str__(self):
-		return self.text
+# 	def __str__(self):
+# 		return self.text
 
-	class Meta:
-		ordering = ['order',]
+# 	class Meta:
+# 		ordering = ['order',]
 
 
 	

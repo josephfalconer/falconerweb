@@ -64,6 +64,7 @@ class Application extends Component {
 const mapStateToProps = state => (
     {
         regions: state.data.regions,
+        primaryRegions: state.data.primaryRegions,
         isMovingRegions: state.regions.isMovingRegions,
         isLastChildOutgoing: state.regions.isLastChildOutgoing,
         outgoing: state.regions.outgoing,

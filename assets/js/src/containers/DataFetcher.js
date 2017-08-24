@@ -8,26 +8,22 @@ import * as DataActionCreators from '../actions/data';
 class DataFetcher extends Component {
 
 	requests = [
-		{
-			url: '/navigation/',
-			type: 'ADD_NAVIGATION_ITEMS'
-		},
-		{
-			url: '/regions/data-regions',
-			type: 'ADD_REGIONS'
-		},
+		// {
+		// 	url: '/navigation/',
+		// 	type: 'ADD_NAVIGATION_ITEMS'
+		// },
 		{
 			url: '/regions/primary-regions',
 			type: 'ADD_PRIMARY_REGIONS'
 		},
-		{
-			url: '/regions/child-regions',
-			type: 'ADD_CHILD_REGIONS'
-		},
-		{
-			url: '/regions/content-modules',
-			type: 'ADD_CONTENT_MODULES'
-		},
+		// {
+		// 	url: '/regions/child-regions',
+		// 	type: 'ADD_CHILD_REGIONS'
+		// },
+		// {
+		// 	url: '/regions/content-modules',
+		// 	type: 'ADD_CONTENT_MODULES'
+		// },
 		{
 			url: '/skills/',
 			type: 'ADD_SKILLS'
@@ -63,6 +59,8 @@ class DataFetcher extends Component {
 					return response.json();
 				})
 				.then(data => {
+
+					console.log(data);
 
 					let dataFields = [];
 

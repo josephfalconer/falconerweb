@@ -7591,6 +7591,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 var ADD_NAVIGATION_ITEMS = exports.ADD_NAVIGATION_ITEMS = 'data/ADD_NAVIGATION_ITEMS';
 var ADD_REGIONS = exports.ADD_REGIONS = 'data/ADD_REGIONS';
+var ADD_PRIMARY_REGIONS = exports.ADD_PRIMARY_REGIONS = 'data/ADD_PRIMARY_REGIONS';
+var ADD_CHILD_REGIONS = exports.ADD_CHILD_REGIONS = 'data/ADD_CHILD_REGIONS';
 var ADD_CONTENT_MODULES = exports.ADD_CONTENT_MODULES = 'data/ADD_CONTENT_MODULES';
 var ADD_SKILLS = exports.ADD_SKILLS = 'data/ADD_SKILLS';
 var ADD_DEMOS = exports.ADD_DEMOS = 'data/ADD_DEMOS';
@@ -12596,6 +12598,7 @@ Application.propTypes = {
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		regions: state.data.regions,
+		primaryRegions: state.data.primaryRegions,
 		isMovingRegions: state.regions.isMovingRegions,
 		isLastChildOutgoing: state.regions.isLastChildOutgoing,
 		outgoing: state.regions.outgoing,
@@ -14866,22 +14869,24 @@ var DataFetcher = function (_Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DataFetcher.__proto__ || Object.getPrototypeOf(DataFetcher)).call.apply(_ref, [this].concat(args))), _this), _this.requests = [{
-			url: '/navigation/',
-			type: 'ADD_NAVIGATION_ITEMS'
-		}, {
-			url: '/regions/data-regions',
-			type: 'ADD_REGIONS'
-		}, {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DataFetcher.__proto__ || Object.getPrototypeOf(DataFetcher)).call.apply(_ref, [this].concat(args))), _this), _this.requests = [
+		// {
+		// 	url: '/navigation/',
+		// 	type: 'ADD_NAVIGATION_ITEMS'
+		// },
+		{
 			url: '/regions/primary-regions',
 			type: 'ADD_PRIMARY_REGIONS'
-		}, {
-			url: '/regions/child-regions',
-			type: 'ADD_CHILD_REGIONS'
-		}, {
-			url: '/regions/content-modules',
-			type: 'ADD_CONTENT_MODULES'
-		}, {
+		},
+		// {
+		// 	url: '/regions/child-regions',
+		// 	type: 'ADD_CHILD_REGIONS'
+		// },
+		// {
+		// 	url: '/regions/content-modules',
+		// 	type: 'ADD_CONTENT_MODULES'
+		// },
+		{
 			url: '/skills/',
 			type: 'ADD_SKILLS'
 		}, {
@@ -14920,6 +14925,8 @@ var DataFetcher = function (_Component) {
 					}
 					return response.json();
 				}).then(function (data) {
+
+					console.log(data);
 
 					var dataFields = [];
 
@@ -15057,6 +15064,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var initialState = {
 	navigationLinks: [],
 	regions: [],
+	primaryRegions: [],
+	childRegions: [],
 	contentModules: [],
 	skills: [],
 	demos: [],
@@ -15081,6 +15090,20 @@ function Data() {
 			{
 				return _extends({}, state, {
 					regions: action.data
+				});
+			}
+
+		case DataActionTypes.ADD_PRIMARY_REGIONS:
+			{
+				return _extends({}, state, {
+					primaryRegions: action.data
+				});
+			}
+
+		case DataActionTypes.ADD_CHILD_REGIONS:
+			{
+				return _extends({}, state, {
+					childRegions: action.data
 				});
 			}
 

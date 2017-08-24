@@ -3,6 +3,8 @@ import * as DataActionTypes from '../actiontypes/data';
 const initialState = {
 	navigationLinks: [],
 	regions: [],
+	primaryRegions: [],
+	childRegions: [],
 	contentModules: [],
 	skills: [],
 	demos: [],
@@ -24,6 +26,20 @@ export default function Data(state=initialState, action) {
 			return {
 				...state,
 				regions: action.data
+			};
+		}
+
+		case DataActionTypes.ADD_PRIMARY_REGIONS: {
+			return {
+				...state,
+				primaryRegions: action.data
+			};
+		}
+
+		case DataActionTypes.ADD_CHILD_REGIONS: {
+			return {
+				...state,
+				childRegions: action.data
 			};
 		}
 

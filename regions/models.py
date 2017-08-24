@@ -27,6 +27,7 @@ content_module_types = (
 	('demos_menu', 'Demos Menu')
 )
 
+
 class Region(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	order = models.IntegerField(default=0)
@@ -38,6 +39,9 @@ class Region(models.Model):
 	display_title = models.CharField(max_length=255, blank=True)
 	intro_text = models.TextField(blank=True)
 
+	class Meta:
+		abstract = True
+
 	def __str__(self):
 		return self.title
 
@@ -47,16 +51,16 @@ class PrimaryRegion(Region):
 
 
 class ChildRegion(Region):
-	pass
+	parent_region = models.ForeignKey(PrimaryRegion)
 
 
-class ContentModule(models.Model):
-	order = models.IntegerField(default=0)
-	module_type = models.CharField(max_length=100, choices=content_module_types)
-	region = models.ForeignKey(Region)
+# class ContentModule(models.Model):
+# 	order = models.IntegerField(default=0)
+# 	module_type = models.CharField(max_length=100, choices=content_module_types)
+# 	region = models.ForeignKey(Region)
 
-	def __str__(self):
-		return "#{} {} / {}".format(self.order, self.module_type, self.region)
+# 	def __str__(self):
+# 		return "#{} {} / {}".format(self.order, self.module_type, self.region)
 
-	class Meta:
-		ordering = ['order',]
+# 	class Meta:
+# 		ordering = ['order',]
