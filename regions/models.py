@@ -42,6 +42,14 @@ class Region(models.Model):
 		return self.title
 
 
+class PrimaryRegion(Region):
+	pass
+
+
+class ChildRegion(Region):
+	pass
+
+
 class ContentModule(models.Model):
 	order = models.IntegerField(default=0)
 	module_type = models.CharField(max_length=100, choices=content_module_types)
