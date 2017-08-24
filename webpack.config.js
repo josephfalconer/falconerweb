@@ -8,7 +8,10 @@ const autoPrefixer = require('autoprefixer');
 
 module.exports = {
 	entry: './assets/js/src/index.js',
-	output: { path: './assets/js', filename: 'bundle.js' },
+	output: {
+        path: path.join(__dirname, 'assets/js'),
+        filename: 'bundle.js'
+    },
 	devtool: "source-map",
 	module: {
 		loaders: [
