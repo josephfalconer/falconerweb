@@ -51,7 +51,7 @@ class PrimaryRegion(Region):
 	pass
 
 
-class ChildRegion(Region):
+class SubRegion(Region):
 	parent_region = models.ForeignKey(PrimaryRegion)
 
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import PrimaryRegion, ChildRegion
+from .models import PrimaryRegion, SubRegion
 # , ContentModule
 
 
@@ -15,5 +15,5 @@ from .models import PrimaryRegion, ChildRegion
 
 
 admin.site.register(PrimaryRegion)
-admin.site.register(ChildRegion)
+admin.site.register(SubRegion)
 

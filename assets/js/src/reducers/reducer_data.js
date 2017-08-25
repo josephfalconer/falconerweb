@@ -4,7 +4,7 @@ const initialState = {
 	navigationLinks: [],
 	regions: [],
 	primaryRegions: [],
-	childRegions: [],
+	subRegions: [],
 	contentModules: [],
 	skills: [],
 	demos: [],
@@ -36,10 +36,10 @@ export default function Data(state=initialState, action) {
 			};
 		}
 
-		case DataActionTypes.ADD_CHILD_REGIONS: {
+		case DataActionTypes.ADD_SUB_REGIONS: {
 			return {
 				...state,
-				childRegions: action.data
+				subRegions: action.data
 			};
 		}
 

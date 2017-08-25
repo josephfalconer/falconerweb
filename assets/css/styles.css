@@ -1317,56 +1317,56 @@ svg {
 }
 
 .js-move-left .region:first-child {
-  -webkit-animation: out-to-left 10s;
-          animation: out-to-left 10s;
+  -webkit-animation: out-to-left 1s;
+          animation: out-to-left 1s;
   z-index: 8;
 }
 
-.js-move-left .primaryregion:last-child .region {
-  -webkit-animation: in-from-right 10s;
-          animation: in-from-right 10s;
+.js-move-left .region:last-child {
+  -webkit-animation: in-from-right 1s;
+          animation: in-from-right 1s;
   z-index: 9;
 }
 
-.js-move-right .primaryregion:first-child .region {
-  -webkit-animation: in-from-left 10s;
-          animation: in-from-left 10s;
+.js-move-right .region:first-child {
+  -webkit-animation: in-from-left 1s;
+          animation: in-from-left 1s;
   z-index: 9;
 }
 
 .js-move-right .region:last-child {
-  -webkit-animation: out-to-right 10s;
-          animation: out-to-right 10s;
+  -webkit-animation: out-to-right 1s;
+          animation: out-to-right 1s;
   z-index: 8;
 }
 
 .js-move-up .region:first-child {
-  -webkit-animation: out-to-top 10s;
-          animation: out-to-top 10s;
+  -webkit-animation: out-to-top 1s;
+          animation: out-to-top 1s;
   z-index: 8;
 }
 
 .js-move-up .region:last-child {
-  -webkit-animation: in-from-bottom 10s;
-          animation: in-from-bottom 10s;
+  -webkit-animation: in-from-bottom 1s;
+          animation: in-from-bottom 1s;
   z-index: 9;
 }
 
 .js-move-down .region:first-child {
-  -webkit-animation: in-from-top 10s;
-          animation: in-from-top 10s;
+  -webkit-animation: in-from-top 1s;
+          animation: in-from-top 1s;
   z-index: 9;
 }
 
 .js-move-down .region:last-child {
-  -webkit-animation: out-to-bottom 10s;
-          animation: out-to-bottom 10s;
+  -webkit-animation: out-to-bottom 1s;
+          animation: out-to-bottom 1s;
   z-index: 8;
 }
 
 .js-fade {
-  -webkit-animation: fade-out-in 10s;
-          animation: fade-out-in 10s;
+  -webkit-animation: fade-out-in 1s;
+          animation: fade-out-in 1s;
 }
 
 .js-fade .region:first-child {

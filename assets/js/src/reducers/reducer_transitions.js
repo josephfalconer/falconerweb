@@ -4,7 +4,7 @@ const initialState = {
 	regionsWidth: 4,
 	isMovingRegions: false,
 	isLastChildOutgoing: false,
-	regionTransitionTimeout: 10000,
+	regionTransitionTimeout: 1000,
 	regionsContainerClass: 'regions',
 	currentTextColour: 'light',
 }
@@ -38,13 +38,6 @@ export default function Regions(state=initialState, action) {
 			return {
 				...state,
 				currentRegion: action.data
-			};
-		}
-
-		case RegionActionTypes.SET_CURRENT_CHILD_REGIONS: {
-			return {
-				...state,
-				currentChildRegions: action.data
 			};
 		}
 

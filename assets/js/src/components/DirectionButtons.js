@@ -9,7 +9,7 @@ import * as RegionActionCreators from '../actions/transitions';
 const DirectionButtons = props => {
 	const { 
 			primaryRegions, 
-			currentChildRegions,
+			currentSubRegions,
 			regionsWidth, 
 			currentRegion, 
 			isMovingRegions, 
@@ -21,39 +21,41 @@ const DirectionButtons = props => {
 		const directionButtons = [
 			{
 				condition: currentRegion.index > 0,
-				targetIndex: currentRegion.index - 1,
+				targetRegion: primaryRegions[currentRegion.index - 1],
 				className: `${baseClass} ${baseClass}--side ${baseClass}--prev`
 			},
 			{
 				condition: currentRegion.index < (primaryRegions.length - 1),
-				targetIndex: currentRegion.index + 1,
+				targetRegion: primaryRegions[currentRegion.index + 1],
 				className: `${baseClass} ${baseClass}--side ${baseClass}--next`
 			},
-			// {
-			// 	condition: currentRegion.y == 0,
-			// 	targetIndex: currentRegion.index + regionsWidth,
-			// 	className: `${baseClass} ${baseClass}--vert ${baseClass}--down`
-			// },
-			// {
-			// 	condition: currentRegion.y == 1,
-			// 	targetIndex: currentRegion.index - regionsWidth,
-			// 	className: `${baseClass} ${baseClass}--vert ${baseClass}--up`
-			// }
-		];
+			{
+				condition: currentSubRegions.length > 0,
+				targetRegion: currentSubRegions[currentRegion.y],
+				className: `${baseClass} ${baseClass}--vert ${baseClass}--down`
+			},
+			{
+				condition: currentSubRegions.length > 0,
+				targetIndex: primaryRegions[0],
+				className: `${baseClass} ${baseClass}--vert ${baseClass}--up`
+			}
+		]
 
 		return (
 			<nav className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
 				{directionButtons.map((button, index) => {
-					if (button.condition) {
+					console.log(button.className, button.condition, button.targetRegion);
+					if (button.condition && button.targetRegion) {
+						
 						return (
 							<Link 
 								key={index}
-								to={primaryRegions[button.targetIndex].path_hash}
+								to={button.targetRegion.path_hash}
 								onClick={e => { if (isMovingRegions) e.preventDefault(); }} 
 								className={button.className}
 							>
 								<span className="direction__inner">
-									<span className="direction__text">{primaryRegions[button.targetIndex].title}</span>
+									<span className="direction__text">{button.targetRegion.title}</span>
 									<span className="direction__icon">
 										<i></i>
 										<i></i>
@@ -74,7 +76,7 @@ const DirectionButtons = props => {
 
 DirectionButtons.propTypes = {
 	primaryRegions: PropTypes.array,
-	currentChildRegions: PropTypes.array,
+	currentSubRegions: PropTypes.array.isRequired,
 	currentRegion: PropTypes.object,
 	isMovingRegions: PropTypes.bool.isRequired,
 	regionTextColour: PropTypes.string.isRequired,
@@ -84,7 +86,6 @@ const mapStateToProps = state => (
     {	
     	primaryRegions: state.data.primaryRegions,
     	currentRegion: state.transitions.currentRegion,
-    	currentChildRegions: state.transitions.currentChildRegions,
     	isMovingRegions: state.transitions.isMovingRegions,
     	regionTextColour: state.transitions.currentTextColour,
     }

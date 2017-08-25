@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.core import serializers
 
-from .models import PrimaryRegion, ChildRegion
+from .models import PrimaryRegion, SubRegion
 # , ContentModule
 
 
@@ -12,8 +12,8 @@ def primary_regions(request):
 	return HttpResponse(serialized_data)
 
 
-def child_regions(request):
-	data = ChildRegion.objects.all()
+def sub_regions(request):
+	data = SubRegion.objects.all()
 	serialized_data = serializers.serialize("json", data)
 
 	return HttpResponse(serialized_data)

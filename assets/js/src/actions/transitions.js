@@ -1,6 +1,6 @@
 import * as RegionActionTypes from '../actiontypes/transitions';
 
-export const setRegionsData = (data, type) => {
+export const setTransitionsData = (data, type) => {
 	return {
 		type: RegionActionTypes[type],
 		data

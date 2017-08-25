@@ -17,8 +17,8 @@ class DataFetcher extends Component {
 			type: 'ADD_PRIMARY_REGIONS'
 		},
 		{
-			url: '/regions/child-regions',
-			type: 'ADD_CHILD_REGIONS'
+			url: '/regions/sub-regions',
+			type: 'ADD_SUB_REGIONS'
 		},
 		// {
 		// 	url: '/regions/content-modules',

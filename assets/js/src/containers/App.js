@@ -5,22 +5,61 @@ import { Route } from 'react-router-dom';
 import DataFetcher from './DataFetcher';
 import Navigation from '../components/Navigation';
 import Region from '../components/Region';
-import PrimaryRegion from '../components/PrimaryRegion';
 import DirectionButtons from '../components/DirectionButtons';
 
 class Application extends Component {
 
 	static propTypes = {
         primaryRegions: PropTypes.array,
+        subRegions: PropTypes.array,
         isMovingRegions: PropTypes.bool.isRequired,
         isLastChildOutgoing: PropTypes.bool.isRequired,
         outgoing: PropTypes.object,
         regionsContainerClass: PropTypes.string.isRequired
 	}
 
+	getCurrentSubRegions = (currentRegion, subRegions) => {
+		let currentSubRegions = [],
+			y = 0;
+		
+		for (let subRegion of subRegions) {
+			if (subRegion.parent_region == currentRegion.pk) {
+				y++;
+				currentSubRegions.push({
+					...subRegion,
+					x: currentRegion.x,
+					y: y
+				});				
+			}
+		}
+		return currentSubRegions;
+	}
+
+	currentSubRegions = []
+
 	render() {	
-		const { primaryRegions, isMovingRegions, isLastChildOutgoing, outgoing, regionsContainerClass, regionsOffsetStyles } = this.props,
-			transitionRegion = this.transitionRegion;
+		const { 
+			primaryRegions, 
+			currentRegion,
+			subRegions,
+			isMovingRegions, 
+			isLastChildOutgoing, 
+			outgoingRegion, 
+			regionsContainerClass,
+		} = this.props;
+
+		// if (currentRegion && subRegions) {
+		// 	currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
+		// }
+
+		// console.log(currentSubRegions);
+
+		if (currentRegion && outgoingRegion) {
+			if (currentRegion.x != outgoingRegion.x) {
+				this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
+				// console.log(currentSubRegions);
+			}
+		} 
 
 		return (
 			<div>
@@ -28,15 +67,16 @@ class Application extends Component {
 
 				<Navigation />
 
-				<DirectionButtons />
+				<DirectionButtons currentSubRegions={this.currentSubRegions} />
 				
 				<main className={regionsContainerClass}>
-					{outgoing && isMovingRegions && !isLastChildOutgoing &&
+					{outgoingRegion && isMovingRegions && !isLastChildOutgoing &&
 						<Region 
-							data={outgoing} 
+							data={outgoingRegion} 
 							isOutgoing="true" 
 						/>
 					}
+
 					{primaryRegions && primaryRegions.map((region, index) => {
 						let hash = `/${region.path_hash}`;
 						return (
@@ -45,14 +85,29 @@ class Application extends Component {
 								exact
 								path={hash}
 								render={() => (
-									<PrimaryRegion data={region}/>
+									<Region data={region}/>
 								)} 						
 							/>
 						);
 					})}
-					{outgoing && isMovingRegions && isLastChildOutgoing &&
+
+					{this.currentSubRegions && this.currentSubRegions.map((region, index) => {
+						let hash = `/${region.path_hash}`;
+						return (
+							<Route 
+								key={index}
+								exact
+								path={hash}
+								render={() => (
+									<Region data={region}/>
+								)} 						
+							/>
+						);
+					})}
+
+					{outgoingRegion && isMovingRegions && isLastChildOutgoing &&
 						<Region 
-							data={outgoing} 
+							data={outgoingRegion} 
 							isOutgoing="true" 
 						/>
 					}
@@ -65,9 +120,11 @@ class Application extends Component {
 const mapStateToProps = state => (
     {
         primaryRegions: state.data.primaryRegions,
+        subRegions: state.data.subRegions,
+        currentRegion: state.transitions.currentRegion,
         isMovingRegions: state.transitions.isMovingRegions,
         isLastChildOutgoing: state.transitions.isLastChildOutgoing,
-        outgoing: state.transitions.outgoing,
+        outgoingRegion: state.transitions.outgoing,
         regionsContainerClass: state.transitions.regionsContainerClass,
         regionsClass: state.transitions.regionsClass
     }
