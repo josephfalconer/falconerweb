@@ -50,8 +50,10 @@ class Application extends Component {
 			regionsContainerClass,
 		} = this.props;
 
+		console.log(this.isSetSubRegions);
 		// set current page regions when page first loads
 		if (currentRegion && subRegions.length && !this.isSetSubRegions) {
+			console.log("set them");
 			this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
 			this.isSetSubRegions = true;
 		}
