@@ -35,7 +35,9 @@ class Application extends Component {
 		return currentSubRegions;
 	}
 
-	currentSubRegions = []
+	currentSubRegions = [];
+
+	isSetSubRegions = false;
 
 	render() {	
 		const { 
@@ -48,16 +50,16 @@ class Application extends Component {
 			regionsContainerClass,
 		} = this.props;
 
-		// if (currentRegion && subRegions) {
-		// 	currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
-		// }
+		// set current page regions when page first loads
+		if (currentRegion && subRegions.length && !this.isSetSubRegions) {
+			this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
+			this.isSetSubRegions = true;
+		}
 
-		// console.log(currentSubRegions);
-
+		// update current subregions on primary region transitions
 		if (currentRegion && outgoingRegion) {
 			if (currentRegion.x != outgoingRegion.x) {
 				this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
-				// console.log(currentSubRegions);
 			}
 		} 
 

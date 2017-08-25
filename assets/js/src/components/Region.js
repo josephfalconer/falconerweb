@@ -88,8 +88,6 @@ class Region extends Component {
 			}, timeoutDelay / 2);			
 		}
 
-		console.log(transitionClass);
-
 		Region.setTransitionsData(`${regionsClass} ${transitionClass}`, 'SET_TRANSITION_CLASS');
 
 		setTimeout(() => {

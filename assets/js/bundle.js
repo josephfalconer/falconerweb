@@ -12597,7 +12597,7 @@ var Application = function (_Component) {
 				}
 			}
 			return currentSubRegions;
-		}, _this.currentSubRegions = [], _temp), _possibleConstructorReturn(_this, _ret);
+		}, _this.currentSubRegions = [], _this.isSetSubRegions = false, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
 	_createClass(Application, [{
@@ -12612,16 +12612,17 @@ var Application = function (_Component) {
 			    outgoingRegion = _props.outgoingRegion,
 			    regionsContainerClass = _props.regionsContainerClass;
 
-			// if (currentRegion && subRegions) {
-			// 	currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
-			// }
+			// set current page regions when page first loads
 
-			// console.log(currentSubRegions);
+			if (currentRegion && subRegions.length && !this.isSetSubRegions) {
+				this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
+				this.isSetSubRegions = true;
+			}
 
+			// update current subregions on primary region transitions
 			if (currentRegion && outgoingRegion) {
 				if (currentRegion.x != outgoingRegion.x) {
 					this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
-					// console.log(currentSubRegions);
 				}
 			}
 
@@ -14284,8 +14285,6 @@ var Region = function (_Component) {
 					Region.setTransitionsData(false, 'SET_MOVING_REGIONS');
 				}, timeoutDelay / 2);
 			}
-
-			console.log(transitionClass);
 
 			Region.setTransitionsData(regionsClass + ' ' + transitionClass, 'SET_TRANSITION_CLASS');
 
