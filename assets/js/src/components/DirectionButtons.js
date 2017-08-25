@@ -20,23 +20,23 @@ const DirectionButtons = props => {
 	if (primaryRegions && currentRegion) {
 		const directionButtons = [
 			{
-				condition: currentRegion.index > 0,
+				condition: true,
 				targetRegion: primaryRegions[currentRegion.index - 1],
 				className: `${baseClass} ${baseClass}--side ${baseClass}--prev`
 			},
 			{
-				condition: currentRegion.index < (primaryRegions.length - 1),
+				condition: true,
 				targetRegion: primaryRegions[currentRegion.index + 1],
 				className: `${baseClass} ${baseClass}--side ${baseClass}--next`
 			},
 			{
-				condition: currentSubRegions.length > 0,
+				condition: true,
 				targetRegion: currentSubRegions[currentRegion.y],
 				className: `${baseClass} ${baseClass}--vert ${baseClass}--down`
 			},
 			{
-				condition: currentSubRegions.length > 0,
-				targetIndex: primaryRegions[0],
+				condition: currentRegion.y > 0,
+				targetRegion: currentSubRegions[currentRegion.y - 2] || primaryRegions[currentRegion.x],
 				className: `${baseClass} ${baseClass}--vert ${baseClass}--up`
 			}
 		]
@@ -44,9 +44,7 @@ const DirectionButtons = props => {
 		return (
 			<nav className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
 				{directionButtons.map((button, index) => {
-					console.log(button.className, button.condition, button.targetRegion);
 					if (button.condition && button.targetRegion) {
-						
 						return (
 							<Link 
 								key={index}
