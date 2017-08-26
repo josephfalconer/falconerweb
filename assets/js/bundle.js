@@ -12612,11 +12612,63 @@ var Application = function (_Component) {
 			    outgoingRegion = _props.outgoingRegion,
 			    regionsContainerClass = _props.regionsContainerClass;
 
+			// TODO: temporary hack until I properly understand nested routes
+			// if no current region
 
-			console.log(this.isSetSubRegions);
+			if (subRegions && !currentRegion) {
+
+				var currentHash = window.location.hash,
+				    currentPrimaryRegion = void 0,
+				    currentSubRegion = void 0;
+
+				currentHash = currentHash.slice(2, currentHash.length);
+
+				for (var _iterator2 = subRegions, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+					var _ref3;
+
+					if (_isArray2) {
+						if (_i2 >= _iterator2.length) break;
+						_ref3 = _iterator2[_i2++];
+					} else {
+						_i2 = _iterator2.next();
+						if (_i2.done) break;
+						_ref3 = _i2.value;
+					}
+
+					var subRegion = _ref3;
+
+
+					if (subRegion.path_hash == currentHash) {
+						currentSubRegion = subRegion;
+					}
+				}
+
+				if (currentSubRegion) {
+					for (var _iterator3 = primaryRegions, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+						var _ref4;
+
+						if (_isArray3) {
+							if (_i3 >= _iterator3.length) break;
+							_ref4 = _iterator3[_i3++];
+						} else {
+							_i3 = _iterator3.next();
+							if (_i3.done) break;
+							_ref4 = _i3.value;
+						}
+
+						var primaryRegion = _ref4;
+
+						if (primaryRegion.pk == currentSubRegion.parent_region) {
+							currentPrimaryRegion = primaryRegion;
+							this.currentSubRegions = this.getCurrentSubRegions(currentPrimaryRegion, subRegions);
+							this.isSetSubRegions = true;
+						}
+					}
+				}
+			}
+
 			// set current page regions when page first loads
 			if (currentRegion && subRegions.length && !this.isSetSubRegions) {
-				console.log("set them");
 				this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
 				this.isSetSubRegions = true;
 			}

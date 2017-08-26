@@ -50,10 +50,42 @@ class Application extends Component {
 			regionsContainerClass,
 		} = this.props;
 
-		console.log(this.isSetSubRegions);
+
+
+
+		// TODO: temporary hack until I properly understand nested routes
+		// if no current region
+		if (subRegions && !currentRegion) {
+
+			let currentHash = window.location.hash,
+				currentPrimaryRegion,
+				currentSubRegion;
+
+			currentHash = currentHash.slice(2, currentHash.length);
+
+			for (let subRegion of subRegions) {
+
+				if (subRegion.path_hash == currentHash) {
+					currentSubRegion = subRegion;
+				}
+			}
+
+			if (currentSubRegion) {
+				for (let primaryRegion of primaryRegions) {
+					if (primaryRegion.pk == currentSubRegion.parent_region) {
+						currentPrimaryRegion = primaryRegion;
+						this.currentSubRegions = this.getCurrentSubRegions(currentPrimaryRegion, subRegions);
+						this.isSetSubRegions = true;
+					}
+				}
+			}
+		}
+
+
+
+
 		// set current page regions when page first loads
 		if (currentRegion && subRegions.length && !this.isSetSubRegions) {
-			console.log("set them");
 			this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
 			this.isSetSubRegions = true;
 		}
