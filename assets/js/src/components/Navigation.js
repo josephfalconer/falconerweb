@@ -30,7 +30,7 @@ const Navigation = props => {
 									onClick={e => { if (isMovingRegions) e.preventDefault(); }}
 								>
 									<span className="nav__linkcircle">
-										{Icon}
+										<span className="is-displayed-lg">{Icon}</span>
 										<span className="nav__linktext is-displayed-lg">{link.text}</span>
 					                </span>
 								</NavLink>
@@ -55,8 +55,8 @@ Navigation.propTypes = {
 const mapStateToProps = state => (
     {
     	navigationLinks: state.data.navigationLinks,
-    	isMovingRegions: state.regions.isMovingRegions,
-    	regionTextColour: state.regions.currentTextColour,
+    	isMovingRegions: state.transitions.isMovingRegions,
+    	regionTextColour: state.transitions.currentTextColour,
     }
 );
 

@@ -1,9 +1,9 @@
 from django.db import models
 
-from regions.models import Region
+from regions.models import PrimaryRegion
 
 
-regions = Region.objects.all()
+regions = PrimaryRegion.objects.all()
 region_path_hashes = []
 
 for region in regions:

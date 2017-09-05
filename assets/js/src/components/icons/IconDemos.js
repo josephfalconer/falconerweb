@@ -3,7 +3,7 @@ import React from 'react';
 
 const DemosIcon = props => {
 	return (
-		<svg className="is-displayed-lg" viewBox="-100 -70 705.821 705.82">
+		<svg className="svg--demos" viewBox="-100 -70 705.821 705.82">
 			<circle className="stroke bubble--bob1" strokeWidth="8" strokeMiterlimit="10" cx="180" cy="410" r="40.5"></circle>
 			<circle className="stroke bubble--bob2" strokeWidth="8" strokeMiterlimit="10" cx="250" cy="390" r="20.5"></circle>
 			<circle className="stroke bubble--bob3" strokeWidth="8" strokeMiterlimit="10" cx="320" cy="400" r="30.5"></circle>

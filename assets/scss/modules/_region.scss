@@ -7,6 +7,10 @@
 	position: relative;
 }
 
+.primaryregion {
+	@include square(100%);
+}
+
 .region {
 	position: absolute;
 	top: 0;
@@ -23,12 +27,12 @@
 		color: $white;
 	}
 
-	@include e(inner) {
+	&__inner {
 		width: 100%;
 		min-height: 100%;
 	}
 
-	@include e(icon) {
+	&__icon {
 		display: block;
 		margin: 0 auto;
 		max-width: remcalc(200);
@@ -40,5 +44,27 @@
 		.fill {
 			fill: darken($white, 20%);
 		}
+
+		.iconbit {
+			transform-origin: 50% 50%;
+
+			&--screwdriver {
+				fill: gray;
+				animation: roll 3s 2.4s infinite;
+			}
+
+			&--spanner {
+				animation: shake-clockwise 3s infinite;
+			}
+
+			&--at {
+				animation: pulse 3s infinite;
+			}
+		}
+	}
+
+	&__intro {
+		margin: 0 auto;
+		max-width: remcalc(700);
 	}
 }

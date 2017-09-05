@@ -1,4 +1,4 @@
-import * as RegionActionTypes from '../actiontypes/regions';
+import * as RegionActionTypes from '../actiontypes/transitions';
 
 const initialState = {
 	regionsWidth: 4,
@@ -6,7 +6,7 @@ const initialState = {
 	isLastChildOutgoing: false,
 	regionTransitionTimeout: 1000,
 	regionsContainerClass: 'regions',
-	currentTextColour: 'light'
+	currentTextColour: 'light',
 }
 
 export default function Regions(state=initialState, action) {
@@ -23,7 +23,7 @@ export default function Regions(state=initialState, action) {
 		case RegionActionTypes.SET_OUTGOING_REGION: {
 			return {
 				...state,
-				outgoing: action.data
+				outgoingRegion: action.data
 			};
 		}
 

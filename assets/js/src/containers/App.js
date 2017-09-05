@@ -10,16 +10,88 @@ import DirectionButtons from '../components/DirectionButtons';
 class Application extends Component {
 
 	static propTypes = {
-        regions: PropTypes.array,
+        primaryRegions: PropTypes.array,
+        subRegions: PropTypes.array,
         isMovingRegions: PropTypes.bool.isRequired,
         isLastChildOutgoing: PropTypes.bool.isRequired,
         outgoing: PropTypes.object,
         regionsContainerClass: PropTypes.string.isRequired
 	}
 
+	getCurrentSubRegions = (currentRegion, subRegions) => {
+		let currentSubRegions = [],
+			y = 0;
+		
+		for (let subRegion of subRegions) {
+			if (subRegion.parent_region == currentRegion.pk) {
+				y++;
+				currentSubRegions.push({
+					...subRegion,
+					x: currentRegion.x,
+					y: y
+				});				
+			}
+		}
+		return currentSubRegions;
+	}
+
+	currentSubRegions = [];
+
+	isSetSubRegions = false;
+
 	render() {	
-		const { regions, isMovingRegions, isLastChildOutgoing, outgoing, regionsContainerClass, regionsOffsetStyles } = this.props,
-			transitionRegion = this.transitionRegion;
+		const { 
+			primaryRegions, 
+			currentRegion,
+			subRegions,
+			isMovingRegions, 
+			isLastChildOutgoing, 
+			outgoingRegion, 
+			regionsContainerClass,
+		} = this.props;
+
+
+		// TODO: temporary hack until I properly understand nested routes
+		// if no current region
+		if (subRegions && !currentRegion) {
+
+			let currentHash = window.location.hash,
+				currentPrimaryRegion,
+				currentSubRegion;
+
+			currentHash = currentHash.slice(2, currentHash.length);
+
+			for (let subRegion of subRegions) {
+
+				if (subRegion.path_hash == currentHash) {
+					currentSubRegion = subRegion;
+				}
+			}
+
+			if (currentSubRegion) {
+				for (let primaryRegion of primaryRegions) {
+					if (primaryRegion.pk == currentSubRegion.parent_region) {
+						currentPrimaryRegion = primaryRegion;
+						this.currentSubRegions = this.getCurrentSubRegions(currentPrimaryRegion, subRegions);
+						this.isSetSubRegions = true;
+					}
+				}
+			}
+		}
+
+
+		// set current page regions when page first loads
+		if (currentRegion && subRegions.length && !this.isSetSubRegions) {
+			this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
+			this.isSetSubRegions = true;
+		}
+
+		// update current subregions on primary region transitions
+		if (currentRegion && outgoingRegion) {
+			if (currentRegion.x != outgoingRegion.x) {
+				this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
+			}
+		} 
 
 		return (
 			<div>
@@ -27,16 +99,17 @@ class Application extends Component {
 
 				<Navigation />
 
-				<DirectionButtons />
+				<DirectionButtons currentSubRegions={this.currentSubRegions} />
 				
-				<section className={regionsContainerClass}>
-					{outgoing && isMovingRegions && !isLastChildOutgoing &&
+				<main className={regionsContainerClass}>
+					{outgoingRegion && isMovingRegions && !isLastChildOutgoing &&
 						<Region 
-							data={outgoing} 
+							data={outgoingRegion} 
 							isOutgoing="true" 
 						/>
 					}
-					{regions && regions.map((region, index) => {
+
+					{primaryRegions && primaryRegions.map((region, index) => {
 						let hash = `/${region.path_hash}`;
 						return (
 							<Route 
@@ -49,13 +122,28 @@ class Application extends Component {
 							/>
 						);
 					})}
-					{outgoing && isMovingRegions && isLastChildOutgoing &&
+
+					{this.currentSubRegions && this.currentSubRegions.map((region, index) => {
+						let hash = `/${region.path_hash}`;
+						return (
+							<Route 
+								key={index}
+								exact
+								path={hash}
+								render={() => (
+									<Region data={region}/>
+								)} 						
+							/>
+						);
+					})}
+
+					{outgoingRegion && isMovingRegions && isLastChildOutgoing &&
 						<Region 
-							data={outgoing} 
+							data={outgoingRegion} 
 							isOutgoing="true" 
 						/>
 					}
-				</section>
+				</main>
 			</div>
 		)
 	};
@@ -63,12 +151,14 @@ class Application extends Component {
 
 const mapStateToProps = state => (
     {
-        regions: state.data.regions,
-        isMovingRegions: state.regions.isMovingRegions,
-        isLastChildOutgoing: state.regions.isLastChildOutgoing,
-        outgoing: state.regions.outgoing,
-        regionsContainerClass: state.regions.regionsContainerClass,
-        regionsClass: state.regions.regionsClass
+        primaryRegions: state.data.primaryRegions,
+        subRegions: state.data.subRegions,
+        currentRegion: state.transitions.currentRegion,
+        isMovingRegions: state.transitions.isMovingRegions,
+        isLastChildOutgoing: state.transitions.isLastChildOutgoing,
+        outgoingRegion: state.transitions.outgoingRegion,
+        regionsContainerClass: state.transitions.regionsContainerClass,
+        regionsClass: state.transitions.regionsClass
     }
 );
 

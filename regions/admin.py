@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Region, ContentModule
+from .models import PrimaryRegion, SubRegion, ContentModule
 
 
 class ContentModuleInline(admin.StackedInline):
@@ -9,9 +9,10 @@ class ContentModuleInline(admin.StackedInline):
 	min_num = 0
 	extra = 0
 
-class RegionAdmin(admin.ModelAdmin):
+class SubRegionAdmin(admin.ModelAdmin):
 	inlines = [ContentModuleInline,]
 
 
-admin.site.register(Region, RegionAdmin)
+admin.site.register(PrimaryRegion)
+admin.site.register(SubRegion, SubRegionAdmin)
 

@@ -3,50 +3,57 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
-import * as RegionActionCreators from '../actions/regions';
+import * as RegionActionCreators from '../actions/transitions';
 
 
 const DirectionButtons = props => {
-	const { regions, regionsWidth, currentRegion, isMovingRegions, regionTextColour } = props,
+	const { 
+			primaryRegions, 
+			currentSubRegions,
+			regionsWidth, 
+			currentRegion, 
+			isMovingRegions, 
+			regionTextColour 
+		} = props,
 		baseClass = 'direction';
 
-	if (regions && currentRegion) {
+	if (primaryRegions && currentRegion) {
 		const directionButtons = [
 			{
-				condition: currentRegion.x > 0 && currentRegion.y == 0,
-				targetIndex: currentRegion.index - 1,
+				condition: true,
+				targetRegion: primaryRegions[currentRegion.index - 1],
 				className: `${baseClass} ${baseClass}--side ${baseClass}--prev`
 			},
 			{
-				condition: currentRegion.x < (regionsWidth - 1) && currentRegion.y == 0,
-				targetIndex: currentRegion.index + 1,
+				condition: true,
+				targetRegion: primaryRegions[currentRegion.index + 1],
 				className: `${baseClass} ${baseClass}--side ${baseClass}--next`
 			},
 			{
-				condition: currentRegion.y == 0,
-				targetIndex: currentRegion.index + regionsWidth,
+				condition: true,
+				targetRegion: currentSubRegions[currentRegion.y],
 				className: `${baseClass} ${baseClass}--vert ${baseClass}--down`
 			},
 			{
-				condition: currentRegion.y == 1,
-				targetIndex: currentRegion.index - regionsWidth,
+				condition: currentRegion.y > 0,
+				targetRegion: currentSubRegions[currentRegion.y - 2] || primaryRegions[currentRegion.x],
 				className: `${baseClass} ${baseClass}--vert ${baseClass}--up`
 			}
-		];
+		]
 
 		return (
-			<div className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
+			<nav className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
 				{directionButtons.map((button, index) => {
-					if (button.condition) {
+					if (button.condition && button.targetRegion) {
 						return (
 							<Link 
 								key={index}
-								to={regions[button.targetIndex].path_hash}
+								to={button.targetRegion.path_hash}
 								onClick={e => { if (isMovingRegions) e.preventDefault(); }} 
 								className={button.className}
 							>
 								<span className="direction__inner">
-									<span className="direction__text">{regions[button.targetIndex].title}</span>
+									<span className="direction__text">{button.targetRegion.title}</span>
 									<span className="direction__icon">
 										<i></i>
 										<i></i>
@@ -58,7 +65,7 @@ const DirectionButtons = props => {
 						return null;
 					}
 				})}
-			</div>		
+			</nav>		
 		)
 	} else {
 		return null
@@ -66,8 +73,8 @@ const DirectionButtons = props => {
 }
 
 DirectionButtons.propTypes = {
-	regionsWidth: PropTypes.number.isRequired,
-	regions: PropTypes.array,
+	primaryRegions: PropTypes.array,
+	currentSubRegions: PropTypes.array.isRequired,
 	currentRegion: PropTypes.object,
 	isMovingRegions: PropTypes.bool.isRequired,
 	regionTextColour: PropTypes.string.isRequired,
@@ -75,11 +82,10 @@ DirectionButtons.propTypes = {
 
 const mapStateToProps = state => (
     {	
-    	regions: state.data.regions,
-    	regionsWidth: state.regions.regionsWidth,
-    	currentRegion: state.regions.currentRegion,
-    	isMovingRegions: state.regions.isMovingRegions,
-    	regionTextColour: state.regions.currentTextColour,
+    	primaryRegions: state.data.primaryRegions,
+    	currentRegion: state.transitions.currentRegion,
+    	isMovingRegions: state.transitions.isMovingRegions,
+    	regionTextColour: state.transitions.currentTextColour,
     }
 );
 

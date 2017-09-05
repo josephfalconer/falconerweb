@@ -45,6 +45,8 @@ class ModuleDemos extends Component {
 	render() {
 		const backgroundColours = this.state.backgroundColours;
 
+		console.log(this.props.demos);
+
 		return (
 			<ul className="demosfeature list--plain text" data-js="ShiftingBackgrounds">
 				{this.props.demos.map((demo, index) => {

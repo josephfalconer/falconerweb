@@ -2,7 +2,8 @@ import * as DataActionTypes from '../actiontypes/data';
 
 const initialState = {
 	navigationLinks: [],
-	regions: [],
+	primaryRegions: [],
+	subRegions: [],
 	contentModules: [],
 	skills: [],
 	demos: [],
@@ -20,10 +21,17 @@ export default function Data(state=initialState, action) {
 			};
 		}
 
-		case DataActionTypes.ADD_REGIONS: {
+		case DataActionTypes.ADD_PRIMARY_REGIONS: {
 			return {
 				...state,
-				regions: action.data
+				primaryRegions: action.data
+			};
+		}
+
+		case DataActionTypes.ADD_SUB_REGIONS: {
+			return {
+				...state,
+				subRegions: action.data
 			};
 		}
 
