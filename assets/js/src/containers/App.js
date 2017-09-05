@@ -51,8 +51,6 @@ class Application extends Component {
 		} = this.props;
 
 
-
-
 		// TODO: temporary hack until I properly understand nested routes
 		// if no current region
 		if (subRegions && !currentRegion) {
@@ -80,8 +78,6 @@ class Application extends Component {
 				}
 			}
 		}
-
-
 
 
 		// set current page regions when page first loads
@@ -160,7 +156,7 @@ const mapStateToProps = state => (
         currentRegion: state.transitions.currentRegion,
         isMovingRegions: state.transitions.isMovingRegions,
         isLastChildOutgoing: state.transitions.isLastChildOutgoing,
-        outgoingRegion: state.transitions.outgoing,
+        outgoingRegion: state.transitions.outgoingRegion,
         regionsContainerClass: state.transitions.regionsContainerClass,
         regionsClass: state.transitions.regionsClass
     }

@@ -23,7 +23,7 @@ export default function Regions(state=initialState, action) {
 		case RegionActionTypes.SET_OUTGOING_REGION: {
 			return {
 				...state,
-				outgoing: action.data
+				outgoingRegion: action.data
 			};
 		}
 

@@ -55,13 +55,13 @@ class SubRegion(Region):
 	parent_region = models.ForeignKey(PrimaryRegion)
 
 
-# class ContentModule(models.Model):
-# 	order = models.IntegerField(default=0)
-# 	module_type = models.CharField(max_length=100, choices=content_module_types)
-# 	region = models.ForeignKey(Region)
+class ContentModule(models.Model):
+	order = models.IntegerField(default=0)
+	module_type = models.CharField(max_length=100, choices=content_module_types)
+	region = models.ForeignKey(SubRegion)
 
-# 	def __str__(self):
-# 		return "#{} {} / {}".format(self.order, self.module_type, self.region)
+	def __str__(self):
+		return "#{} {} / {}".format(self.order, self.module_type, self.region)
 
-# 	class Meta:
-# 		ordering = ['order',]
+	class Meta:
+		ordering = ['order',]

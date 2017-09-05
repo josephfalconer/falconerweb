@@ -11,20 +11,21 @@ class Region extends Component {
 
 	static propTypes = {
 		data: PropTypes.object.isRequired,
+		outgoingRegion: PropTypes.object,
 		contentModules: PropTypes.array,
 		isOutgoing: PropTypes.string,
 	}
 	
 	componentDidMount() {
-		// shadow region is only presentational
-		if (this.props.isOutgoing) {
-			return;
-		}
-
 		const Region = this,
-			{ dispatch, outgoing, data, isOutgoing } = Region.props;
+			{ dispatch, outgoingRegion, data, isOutgoing } = Region.props;
 
 		let { timeoutDelay } = Region.props;
+
+		// incoming region determines transition
+		if (isOutgoing) {
+			return;
+		}
 		
 		Region.setTransitionsData = bindActionCreators(RegionActionCreators.setTransitionsData, dispatch);
 		
@@ -34,7 +35,7 @@ class Region extends Component {
 		// nav/direction buttons need this
 		Region.setTransitionsData(data.text_colour, 'SET_TEXT_COLOUR');
 
-		if (outgoing) {
+		if (outgoingRegion) {
 			const transitionClass = Region.setTransitionClass();
 		}
 
@@ -53,11 +54,11 @@ class Region extends Component {
 		// compare outgoing region data - direct from Redux store -
 		// to incoming region data - passed from Application 
 		const Region = this,
-			{ outgoing, data } = Region.props,
-			isSideways = outgoing.y == data.y && Math.abs(outgoing.x - data.x) == 1,
-			isVertical = outgoing.x == data.x && Math.abs(outgoing.y - data.y) == 1,
-			isRightwards = data.x < outgoing.x,
-			isDownwards = data.y < outgoing.y,
+			{ outgoingRegion, data } = Region.props,
+			isSideways = outgoingRegion.y == data.y && Math.abs(outgoingRegion.x - data.x) == 1,
+			isVertical = outgoingRegion.x == data.x && Math.abs(outgoingRegion.y - data.y) == 1,
+			isRightwards = data.x < outgoingRegion.x,
+			isDownwards = data.y < outgoingRegion.y,
 			regionsClass = 'regions';
 
 		let { timeoutDelay } = Region.props,
@@ -102,7 +103,7 @@ class Region extends Component {
 		const { data, contentModules, offsetStyles } = this.props,
 			regionClass = `region region--${data.text_colour}text text`,
 			backgroundStyle = { backgroundImage: `url(${data.background})` },
-			longTitle = data.long_title;
+			displayTitle = data.display_title;
 
 		let { [data.icon]:Icon } = Icons;
 
@@ -114,13 +115,14 @@ class Region extends Component {
 			<article className={regionClass}>
 				<div className="region__inner" style={backgroundStyle}>
 					<header>
-						{Icon && <figure className="region__icon">{Icon}</figure>}
-						<h1>{longTitle ? longTitle : data.title}</h1>
-						<div dangerouslySetInnerHTML={{__html: data.intro_text}}></div>
+						{Icon && <span className="region__icon">{Icon}</span>}
+						<h1>{displayTitle ? displayTitle : data.title}</h1>
+						<div className="region__intro" dangerouslySetInnerHTML={{__html: data.intro_text}}></div>
 					</header>
 
 					{contentModules.map((contentModule, index) => {	
 						if (contentModule.region == data.pk) {
+							console.log(contentModule, data.pk);
 							return (
 								<ContentModules 
 									key={index}
@@ -140,7 +142,7 @@ class Region extends Component {
 const mapStateToProps = state => (
     {
     	contentModules: state.data.contentModules,
-    	outgoing: state.transitions.outgoing,
+    	outgoingRegion: state.transitions.outgoingRegion,
     	timeoutDelay: state.transitions.regionTransitionTimeout,
     }
 );

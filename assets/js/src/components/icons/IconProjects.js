@@ -3,7 +3,7 @@ import React from 'react';
 
 const ProjectsIcon = props => {
 	return (
-		<svg className="is-displayed-lg" viewBox="0 0 60 60">
+		<svg className="svg--projects" viewBox="0 0 60 60">
 			<path className="fill iconbit iconbit--at" d="M38.051,43.488v-27.25c0-1.063-0.43-2.028-1.283-2.895c-0.855-0.867-1.826-1.3-2.912-1.3h-8.945
 			c-1.317,0-2.276,0.243-2.878,0.728c-0.601,0.485-1.219,1.323-1.854,2.514s-1.52,1.785-2.651,1.785
 			c-0.902,0-1.624-0.277-2.167-0.832c-0.543-0.555-0.815-1.202-0.815-1.941c0-1.479,0.942-3.195,2.826-5.148

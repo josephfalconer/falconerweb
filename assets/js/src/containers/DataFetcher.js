@@ -20,10 +20,10 @@ class DataFetcher extends Component {
 			url: '/regions/sub-regions',
 			type: 'ADD_SUB_REGIONS'
 		},
-		// {
-		// 	url: '/regions/content-modules',
-		// 	type: 'ADD_CONTENT_MODULES'
-		// },
+		{
+			url: '/regions/content-modules',
+			type: 'ADD_CONTENT_MODULES'
+		},
 		{
 			url: '/skills/',
 			type: 'ADD_SKILLS'
@@ -48,7 +48,6 @@ class DataFetcher extends Component {
         	addData = bindActionCreators(DataActionCreators.addData, dispatch);
 
         for (let request of this.requests) {
-
         	fetch(request.url)
 				.then(response => {
 					let successfulRequests = DataFetcher.state.successfulRequests;
@@ -64,12 +63,14 @@ class DataFetcher extends Component {
 
 					for (let dataItem of data) {
 
-						if (request.type == "ADD_PRIMARY_REGIONS") {
+						if (request.type == "ADD_PRIMARY_REGIONS" || request.type == "ADD_SUB_REGIONS") {
 							dataItem.fields.pk = dataItem.pk;
 						}
 
 						dataFields.push(dataItem.fields);
 					}
+
+					console.log(request.type, dataFields);
 
 					addData(dataFields, request.type);
 				});
