@@ -13,7 +13,8 @@ class Region extends Component {
 		data: PropTypes.object.isRequired,
 		outgoingRegion: PropTypes.object,
 		contentModules: PropTypes.array,
-		isOutgoing: PropTypes.string,
+		isOutgoing: PropTypes.bool,
+		isSubRegion: PropTypes.bool
 	}
 	
 	componentDidMount() {
@@ -100,7 +101,7 @@ class Region extends Component {
 	}
 
 	render() {
-		const { data, contentModules, offsetStyles } = this.props,
+		const { data, contentModules, offsetStyles, isSubRegion } = this.props,
 			regionClass = `region region--${data.text_colour}text text`,
 			backgroundStyle = { backgroundImage: `url(${data.background})` },
 			displayTitle = data.display_title;
@@ -110,6 +111,8 @@ class Region extends Component {
 		if (Icon) {
 			Icon = Icon.call();
 		}
+
+		// console.log(contentModules);
 
 		return (
 			<article className={regionClass}>
@@ -121,8 +124,8 @@ class Region extends Component {
 					</header>
 
 					{contentModules.map((contentModule, index) => {	
-						if (contentModule.region == data.pk) {
-							console.log(contentModule, data.pk);
+						// console.log(contentModule.region, data.title);
+						if (contentModule.region == data.title) {
 							return (
 								<ContentModules 
 									key={index}

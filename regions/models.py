@@ -35,7 +35,7 @@ class Region(models.Model):
 	icon = models.CharField(max_length=200, choices=icons, blank=True)
 	background = models.CharField(max_length=200, choices=backgrounds, blank=True)
 	text_colour = models.CharField(max_length=200, choices=text_colours, blank=True)
-	title = models.CharField(max_length=20)
+	title = models.CharField(max_length=20, unique=True)
 	display_title = models.CharField(max_length=255, blank=True)
 	intro_text = models.TextField(blank=True)
 
@@ -52,13 +52,22 @@ class PrimaryRegion(Region):
 
 
 class SubRegion(Region):
-	parent_region = models.ForeignKey(PrimaryRegion)
+	parent_region = models.ForeignKey(
+		PrimaryRegion, 
+		on_delete=models.CASCADE,
+		to_field='title'
+	)
+	
 
 
 class ContentModule(models.Model):
 	order = models.IntegerField(default=0)
 	module_type = models.CharField(max_length=100, choices=content_module_types)
-	region = models.ForeignKey(SubRegion)
+	region = models.ForeignKey(
+		SubRegion, 
+		on_delete=models.CASCADE,
+		to_field='title'
+	)
 
 	def __str__(self):
 		return "#{} {} / {}".format(self.order, self.module_type, self.region)

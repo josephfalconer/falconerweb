@@ -23,7 +23,7 @@ class Application extends Component {
 			y = 0;
 		
 		for (let subRegion of subRegions) {
-			if (subRegion.parent_region == currentRegion.pk) {
+			if (subRegion.parent_region == currentRegion.title) {
 				y++;
 				currentSubRegions.push({
 					...subRegion,
@@ -33,6 +33,31 @@ class Application extends Component {
 			}
 		}
 		return currentSubRegions;
+	}
+
+	getCurrentSubRegionsFromLocation = (primaryRegions, subRegions) => {
+		let currentHash = window.location.hash,
+			currentPrimaryRegion,
+			currentSubRegion;
+
+		currentHash = currentHash.slice(2, currentHash.length);
+
+		for (let subRegion of subRegions) {
+
+			if (subRegion.path_hash == currentHash) {
+				currentSubRegion = subRegion;
+			}
+		}
+
+		if (currentSubRegion) {
+			for (let primaryRegion of primaryRegions) {
+				if (primaryRegion.title == currentSubRegion.parent_region) {
+					currentPrimaryRegion = primaryRegion;
+					this.currentSubRegions = this.getCurrentSubRegions(currentPrimaryRegion, subRegions);
+					this.isSetSubRegions = true;
+				}
+			}
+		}
 	}
 
 	currentSubRegions = [];
@@ -54,29 +79,7 @@ class Application extends Component {
 		// TODO: temporary hack until I properly understand nested routes
 		// if no current region
 		if (subRegions && !currentRegion) {
-
-			let currentHash = window.location.hash,
-				currentPrimaryRegion,
-				currentSubRegion;
-
-			currentHash = currentHash.slice(2, currentHash.length);
-
-			for (let subRegion of subRegions) {
-
-				if (subRegion.path_hash == currentHash) {
-					currentSubRegion = subRegion;
-				}
-			}
-
-			if (currentSubRegion) {
-				for (let primaryRegion of primaryRegions) {
-					if (primaryRegion.pk == currentSubRegion.parent_region) {
-						currentPrimaryRegion = primaryRegion;
-						this.currentSubRegions = this.getCurrentSubRegions(currentPrimaryRegion, subRegions);
-						this.isSetSubRegions = true;
-					}
-				}
-			}
+			this.getCurrentSubRegionsFromLocation(primaryRegions, subRegions);
 		}
 
 
@@ -105,7 +108,7 @@ class Application extends Component {
 					{outgoingRegion && isMovingRegions && !isLastChildOutgoing &&
 						<Region 
 							data={outgoingRegion} 
-							isOutgoing="true" 
+							isOutgoing={true} 
 						/>
 					}
 
@@ -131,7 +134,7 @@ class Application extends Component {
 								exact
 								path={hash}
 								render={() => (
-									<Region data={region}/>
+									<Region data={region} />
 								)} 						
 							/>
 						);
@@ -140,7 +143,7 @@ class Application extends Component {
 					{outgoingRegion && isMovingRegions && isLastChildOutgoing &&
 						<Region 
 							data={outgoingRegion} 
-							isOutgoing="true" 
+							isOutgoing={true} 
 						/>
 					}
 				</main>

@@ -58,24 +58,15 @@ class DataFetcher extends Component {
 					return response.json();
 				})
 				.then(data => {
-
 					let dataFields = [];
 
 					for (let dataItem of data) {
-
-						if (request.type == "ADD_PRIMARY_REGIONS" || request.type == "ADD_SUB_REGIONS") {
-							dataItem.fields.pk = dataItem.pk;
-						}
-
 						dataFields.push(dataItem.fields);
 					}
-
-					console.log(request.type, dataFields);
 
 					addData(dataFields, request.type);
 				});
         }
-
    	}
 
 	render() {

@@ -12637,7 +12637,7 @@ var Application = function (_Component) {
 
 				var subRegion = _ref2;
 
-				if (subRegion.parent_region == currentRegion.pk) {
+				if (subRegion.parent_region == currentRegion.title) {
 					y++;
 					currentSubRegions.push(_extends({}, subRegion, {
 						x: currentRegion.x,
@@ -12646,6 +12646,55 @@ var Application = function (_Component) {
 				}
 			}
 			return currentSubRegions;
+		}, _this.getCurrentSubRegionsFromLocation = function (primaryRegions, subRegions) {
+			var currentHash = window.location.hash,
+			    currentPrimaryRegion = void 0,
+			    currentSubRegion = void 0;
+
+			currentHash = currentHash.slice(2, currentHash.length);
+
+			for (var _iterator2 = subRegions, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+				var _ref3;
+
+				if (_isArray2) {
+					if (_i2 >= _iterator2.length) break;
+					_ref3 = _iterator2[_i2++];
+				} else {
+					_i2 = _iterator2.next();
+					if (_i2.done) break;
+					_ref3 = _i2.value;
+				}
+
+				var subRegion = _ref3;
+
+
+				if (subRegion.path_hash == currentHash) {
+					currentSubRegion = subRegion;
+				}
+			}
+
+			if (currentSubRegion) {
+				for (var _iterator3 = primaryRegions, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+					var _ref4;
+
+					if (_isArray3) {
+						if (_i3 >= _iterator3.length) break;
+						_ref4 = _iterator3[_i3++];
+					} else {
+						_i3 = _iterator3.next();
+						if (_i3.done) break;
+						_ref4 = _i3.value;
+					}
+
+					var primaryRegion = _ref4;
+
+					if (primaryRegion.title == currentSubRegion.parent_region) {
+						currentPrimaryRegion = primaryRegion;
+						_this.currentSubRegions = _this.getCurrentSubRegions(currentPrimaryRegion, subRegions);
+						_this.isSetSubRegions = true;
+					}
+				}
+			}
 		}, _this.currentSubRegions = [], _this.isSetSubRegions = false, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -12665,55 +12714,7 @@ var Application = function (_Component) {
 			// if no current region
 
 			if (subRegions && !currentRegion) {
-
-				var currentHash = window.location.hash,
-				    currentPrimaryRegion = void 0,
-				    currentSubRegion = void 0;
-
-				currentHash = currentHash.slice(2, currentHash.length);
-
-				for (var _iterator2 = subRegions, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
-					var _ref3;
-
-					if (_isArray2) {
-						if (_i2 >= _iterator2.length) break;
-						_ref3 = _iterator2[_i2++];
-					} else {
-						_i2 = _iterator2.next();
-						if (_i2.done) break;
-						_ref3 = _i2.value;
-					}
-
-					var subRegion = _ref3;
-
-
-					if (subRegion.path_hash == currentHash) {
-						currentSubRegion = subRegion;
-					}
-				}
-
-				if (currentSubRegion) {
-					for (var _iterator3 = primaryRegions, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
-						var _ref4;
-
-						if (_isArray3) {
-							if (_i3 >= _iterator3.length) break;
-							_ref4 = _iterator3[_i3++];
-						} else {
-							_i3 = _iterator3.next();
-							if (_i3.done) break;
-							_ref4 = _i3.value;
-						}
-
-						var primaryRegion = _ref4;
-
-						if (primaryRegion.pk == currentSubRegion.parent_region) {
-							currentPrimaryRegion = primaryRegion;
-							this.currentSubRegions = this.getCurrentSubRegions(currentPrimaryRegion, subRegions);
-							this.isSetSubRegions = true;
-						}
-					}
-				}
+				this.getCurrentSubRegionsFromLocation(primaryRegions, subRegions);
 			}
 
 			// set current page regions when page first loads
@@ -12740,7 +12741,7 @@ var Application = function (_Component) {
 					{ className: regionsContainerClass },
 					outgoingRegion && isMovingRegions && !isLastChildOutgoing && _react2.default.createElement(_Region2.default, {
 						data: outgoingRegion,
-						isOutgoing: 'true'
+						isOutgoing: true
 					}),
 					primaryRegions && primaryRegions.map(function (region, index) {
 						var hash = '/' + region.path_hash;
@@ -12766,7 +12767,7 @@ var Application = function (_Component) {
 					}),
 					outgoingRegion && isMovingRegions && isLastChildOutgoing && _react2.default.createElement(_Region2.default, {
 						data: outgoingRegion,
-						isOutgoing: 'true'
+						isOutgoing: true
 					})
 				)
 			);
@@ -14004,7 +14005,12 @@ return Promise$2;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(73)))
 
 /***/ }),
-/* 132 */,
+/* 132 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14445,6 +14451,7 @@ var Region = function (_Component) {
 			    data = _props.data,
 			    contentModules = _props.contentModules,
 			    offsetStyles = _props.offsetStyles,
+			    isSubRegion = _props.isSubRegion,
 			    regionClass = 'region region--' + data.text_colour + 'text text',
 			    backgroundStyle = { backgroundImage: 'url(' + data.background + ')' },
 			    displayTitle = data.display_title;
@@ -14454,6 +14461,8 @@ var Region = function (_Component) {
 			if (Icon) {
 				Icon = Icon.call();
 			}
+
+			// console.log(contentModules);
 
 			return _react2.default.createElement(
 				'article',
@@ -14477,8 +14486,8 @@ var Region = function (_Component) {
 						_react2.default.createElement('div', { className: 'region__intro', dangerouslySetInnerHTML: { __html: data.intro_text } })
 					),
 					contentModules.map(function (contentModule, index) {
-						if (contentModule.region == data.pk) {
-							console.log(contentModule, data.pk);
+						// console.log(contentModule.region, data.title);
+						if (contentModule.region == data.title) {
 							return _react2.default.createElement(_ContentModules2.default, {
 								key: index,
 								moduleType: contentModule.module_type
@@ -14499,7 +14508,8 @@ Region.propTypes = {
 	data: _react.PropTypes.object.isRequired,
 	outgoingRegion: _react.PropTypes.object,
 	contentModules: _react.PropTypes.array,
-	isOutgoing: _react.PropTypes.string
+	isOutgoing: _react.PropTypes.bool,
+	isSubRegion: _react.PropTypes.bool
 };
 
 
@@ -14779,8 +14789,6 @@ var ModuleDemos = function (_Component) {
 		value: function render() {
 			var backgroundColours = this.state.backgroundColours;
 
-			console.log(this.props.demos);
-
 			return _react2.default.createElement(
 				'ul',
 				{ className: 'demosfeature list--plain text', 'data-js': 'ShiftingBackgrounds' },
@@ -14796,7 +14804,7 @@ var ModuleDemos = function (_Component) {
 						{ className: 'demosfeature__item', key: index, style: backgroundStyle },
 						_react2.default.createElement(
 							'a',
-							{ className: 'demosfeature__link', target: '_blank', rel: 'noopener noreferrer', href: '{demo.path}' },
+							{ className: 'demosfeature__link', target: '_blank', rel: 'noopener noreferrer', href: 'http://localhost:3000/demos/' + demo.path },
 							_react2.default.createElement(
 								'div',
 								{ className: 'demosfeature__text' },
@@ -15084,7 +15092,6 @@ var DataFetcher = function (_Component) {
 					}
 					return response.json();
 				}).then(function (data) {
-
 					var dataFields = [];
 
 					for (var _iterator2 = data, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
@@ -15101,15 +15108,8 @@ var DataFetcher = function (_Component) {
 
 						var dataItem = _ref3;
 
-
-						if (request.type == "ADD_PRIMARY_REGIONS" || request.type == "ADD_SUB_REGIONS") {
-							dataItem.fields.pk = dataItem.pk;
-						}
-
 						dataFields.push(dataItem.fields);
 					}
-
-					console.log(request.type, dataFields);
 
 					addData(dataFields, request.type);
 				});
@@ -31826,7 +31826,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 __webpack_require__(131).polyfill();
 __webpack_require__(133);
 
-__webpack_require__(321);
+__webpack_require__(132);
 
 var store = (0, _redux.createStore)(_reducers2.default, window.devToolsExtension && window.devToolsExtension());
 
@@ -31839,16 +31839,6 @@ _reactDom2.default.render(_react2.default.createElement(
 		_react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _App2.default })
 	)
 ), document.getElementById('application'));
-
-/***/ }),
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
