@@ -95,6 +95,10 @@ $nav-toplink-width-xl: 100px;
 				}
 			}
 
+			.nav__icon {
+				@include square(100%);
+			}
+
 			.nav__linktext {
 				display: none;
 			}
@@ -127,13 +131,13 @@ $nav-toplink-width-xl: 100px;
 	}
 
 	@include e(linkcircle) {
-		display: block;
-		position: relative;
+		display: flex;
+		margin: 0 auto;
 		border: remcalc(2) solid $orange--active;
+		border-radius: 50%;
 		@include square(remcalc(15));
-		padding: remcalc(3);
-	    border-radius: 50%;
-	    margin: 0 auto;
+		justify-content: center;
+		align-items: center;
 	    transition: all $transition-duration;
 
 	    @include mq(lg) {
@@ -143,6 +147,10 @@ $nav-toplink-width-xl: 100px;
 		@include mq(xxl) {
 			@include square(remcalc($nav-circlelink-width-xxl));
 		}
+	}
+
+	&__icon {
+		@include square(62.5%);
 
 		svg {
 			@include square(100%);

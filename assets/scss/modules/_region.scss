@@ -27,15 +27,10 @@
 		color: $white;
 	}
 
-	&__inner {
-		width: 100%;
-		min-height: 100%;
-	}
-
 	&__icon {
 		display: block;
 		margin: 0 auto;
-		max-width: remcalc(200);
+		max-width: remcalc(150);
 
 		.stroke {
 			stroke: darken($white, 20%);

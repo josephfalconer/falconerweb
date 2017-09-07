@@ -3,7 +3,7 @@ import React from 'react';
 
 const DemosIcon = props => {
 	return (
-		<svg className="svg--skills" viewBox="2 0 60 60">
+		<svg className="svg--skills" viewBox="8 5.5 46.5 46.5">
 			<path id="screwdriver" className="fill iconbit iconbit--screwdriver" d="M42.677,11.227c-0.365,0.267-0.709,0.556-1.012,0.878
 			c-0.334,0.355-0.665,0.718-0.894,1.152c-0.227,0.437-0.208,1.054-0.497,1.435c-1.85,2.432-3.753,4.821-5.645,7.218
 			c-0.051,0.066-0.146,0.144-0.248,0.116c-0.607-0.173-0.89,0.023-1.115,0.316c-0.856,1.104-1.708,2.211-2.605,3.282

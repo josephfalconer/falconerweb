@@ -49,3 +49,9 @@ circle, .fill, .stroke, .highlightfill {
 .font--primary {
 	font-family: $font-family--primary;
 }
+
+.center-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

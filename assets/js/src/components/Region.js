@@ -102,21 +102,23 @@ class Region extends Component {
 
 	render() {
 		const { data, contentModules, offsetStyles, isSubRegion } = this.props,
-			regionClass = `region region--${data.text_colour}text text`,
 			backgroundStyle = { backgroundImage: `url(${data.background})` },
 			displayTitle = data.display_title;
 
-		let { [data.icon]:Icon } = Icons;
+		let { [data.icon]:Icon } = Icons,
+			regionClass = `region region--${data.text_colour}text text`;
 
+		if (data.center_content) {
+			regionClass +=  ' center-content';
+		}
+		
 		if (Icon) {
 			Icon = Icon.call();
 		}
 
-		// console.log(contentModules);
-
 		return (
-			<article className={regionClass}>
-				<div className="region__inner" style={backgroundStyle}>
+			<article className={regionClass} style={backgroundStyle}>
+				<div className="region__inner">
 					<header>
 						{Icon && <span className="region__icon">{Icon}</span>}
 						<h1>{displayTitle ? displayTitle : data.title}</h1>
@@ -124,7 +126,6 @@ class Region extends Component {
 					</header>
 
 					{contentModules.map((contentModule, index) => {	
-						// console.log(contentModule.region, data.title);
 						if (contentModule.region == data.title) {
 							return (
 								<ContentModules 

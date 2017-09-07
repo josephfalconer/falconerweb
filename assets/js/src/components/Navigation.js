@@ -30,9 +30,10 @@ const Navigation = props => {
 									onClick={e => { if (isMovingRegions) e.preventDefault(); }}
 								>
 									<span className="nav__linkcircle">
-										<span className="is-displayed-lg">{Icon}</span>
-										<span className="nav__linktext is-displayed-lg">{link.text}</span>
+										<span className="nav__icon is-displayed-lg">{Icon}</span>
+										
 					                </span>
+					                <span className="nav__linktext is-displayed-lg">{link.text}</span>
 								</NavLink>
 							</li>
 						);
