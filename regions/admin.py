@@ -14,6 +14,5 @@ class SubRegionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(PrimaryRegion)
-admin.site.register(ContentModule)
 admin.site.register(SubRegion, SubRegionAdmin)
 
