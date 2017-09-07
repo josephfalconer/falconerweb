@@ -3,7 +3,7 @@ from django.db import models
 from core.models import ModuleIterable
 
 
-class Skill(ModuleIterable):
+class SkillArea(ModuleIterable):
 	pass
 
 

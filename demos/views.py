@@ -2,11 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
 
-from .models import Demo
+from .models import DemoLink
 
 
 def data(request):
-	data = Demo.objects.all()
+	data = DemoLink.objects.all()
 	serialized_data = serializers.serialize("json", data)
 
 	return HttpResponse(serialized_data)

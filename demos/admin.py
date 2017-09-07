@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .models import Demo
+from .models import DemoLink
 
 
-admin.site.register(Demo)
+admin.site.register(DemoLink)
 
