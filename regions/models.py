@@ -38,6 +38,7 @@ class Region(models.Model):
 	title = models.CharField(max_length=20, unique=True)
 	display_title = models.CharField(max_length=255, blank=True)
 	intro_text = models.TextField(blank=True)
+	center_content = models.BooleanField(default=False)
 
 	class Meta:
 		abstract = True
@@ -58,7 +59,6 @@ class SubRegion(Region):
 		to_field='title'
 	)
 	
-
 
 class ContentModule(models.Model):
 	order = models.IntegerField(default=0)
