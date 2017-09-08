@@ -14783,7 +14783,7 @@ var ModuleDemos = function (_Component) {
 						{ className: 'demosfeature__item', key: index, style: backgroundStyle },
 						_react2.default.createElement(
 							'a',
-							{ className: 'demosfeature__link', target: '_blank', rel: 'noopener noreferrer', href: 'http://localhost:3000/demos/' + demo.path },
+							{ className: 'demosfeature__link', target: '_blank', rel: 'noopener noreferrer', href: window.location.origin + '/demos/' + demo.path },
 							_react2.default.createElement(
 								'div',
 								{ className: 'demosfeature__text' },
