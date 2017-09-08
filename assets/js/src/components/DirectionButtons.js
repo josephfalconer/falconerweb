@@ -6,6 +6,12 @@ import { Link } from 'react-router-dom';
 import * as RegionActionCreators from '../actions/transitions';
 
 
+const replaceLocation = newHash => {
+	const currentLocation = window.location;
+	window.location = `${currentLocation.origin}/#/${newHash}`;
+}
+
+
 const DirectionButtons = props => {
 	const { 
 			primaryRegions, 
@@ -40,6 +46,28 @@ const DirectionButtons = props => {
 				className: `${baseClass} ${baseClass}--vert ${baseClass}--up`
 			}
 		]
+
+		let lastDeltaY = 0;
+
+		window.onwheel = e => {
+			const event = window.event || e, // old IE support
+				deltaY = event.deltaY
+
+			if (isMovingRegions) {
+				return
+			} 
+
+			if (deltaY > lastDeltaY) {
+				if (directionButtons[2].targetRegion) {
+					replaceLocation(directionButtons[2].targetRegion.path_hash);
+				}
+				
+			} else {
+				if (directionButtons[3].targetRegion) {
+					replaceLocation(directionButtons[3].targetRegion.path_hash);
+				} 
+			}
+		}
 
 		return (
 			<nav className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
