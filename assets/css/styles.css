@@ -392,10 +392,6 @@ svg {
   width: 0px;
 }
 
-.region--lighttext {
-  color: #fff;
-}
-
 .region__icon {
   display: block;
   margin: 0 auto;
@@ -429,6 +425,10 @@ svg {
 .region__icon .iconbit--at {
   -webkit-animation: pulse 3s infinite;
           animation: pulse 3s infinite;
+}
+
+.region__inner {
+  min-height: 100%;
 }
 
 .region__intro {
@@ -933,6 +933,10 @@ svg {
     line-height: 1.75rem;
     font-size: 1.125rem;
   }
+}
+
+.text--light {
+  color: #fff;
 }
 
 .text__body {

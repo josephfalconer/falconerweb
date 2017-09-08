@@ -14100,6 +14100,8 @@ var DirectionButtons = function DirectionButtons(props) {
 			    // old IE support
 			deltaY = event.deltaY;
 
+			var regionElement = document.getElementsByClassName('region')[0];
+
 			if (isMovingRegions) {
 				return;
 			}
@@ -14109,7 +14111,7 @@ var DirectionButtons = function DirectionButtons(props) {
 					replaceLocation(directionButtons[2].targetRegion.path_hash);
 				}
 			} else {
-				if (directionButtons[3].targetRegion) {
+				if (directionButtons[3].targetRegion && regionElement.scrollTop == 0) {
 					replaceLocation(directionButtons[3].targetRegion.path_hash);
 				}
 			}
@@ -14433,11 +14435,11 @@ var Region = function (_Component) {
 			    backgroundStyle = { backgroundImage: 'url(' + data.background + ')' },
 			    displayTitle = data.display_title;
 			var Icon = _Icons2.default[data.icon],
-			    regionClass = 'region region--' + data.text_colour + 'text text';
+			    regionInnerClass = 'region__inner text text--' + data.text_colour;
 
 
 			if (data.center_content) {
-				regionClass += ' center-content';
+				regionInnerClass += ' center-content';
 			}
 
 			if (Icon) {
@@ -14446,35 +14448,39 @@ var Region = function (_Component) {
 
 			return _react2.default.createElement(
 				'article',
-				{ className: regionClass, style: backgroundStyle },
+				{ className: 'region' },
 				_react2.default.createElement(
 					'div',
-					{ className: 'region__inner' },
+					{ className: regionInnerClass, style: backgroundStyle },
 					_react2.default.createElement(
-						'header',
-						null,
-						Icon && _react2.default.createElement(
-							'span',
-							{ className: 'region__icon' },
-							Icon
-						),
+						'div',
+						{ className: 'region__content' },
 						_react2.default.createElement(
-							'h1',
+							'header',
 							null,
-							displayTitle ? displayTitle : data.title
+							Icon && _react2.default.createElement(
+								'span',
+								{ className: 'region__icon' },
+								Icon
+							),
+							_react2.default.createElement(
+								'h1',
+								null,
+								displayTitle ? displayTitle : data.title
+							),
+							_react2.default.createElement('div', { className: 'region__intro', dangerouslySetInnerHTML: { __html: data.intro_text } })
 						),
-						_react2.default.createElement('div', { className: 'region__intro', dangerouslySetInnerHTML: { __html: data.intro_text } })
-					),
-					contentModules.map(function (contentModule, index) {
-						if (contentModule.region == data.title) {
-							return _react2.default.createElement(_ContentModules2.default, {
-								key: index,
-								moduleType: contentModule.module_type
-							});
-						} else {
-							return null;
-						}
-					})
+						contentModules.map(function (contentModule, index) {
+							if (contentModule.region == data.title) {
+								return _react2.default.createElement(_ContentModules2.default, {
+									key: index,
+									moduleType: contentModule.module_type
+								});
+							} else {
+								return null;
+							}
+						})
+					)
 				)
 			);
 		}

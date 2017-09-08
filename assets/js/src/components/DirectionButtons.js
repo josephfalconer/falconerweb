@@ -53,6 +53,8 @@ const DirectionButtons = props => {
 			const event = window.event || e, // old IE support
 				deltaY = event.deltaY
 
+			const regionElement = document.getElementsByClassName('region')[0];
+
 			if (isMovingRegions) {
 				return
 			} 
@@ -63,7 +65,7 @@ const DirectionButtons = props => {
 				}
 				
 			} else {
-				if (directionButtons[3].targetRegion) {
+				if (directionButtons[3].targetRegion && regionElement.scrollTop == 0) {
 					replaceLocation(directionButtons[3].targetRegion.path_hash);
 				} 
 			}

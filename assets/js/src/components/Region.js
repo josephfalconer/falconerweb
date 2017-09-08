@@ -106,10 +106,11 @@ class Region extends Component {
 			displayTitle = data.display_title;
 
 		let { [data.icon]:Icon } = Icons,
-			regionClass = `region region--${data.text_colour}text text`;
+			regionInnerClass = `region__inner text text--${data.text_colour}`;
+
 
 		if (data.center_content) {
-			regionClass +=  ' center-content';
+			regionInnerClass +=  ' center-content';
 		}
 		
 		if (Icon) {
@@ -117,26 +118,28 @@ class Region extends Component {
 		}
 
 		return (
-			<article className={regionClass} style={backgroundStyle}>
-				<div className="region__inner">
-					<header>
-						{Icon && <span className="region__icon">{Icon}</span>}
-						<h1>{displayTitle ? displayTitle : data.title}</h1>
-						<div className="region__intro" dangerouslySetInnerHTML={{__html: data.intro_text}}></div>
-					</header>
+			<article className="region">
+				<div className={regionInnerClass} style={backgroundStyle}>
+					<div className="region__content">
+						<header>
+							{Icon && <span className="region__icon">{Icon}</span>}
+							<h1>{displayTitle ? displayTitle : data.title}</h1>
+							<div className="region__intro" dangerouslySetInnerHTML={{__html: data.intro_text}}></div>
+						</header>
 
-					{contentModules.map((contentModule, index) => {	
-						if (contentModule.region == data.title) {
-							return (
-								<ContentModules 
-									key={index}
-									moduleType={contentModule.module_type} 
-								/>
-							)
-						} else {
-							return null;
-						}
-					})}
+						{contentModules.map((contentModule, index) => {	
+							if (contentModule.region == data.title) {
+								return (
+									<ContentModules 
+										key={index}
+										moduleType={contentModule.module_type} 
+									/>
+								)
+							} else {
+								return null;
+							}
+						})}
+					</div>
 				</div>
 			</article>		
 		)

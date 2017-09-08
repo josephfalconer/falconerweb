@@ -23,10 +23,6 @@
 		width: 0px;
 	}
 
-	@include m(lighttext) {
-		color: $white;
-	}
-
 	&__icon {
 		display: block;
 		margin: 0 auto;
@@ -56,6 +52,10 @@
 				animation: pulse 3s infinite;
 			}
 		}
+	}
+
+	&__inner {
+		min-height: 100%;
 	}
 
 	&__intro {

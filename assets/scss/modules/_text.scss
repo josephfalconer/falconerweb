@@ -5,6 +5,10 @@
 .text {
     @include fontsizes($font-sizes-body);
 
+    &--light {
+    	color: $white;
+    }
+
     @include e(body) {
         max-width: remcalc(800);
         margin: 0 auto;
