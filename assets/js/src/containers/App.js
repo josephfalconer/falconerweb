@@ -13,9 +13,7 @@ class Application extends Component {
         primaryRegions: PropTypes.array,
         subRegions: PropTypes.array,
         isMovingRegions: PropTypes.bool.isRequired,
-        isLastChildOutgoing: PropTypes.bool.isRequired,
-        outgoing: PropTypes.object,
-        regionsContainerClass: PropTypes.string.isRequired
+        outgoingRegion: PropTypes.object,
 	}
 
 	getCurrentSubRegions = (currentRegion, subRegions) => {
@@ -104,11 +102,11 @@ class Application extends Component {
 
 				<DirectionButtons currentSubRegions={this.currentSubRegions} />
 				
-				<main className={regionsContainerClass}>
-					{outgoingRegion && isMovingRegions && !isLastChildOutgoing &&
+				<main className="regions">
+					{outgoingRegion && isMovingRegions &&
 						<Region 
 							data={outgoingRegion} 
-							isOutgoing={true} 
+							isOutgoingRegion={true} 
 						/>
 					}
 
@@ -140,12 +138,6 @@ class Application extends Component {
 						);
 					})}
 
-					{outgoingRegion && isMovingRegions && isLastChildOutgoing &&
-						<Region 
-							data={outgoingRegion} 
-							isOutgoing={true} 
-						/>
-					}
 				</main>
 			</div>
 		)
@@ -158,9 +150,7 @@ const mapStateToProps = state => (
         subRegions: state.data.subRegions,
         currentRegion: state.transitions.currentRegion,
         isMovingRegions: state.transitions.isMovingRegions,
-        isLastChildOutgoing: state.transitions.isLastChildOutgoing,
         outgoingRegion: state.transitions.outgoingRegion,
-        regionsContainerClass: state.transitions.regionsContainerClass,
         regionsClass: state.transitions.regionsClass
     }
 );

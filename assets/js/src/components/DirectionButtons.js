@@ -16,7 +16,6 @@ const DirectionButtons = props => {
 	const { 
 			primaryRegions, 
 			currentSubRegions,
-			regionsWidth, 
 			currentRegion, 
 			isMovingRegions, 
 			regionTextColour 

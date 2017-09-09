@@ -2,26 +2,20 @@
 // Classes toggled in JS
 // =====================
 
-$regions-animation-duration: 1s;
+$regions-slide-duration: 1s;
+$regions-fade-duration: $regions-slide-duration / 2;
+$regions-sides: 'left', 'top', 'right', 'bottom';
 
-// for .js-move-left
-@keyframes in-from-right {
-	0% {
-		transform: translateX(100%);
-	}
-
-	100% {
-		transform: translateX(0);
-	}
-}
-
-@keyframes out-to-left {
-	100% {
-		transform: translateX(-100%);
+// cycle through sides applying animations
+@mixin animations($type) {
+	@each $side in $regions-sides {
+		&-#{$side} {
+			animation: #{$type}-#{$side} $regions-slide-duration;
+		}
 	}
 }
 
-// for .js-move-right
+// incoming keyframes
 @keyframes in-from-left {
 	0% {
 		transform: translateX(-100%);
@@ -32,30 +26,6 @@ $regions-animation-duration: 1s;
 	}
 }
 
-@keyframes out-to-right {
-	100% {
-		transform: translateX(100%);
-	}
-}
-
-// for .js-move-up
-@keyframes in-from-bottom {
-	0% {
-		transform: translateY(100%);
-	}
-
-	100% {
-		transform: translateY(0);
-	}
-}
-
-@keyframes out-to-top {
-	100% {
-		transform: translateY(-100%);
-	}
-}
-
-// for .js-move-down
 @keyframes in-from-top {
 	0% {
 		transform: translateY(-100%);
@@ -66,81 +36,83 @@ $regions-animation-duration: 1s;
 	}
 }
 
+@keyframes in-from-bottom {
+	0% {
+		transform: translateY(100%);
+	}
+
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@keyframes in-from-right {
+	0% {
+		transform: translateX(100%);
+	}
+
+	100% {
+		transform: translateX(0);
+	}
+}
+
+@keyframes in-from-fade {
+	100% {
+		opacity: 1;
+	}
+}
+
+// outgoing keyframes
+@keyframes out-to-left {
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+@keyframes out-to-top {
+	100% {
+		transform: translateY(-100%);
+	}
+}
+
 @keyframes out-to-bottom {
 	100% {
 		transform: translateY(100%);
 	}
 }
 
-// region transitions
+@keyframes out-to-right {
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+@keyframes out-to-fade {
+	100% {
+		opacity: 0;
+	}
+}
+
+// apply animations
 .js {
-	&-move-left {
-		.region {
-			&:first-child {
-				animation: out-to-left $regions-animation-duration;
-				z-index: $navigation-z-index - 2;
-			}
+	&-outgoing {
+		z-index: $navigation-z-index - 2;
 
-			&:last-child {
-				animation: in-from-right $regions-animation-duration;
-				z-index: $navigation-z-index - 1;
-			}
-		}
+		@include animations('out-to');	
+
+		&-fade {
+			animation: out-to-fade $regions-fade-duration forwards;
+		}	
 	}
 
-	&-move-right {
-		.region {
-			&:first-child {
-				animation: in-from-left $regions-animation-duration;
-				z-index: $navigation-z-index - 1;
-			}
+	&-incoming {
+		z-index: $navigation-z-index - 1;
 
-			&:last-child {
-				animation: out-to-right $regions-animation-duration;
-				z-index: $navigation-z-index - 2;
-			}
-		}
-	}
+		@include animations('in-from');
 
-	&-move-up {
-		.region {
-			&:first-child {
-				animation: out-to-top $regions-animation-duration;
-				z-index: $navigation-z-index - 2;
-			}
-
-			&:last-child {
-				animation: in-from-bottom $regions-animation-duration;
-				z-index: $navigation-z-index - 1;
-			}
-		}
-	}
-
-	&-move-down {
-		.region {
-			&:first-child {
-				animation: in-from-top $regions-animation-duration;
-				z-index: $navigation-z-index - 1;
-			}
-
-			&:last-child {
-				animation: out-to-bottom $regions-animation-duration;
-				z-index: $navigation-z-index - 2;
-			}
-		}
-	}
-
-	&-fade {
-		animation: fade-out-in $regions-animation-duration;
-
-		.region {
-			&:first-child {
-				z-index: $navigation-z-index - 1;
-			}
-
-			&:last-child {
-				z-index: $navigation-z-index - 2;
-			}
+		&-fade {
+			opacity: 0;
+			animation: in-from-fade $regions-fade-duration $regions-fade-duration;
 		}
 	}
 }

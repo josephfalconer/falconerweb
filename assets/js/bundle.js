@@ -7634,11 +7634,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var SET_MOVING_REGIONS = exports.SET_MOVING_REGIONS = 'data/SET_MOVING_REGIONS';
-var SET_OUTGOING_LAST_CHILD = exports.SET_OUTGOING_LAST_CHILD = 'data/SET_OUTGOING_LAST_CHILD';
 var SET_OUTGOING_REGION = exports.SET_OUTGOING_REGION = 'data/SET_OUTGOING_REGION';
 var SET_CURRENT_REGION = exports.SET_CURRENT_REGION = 'data/SET_CURRENT_REGION';
-var SET_CURRENT_SUB_REGIONS = exports.SET_CURRENT_SUB_REGIONS = 'data/SET_CURRENT_SUB_REGIONS';
-var SET_TRANSITION_CLASS = exports.SET_TRANSITION_CLASS = 'data/SET_TRANSITION_CLASS';
 var SET_TEXT_COLOUR = exports.SET_TEXT_COLOUR = 'data/SET_TEXT_COLOUR';
 
 /***/ }),
@@ -12689,10 +12686,10 @@ var Application = function (_Component) {
 				_react2.default.createElement(_DirectionButtons2.default, { currentSubRegions: this.currentSubRegions }),
 				_react2.default.createElement(
 					'main',
-					{ className: regionsContainerClass },
-					outgoingRegion && isMovingRegions && !isLastChildOutgoing && _react2.default.createElement(_Region2.default, {
+					{ className: 'regions' },
+					outgoingRegion && isMovingRegions && _react2.default.createElement(_Region2.default, {
 						data: outgoingRegion,
-						isOutgoing: true
+						isOutgoingRegion: true
 					}),
 					primaryRegions && primaryRegions.map(function (region, index) {
 						var hash = '/' + region.path_hash;
@@ -12715,10 +12712,6 @@ var Application = function (_Component) {
 								return _react2.default.createElement(_Region2.default, { data: region });
 							}
 						});
-					}),
-					outgoingRegion && isMovingRegions && isLastChildOutgoing && _react2.default.createElement(_Region2.default, {
-						data: outgoingRegion,
-						isOutgoing: true
 					})
 				)
 			);
@@ -12732,9 +12725,7 @@ Application.propTypes = {
 	primaryRegions: _react.PropTypes.array,
 	subRegions: _react.PropTypes.array,
 	isMovingRegions: _react.PropTypes.bool.isRequired,
-	isLastChildOutgoing: _react.PropTypes.bool.isRequired,
-	outgoing: _react.PropTypes.object,
-	regionsContainerClass: _react.PropTypes.string.isRequired
+	outgoingRegion: _react.PropTypes.object
 };
 
 
@@ -12744,9 +12735,7 @@ var mapStateToProps = function mapStateToProps(state) {
 		subRegions: state.data.subRegions,
 		currentRegion: state.transitions.currentRegion,
 		isMovingRegions: state.transitions.isMovingRegions,
-		isLastChildOutgoing: state.transitions.isLastChildOutgoing,
 		outgoingRegion: state.transitions.outgoingRegion,
-		regionsContainerClass: state.transitions.regionsContainerClass,
 		regionsClass: state.transitions.regionsClass
 	};
 };
@@ -14067,7 +14056,6 @@ var replaceLocation = function replaceLocation(newHash) {
 var DirectionButtons = function DirectionButtons(props) {
 	var primaryRegions = props.primaryRegions,
 	    currentSubRegions = props.currentSubRegions,
-	    regionsWidth = props.regionsWidth,
 	    currentRegion = props.currentRegion,
 	    isMovingRegions = props.isMovingRegions,
 	    regionTextColour = props.regionTextColour,
@@ -14334,52 +14322,54 @@ var Region = function (_Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Region.__proto__ || Object.getPrototypeOf(Region)).call.apply(_ref, [this].concat(args))), _this), _this.setTransitionClass = function () {
-			// compare outgoing region data - direct from Redux store -
-			// to incoming region data - passed from Application 
-			var Region = _this,
-			    _Region$props = Region.props,
-			    outgoingRegion = _Region$props.outgoingRegion,
-			    data = _Region$props.data,
-			    isSideways = outgoingRegion.y == data.y && Math.abs(outgoingRegion.x - data.x) == 1,
-			    isVertical = outgoingRegion.x == data.x && Math.abs(outgoingRegion.y - data.y) == 1,
-			    isRightwards = data.x < outgoingRegion.x,
-			    isDownwards = data.y < outgoingRegion.y,
-			    regionsClass = 'regions';
-			var timeoutDelay = Region.props.timeoutDelay,
-			    transitionClass = void 0;
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Region.__proto__ || Object.getPrototypeOf(Region)).call.apply(_ref, [this].concat(args))), _this), _this.getTransitionClass = function () {
+			// compare incoming and outgoing - Redux store
+			var _this$props = _this.props,
+			    isOutgoingRegion = _this$props.isOutgoingRegion,
+			    outgoingRegion = _this$props.outgoingRegion,
+			    currentRegion = _this$props.currentRegion,
+			    isSideways = outgoingRegion.y == currentRegion.y && Math.abs(outgoingRegion.x - currentRegion.x) == 1,
+			    isVertical = outgoingRegion.x == currentRegion.x && Math.abs(outgoingRegion.y - currentRegion.y) == 1,
+			    isLeftwards = currentRegion.x < outgoingRegion.x,
+			    isUpwards = currentRegion.y < outgoingRegion.y;
 
 
-			if (isSideways) {
+			var transitionClass = void 0;
 
-				transitionClass = isRightwards ? 'js-move-right' : 'js-move-left';
+			// outgoing
+			if (isOutgoingRegion) {
+				transitionClass = ' js-outgoing js-outgoing-';
 
-				if (isRightwards) {
-					Region.setTransitionsData(true, 'SET_OUTGOING_LAST_CHILD');
+				// exit to left or right
+				if (isSideways) {
+					transitionClass += isLeftwards ? 'right' : 'left';
+
+					// exit to top or bottom
+				} else if (isVertical) {
+					transitionClass += isUpwards ? 'bottom' : 'top';
+
+					// fade out
+				} else {
+					transitionClass += 'fade';
 				}
-			} else if (isVertical) {
 
-				transitionClass = isDownwards ? 'js-move-down' : 'js-move-up';
-
-				if (isDownwards) {
-					Region.setTransitionsData(true, 'SET_OUTGOING_LAST_CHILD');
-				}
-
-				// diagonal or more than one space
+				// incoming
 			} else {
-				transitionClass = 'js-fade';
+				transitionClass = ' js-incoming js-incoming-';
 
-				setTimeout(function () {
-					Region.setTransitionsData(false, 'SET_MOVING_REGIONS');
-				}, timeoutDelay / 2);
+				// enter from left or right
+				if (isSideways) {
+					transitionClass += isLeftwards ? 'left' : 'right';
+
+					// enter from top or bottom
+				} else if (isVertical) {
+					transitionClass += isUpwards ? 'top' : 'bottom';
+
+					// fade in
+				} else {
+					transitionClass += 'fade';
+				}
 			}
-
-			Region.setTransitionsData(regionsClass + ' ' + transitionClass, 'SET_TRANSITION_CLASS');
-
-			setTimeout(function () {
-				Region.setTransitionsData(false, 'SET_OUTGOING_LAST_CHILD');
-				Region.setTransitionsData('' + regionsClass, 'SET_TRANSITION_CLASS');
-			}, timeoutDelay);
 
 			return transitionClass;
 		}, _temp), _possibleConstructorReturn(_this, _ret);
@@ -14389,39 +14379,32 @@ var Region = function (_Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			var Region = this,
-			    _Region$props2 = Region.props,
-			    dispatch = _Region$props2.dispatch,
-			    outgoingRegion = _Region$props2.outgoingRegion,
-			    data = _Region$props2.data,
-			    isOutgoing = _Region$props2.isOutgoing;
-			var timeoutDelay = Region.props.timeoutDelay;
+			    _Region$props = Region.props,
+			    dispatch = _Region$props.dispatch,
+			    data = _Region$props.data,
+			    isOutgoingRegion = _Region$props.isOutgoingRegion,
+			    timeoutDelay = _Region$props.timeoutDelay;
 
-			// incoming region determines transition
-
-			if (isOutgoing) {
+			// outgoing region is only presentational
+			if (isOutgoingRegion) {
 				return;
 			}
 
-			Region.setTransitionsData = (0, _redux.bindActionCreators)(RegionActionCreators.setTransitionsData, dispatch);
+			var setTransitionsData = (0, _redux.bindActionCreators)(RegionActionCreators.setTransitionsData, dispatch);
 
-			// direction buttons depend on currentRegion in Redux state
-			Region.setTransitionsData(data, 'SET_CURRENT_REGION');
+			// allows direction buttons to render
+			setTransitionsData(data, 'SET_CURRENT_REGION');
 
-			// nav/direction buttons need this
-			Region.setTransitionsData(data.text_colour, 'SET_TEXT_COLOUR');
+			// allows outgoing region to render
+			setTransitionsData(true, 'SET_MOVING_REGIONS');
 
-			if (outgoingRegion) {
-				var transitionClass = Region.setTransitionClass();
-			}
+			// affects styles for nav and direction buttons
+			setTransitionsData(data.text_colour, 'SET_TEXT_COLOUR');
 
-			// allow outgoing shadow region to render
-			Region.setTransitionsData(true, 'SET_MOVING_REGIONS');
-
-			// outgoing shadow region not rendered 
-			// next transition will show this Region instance outgoing
+			// next transition shows this Region instance as outgoing
 			setTimeout(function () {
-				Region.setTransitionsData(false, 'SET_MOVING_REGIONS');
-				Region.setTransitionsData(data, 'SET_OUTGOING_REGION');
+				setTransitionsData(false, 'SET_MOVING_REGIONS');
+				setTransitionsData(data, 'SET_OUTGOING_REGION');
 			}, timeoutDelay);
 		}
 	}, {
@@ -14430,13 +14413,17 @@ var Region = function (_Component) {
 			var _props = this.props,
 			    data = _props.data,
 			    contentModules = _props.contentModules,
-			    offsetStyles = _props.offsetStyles,
-			    isSubRegion = _props.isSubRegion,
-			    backgroundStyle = { backgroundImage: 'url(' + data.background + ')' },
-			    displayTitle = data.display_title;
+			    outgoingRegion = _props.outgoingRegion,
+			    isMovingRegions = _props.isMovingRegions,
+			    backgroundStyle = { backgroundImage: 'url(' + data.background + ')' };
 			var Icon = _Icons2.default[data.icon],
-			    regionInnerClass = 'region__inner text text--' + data.text_colour;
+			    regionInnerClass = 'region__inner text text--' + data.text_colour,
+			    regionClass = 'region';
 
+			// apply an animation 
+			if (outgoingRegion && isMovingRegions) {
+				regionClass += this.getTransitionClass();
+			}
 
 			if (data.center_content) {
 				regionInnerClass += ' center-content';
@@ -14448,7 +14435,7 @@ var Region = function (_Component) {
 
 			return _react2.default.createElement(
 				'article',
-				{ className: 'region' },
+				{ className: regionClass },
 				_react2.default.createElement(
 					'div',
 					{ className: regionInnerClass, style: backgroundStyle },
@@ -14466,7 +14453,7 @@ var Region = function (_Component) {
 							_react2.default.createElement(
 								'h1',
 								null,
-								displayTitle ? displayTitle : data.title
+								data.display_title || data.title
 							),
 							_react2.default.createElement('div', { className: 'region__intro', dangerouslySetInnerHTML: { __html: data.intro_text } })
 						),
@@ -14492,16 +14479,18 @@ var Region = function (_Component) {
 Region.propTypes = {
 	data: _react.PropTypes.object.isRequired,
 	outgoingRegion: _react.PropTypes.object,
-	contentModules: _react.PropTypes.array,
-	isOutgoing: _react.PropTypes.bool,
-	isSubRegion: _react.PropTypes.bool
+	currentRegion: _react.PropTypes.object,
+	isOutgoingRegion: _react.PropTypes.bool,
+	contentModules: _react.PropTypes.array
 };
 
 
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		contentModules: state.data.contentModules,
+		isMovingRegions: state.transitions.isMovingRegions,
 		outgoingRegion: state.transitions.outgoingRegion,
+		currentRegion: state.transitions.currentRegion,
 		timeoutDelay: state.transitions.regionTransitionTimeout
 	};
 };
@@ -15298,11 +15287,8 @@ var RegionActionTypes = _interopRequireWildcard(_transitions);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var initialState = {
-	regionsWidth: 4,
 	isMovingRegions: false,
-	isLastChildOutgoing: false,
 	regionTransitionTimeout: 1000,
-	regionsContainerClass: 'regions',
 	currentTextColour: 'light'
 };
 
@@ -15327,24 +15313,10 @@ function Regions() {
 				});
 			}
 
-		case RegionActionTypes.SET_OUTGOING_LAST_CHILD:
-			{
-				return _extends({}, state, {
-					isLastChildOutgoing: action.data
-				});
-			}
-
 		case RegionActionTypes.SET_CURRENT_REGION:
 			{
 				return _extends({}, state, {
 					currentRegion: action.data
-				});
-			}
-
-		case RegionActionTypes.SET_TRANSITION_CLASS:
-			{
-				return _extends({}, state, {
-					regionsContainerClass: action.data
 				});
 			}
 
