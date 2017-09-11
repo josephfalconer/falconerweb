@@ -12537,9 +12537,13 @@ var _Navigation = __webpack_require__(136);
 
 var _Navigation2 = _interopRequireDefault(_Navigation);
 
-var _Region = __webpack_require__(137);
+var _IncomingRegion = __webpack_require__(323);
 
-var _Region2 = _interopRequireDefault(_Region);
+var _IncomingRegion2 = _interopRequireDefault(_IncomingRegion);
+
+var _OutgoingRegion = __webpack_require__(322);
+
+var _OutgoingRegion2 = _interopRequireDefault(_OutgoingRegion);
 
 var _DirectionButtons = __webpack_require__(135);
 
@@ -12653,10 +12657,7 @@ var Application = function (_Component) {
 			    primaryRegions = _props.primaryRegions,
 			    currentRegion = _props.currentRegion,
 			    subRegions = _props.subRegions,
-			    isMovingRegions = _props.isMovingRegions,
-			    isLastChildOutgoing = _props.isLastChildOutgoing,
-			    outgoingRegion = _props.outgoingRegion,
-			    regionsContainerClass = _props.regionsContainerClass;
+			    outgoingRegion = _props.outgoingRegion;
 
 			// TODO: temporary hack until I properly understand nested routes
 			// if no current region
@@ -12687,10 +12688,7 @@ var Application = function (_Component) {
 				_react2.default.createElement(
 					'main',
 					{ className: 'regions' },
-					outgoingRegion && isMovingRegions && _react2.default.createElement(_Region2.default, {
-						data: outgoingRegion,
-						isOutgoingRegion: true
-					}),
+					outgoingRegion && isMovingRegions && _react2.default.createElement(_OutgoingRegion2.default, { data: outgoingRegion }),
 					primaryRegions && primaryRegions.map(function (region, index) {
 						var hash = '/' + region.path_hash;
 						return _react2.default.createElement(_reactRouterDom.Route, {
@@ -12698,7 +12696,7 @@ var Application = function (_Component) {
 							exact: true,
 							path: hash,
 							render: function render() {
-								return _react2.default.createElement(_Region2.default, { data: region });
+								return _react2.default.createElement(_IncomingRegion2.default, { data: region });
 							}
 						});
 					}),
@@ -12709,7 +12707,7 @@ var Application = function (_Component) {
 							exact: true,
 							path: hash,
 							render: function render() {
-								return _react2.default.createElement(_Region2.default, { data: region });
+								return _react2.default.createElement(_IncomingRegion2.default, { data: region });
 							}
 						});
 					})
@@ -14276,15 +14274,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(16);
-
-var _redux = __webpack_require__(21);
 
 var _Icons = __webpack_require__(77);
 
@@ -14302,196 +14296,70 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Region = function (_Component) {
-	_inherits(Region, _Component);
-
-	function Region() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
-		_classCallCheck(this, Region);
-
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Region.__proto__ || Object.getPrototypeOf(Region)).call.apply(_ref, [this].concat(args))), _this), _this.getTransitionClass = function () {
-			// compare incoming and outgoing - Redux store
-			var _this$props = _this.props,
-			    isOutgoingRegion = _this$props.isOutgoingRegion,
-			    outgoingRegion = _this$props.outgoingRegion,
-			    currentRegion = _this$props.currentRegion,
-			    isSideways = outgoingRegion.y == currentRegion.y && Math.abs(outgoingRegion.x - currentRegion.x) == 1,
-			    isVertical = outgoingRegion.x == currentRegion.x && Math.abs(outgoingRegion.y - currentRegion.y) == 1,
-			    isLeftwards = currentRegion.x < outgoingRegion.x,
-			    isUpwards = currentRegion.y < outgoingRegion.y;
+var Region = function Region(props) {
+	var data = props.data,
+	    contentModules = props.contentModules,
+	    backgroundStyle = { backgroundImage: 'url(' + data.background + ')' };
+	var Icon = _Icons2.default[data.icon],
+	    regionInnerClass = 'region__inner text text--' + data.text_colour;
 
 
-			var transitionClass = void 0;
-
-			// outgoing
-			if (isOutgoingRegion) {
-				transitionClass = ' js-outgoing js-outgoing-';
-
-				// exit to left or right
-				if (isSideways) {
-					transitionClass += isLeftwards ? 'right' : 'left';
-
-					// exit to top or bottom
-				} else if (isVertical) {
-					transitionClass += isUpwards ? 'bottom' : 'top';
-
-					// fade out
-				} else {
-					transitionClass += 'fade';
-				}
-
-				// incoming
-			} else {
-				transitionClass = ' js-incoming js-incoming-';
-
-				// enter from left or right
-				if (isSideways) {
-					transitionClass += isLeftwards ? 'left' : 'right';
-
-					// enter from top or bottom
-				} else if (isVertical) {
-					transitionClass += isUpwards ? 'top' : 'bottom';
-
-					// fade in
-				} else {
-					transitionClass += 'fade';
-				}
-			}
-
-			return transitionClass;
-		}, _temp), _possibleConstructorReturn(_this, _ret);
+	if (data.center_content) {
+		regionInnerClass += ' center-content';
 	}
 
-	_createClass(Region, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			var Region = this,
-			    _Region$props = Region.props,
-			    dispatch = _Region$props.dispatch,
-			    data = _Region$props.data,
-			    isOutgoingRegion = _Region$props.isOutgoingRegion,
-			    timeoutDelay = _Region$props.timeoutDelay;
+	if (Icon) {
+		Icon = Icon.call();
+	}
 
-			// outgoing region is only presentational
-			if (isOutgoingRegion) {
-				return;
-			}
-
-			var setTransitionsData = (0, _redux.bindActionCreators)(RegionActionCreators.setTransitionsData, dispatch);
-
-			// allows direction buttons to render
-			setTransitionsData(data, 'SET_CURRENT_REGION');
-
-			// allows outgoing region to render
-			setTransitionsData(true, 'SET_MOVING_REGIONS');
-
-			// affects styles for nav and direction buttons
-			setTransitionsData(data.text_colour, 'SET_TEXT_COLOUR');
-
-			// next transition shows this Region instance as outgoing
-			setTimeout(function () {
-				setTransitionsData(false, 'SET_MOVING_REGIONS');
-				setTransitionsData(data, 'SET_OUTGOING_REGION');
-			}, timeoutDelay);
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _props = this.props,
-			    data = _props.data,
-			    contentModules = _props.contentModules,
-			    outgoingRegion = _props.outgoingRegion,
-			    isMovingRegions = _props.isMovingRegions,
-			    backgroundStyle = { backgroundImage: 'url(' + data.background + ')' };
-			var Icon = _Icons2.default[data.icon],
-			    regionInnerClass = 'region__inner text text--' + data.text_colour,
-			    regionClass = 'region';
-
-			// apply an animation 
-			if (outgoingRegion && isMovingRegions) {
-				regionClass += this.getTransitionClass();
-			}
-
-			if (data.center_content) {
-				regionInnerClass += ' center-content';
-			}
-
-			if (Icon) {
-				Icon = Icon.call();
-			}
-
-			return _react2.default.createElement(
-				'article',
-				{ className: regionClass },
+	return _react2.default.createElement(
+		'article',
+		{ className: props.regionClass },
+		_react2.default.createElement(
+			'div',
+			{ className: regionInnerClass, style: backgroundStyle },
+			_react2.default.createElement(
+				'div',
+				{ className: 'region__content' },
 				_react2.default.createElement(
-					'div',
-					{ className: regionInnerClass, style: backgroundStyle },
+					'header',
+					null,
+					Icon && _react2.default.createElement(
+						'span',
+						{ className: 'region__icon' },
+						Icon
+					),
 					_react2.default.createElement(
-						'div',
-						{ className: 'region__content' },
-						_react2.default.createElement(
-							'header',
-							null,
-							Icon && _react2.default.createElement(
-								'span',
-								{ className: 'region__icon' },
-								Icon
-							),
-							_react2.default.createElement(
-								'h1',
-								null,
-								data.display_title || data.title
-							),
-							_react2.default.createElement('div', { className: 'region__intro', dangerouslySetInnerHTML: { __html: data.intro_text } })
-						),
-						contentModules.map(function (contentModule, index) {
-							if (contentModule.region == data.title) {
-								return _react2.default.createElement(_ContentModules2.default, {
-									key: index,
-									moduleType: contentModule.module_type
-								});
-							} else {
-								return null;
-							}
-						})
-					)
-				)
-			);
-		}
-	}]);
-
-	return Region;
-}(_react.Component);
+						'h1',
+						null,
+						data.display_title || data.title
+					),
+					_react2.default.createElement('div', { className: 'region__intro', dangerouslySetInnerHTML: { __html: data.intro_text } })
+				),
+				contentModules.map(function (contentModule, index) {
+					if (contentModule.region == data.title) {
+						return _react2.default.createElement(_ContentModules2.default, {
+							key: index,
+							moduleType: contentModule.module_type
+						});
+					} else {
+						return null;
+					}
+				})
+			)
+		)
+	);
+};
 
 Region.propTypes = {
 	data: _react.PropTypes.object.isRequired,
-	outgoingRegion: _react.PropTypes.object,
-	currentRegion: _react.PropTypes.object,
-	isOutgoingRegion: _react.PropTypes.bool,
-	contentModules: _react.PropTypes.array
+	contentModules: _react.PropTypes.array,
+	regionClass: _react.PropTypes.string.isRequired
 };
-
 
 var mapStateToProps = function mapStateToProps(state) {
 	return {
-		contentModules: state.data.contentModules,
-		isMovingRegions: state.transitions.isMovingRegions,
-		outgoingRegion: state.transitions.outgoingRegion,
-		currentRegion: state.transitions.currentRegion,
-		timeoutDelay: state.transitions.regionTransitionTimeout
+		contentModules: state.data.contentModules
 	};
 };
 
@@ -31929,6 +31797,229 @@ module.exports = function(module) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(16);
+
+var _Region = __webpack_require__(137);
+
+var _Region2 = _interopRequireDefault(_Region);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var OutgoingRegion = function OutgoingRegion(props) {
+	// compare incoming and outgoing - Redux store
+	var data = props.data,
+	    outgoingRegion = props.outgoingRegion,
+	    currentRegion = props.currentRegion,
+	    isSideways = outgoingRegion.y == currentRegion.y && Math.abs(outgoingRegion.x - currentRegion.x) == 1,
+	    isVertical = outgoingRegion.x == currentRegion.x && Math.abs(outgoingRegion.y - currentRegion.y) == 1,
+	    isLeftwards = currentRegion.x < outgoingRegion.x,
+	    isUpwards = currentRegion.y < outgoingRegion.y;
+
+
+	var regionClass = 'region js-outgoing js-outgoing-';
+
+	// exit to left or right
+	if (isSideways) {
+		regionClass += isLeftwards ? 'right' : 'left';
+
+		// exit to top or bottom
+	} else if (isVertical) {
+		regionClass += isUpwards ? 'bottom' : 'top';
+
+		// fade out
+	} else {
+		regionClass += 'fade';
+	}
+
+	return _react2.default.createElement(_Region2.default, {
+		data: data,
+		regionClass: regionClass
+	});
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+	return {
+		outgoingRegion: state.transitions.outgoingRegion,
+		currentRegion: state.transitions.currentRegion
+	};
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(OutgoingRegion);
+
+/***/ }),
+/* 323 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(16);
+
+var _redux = __webpack_require__(21);
+
+var _Region = __webpack_require__(137);
+
+var _Region2 = _interopRequireDefault(_Region);
+
+var _transitions = __webpack_require__(74);
+
+var TransitionActionCreators = _interopRequireWildcard(_transitions);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var IncomingRegion = function (_Component) {
+	_inherits(IncomingRegion, _Component);
+
+	function IncomingRegion() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		_classCallCheck(this, IncomingRegion);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = IncomingRegion.__proto__ || Object.getPrototypeOf(IncomingRegion)).call.apply(_ref, [this].concat(args))), _this), _this.getTransitonClass = function () {
+			// compare incoming and outgoing - Redux store
+			var _this$props = _this.props,
+			    outgoingRegion = _this$props.outgoingRegion,
+			    currentRegion = _this$props.currentRegion,
+			    isSideways = outgoingRegion.y == currentRegion.y && Math.abs(outgoingRegion.x - currentRegion.x) == 1,
+			    isVertical = outgoingRegion.x == currentRegion.x && Math.abs(outgoingRegion.y - currentRegion.y) == 1,
+			    isLeftwards = currentRegion.x < outgoingRegion.x,
+			    isUpwards = currentRegion.y < outgoingRegion.y;
+
+
+			var transitionClass = ' js-incoming js-incoming-';
+
+			// enter from left or right
+			if (isSideways) {
+				transitionClass += isLeftwards ? 'left' : 'right';
+
+				// enter from top or bottom
+			} else if (isVertical) {
+				transitionClass += isUpwards ? 'top' : 'bottom';
+
+				// fade in
+			} else {
+				transitionClass += 'fade';
+			}
+
+			return transitionClass;
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
+
+	_createClass(IncomingRegion, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _props = this.props,
+			    dispatch = _props.dispatch,
+			    data = _props.data,
+			    timeoutDelay = _props.timeoutDelay;
+
+
+			var setTransitionsData = (0, _redux.bindActionCreators)(TransitionActionCreators.setTransitionsData, dispatch);
+
+			// allows direction buttons to render
+			setTransitionsData(data, 'SET_CURRENT_REGION');
+
+			// allows outgoing region to render
+			setTransitionsData(true, 'SET_MOVING_REGIONS');
+
+			// affects styles for nav and direction buttons
+			setTransitionsData(data.text_colour, 'SET_TEXT_COLOUR');
+
+			// next transition shows this Region instance as outgoing
+			setTimeout(function () {
+				setTransitionsData(false, 'SET_MOVING_REGIONS');
+				setTransitionsData(data, 'SET_OUTGOING_REGION');
+			}, timeoutDelay);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _props2 = this.props,
+			    data = _props2.data,
+			    outgoingRegion = _props2.outgoingRegion,
+			    isMovingRegions = _props2.isMovingRegions;
+
+
+			var regionClass = 'region';
+
+			// apply an animation 
+			if (outgoingRegion && isMovingRegions) {
+				regionClass += this.getTransitonClass();
+			}
+
+			return _react2.default.createElement(_Region2.default, {
+				data: data,
+				regionClass: regionClass
+			});
+		}
+	}]);
+
+	return IncomingRegion;
+}(_react.Component);
+
+IncomingRegion.propTypes = {
+	data: _react.PropTypes.object.isRequired,
+	outgoingRegion: _react.PropTypes.object,
+	currentRegion: _react.PropTypes.object,
+	timeoutDelay: _react.PropTypes.number.isRequired,
+	dispatch: _react.PropTypes.func.isRequired
+};
+
+
+var mapStateToProps = function mapStateToProps(state) {
+	return {
+		isMovingRegions: state.transitions.isMovingRegions,
+		outgoingRegion: state.transitions.outgoingRegion,
+		currentRegion: state.transitions.currentRegion,
+		timeoutDelay: state.transitions.regionTransitionTimeout
+	};
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(IncomingRegion);
 
 /***/ })
 /******/ ]);

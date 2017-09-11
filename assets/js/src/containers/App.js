@@ -4,7 +4,8 @@ import { Route } from 'react-router-dom';
 
 import DataFetcher from './DataFetcher';
 import Navigation from '../components/Navigation';
-import Region from '../components/Region';
+import IncomingRegion from '../components/IncomingRegion';
+import OutgoingRegion from '../components/OutgoingRegion';
 import DirectionButtons from '../components/DirectionButtons';
 
 class Application extends Component {
@@ -63,23 +64,13 @@ class Application extends Component {
 	isSetSubRegions = false;
 
 	render() {	
-		const { 
-			primaryRegions, 
-			currentRegion,
-			subRegions,
-			isMovingRegions, 
-			isLastChildOutgoing, 
-			outgoingRegion, 
-			regionsContainerClass,
-		} = this.props;
-
+		const { primaryRegions, currentRegion, subRegions, outgoingRegion, } = this.props;
 
 		// TODO: temporary hack until I properly understand nested routes
 		// if no current region
 		if (subRegions && !currentRegion) {
 			this.getCurrentSubRegionsFromLocation(primaryRegions, subRegions);
 		}
-
 
 		// set current page regions when page first loads
 		if (currentRegion && subRegions.length && !this.isSetSubRegions) {
@@ -104,10 +95,7 @@ class Application extends Component {
 				
 				<main className="regions">
 					{outgoingRegion && isMovingRegions &&
-						<Region 
-							data={outgoingRegion} 
-							isOutgoingRegion={true} 
-						/>
+						<OutgoingRegion data={outgoingRegion} />
 					}
 
 					{primaryRegions && primaryRegions.map((region, index) => {
@@ -118,7 +106,7 @@ class Application extends Component {
 								exact
 								path={hash}
 								render={() => (
-									<Region data={region}/>
+									<IncomingRegion data={region}/>
 								)} 						
 							/>
 						);
@@ -132,7 +120,7 @@ class Application extends Component {
 								exact
 								path={hash}
 								render={() => (
-									<Region data={region} />
+									<IncomingRegion data={region} />
 								)} 						
 							/>
 						);
