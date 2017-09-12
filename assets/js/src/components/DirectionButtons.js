@@ -5,23 +5,26 @@ import { Link } from 'react-router-dom';
 
 import * as TransitionActionCreators from '../actions/transitions';
 
+const baseSelector = 'region',
+	incomingSelector = 'js-incoming',
+	outgoingSelector = 'js-outgoing';
 
 const transitionSelectors = {
 	prev: {
-		outgoing: 'js-outgoing-right',
-		incoming: 'js-incoming-left'
+		outgoing: `${baseSelector} ${outgoingSelector} ${outgoingSelector}-right`,
+		incoming: `${baseSelector} ${incomingSelector} ${incomingSelector}-left`
 	},
 	up: {
-		outgoing: 'js-outgoing-bottom',
-		incoming: 'js-incoming-top'
+		outgoing: `${baseSelector} ${outgoingSelector} ${outgoingSelector}-bottom`,
+		incoming: `${baseSelector} ${incomingSelector} ${incomingSelector}-top`
 	},
 	next: {
-		outgoing: 'js-outgoing-left',
-		incoming: 'js-incoming-right'
+		outgoing: `${baseSelector} ${outgoingSelector} ${outgoingSelector}-left`,
+		incoming: `${baseSelector} ${incomingSelector} ${incomingSelector}-right`
 	},
 	down: {
-		outgoing: 'js-outgoing-top',
-		incoming: 'js-incoming-bottom'
+		outgoing: `${baseSelector} ${outgoingSelector} ${outgoingSelector}-top`,
+		incoming: `${baseSelector} ${incomingSelector} ${incomingSelector}-bottom`
 	}
 }
 
@@ -139,7 +142,7 @@ class DirectionButtons extends Component {
 							<Link 
 								key={index}
 								to={button.targetRegion.path_hash}
-								onClick={e => { this.directionClick(e); }} 
+								onClick={e => { this.directionClick(e, button.name); }} 
 								className={`direction direction--${button.name}`}
 							>
 								<span className="direction__inner">

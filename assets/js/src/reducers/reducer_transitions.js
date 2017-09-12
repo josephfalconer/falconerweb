@@ -31,6 +31,13 @@ export default function Transitions(state=initialState, action) {
 			};
 		}
 
+		case TransitionActionTypes.SET_CLASS_SELECTORS: {
+			return {
+				...state,
+				transitionSelectors: action.data
+			};
+		}
+
 		case TransitionActionTypes.SET_TEXT_COLOUR: {
 			return {
 				...state,
