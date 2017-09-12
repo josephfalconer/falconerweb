@@ -1,4 +1,4 @@
-import * as RegionActionTypes from '../actiontypes/transitions';
+import * as TransitionActionTypes from '../actiontypes/transitions';
 
 const initialState = {
 	isMovingRegions: false,
@@ -6,32 +6,32 @@ const initialState = {
 	currentTextColour: 'light',
 }
 
-export default function Regions(state=initialState, action) {
+export default function Transitions(state=initialState, action) {
 
 	switch(action.type) {
 
-		case RegionActionTypes.SET_MOVING_REGIONS: {
+		case TransitionActionTypes.SET_MOVING_REGIONS: {
 			return {
 				...state,
 				isMovingRegions: action.data
 			};
 		}
 
-		case RegionActionTypes.SET_OUTGOING_REGION: {
+		case TransitionActionTypes.SET_OUTGOING_REGION: {
 			return {
 				...state,
 				outgoingRegion: action.data
 			};
 		}
 
-		case RegionActionTypes.SET_CURRENT_REGION: {
+		case TransitionActionTypes.SET_CURRENT_REGION: {
 			return {
 				...state,
 				currentRegion: action.data
 			};
 		}
 
-		case RegionActionTypes.SET_TEXT_COLOUR: {
+		case TransitionActionTypes.SET_TEXT_COLOUR: {
 			return {
 				...state,
 				currentTextColour: action.data

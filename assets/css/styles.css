@@ -436,6 +436,44 @@ svg {
   max-width: 43.75rem;
 }
 
+.direction--up, .direction--down {
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.direction--up .direction__text, .direction--down .direction__text {
+  left: -2.1875rem;
+  width: 6.25rem;
+  text-align: center;
+}
+
+.direction--up:hover i, .direction--down:hover i {
+  -webkit-transform: translate(-10px, 10px) rotate(45deg);
+          transform: translate(-10px, 10px) rotate(45deg);
+}
+
+.direction--up:hover i:first-of-type, .direction--down:hover i:first-of-type {
+  -webkit-transform: translate(10px, -10px) rotate(45deg);
+          transform: translate(10px, -10px) rotate(45deg);
+}
+
+.direction--prev, .direction--next {
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.direction--prev:hover i:first-of-type, .direction--next:hover i:first-of-type {
+  -webkit-transform: rotate(135deg);
+          transform: rotate(135deg);
+}
+
+.direction--prev:hover i:last-of-type, .direction--next:hover i:last-of-type {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+
 .directions--background .direction {
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -457,44 +495,6 @@ svg {
   -webkit-animation: none;
           animation: none;
   opacity: 0;
-}
-
-.direction--side {
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-}
-
-.direction--side:hover i:first-of-type {
-  -webkit-transform: rotate(135deg);
-          transform: rotate(135deg);
-}
-
-.direction--side:hover i:last-of-type {
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-}
-
-.direction--vert {
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
-}
-
-.direction--vert .direction__text {
-  left: -2.1875rem;
-  width: 6.25rem;
-  text-align: center;
-}
-
-.direction--vert:hover i {
-  -webkit-transform: translate(-10px, 10px) rotate(45deg);
-          transform: translate(-10px, 10px) rotate(45deg);
-}
-
-.direction--vert:hover i:first-of-type {
-  -webkit-transform: translate(10px, -10px) rotate(45deg);
-          transform: translate(10px, -10px) rotate(45deg);
 }
 
 .direction--prev {

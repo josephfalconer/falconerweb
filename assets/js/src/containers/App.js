@@ -64,7 +64,7 @@ class Application extends Component {
 	isSetSubRegions = false;
 
 	render() {	
-		const { primaryRegions, currentRegion, subRegions, outgoingRegion, } = this.props;
+		const { primaryRegions, currentRegion, subRegions, outgoingRegion, isMovingRegions} = this.props;
 
 		// TODO: temporary hack until I properly understand nested routes
 		// if no current region

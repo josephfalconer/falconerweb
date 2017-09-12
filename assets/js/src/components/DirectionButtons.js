@@ -1,10 +1,29 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
-import * as RegionActionCreators from '../actions/transitions';
+import * as TransitionActionCreators from '../actions/transitions';
 
+
+const transitionSelectors = {
+	prev: {
+		outgoing: 'js-outgoing-right',
+		incoming: 'js-incoming-left'
+	},
+	up: {
+		outgoing: 'js-outgoing-bottom',
+		incoming: 'js-incoming-top'
+	},
+	next: {
+		outgoing: 'js-outgoing-left',
+		incoming: 'js-incoming-right'
+	},
+	down: {
+		outgoing: 'js-outgoing-top',
+		incoming: 'js-incoming-bottom'
+	}
+}
 
 const replaceLocation = newHash => {
 	const currentLocation = window.location;
@@ -12,45 +31,70 @@ const replaceLocation = newHash => {
 }
 
 
-const DirectionButtons = props => {
-	const { 
-			primaryRegions, 
-			currentSubRegions,
-			currentRegion, 
-			isMovingRegions, 
-			regionTextColour 
-		} = props,
-		baseClass = 'direction';
+class DirectionButtons extends Component {
 
-	if (primaryRegions && currentRegion) {
-		const directionButtons = [
-			{
-				condition: true,
-				targetRegion: primaryRegions[currentRegion.index - 1],
-				className: `${baseClass} ${baseClass}--side ${baseClass}--prev`
-			},
-			{
-				condition: true,
-				targetRegion: primaryRegions[currentRegion.index + 1],
-				className: `${baseClass} ${baseClass}--side ${baseClass}--next`
-			},
-			{
-				condition: true,
-				targetRegion: currentSubRegions[currentRegion.y],
-				className: `${baseClass} ${baseClass}--vert ${baseClass}--down`
-			},
-			{
-				condition: currentRegion.y > 0,
-				targetRegion: currentSubRegions[currentRegion.y - 2] || primaryRegions[currentRegion.x],
-				className: `${baseClass} ${baseClass}--vert ${baseClass}--up`
-			}
-		]
+	static propTypes = {
+		primaryRegions: PropTypes.array,
+		currentSubRegions: PropTypes.array.isRequired,
+		currentRegion: PropTypes.object,
+		isMovingRegions: PropTypes.bool.isRequired,
+		regionTextColour: PropTypes.string.isRequired,
+	}
 
+	state = {
+		buttons: []
+	}
+
+	componentDidMount() {
+		this.updateButtons();
+		this.handleOnWheel();
+	}
+
+	componentWillReceiveProps() {
+		this.updateButtons();
+	}
+
+	updateButtons = () => {
+		const { primaryRegions, currentRegion, currentSubRegions } = this.props;
+
+		if (!currentRegion) {
+			return;
+		}
+
+		this.setState({
+			buttons: [
+				{
+					condition: true,
+					targetRegion: primaryRegions[currentRegion.index - 1],
+					name: 'prev'
+				},
+				{
+					condition: true,
+					targetRegion: primaryRegions[currentRegion.index + 1],
+					name: 'next'
+				},
+				{
+					condition: true,
+					targetRegion: currentSubRegions[currentRegion.y],
+					name: 'down'
+				},
+				{
+					condition: currentRegion.y > 0,
+					targetRegion: currentSubRegions[currentRegion.y - 2] || primaryRegions[currentRegion.x],
+					name: 'up'
+				}
+			]
+		});
+	}
+
+	handleOnWheel = () => {
 		let lastDeltaY = 0;
 
 		window.onwheel = e => {
 			const event = window.event || e, // old IE support
-				deltaY = event.deltaY
+				deltaY = event.deltaY,
+				{ buttons } = this.state,
+				{ isMovingRegions } = this.props;
 
 			const regionElement = document.getElementsByClassName('region')[0];
 
@@ -59,27 +103,44 @@ const DirectionButtons = props => {
 			} 
 
 			if (deltaY > lastDeltaY) {
-				if (directionButtons[2].targetRegion) {
-					replaceLocation(directionButtons[2].targetRegion.path_hash);
+				if (buttons[2].targetRegion) {
+					replaceLocation(buttons[2].targetRegion.path_hash);
 				}
 				
 			} else {
-				if (directionButtons[3].targetRegion && regionElement.scrollTop == 0) {
-					replaceLocation(directionButtons[3].targetRegion.path_hash);
+				if (buttons[3].targetRegion && regionElement.scrollTop == 0) {
+					replaceLocation(buttons[3].targetRegion.path_hash);
 				} 
 			}
 		}
+	}
+
+	directionClick = (e, name) => {
+		const { dispatch, isMovingRegions } = this.props,
+			updateTransitions = bindActionCreators(TransitionActionCreators.updateTransitions, dispatch);
+
+		if (isMovingRegions) {
+			e.preventDefault();
+			return;
+		}
+
+		updateTransitions(transitionSelectors[name], 'SET_CLASS_SELECTORS');
+	}
+
+	render() {
+		const { isMovingRegions, regionTextColour } = this.props,
+			{ buttons } = this.state;
 
 		return (
 			<nav className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
-				{directionButtons.map((button, index) => {
+				{buttons.map((button, index) => {
 					if (button.condition && button.targetRegion) {
 						return (
 							<Link 
 								key={index}
 								to={button.targetRegion.path_hash}
-								onClick={e => { if (isMovingRegions) e.preventDefault(); }} 
-								className={button.className}
+								onClick={e => { this.directionClick(e); }} 
+								className={`direction direction--${button.name}`}
 							>
 								<span className="direction__inner">
 									<span className="direction__text">{button.targetRegion.title}</span>
@@ -94,27 +155,19 @@ const DirectionButtons = props => {
 						return null;
 					}
 				})}
-			</nav>		
+			</nav>	
 		)
-	} else {
-		return null
 	}
+	
 }
 
-DirectionButtons.propTypes = {
-	primaryRegions: PropTypes.array,
-	currentSubRegions: PropTypes.array.isRequired,
-	currentRegion: PropTypes.object,
-	isMovingRegions: PropTypes.bool.isRequired,
-	regionTextColour: PropTypes.string.isRequired,
-}
 
 const mapStateToProps = state => (
     {	
     	primaryRegions: state.data.primaryRegions,
     	currentRegion: state.transitions.currentRegion,
     	isMovingRegions: state.transitions.isMovingRegions,
-    	regionTextColour: state.transitions.currentTextColour,
+    	regionTextColour: state.transitions.currentTextColour
     }
 );
 

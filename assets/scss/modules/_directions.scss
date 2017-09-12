@@ -5,6 +5,45 @@
 $direction-offset: 20;
 $direction-size: 30;
 
+
+%vertical-direction {
+	left: 50%;
+	transform: translateX(-50%);
+
+	.direction__text {
+		left: remcalc(-35);
+		width: remcalc(100);
+		text-align: center;
+	}
+
+	&:hover {
+		i {
+			transform: translate(-10px,10px) rotate(45deg);
+
+			&:first-of-type {
+				transform: translate(10px,-10px) rotate(45deg);
+			}
+		}
+	}
+}
+
+%sideways-direction {
+	top: 50%;
+	transform: translateY(-50%);
+
+	&:hover {
+		i {
+			&:first-of-type {
+				transform: rotate(135deg);
+			}
+
+			&:last-of-type {
+				transform: rotate(-45deg);
+			}
+		}
+	}
+}
+
 .directions {
 	@include m(background) {
 		.direction {
@@ -33,45 +72,8 @@ $direction-size: 30;
 		}
 	}
 
-	@include m(side) {
-		top: 50%;
-		transform: translateY(-50%);
-
-		&:hover {
-			i {
-				&:first-of-type {
-					transform: rotate(135deg);
-				}
-
-				&:last-of-type {
-					transform: rotate(-45deg);
-				}
-			}
-		}
-	}
-
-	@include m(vert) {
-		left: 50%;
-		transform: translateX(-50%);
-
-		.direction__text {
-			left: remcalc(-35);
-			width: remcalc(100);
-			text-align: center;
-		}
-
-		&:hover {
-			i {
-				transform: translate(-10px,10px) rotate(45deg);
-
-				&:first-of-type {
-					transform: translate(10px,-10px) rotate(45deg);
-				}
-			}
-		}
-	}
-
 	@include m(prev) {
+		@extend %sideways-direction;
 		left: remcalc($direction-offset);
 
 		.direction__text {
@@ -84,6 +86,7 @@ $direction-size: 30;
 	}
 
 	@include m(next) {
+		@extend %sideways-direction;
 		right: remcalc($direction-offset);
 
 		.direction__text {
@@ -96,6 +99,7 @@ $direction-size: 30;
 	}
 
 	@include m(up) {
+		@extend %vertical-direction;
 		top: 0;
 		border-radius: 0 0 remcalc(10) remcalc(10);
 		@include sides( remcalc(70), remcalc(50) );
@@ -110,6 +114,7 @@ $direction-size: 30;
 	}
 
 	@include m(down) {
+		@extend %vertical-direction;
 		bottom: remcalc($direction-offset * 4.5);
 		
 		.direction__icon {

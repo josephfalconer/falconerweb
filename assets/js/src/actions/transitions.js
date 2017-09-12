@@ -1,8 +1,8 @@
-import * as RegionActionTypes from '../actiontypes/transitions';
+import * as TransitionActionTypes from '../actiontypes/transitions';
 
-export const setTransitionsData = (data, type) => {
+export const updateTransitions = (data, type) => {
 	return {
-		type: RegionActionTypes[type],
+		type: TransitionActionTypes[type],
 		data
 	}
 };
