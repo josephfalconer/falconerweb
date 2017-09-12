@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import Icons from './icons/Icons';
 import ContentModules from './modules/ContentModules';
-import * as RegionActionCreators from '../actions/transitions';
 
 
 const Region = props => {

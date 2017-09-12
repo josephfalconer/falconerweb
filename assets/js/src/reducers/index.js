@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import DataReducer from './reducer_data';
-import TransitionsReducer from './reducer_transitions';
+import DataReducer from './data';
+import TransitionsReducer from './transitions';
 
 const rootReducer = combineReducers({
 	data: DataReducer,

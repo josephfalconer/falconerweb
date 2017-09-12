@@ -5120,13 +5120,29 @@ module.exports = canDefineProperty;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.updateTransitions = undefined;
+exports.updateTransitions = exports.isUpwards = exports.isLeftwards = exports.isVertical = exports.isSideways = undefined;
 
 var _transitions = __webpack_require__(76);
 
 var TransitionActionTypes = _interopRequireWildcard(_transitions);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var isSideways = exports.isSideways = function isSideways(currentRegion, outgoingRegion) {
+	return outgoingRegion.y == currentRegion.y && Math.abs(outgoingRegion.x - currentRegion.x) == 1;
+};
+
+var isVertical = exports.isVertical = function isVertical(currentRegion, outgoingRegion) {
+	return outgoingRegion.x == currentRegion.x && Math.abs(outgoingRegion.y - currentRegion.y) == 1;
+};
+
+var isLeftwards = exports.isLeftwards = function isLeftwards(currentRegion, outgoingRegion) {
+	return currentRegion.x < outgoingRegion.x;
+};
+
+var isUpwards = exports.isUpwards = function isUpwards(currentRegion, outgoingRegion) {
+	return currentRegion.y < outgoingRegion.y;
+};
 
 var updateTransitions = exports.updateTransitions = function updateTransitions(data, type) {
 	return {
@@ -7662,12 +7678,6 @@ var _Icons2 = _interopRequireDefault(_Icons);
 var _ContentModules = __webpack_require__(143);
 
 var _ContentModules2 = _interopRequireDefault(_ContentModules);
-
-var _transitions = __webpack_require__(44);
-
-var RegionActionCreators = _interopRequireWildcard(_transitions);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12856,19 +12866,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(21);
 
-var _reducer_data = __webpack_require__(148);
+var _data = __webpack_require__(324);
 
-var _reducer_data2 = _interopRequireDefault(_reducer_data);
+var _data2 = _interopRequireDefault(_data);
 
-var _reducer_transitions = __webpack_require__(149);
+var _transitions = __webpack_require__(325);
 
-var _reducer_transitions2 = _interopRequireDefault(_reducer_transitions);
+var _transitions2 = _interopRequireDefault(_transitions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var rootReducer = (0, _redux.combineReducers)({
-	data: _reducer_data2.default,
-	transitions: _reducer_transitions2.default
+	data: _data2.default,
+	transitions: _transitions2.default
 });
 
 exports.default = rootReducer;
@@ -14337,7 +14347,7 @@ var _Region2 = _interopRequireDefault(_Region);
 
 var _transitions = __webpack_require__(44);
 
-var TransitionActionCreators = _interopRequireWildcard(_transitions);
+var actions = _interopRequireWildcard(_transitions);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -14367,22 +14377,18 @@ var IncomingRegion = function (_Component) {
 			// compare incoming and outgoing - Redux store
 			var _this$props = _this.props,
 			    outgoingRegion = _this$props.outgoingRegion,
-			    currentRegion = _this$props.currentRegion,
-			    isSideways = outgoingRegion.y == currentRegion.y && Math.abs(outgoingRegion.x - currentRegion.x) == 1,
-			    isVertical = outgoingRegion.x == currentRegion.x && Math.abs(outgoingRegion.y - currentRegion.y) == 1,
-			    isLeftwards = currentRegion.x < outgoingRegion.x,
-			    isUpwards = currentRegion.y < outgoingRegion.y;
+			    currentRegion = _this$props.currentRegion;
 
 
 			var transitionClass = ' js-incoming js-incoming-';
 
 			// enter from left or right
-			if (isSideways) {
-				transitionClass += isLeftwards ? 'left' : 'right';
+			if (actions.isSideways(currentRegion, outgoingRegion)) {
+				transitionClass += actions.isLeftwards(currentRegion, outgoingRegion) ? 'left' : 'right';
 
 				// enter from top or bottom
-			} else if (isVertical) {
-				transitionClass += isUpwards ? 'top' : 'bottom';
+			} else if (actions.isVertical(currentRegion, outgoingRegion)) {
+				transitionClass += actions.isUpwards(currentRegion, outgoingRegion) ? 'top' : 'bottom';
 
 				// fade in
 			} else {
@@ -14402,7 +14408,7 @@ var IncomingRegion = function (_Component) {
 			    timeoutDelay = _props.timeoutDelay;
 
 
-			var updateTransitions = (0, _redux.bindActionCreators)(TransitionActionCreators.updateTransitions, dispatch);
+			var updateTransitions = (0, _redux.bindActionCreators)(actions.updateTransitions, dispatch);
 
 			// allows direction buttons to render
 			updateTransitions(data, 'SET_CURRENT_REGION');
@@ -15242,165 +15248,8 @@ _reactDom2.default.render(_react2.default.createElement(
 ), document.getElementById('application'));
 
 /***/ }),
-/* 148 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-exports.default = Data;
-
-var _data = __webpack_require__(75);
-
-var DataActionTypes = _interopRequireWildcard(_data);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var initialState = {
-	navigationLinks: [],
-	primaryRegions: [],
-	subRegions: [],
-	contentModules: [],
-	skills: [],
-	demos: [],
-	projects: []
-};
-
-function Data() {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	var action = arguments[1];
-
-
-	switch (action.type) {
-
-		case DataActionTypes.ADD_NAVIGATION_ITEMS:
-			{
-				return _extends({}, state, {
-					navigationLinks: action.data
-				});
-			}
-
-		case DataActionTypes.ADD_PRIMARY_REGIONS:
-			{
-				return _extends({}, state, {
-					primaryRegions: action.data
-				});
-			}
-
-		case DataActionTypes.ADD_SUB_REGIONS:
-			{
-				return _extends({}, state, {
-					subRegions: action.data
-				});
-			}
-
-		case DataActionTypes.ADD_CONTENT_MODULES:
-			{
-				return _extends({}, state, {
-					contentModules: action.data
-				});
-			}
-
-		case DataActionTypes.ADD_SKILLS:
-			{
-				return _extends({}, state, {
-					skills: action.data
-				});
-			}
-
-		case DataActionTypes.ADD_DEMOS:
-			{
-				return _extends({}, state, {
-					demos: action.data
-				});
-			}
-
-		case DataActionTypes.ADD_PROJECTS:
-			{
-				return _extends({}, state, {
-					projects: action.data
-				});
-			}
-
-		default:
-			return state;
-	}
-}
-
-/***/ }),
-/* 149 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-exports.default = Transitions;
-
-var _transitions = __webpack_require__(76);
-
-var TransitionActionTypes = _interopRequireWildcard(_transitions);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var initialState = {
-	isMovingRegions: false,
-	regionTransitionTimeout: 1000,
-	currentTextColour: 'light'
-};
-
-function Transitions() {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	var action = arguments[1];
-
-
-	switch (action.type) {
-
-		case TransitionActionTypes.SET_MOVING_REGIONS:
-			{
-				return _extends({}, state, {
-					isMovingRegions: action.data
-				});
-			}
-
-		case TransitionActionTypes.SET_OUTGOING_REGION:
-			{
-				return _extends({}, state, {
-					outgoingRegion: action.data
-				});
-			}
-
-		case TransitionActionTypes.SET_CURRENT_REGION:
-			{
-				return _extends({}, state, {
-					currentRegion: action.data
-				});
-			}
-
-		case TransitionActionTypes.SET_TEXT_COLOUR:
-			{
-				return _extends({}, state, {
-					currentTextColour: action.data
-				});
-			}
-
-		default:
-			return state;
-	}
-}
-
-/***/ }),
+/* 148 */,
+/* 149 */,
 /* 150 */
 /***/ (function(module, exports) {
 
@@ -32019,6 +31868,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(15);
 
+var _transitions = __webpack_require__(44);
+
 var _Region = __webpack_require__(77);
 
 var _Region2 = _interopRequireDefault(_Region);
@@ -32029,22 +31880,18 @@ var OutgoingRegion = function OutgoingRegion(props) {
 	// compare incoming and outgoing - Redux store
 	var data = props.data,
 	    outgoingRegion = props.outgoingRegion,
-	    currentRegion = props.currentRegion,
-	    isSideways = outgoingRegion.y == currentRegion.y && Math.abs(outgoingRegion.x - currentRegion.x) == 1,
-	    isVertical = outgoingRegion.x == currentRegion.x && Math.abs(outgoingRegion.y - currentRegion.y) == 1,
-	    isLeftwards = currentRegion.x < outgoingRegion.x,
-	    isUpwards = currentRegion.y < outgoingRegion.y;
+	    currentRegion = props.currentRegion;
 
 
 	var regionClass = 'region js-outgoing js-outgoing-';
 
 	// exit to left or right
-	if (isSideways) {
-		regionClass += isLeftwards ? 'right' : 'left';
+	if ((0, _transitions.isSideways)(currentRegion, outgoingRegion)) {
+		regionClass += (0, _transitions.isLeftwards)(currentRegion, outgoingRegion) ? 'right' : 'left';
 
 		// exit to top or bottom
-	} else if (isVertical) {
-		regionClass += isUpwards ? 'bottom' : 'top';
+	} else if ((0, _transitions.isVertical)(currentRegion, outgoingRegion)) {
+		regionClass += (0, _transitions.isUpwards)(currentRegion, outgoingRegion) ? 'bottom' : 'top';
 
 		// fade out
 	} else {
@@ -32065,6 +31912,165 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(OutgoingRegion);
+
+/***/ }),
+/* 324 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = Data;
+
+var _data = __webpack_require__(75);
+
+var DataActionTypes = _interopRequireWildcard(_data);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var initialState = {
+	navigationLinks: [],
+	primaryRegions: [],
+	subRegions: [],
+	contentModules: [],
+	skills: [],
+	demos: [],
+	projects: []
+};
+
+function Data() {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	var action = arguments[1];
+
+
+	switch (action.type) {
+
+		case DataActionTypes.ADD_NAVIGATION_ITEMS:
+			{
+				return _extends({}, state, {
+					navigationLinks: action.data
+				});
+			}
+
+		case DataActionTypes.ADD_PRIMARY_REGIONS:
+			{
+				return _extends({}, state, {
+					primaryRegions: action.data
+				});
+			}
+
+		case DataActionTypes.ADD_SUB_REGIONS:
+			{
+				return _extends({}, state, {
+					subRegions: action.data
+				});
+			}
+
+		case DataActionTypes.ADD_CONTENT_MODULES:
+			{
+				return _extends({}, state, {
+					contentModules: action.data
+				});
+			}
+
+		case DataActionTypes.ADD_SKILLS:
+			{
+				return _extends({}, state, {
+					skills: action.data
+				});
+			}
+
+		case DataActionTypes.ADD_DEMOS:
+			{
+				return _extends({}, state, {
+					demos: action.data
+				});
+			}
+
+		case DataActionTypes.ADD_PROJECTS:
+			{
+				return _extends({}, state, {
+					projects: action.data
+				});
+			}
+
+		default:
+			return state;
+	}
+}
+
+/***/ }),
+/* 325 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = Transitions;
+
+var _transitions = __webpack_require__(76);
+
+var TransitionActionTypes = _interopRequireWildcard(_transitions);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var initialState = {
+	isMovingRegions: false,
+	regionTransitionTimeout: 1000,
+	currentTextColour: 'light'
+};
+
+function Transitions() {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	var action = arguments[1];
+
+
+	switch (action.type) {
+
+		case TransitionActionTypes.SET_MOVING_REGIONS:
+			{
+				return _extends({}, state, {
+					isMovingRegions: action.data
+				});
+			}
+
+		case TransitionActionTypes.SET_OUTGOING_REGION:
+			{
+				return _extends({}, state, {
+					outgoingRegion: action.data
+				});
+			}
+
+		case TransitionActionTypes.SET_CURRENT_REGION:
+			{
+				return _extends({}, state, {
+					currentRegion: action.data
+				});
+			}
+
+		case TransitionActionTypes.SET_TEXT_COLOUR:
+			{
+				return _extends({}, state, {
+					currentTextColour: action.data
+				});
+			}
+
+		default:
+			return state;
+	}
+}
 
 /***/ })
 /******/ ]);
