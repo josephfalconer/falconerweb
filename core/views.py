@@ -14,3 +14,7 @@ def navigation(request):
 
 	return HttpResponse(serialized_data)
 
+
+def unconference(request):
+	return HttpResponse("<h1>Repo:</h1><p>https://joefalconer21@bitbucket.org/joesprojects/unconference.git</p>")
+
