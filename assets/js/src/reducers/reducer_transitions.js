@@ -1,9 +1,10 @@
 import * as TransitionActionTypes from '../actiontypes/transitions';
 
+
 const initialState = {
 	isMovingRegions: false,
 	regionTransitionTimeout: 1000,
-	currentTextColour: 'light',
+	currentTextColour: 'light'
 }
 
 export default function Transitions(state=initialState, action) {

@@ -1,40 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
-import * as TransitionActionCreators from '../actions/transitions';
-
-<<<<<<< HEAD
-const baseSelector = 'region',
-	incomingSelector = 'js-incoming',
-	outgoingSelector = 'js-outgoing';
-=======
->>>>>>> f802de4... Revert "Deleted OutgoingRegion component - now using Region component alone with transitionClass set in Redux store"
-
-const transitionSelectors = {
-	prev: {
-		outgoing: 'js-outgoing-right',
-		incoming: 'js-incoming-left'
-	},
-	up: {
-		outgoing: 'js-outgoing-bottom',
-		incoming: 'js-incoming-top'
-	},
-	next: {
-		outgoing: 'js-outgoing-left',
-		incoming: 'js-incoming-right'
-	},
-	down: {
-<<<<<<< HEAD
-		outgoing: `${baseSelector} ${outgoingSelector} ${outgoingSelector}-top`,
-		incoming: `${baseSelector} ${incomingSelector} ${incomingSelector}-bottom`
-=======
-		outgoing: 'js-outgoing-top',
-		incoming: 'js-incoming-bottom'
->>>>>>> f802de4... Revert "Deleted OutgoingRegion component - now using Region component alone with transitionClass set in Redux store"
-	}
-}
 
 const replaceLocation = newHash => {
 	const currentLocation = window.location;
@@ -126,18 +93,6 @@ class DirectionButtons extends Component {
 		}
 	}
 
-	directionClick = (e, name) => {
-		const { dispatch, isMovingRegions } = this.props,
-			updateTransitions = bindActionCreators(TransitionActionCreators.updateTransitions, dispatch);
-
-		if (isMovingRegions) {
-			e.preventDefault();
-			return;
-		}
-
-		updateTransitions(transitionSelectors[name], 'SET_CLASS_SELECTORS');
-	}
-
 	render() {
 		const { isMovingRegions, regionTextColour } = this.props,
 			{ buttons } = this.state;
@@ -150,7 +105,7 @@ class DirectionButtons extends Component {
 							<Link 
 								key={index}
 								to={button.targetRegion.path_hash}
-								onClick={e => { this.directionClick(e); }} 
+								onClick={e => { if (isMovingRegions) e.preventDefault(); }} 
 								className={`direction direction--${button.name}`}
 							>
 								<span className="direction__inner">
