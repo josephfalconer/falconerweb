@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom';
 import DataFetcher from './DataFetcher';
 import Navigation from '../components/Navigation';
 import IncomingRegion from '../components/IncomingRegion';
-import Region from '../components/Region';
+import OutgoingRegion from '../components/OutgoingRegion';
 import DirectionButtons from '../components/DirectionButtons';
 
 class Application extends Component {
@@ -64,14 +64,7 @@ class Application extends Component {
 	isSetSubRegions = false;
 
 	render() {	
-		const { 
-			primaryRegions, 
-			currentRegion, 
-			subRegions, 
-			outgoingRegion, 
-			isMovingRegions,
-			transitionSelectors
-		} = this.props;
+		const { primaryRegions, currentRegion, subRegions, outgoingRegion, isMovingRegions} = this.props;
 
 		// TODO: temporary hack until I properly understand nested routes
 		// if no current region
@@ -102,10 +95,7 @@ class Application extends Component {
 				
 				<main className="regions">
 					{outgoingRegion && isMovingRegions &&
-						<Region 
-							data={outgoingRegion} 
-							regionClass={transitionSelectors.outgoing}
-						/>
+						<OutgoingRegion data={outgoingRegion} />
 					}
 
 					{primaryRegions && primaryRegions.map((region, index) => {
@@ -149,7 +139,6 @@ const mapStateToProps = state => (
         currentRegion: state.transitions.currentRegion,
         isMovingRegions: state.transitions.isMovingRegions,
         outgoingRegion: state.transitions.outgoingRegion,
-        transitionSelectors: state.transitions.transitionSelectors,
         regionsClass: state.transitions.regionsClass
     }
 );

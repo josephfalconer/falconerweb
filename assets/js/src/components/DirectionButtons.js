@@ -5,26 +5,34 @@ import { Link } from 'react-router-dom';
 
 import * as TransitionActionCreators from '../actions/transitions';
 
+<<<<<<< HEAD
 const baseSelector = 'region',
 	incomingSelector = 'js-incoming',
 	outgoingSelector = 'js-outgoing';
+=======
+>>>>>>> f802de4... Revert "Deleted OutgoingRegion component - now using Region component alone with transitionClass set in Redux store"
 
 const transitionSelectors = {
 	prev: {
-		outgoing: `${baseSelector} ${outgoingSelector} ${outgoingSelector}-right`,
-		incoming: `${baseSelector} ${incomingSelector} ${incomingSelector}-left`
+		outgoing: 'js-outgoing-right',
+		incoming: 'js-incoming-left'
 	},
 	up: {
-		outgoing: `${baseSelector} ${outgoingSelector} ${outgoingSelector}-bottom`,
-		incoming: `${baseSelector} ${incomingSelector} ${incomingSelector}-top`
+		outgoing: 'js-outgoing-bottom',
+		incoming: 'js-incoming-top'
 	},
 	next: {
-		outgoing: `${baseSelector} ${outgoingSelector} ${outgoingSelector}-left`,
-		incoming: `${baseSelector} ${incomingSelector} ${incomingSelector}-right`
+		outgoing: 'js-outgoing-left',
+		incoming: 'js-incoming-right'
 	},
 	down: {
+<<<<<<< HEAD
 		outgoing: `${baseSelector} ${outgoingSelector} ${outgoingSelector}-top`,
 		incoming: `${baseSelector} ${incomingSelector} ${incomingSelector}-bottom`
+=======
+		outgoing: 'js-outgoing-top',
+		incoming: 'js-incoming-bottom'
+>>>>>>> f802de4... Revert "Deleted OutgoingRegion component - now using Region component alone with transitionClass set in Redux store"
 	}
 }
 
@@ -142,7 +150,7 @@ class DirectionButtons extends Component {
 							<Link 
 								key={index}
 								to={button.targetRegion.path_hash}
-								onClick={e => { this.directionClick(e, button.name); }} 
+								onClick={e => { this.directionClick(e); }} 
 								className={`direction direction--${button.name}`}
 							>
 								<span className="direction__inner">
