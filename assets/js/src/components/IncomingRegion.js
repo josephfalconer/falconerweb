@@ -19,22 +19,26 @@ class IncomingRegion extends Component {
 	componentDidMount() {
 		const { dispatch, data, timeoutDelay } = this.props;
 
-		const updateTransitions = bindActionCreators(actions.updateTransitions, dispatch);
+		this.updateTransitions = bindActionCreators(actions.updateTransitions, dispatch);
 		
 		// allows direction buttons to render
-		updateTransitions(data, 'SET_CURRENT_REGION');
+		this.updateTransitions(data, 'SET_CURRENT_REGION');
 
 		// allows outgoing region to render
-		updateTransitions(true, 'SET_MOVING_REGIONS');
+		this.updateTransitions(true, 'SET_MOVING_REGIONS');
 
 		// affects styles for nav and direction buttons
-		updateTransitions(data.text_colour, 'SET_TEXT_COLOUR');
+		this.updateTransitions(data.text_colour, 'SET_TEXT_COLOUR');
 
 		// next transition shows this Region instance as outgoing
 		setTimeout(() => {
-			updateTransitions(false, 'SET_MOVING_REGIONS');
-			updateTransitions(data, 'SET_OUTGOING_REGION');
+			this.updateTransitions(false, 'SET_MOVING_REGIONS');
 		}, timeoutDelay);
+	}
+
+	componentWillUnmount() {
+		const { data } = this.props;
+		this.updateTransitions(data, 'SET_OUTGOING_REGION');
 	}
 
 	getTransitonClass = () => {
