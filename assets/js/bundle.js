@@ -7652,9 +7652,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var SET_MOVING_REGIONS = exports.SET_MOVING_REGIONS = 'data/SET_MOVING_REGIONS';
-var SET_OUTGOING_REGION = exports.SET_OUTGOING_REGION = 'data/SET_OUTGOING_REGION';
+var SET_CURRENT_PRIMARY_REGION = exports.SET_CURRENT_PRIMARY_REGION = 'data/SET_CURRENT_PRIMARY_REGION';
+var SET_CURRENT_SUB_REGIONS = exports.SET_CURRENT_SUB_REGIONS = 'data/SET_CURRENT_SUB_REGIONS';
 var SET_CURRENT_REGION = exports.SET_CURRENT_REGION = 'data/SET_CURRENT_REGION';
 var SET_TEXT_COLOUR = exports.SET_TEXT_COLOUR = 'data/SET_TEXT_COLOUR';
+var SET_OUTGOING_REGION = exports.SET_OUTGOING_REGION = 'data/SET_OUTGOING_REGION';
 
 /***/ }),
 /* 77 */
@@ -12678,8 +12680,6 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(3);
@@ -12698,9 +12698,9 @@ var _Navigation = __webpack_require__(139);
 
 var _Navigation2 = _interopRequireDefault(_Navigation);
 
-var _IncomingRegion = __webpack_require__(138);
+var _PrimaryRegion = __webpack_require__(323);
 
-var _IncomingRegion2 = _interopRequireDefault(_IncomingRegion);
+var _PrimaryRegion2 = _interopRequireDefault(_PrimaryRegion);
 
 var _OutgoingRegion = __webpack_require__(140);
 
@@ -12722,93 +12722,9 @@ var Application = function (_Component) {
 	_inherits(Application, _Component);
 
 	function Application() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
 		_classCallCheck(this, Application);
 
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
-
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Application.__proto__ || Object.getPrototypeOf(Application)).call.apply(_ref, [this].concat(args))), _this), _this.getCurrentSubRegions = function (currentRegion, subRegions) {
-			var currentSubRegions = [],
-			    y = 0;
-
-			for (var _iterator = subRegions, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-				var _ref2;
-
-				if (_isArray) {
-					if (_i >= _iterator.length) break;
-					_ref2 = _iterator[_i++];
-				} else {
-					_i = _iterator.next();
-					if (_i.done) break;
-					_ref2 = _i.value;
-				}
-
-				var subRegion = _ref2;
-
-				if (subRegion.parent_region == currentRegion.title) {
-					y++;
-					currentSubRegions.push(_extends({}, subRegion, {
-						x: currentRegion.x,
-						y: y
-					}));
-				}
-			}
-			return currentSubRegions;
-		}, _this.getCurrentSubRegionsFromLocation = function (primaryRegions, subRegions) {
-			var currentHash = window.location.hash,
-			    currentPrimaryRegion = void 0,
-			    currentSubRegion = void 0;
-
-			currentHash = currentHash.slice(2, currentHash.length);
-
-			for (var _iterator2 = subRegions, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
-				var _ref3;
-
-				if (_isArray2) {
-					if (_i2 >= _iterator2.length) break;
-					_ref3 = _iterator2[_i2++];
-				} else {
-					_i2 = _iterator2.next();
-					if (_i2.done) break;
-					_ref3 = _i2.value;
-				}
-
-				var subRegion = _ref3;
-
-
-				if (subRegion.path_hash == currentHash) {
-					currentSubRegion = subRegion;
-				}
-			}
-
-			if (currentSubRegion) {
-				for (var _iterator3 = primaryRegions, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
-					var _ref4;
-
-					if (_isArray3) {
-						if (_i3 >= _iterator3.length) break;
-						_ref4 = _iterator3[_i3++];
-					} else {
-						_i3 = _iterator3.next();
-						if (_i3.done) break;
-						_ref4 = _i3.value;
-					}
-
-					var primaryRegion = _ref4;
-
-					if (primaryRegion.title == currentSubRegion.parent_region) {
-						currentPrimaryRegion = primaryRegion;
-						_this.currentSubRegions = _this.getCurrentSubRegions(currentPrimaryRegion, subRegions);
-						_this.isSetSubRegions = true;
-					}
-				}
-			}
-		}, _this.currentSubRegions = [], _this.isSetSubRegions = false, _temp), _possibleConstructorReturn(_this, _ret);
+		return _possibleConstructorReturn(this, (Application.__proto__ || Object.getPrototypeOf(Application)).apply(this, arguments));
 	}
 
 	_createClass(Application, [{
@@ -12816,37 +12732,16 @@ var Application = function (_Component) {
 		value: function render() {
 			var _props = this.props,
 			    primaryRegions = _props.primaryRegions,
-			    currentRegion = _props.currentRegion,
-			    subRegions = _props.subRegions,
 			    outgoingRegion = _props.outgoingRegion,
 			    isMovingRegions = _props.isMovingRegions;
 
-			// TODO: temporary hack until I properly understand nested routes
-			// if no current region
-
-			if (subRegions && !currentRegion) {
-				this.getCurrentSubRegionsFromLocation(primaryRegions, subRegions);
-			}
-
-			// set current page regions when page first loads
-			if (currentRegion && subRegions.length && !this.isSetSubRegions) {
-				this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
-				this.isSetSubRegions = true;
-			}
-
-			// update current subregions on primary region transitions
-			if (currentRegion && outgoingRegion) {
-				if (currentRegion.x != outgoingRegion.x) {
-					this.currentSubRegions = this.getCurrentSubRegions(currentRegion, subRegions);
-				}
-			}
 
 			return _react2.default.createElement(
 				'div',
 				null,
 				_react2.default.createElement(_DataFetcher2.default, null),
 				_react2.default.createElement(_Navigation2.default, null),
-				_react2.default.createElement(_DirectionButtons2.default, { currentSubRegions: this.currentSubRegions }),
+				_react2.default.createElement(_DirectionButtons2.default, null),
 				_react2.default.createElement(
 					'main',
 					{ className: 'regions' },
@@ -12854,22 +12749,14 @@ var Application = function (_Component) {
 					primaryRegions && primaryRegions.map(function (region, index) {
 						var hash = '/' + region.path_hash;
 						return _react2.default.createElement(_reactRouterDom.Route, {
-							key: index,
-							exact: true,
-							path: hash,
-							render: function render() {
-								return _react2.default.createElement(_IncomingRegion2.default, { data: region });
-							}
-						});
-					}),
-					this.currentSubRegions && this.currentSubRegions.map(function (region, index) {
-						var hash = '/' + region.path_hash;
-						return _react2.default.createElement(_reactRouterDom.Route, {
-							key: index,
-							exact: true,
-							path: hash,
-							render: function render() {
-								return _react2.default.createElement(_IncomingRegion2.default, { data: region });
+							key: index
+							// exact
+							, path: hash,
+							render: function render(props) {
+								return _react2.default.createElement(_PrimaryRegion2.default, {
+									data: region,
+									match: props.match
+								});
 							}
 						});
 					})
@@ -12893,7 +12780,6 @@ var mapStateToProps = function mapStateToProps(state) {
 	return {
 		primaryRegions: state.data.primaryRegions,
 		subRegions: state.data.subRegions,
-		currentRegion: state.transitions.currentRegion,
 		isMovingRegions: state.transitions.isMovingRegions,
 		outgoingRegion: state.transitions.outgoingRegion,
 		regionsClass: state.transitions.regionsClass
@@ -14302,6 +14188,7 @@ var DirectionButtons = function (_Component) {
 		key: 'render',
 		value: function render() {
 			var _props = this.props,
+			    currentPrimaryRegion = _props.currentPrimaryRegion,
 			    isMovingRegions = _props.isMovingRegions,
 			    regionTextColour = _props.regionTextColour,
 			    buttons = this.state.buttons;
@@ -14312,6 +14199,8 @@ var DirectionButtons = function (_Component) {
 				{ className: regionTextColour == 'dark' ? 'directions directions--background' : 'directions' },
 				buttons.map(function (button, index) {
 					if (button.condition && button.targetRegion) {
+						var to = button.name == 'down' ? currentPrimaryRegion.path_hash + '/' + button.targetRegion.path_hash : button.targetRegion.path_hash;
+
 						return _react2.default.createElement(
 							_reactRouterDom.Link,
 							{
@@ -14350,7 +14239,7 @@ var DirectionButtons = function (_Component) {
 }(_react.Component);
 
 DirectionButtons.propTypes = {
-	primaryRegions: _react.PropTypes.array,
+	primaryRegions: _react.PropTypes.array.isRequired,
 	currentSubRegions: _react.PropTypes.array.isRequired,
 	currentRegion: _react.PropTypes.object,
 	isMovingRegions: _react.PropTypes.bool.isRequired,
@@ -14361,6 +14250,8 @@ DirectionButtons.propTypes = {
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		primaryRegions: state.data.primaryRegions,
+		currentPrimaryRegion: state.transitions.currentPrimaryRegion,
+		currentSubRegions: state.transitions.currentSubRegions,
 		currentRegion: state.transitions.currentRegion,
 		isMovingRegions: state.transitions.isMovingRegions,
 		regionTextColour: state.transitions.currentTextColour
@@ -15430,7 +15321,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var initialState = {
 	isMovingRegions: false,
 	regionTransitionTimeout: 1000,
-	currentTextColour: 'light'
+	currentTextColour: 'light',
+	currentSubRegions: []
 };
 
 function Transitions() {
@@ -15447,10 +15339,17 @@ function Transitions() {
 				});
 			}
 
-		case TransitionActionTypes.SET_OUTGOING_REGION:
+		case TransitionActionTypes.SET_CURRENT_PRIMARY_REGION:
 			{
 				return _extends({}, state, {
-					outgoingRegion: action.data
+					currentPrimaryRegion: action.data
+				});
+			}
+
+		case TransitionActionTypes.SET_CURRENT_SUB_REGIONS:
+			{
+				return _extends({}, state, {
+					currentSubRegions: action.data
 				});
 			}
 
@@ -15465,6 +15364,13 @@ function Transitions() {
 			{
 				return _extends({}, state, {
 					currentTextColour: action.data
+				});
+			}
+
+		case TransitionActionTypes.SET_OUTGOING_REGION:
+			{
+				return _extends({}, state, {
+					outgoingRegion: action.data
 				});
 			}
 
@@ -31989,6 +31895,153 @@ _reactDom2.default.render(_react2.default.createElement(
 		_react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _App2.default })
 	)
 ), document.getElementById('application'));
+
+/***/ }),
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(13);
+
+var _redux = __webpack_require__(26);
+
+var _reactRouterDom = __webpack_require__(34);
+
+var _IncomingRegion = __webpack_require__(138);
+
+var _IncomingRegion2 = _interopRequireDefault(_IncomingRegion);
+
+var _transitions = __webpack_require__(74);
+
+var actions = _interopRequireWildcard(_transitions);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PrimaryRegion = function (_Component) {
+	_inherits(PrimaryRegion, _Component);
+
+	function PrimaryRegion() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		_classCallCheck(this, PrimaryRegion);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PrimaryRegion.__proto__ || Object.getPrototypeOf(PrimaryRegion)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+			subRegions: []
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
+
+	_createClass(PrimaryRegion, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _props = this.props,
+			    subRegions = _props.subRegions,
+			    data = _props.data,
+			    dispatch = _props.dispatch,
+			    updateTransitions = (0, _redux.bindActionCreators)(actions.updateTransitions, dispatch);
+
+
+			var currentSubRegions = [],
+			    y = 0;
+
+			for (var _iterator = subRegions, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+				var _ref2;
+
+				if (_isArray) {
+					if (_i >= _iterator.length) break;
+					_ref2 = _iterator[_i++];
+				} else {
+					_i = _iterator.next();
+					if (_i.done) break;
+					_ref2 = _i.value;
+				}
+
+				var subRegion = _ref2;
+
+				if (subRegion.parent_region == data.title) {
+					y++;
+					currentSubRegions.push(_extends({}, subRegion, { y: y }));
+				}
+			}
+
+			this.setState({ subRegions: currentSubRegions });
+			updateTransitions(data, 'SET_CURRENT_PRIMARY_REGION');
+			updateTransitions(currentSubRegions, 'SET_CURRENT_SUB_REGIONS');
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _props2 = this.props,
+			    data = _props2.data,
+			    match = _props2.match,
+			    subRegions = this.state.subRegions;
+
+
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(_IncomingRegion2.default, { data: data }),
+				subRegions.map(function (subRegion, index) {
+					var hash = '/' + subRegion.path_hash;
+					return _react2.default.createElement(_reactRouterDom.Route, {
+						key: index
+						// exact
+						, path: '' + match.url + hash,
+						render: function render(props) {
+							return _react2.default.createElement(_IncomingRegion2.default, { data: subRegion, match: props.match });
+						}
+					});
+				})
+			);
+		}
+	}]);
+
+	return PrimaryRegion;
+}(_react.Component);
+
+PrimaryRegion.propTypes = {
+	data: _react.PropTypes.object.isRequired
+};
+
+
+var mapStateToProps = function mapStateToProps(state) {
+	return {
+		subRegions: state.data.subRegions
+	};
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(PrimaryRegion);
 
 /***/ })
 /******/ ]);

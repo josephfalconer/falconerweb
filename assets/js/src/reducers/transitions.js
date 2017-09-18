@@ -4,7 +4,8 @@ import * as TransitionActionTypes from '../actiontypes/transitions';
 const initialState = {
 	isMovingRegions: false,
 	regionTransitionTimeout: 1000,
-	currentTextColour: 'light'
+	currentTextColour: 'light',
+	currentSubRegions: [],
 }
 
 export default function Transitions(state=initialState, action) {
@@ -18,10 +19,17 @@ export default function Transitions(state=initialState, action) {
 			};
 		}
 
-		case TransitionActionTypes.SET_OUTGOING_REGION: {
+		case TransitionActionTypes.SET_CURRENT_PRIMARY_REGION: {
 			return {
 				...state,
-				outgoingRegion: action.data
+				currentPrimaryRegion: action.data
+			};
+		}
+
+		case TransitionActionTypes.SET_CURRENT_SUB_REGIONS: {
+			return {
+				...state,
+				currentSubRegions: action.data
 			};
 		}
 
@@ -38,7 +46,14 @@ export default function Transitions(state=initialState, action) {
 				currentTextColour: action.data
 			};
 		}
-			
+
+		case TransitionActionTypes.SET_OUTGOING_REGION: {
+			return {
+				...state,
+				outgoingRegion: action.data
+			};
+		}
+
 		default:
 			return state
 	}

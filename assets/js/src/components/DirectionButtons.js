@@ -12,7 +12,7 @@ const replaceLocation = newHash => {
 class DirectionButtons extends Component {
 
 	static propTypes = {
-		primaryRegions: PropTypes.array,
+		primaryRegions: PropTypes.array.isRequired,
 		currentSubRegions: PropTypes.array.isRequired,
 		currentRegion: PropTypes.object,
 		isMovingRegions: PropTypes.bool.isRequired,
@@ -94,13 +94,15 @@ class DirectionButtons extends Component {
 	}
 
 	render() {
-		const { isMovingRegions, regionTextColour } = this.props,
+		const { currentPrimaryRegion, isMovingRegions, regionTextColour } = this.props,
 			{ buttons } = this.state;
 
 		return (
 			<nav className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
 				{buttons.map((button, index) => {
 					if (button.condition && button.targetRegion) {
+						let to = button.name == 'down' ? `${currentPrimaryRegion.path_hash}/${button.targetRegion.path_hash}` : button.targetRegion.path_hash;
+						
 						return (
 							<Link 
 								key={index}
@@ -131,6 +133,8 @@ class DirectionButtons extends Component {
 const mapStateToProps = state => (
     {	
     	primaryRegions: state.data.primaryRegions,
+    	currentPrimaryRegion: state.transitions.currentPrimaryRegion,
+    	currentSubRegions: state.transitions.currentSubRegions,
     	currentRegion: state.transitions.currentRegion,
     	isMovingRegions: state.transitions.isMovingRegions,
     	regionTextColour: state.transitions.currentTextColour
