@@ -50,17 +50,18 @@ class DirectionButtons extends Component {
 					condition: true,
 					targetRegion: primaryRegions[currentRegion.index + 1],
 					name: 'next'
-				},
-				{
-					condition: true,
-					targetRegion: currentSubRegions[currentRegion.y],
-					name: 'down'
-				},
-				{
-					condition: currentRegion.y > 0,
-					targetRegion: currentSubRegions[currentRegion.y - 2] || primaryRegions[currentRegion.x],
-					name: 'up'
 				}
+				// ,
+				// {
+				// 	condition: true,
+				// 	targetRegion: currentSubRegions[currentRegion.y],
+				// 	name: 'down'
+				// },
+				// {
+				// 	condition: currentRegion.y > 0,
+				// 	targetRegion: currentSubRegions[currentRegion.y - 2] || primaryRegions[currentRegion.x],
+				// 	name: 'up'
+				// }
 			]
 		});
 	}
@@ -101,8 +102,8 @@ class DirectionButtons extends Component {
 			<nav className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
 				{buttons.map((button, index) => {
 					if (button.condition && button.targetRegion) {
-						let to = button.name == 'down' ? `${currentPrimaryRegion.path_hash}/${button.targetRegion.path_hash}` : button.targetRegion.path_hash;
-						
+						// let to = button.name == 'down' ? `${currentPrimaryRegion.path_hash}/${button.targetRegion.path_hash}` : button.targetRegion.path_hash;
+						// let to = `${button.targetRegion.path_hash}`;
 						return (
 							<Link 
 								key={index}

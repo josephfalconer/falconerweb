@@ -1,10 +1,31 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Route } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 
 import IncomingRegion from './IncomingRegion';
 import * as actions from '../actions/transitions';
+
+
+
+
+const DirectionButton = props => {
+	return (
+		<Link 
+			to={`${props.matchUrl}/${props.to}`}
+			onClick={e => { if (props.isMovingRegions) e.preventDefault(); }} 
+			className={`direction direction--${props.name}`}
+		>
+			<span className="direction__inner">
+				<span className="direction__text">{props.title}</span>
+				<span className="direction__icon">
+					<i></i>
+					<i></i>
+				</span>
+			</span>
+		</Link>
+	)
+}
 
 
 class PrimaryRegion extends Component {
@@ -14,35 +35,79 @@ class PrimaryRegion extends Component {
 	}
 
 	state = {
-		subRegions: []
+		subRegions: [],
+		buttons: []
 	}
 
-	componentDidMount() {
-		const { subRegions, data, dispatch } = this.props,
-			updateTransitions = bindActionCreators(actions.updateTransitions, dispatch);
-
+	getSubRegions() {
+		const { subRegions, data } = this.props;
 		let currentSubRegions = [],
 			y = 0;
+
+		if (!subRegions.length) {
+			return [];
+		}
 
 		for (let subRegion of subRegions) {
 			if (subRegion.parent_region == data.title) {
 				y++;
-				currentSubRegions.push({ ...subRegion, y: y });				
+				currentSubRegions.push({ 
+					...subRegion, 
+					y: y 
+				});				
 			}
 		}
 
-		this.setState({ subRegions: currentSubRegions });
-		updateTransitions(data, 'SET_CURRENT_PRIMARY_REGION');
-		updateTransitions(currentSubRegions, 'SET_CURRENT_SUB_REGIONS');
+		return currentSubRegions;
+	}
+
+	getButtons = subRegions => {
+		const { data, currentRegion } = this.props;
+
+		if (!currentRegion) {
+			return [];
+		}
+
+		return [
+			{
+				condition: true,
+				targetRegion: subRegions[currentRegion.y],
+				name: 'down'
+			},
+			{
+				condition: currentRegion.y > 0,
+				targetRegion: subRegions[currentRegion.y - 2] || data,
+				name: 'up'
+			}
+		]
 	}
 
 	render() {
-		const { data, match } = this.props,
-			{ subRegions } = this.state;
+		const { data, match, isMovingRegions } = this.props,
+			subRegions = this.getSubRegions(),
+			buttons = this.getButtons(subRegions);
 
 		return (
 			<div>
 				<IncomingRegion data={data} />
+
+				{buttons.map((button, index) => {
+					if (button.targetRegion) {
+						return (
+							<DirectionButton
+								key={index}
+								matchUrl={match.url}
+								to={button.targetRegion.path_hash}
+								name={button.name}
+								title={button.targetRegion.title}
+								isMovingRegions={isMovingRegions}
+							/>
+						)
+					} else {
+						return null;
+					}
+					
+				})}
 
 				{subRegions.map((subRegion, index) => {
 					let hash = `/${subRegion.path_hash}`;
@@ -65,7 +130,9 @@ class PrimaryRegion extends Component {
 
 const mapStateToProps = state => (
     {
-    	subRegions: state.data.subRegions
+    	subRegions: state.data.subRegions,
+    	currentRegion: state.transitions.currentRegion,
+    	isMovingRegions: state.transitions.isMovingRegions
     }
 );
 

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 
 import DataFetcher from './DataFetcher';
 import Navigation from '../components/Navigation';
@@ -20,6 +20,9 @@ class Application extends Component {
 	render() {	
 		const { primaryRegions, outgoingRegion, isMovingRegions} = this.props;
 
+		// TODO
+		const style = { position: 'absolute'}
+
 		return (
 			<div>
 				<DataFetcher />
@@ -27,6 +30,10 @@ class Application extends Component {
 				<Navigation />
 
 				<DirectionButtons />
+
+				<div style={style}>
+					HELLO! Welcome.
+				</div>
 				
 				<main className="regions">
 					{outgoingRegion && isMovingRegions &&
@@ -35,10 +42,10 @@ class Application extends Component {
 
 					{primaryRegions && primaryRegions.map((region, index) => {
 						let hash = `/${region.path_hash}`;
+						console.log(hash);
 						return (
 							<Route 
 								key={index}
-								// exact
 								path={hash}
 								render={props => (
 									<PrimaryRegion 
