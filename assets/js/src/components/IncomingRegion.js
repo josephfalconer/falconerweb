@@ -38,7 +38,6 @@ class IncomingRegion extends Component {
 
 	componentWillUnmount() {
 		const { data } = this.props;
-		console.log(data.y);
 		this.updateTransitions(data, 'SET_OUTGOING_REGION');
 	}
 

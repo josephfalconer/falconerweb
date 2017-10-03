@@ -14237,7 +14237,6 @@ var IncomingRegion = function (_Component) {
 		value: function componentWillUnmount() {
 			var data = this.props.data;
 
-			console.log(data.y);
 			this.updateTransitions(data, 'SET_OUTGOING_REGION');
 		}
 	}, {
