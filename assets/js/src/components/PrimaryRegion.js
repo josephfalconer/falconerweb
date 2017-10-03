@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Link, Route } from 'react-router-dom';
 
 import IncomingRegion from './IncomingRegion';
@@ -12,11 +11,6 @@ class PrimaryRegion extends Component {
 
 	static propTypes = {
 		data: PropTypes.object.isRequired,
-	}
-
-	state = {
-		subRegions: [],
-		buttons: []
 	}
 
 	getSubRegions() {
@@ -50,34 +44,43 @@ class PrimaryRegion extends Component {
 
 		return [
 			{
-				condition: true,
-				targetRegion: subRegions[currentRegion.y],
-				name: 'down'
-			},
-			{
 				condition: currentRegion.y > 0,
 				targetRegion: subRegions[currentRegion.y - 2] || data,
 				name: 'up'
-			}
+			},
+			{
+				condition: true,
+				targetRegion: subRegions[currentRegion.y],
+				name: 'down'
+			}			
 		]
 	}
 
 	render() {
-		const { data, match, isMovingRegions } = this.props,
+		const { data, match, isMovingRegions, currentRegion } = this.props,
 			subRegions = this.getSubRegions(),
 			buttons = this.getButtons(subRegions);
 
 		return (
 			<div>
-				<IncomingRegion data={data} />
-
+				<Route 
+					path={match.url}
+					exact
+					render={props => (
+						<IncomingRegion data={data} />
+					)}
+				/>
+				
 				{buttons.map((button, index) => {
-					if (button.targetRegion) {
+					if (button.targetRegion && button.condition) {
+
+						let to = button.targetRegion === data ? false : button.targetRegion.path_hash;
+
 						return (
 							<DirectionButton
 								key={index}
 								matchUrl={match.url}
-								to={button.targetRegion.path_hash}
+								to={to}
 								name={button.name}
 								title={button.targetRegion.title}
 								isMovingRegions={isMovingRegions}
@@ -90,12 +93,10 @@ class PrimaryRegion extends Component {
 				})}
 
 				{subRegions.map((subRegion, index) => {
-					let hash = `/${subRegion.path_hash}`;
 					return (
 						<Route 
 							key={index}
-							// exact
-							path={`${match.url}${hash}`}
+							path={`${match.url}/${subRegion.path_hash}`}
 							render={props => (
 								<IncomingRegion data={subRegion} match={props.match}/>
 							)} 						

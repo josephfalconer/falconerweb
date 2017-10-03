@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const DirectionButton = props => {
 	return (
 		<Link 
-			to={`${props.matchUrl}/${props.to}`}
+			to={`${props.matchUrl}${props.to ? '/' + props.to : ''}`}
 			onClick={e => { if (props.isMovingRegions) e.preventDefault(); }} 
 			className={`direction direction--${props.name}`}
 		>
