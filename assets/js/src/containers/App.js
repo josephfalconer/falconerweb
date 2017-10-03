@@ -6,7 +6,7 @@ import DataFetcher from './DataFetcher';
 import Navigation from '../components/Navigation';
 import PrimaryRegion from '../components/PrimaryRegion';
 import OutgoingRegion from '../components/OutgoingRegion';
-import DirectionButtons from '../components/DirectionButtons';
+import SidewaysButtons from '../components/SidewaysButtons';
 
 class Application extends Component {
 
@@ -21,7 +21,7 @@ class Application extends Component {
 		const { primaryRegions, outgoingRegion, isMovingRegions} = this.props;
 
 		// TODO
-		const style = { position: 'absolute'}
+		const style = { position: 'absolute', zIndex: '200'}
 
 		return (
 			<div>
@@ -29,10 +29,11 @@ class Application extends Component {
 
 				<Navigation />
 
-				<DirectionButtons />
+				<SidewaysButtons />
 
 				<div style={style}>
 					HELLO! Welcome.
+					<Link to="start">Start</Link>
 				</div>
 				
 				<main className="regions">
@@ -42,7 +43,6 @@ class Application extends Component {
 
 					{primaryRegions && primaryRegions.map((region, index) => {
 						let hash = `/${region.path_hash}`;
-						console.log(hash);
 						return (
 							<Route 
 								key={index}

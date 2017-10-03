@@ -4,28 +4,8 @@ import { bindActionCreators } from 'redux';
 import { Link, Route } from 'react-router-dom';
 
 import IncomingRegion from './IncomingRegion';
+import DirectionButton from './DirectionButton';
 import * as actions from '../actions/transitions';
-
-
-
-
-const DirectionButton = props => {
-	return (
-		<Link 
-			to={`${props.matchUrl}/${props.to}`}
-			onClick={e => { if (props.isMovingRegions) e.preventDefault(); }} 
-			className={`direction direction--${props.name}`}
-		>
-			<span className="direction__inner">
-				<span className="direction__text">{props.title}</span>
-				<span className="direction__icon">
-					<i></i>
-					<i></i>
-				</span>
-			</span>
-		</Link>
-	)
-}
 
 
 class PrimaryRegion extends Component {

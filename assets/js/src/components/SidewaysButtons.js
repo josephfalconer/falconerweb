@@ -8,8 +8,7 @@ const replaceLocation = newHash => {
 	window.location = `${currentLocation.origin}/#/${newHash}`;
 }
 
-
-class DirectionButtons extends Component {
+class SidewaysButtons extends Component {
 
 	static propTypes = {
 		primaryRegions: PropTypes.array.isRequired,
@@ -51,17 +50,6 @@ class DirectionButtons extends Component {
 					targetRegion: primaryRegions[currentRegion.index + 1],
 					name: 'next'
 				}
-				// ,
-				// {
-				// 	condition: true,
-				// 	targetRegion: currentSubRegions[currentRegion.y],
-				// 	name: 'down'
-				// },
-				// {
-				// 	condition: currentRegion.y > 0,
-				// 	targetRegion: currentSubRegions[currentRegion.y - 2] || primaryRegions[currentRegion.x],
-				// 	name: 'up'
-				// }
 			]
 		});
 	}
@@ -142,4 +130,4 @@ const mapStateToProps = state => (
     }
 );
 
-export default connect(mapStateToProps)(DirectionButtons);
+export default connect(mapStateToProps)(SidewaysButtons);
