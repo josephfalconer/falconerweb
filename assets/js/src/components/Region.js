@@ -11,12 +11,21 @@ const Region = props => {
 		backgroundStyle = { backgroundImage: `url(${data.background})` };
 
 	let { [data.icon]:Icon } = Icons,
-		regionInnerClass = `region__inner text text--${data.text_colour}`;
+		regionInnerClass = `region__inner text text--${data.text_colour}`,
+		currentModules = [];
 
-	if (data.center_content) {
-		regionInnerClass +=  ' center-content';
+	for (let module of contentModules) {
+		if (module.region == data.title) {
+			currentModules.push(module);
+		}
 	}
-	
+
+	if (!currentModules.length) {
+		regionInnerClass += data.center_content ? ' center-content' : ' padding--full';
+	} else {
+		regionInnerClass += ' padding--top';
+	}
+
 	if (Icon) {
 		Icon = Icon.call();
 	}
@@ -31,17 +40,13 @@ const Region = props => {
 						<div className="region__intro" dangerouslySetInnerHTML={{__html: data.intro_text}}></div>
 					</header>
 
-					{contentModules.map((contentModule, index) => {	
-						if (contentModule.region == data.title) {
-							return (
-								<ContentModules 
-									key={index}
-									moduleType={contentModule.module_type} 
-								/>
-							)
-						} else {
-							return null;
-						}
+					{currentModules.length && currentModules.map((contentModule, index) => {	
+						return (
+							<ContentModules 
+								key={index}
+								moduleType={contentModule.module_type} 
+							/>
+						)
 					})}
 				</div>
 			</div>

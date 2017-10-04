@@ -19,6 +19,14 @@
     @include mq(lg) {
 		padding: remcalc($padding) 0;
 	}
+
+	&--top {
+		padding-top: remcalc(30);
+	}
+
+	&--full {
+		padding: remcalc(30) remcalc(30) remcalc(70);
+	}
 }
 
 // lists without default styles

@@ -10,7 +10,7 @@ const DirectionButton = props => {
 			className={`direction direction--${props.name}`}
 		>
 			<span className="direction__inner">
-				<span className="direction__text">{props.title}</span>
+				<span className="direction__text is-displayed-lg">{props.title}</span>
 				<span className="direction__icon">
 					<i></i>
 					<i></i>

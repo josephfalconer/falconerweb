@@ -13,7 +13,7 @@ class PrimaryRegion extends Component {
 		data: PropTypes.object.isRequired,
 	}
 
-	getSubRegions() {
+	setSubRegions() {
 		const { subRegions, data } = this.props;
 		let currentSubRegions = [],
 			y = 0;
@@ -27,6 +27,7 @@ class PrimaryRegion extends Component {
 				y++;
 				currentSubRegions.push({ 
 					...subRegion, 
+					x: data.x,
 					y: y 
 				});				
 			}
@@ -35,7 +36,7 @@ class PrimaryRegion extends Component {
 		return currentSubRegions;
 	}
 
-	getButtons = subRegions => {
+	setButtons = subRegions => {
 		const { data, currentRegion } = this.props;
 
 		if (!currentRegion) {
@@ -58,8 +59,8 @@ class PrimaryRegion extends Component {
 
 	render() {
 		const { data, match, isMovingRegions, currentRegion } = this.props,
-			subRegions = this.getSubRegions(),
-			buttons = this.getButtons(subRegions);
+			subRegions = this.setSubRegions(),
+			buttons = this.setButtons(subRegions);
 
 		return (
 			<div>

@@ -73,6 +73,8 @@ class IncomingRegion extends Component {
  			regionClass += this.getTransitonClass();
  		}
 
+ 		// console.log(`${data.title}: ${regionClass}`);
+
 		return (
 			<Region 
 				data={data} 

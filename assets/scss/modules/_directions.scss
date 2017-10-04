@@ -3,7 +3,8 @@
 // =========================
 
 $direction-offset: 20;
-$direction-size: 30;
+$direction-size-sm: 20;
+$direction-size-md: 30;
 
 
 %vertical-direction {
@@ -18,10 +19,18 @@ $direction-size: 30;
 
 	&:hover {
 		i {
-			transform: translate(-10px,10px) rotate(45deg);
-
 			&:first-of-type {
-				transform: translate(10px,-10px) rotate(45deg);
+				@include mq(lg) {
+					transform: translate(10px,-10px) rotate(45deg);
+				}
+				
+			}
+
+			&:last-of-type {
+				@include mq(lg) {
+					transform: translate(-10px,10px) rotate(45deg);
+				}
+				
 			}
 		}
 	}
@@ -34,11 +43,15 @@ $direction-size: 30;
 	&:hover {
 		i {
 			&:first-of-type {
-				transform: rotate(135deg);
+				@include mq(lg) {
+					transform: rotate(135deg);
+				}
 			}
 
 			&:last-of-type {
-				transform: rotate(-45deg);
+				@include mq(lg) {
+					transform: rotate(-45deg);
+				}
 			}
 		}
 	}
@@ -53,11 +66,16 @@ $direction-size: 30;
 }
 
 .direction {
+	display: block;
 	position: fixed;
 	z-index: $navigation-z-index;
 	outline: none;
-	@include square( remcalc($direction-size + 10) );
+	@include square( remcalc($direction-size-sm + 10) );
 	color: $white;
+
+	@include mq(md) {
+		@include square( remcalc($direction-size-md + 10) );
+	}
 
 	&:hover {
 		.direction__text {
@@ -66,15 +84,21 @@ $direction-size: 30;
 
 		.direction__icon {
 			&::after {
-				animation: none;
-				opacity: 0;
+				@include mq(lg) {
+					animation: none;
+					opacity: 0;
+				}
 			}
 		}
 	}
 
 	@include m(prev) {
 		@extend %sideways-direction;
-		left: remcalc($direction-offset);
+		left: remcalc(5);
+
+		@include mq(lg) {
+			left: remcalc($direction-offset);
+		}
 
 		.direction__text {
 			left: 0;
@@ -87,7 +111,11 @@ $direction-size: 30;
 
 	@include m(next) {
 		@extend %sideways-direction;
-		right: remcalc($direction-offset);
+		right: remcalc(5);
+
+		@include mq(lg) {
+			right: remcalc($direction-offset);
+		}
 
 		.direction__text {
 			right: 0;
@@ -105,7 +133,11 @@ $direction-size: 30;
 		@include sides( remcalc(70), remcalc(50) );
 
 		.direction__inner {
-			margin: remcalc($direction-offset) auto 0;
+			margin: remcalc(5) auto 0;
+
+			@include mq(lg) {
+				margin-top: remcalc($direction-offset)
+			}
 		}
 		
 		.direction__icon {
@@ -113,30 +145,43 @@ $direction-size: 30;
 		}
 	}
 
-	@include m(down) {
+	&--down {
 		@extend %vertical-direction;
-		bottom: remcalc($direction-offset * 4.5);
+		bottom: remcalc(35);
+
+		@include mq(md) {
+			bottom: remcalc(40);
+		}
+
+		@include mq(lg) {
+			bottom: remcalc(80);
+		}
 		
 		.direction__icon {
 			transform: rotate(225deg);
 		}
 	}
 
-	@include e(inner) {
+	&__inner {
 		display: block;
 		position: relative;
-		@include square( remcalc($direction-size) );
+		margin: 0 auto;
+		@include square( remcalc($direction-size-sm) );
+
+		@include mq(md) {
+			@include square( remcalc($direction-size-md) );
+		}
 	}
 
-	@include e(text) {
+	&__text {
 		position: absolute;
 		top: 0;
-		line-height: remcalc($direction-size);
+		line-height: remcalc($direction-size-md);
 		opacity: 0;
 		transition: opacity $transition-duration;
 	}
 
-	@include e(icon) {
+	&__icon {
 		display: block;
 		position: absolute;
 		top: 0;
@@ -147,13 +192,28 @@ $direction-size: 30;
 			content: "";
 			display: block;
 			position: absolute;
-		    top: 50%;
-		    left: 50%;
-			@include square(remcalc(15));
+		    top: remcalc(5.29);
+		    left: remcalc(5.29);
+			@include square(remcalc(12.5));
 			background-image: url(/static/arrow.svg);
 			animation: fade-in-out 1s infinite;
-			transform: translate(-50%,-50%);
 			transition: opacity $transition-duration;
+
+			@include mq(sm, max) {
+				background-size: remcalc(32);
+			}
+
+			@include mq(md) {
+				top: remcalc(10);
+			    left: remcalc(10);
+				@include square(remcalc(17.5));
+			}
+
+			@include mq(lg) {
+				top: remcalc(8.5);
+			    left: remcalc(8.5);
+			    @include square(remcalc(12.5));
+			}
 		}
 	}
 
@@ -164,8 +224,16 @@ $direction-size: 30;
 		left: 0;
 		@include square(100%);
 		background: url(/static/arrow-line.svg) no-repeat remcalc(-0.5);
-		background-size: cover;
+		background-size: 160%;
 		transition: transform $transition-duration;
+
+		@include mq(md, max) {
+			display: none;
+		}
+
+		@include mq(md) {
+			background-size: cover;
+		}
 
 		&:first-of-type {
 			transform: rotate(90deg);

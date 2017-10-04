@@ -2,6 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+// import DirectionButton from './DirectionButton';
+
 
 const replaceLocation = newHash => {
 	const currentLocation = window.location;
@@ -90,8 +92,6 @@ class SidewaysButtons extends Component {
 			<nav className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
 				{buttons.map((button, index) => {
 					if (button.condition && button.targetRegion) {
-						// let to = button.name == 'down' ? `${currentPrimaryRegion.path_hash}/${button.targetRegion.path_hash}` : button.targetRegion.path_hash;
-						// let to = `${button.targetRegion.path_hash}`;
 						return (
 							<Link 
 								key={index}
@@ -100,7 +100,7 @@ class SidewaysButtons extends Component {
 								className={`direction direction--${button.name}`}
 							>
 								<span className="direction__inner">
-									<span className="direction__text">{button.targetRegion.title}</span>
+									<span className="direction__text is-displayed-lg">{button.targetRegion.title}</span>
 									<span className="direction__icon">
 										<i></i>
 										<i></i>
