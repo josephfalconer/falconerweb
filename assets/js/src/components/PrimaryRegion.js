@@ -73,24 +73,23 @@ class PrimaryRegion extends Component {
 				/>
 				
 				{buttons.map((button, index) => {
-					if (button.targetRegion && button.condition) {
+					let targetRegion = button.targetRegion,
+						to = false;
 
-						let to = button.targetRegion === data ? false : button.targetRegion.path_hash;
-
-						return (
-							<DirectionButton
-								key={index}
-								matchUrl={match.url}
-								to={to}
-								name={button.name}
-								title={button.targetRegion.title}
-								isMovingRegions={isMovingRegions}
-							/>
-						)
-					} else {
-						return null;
+					if (targetRegion) {
+						to = targetRegion === data ? false : targetRegion.path_hash;
 					}
-					
+
+					return (
+						<DirectionButton
+							key={index}
+							matchUrl={match.url}
+							to={to}
+							isVisible={targetRegion && button.condition}
+							name={button.name}
+							title={targetRegion ? targetRegion.title : ''}
+						/>
+					)
 				})}
 
 				{subRegions.map((subRegion, index) => {

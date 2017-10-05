@@ -8,8 +8,8 @@ $direction-size-md: 30;
 
 
 %vertical-direction {
-	left: 50%;
-	transform: translateX(-50%);
+	left: calc(50% - 35px);
+	@include sides( remcalc(70), remcalc(50) );
 
 	.direction__text {
 		left: remcalc(-35);
@@ -38,7 +38,7 @@ $direction-size-md: 30;
 
 %sideways-direction {
 	top: 50%;
-	transform: translateY(-50%);
+	// transform: translateY(-50%);
 
 	&:hover {
 		i {
@@ -70,11 +70,15 @@ $direction-size-md: 30;
 	position: fixed;
 	z-index: $navigation-z-index;
 	outline: none;
-	@include square( remcalc($direction-size-sm + 10) );
+	// @include square( remcalc($direction-size-sm + 10) );
 	color: $white;
+	// opacity: 1;
+
+	// background-color: red;
+	// transition: background-color $regions-slide-duration / 2;
 
 	@include mq(md) {
-		@include square( remcalc($direction-size-md + 10) );
+		// @include square( remcalc($direction-size-md + 10) );
 	}
 
 	&:hover {
@@ -111,7 +115,7 @@ $direction-size-md: 30;
 
 	@include m(next) {
 		@extend %sideways-direction;
-		right: remcalc(5);
+		right: remcalc(5);		
 
 		@include mq(lg) {
 			right: remcalc($direction-offset);
@@ -130,7 +134,6 @@ $direction-size-md: 30;
 		@extend %vertical-direction;
 		top: 0;
 		border-radius: 0 0 remcalc(10) remcalc(10);
-		@include sides( remcalc(70), remcalc(50) );
 
 		.direction__inner {
 			margin: remcalc(5) auto 0;

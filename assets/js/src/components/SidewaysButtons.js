@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-// import DirectionButton from './DirectionButton';
+import DirectionButton from './DirectionButton';
 
 
 const replaceLocation = newHash => {
@@ -20,40 +20,29 @@ class SidewaysButtons extends Component {
 		regionTextColour: PropTypes.string.isRequired,
 	}
 
-	state = {
-		buttons: []
-	}
-
 	componentDidMount() {
-		this.updateButtons();
 		this.handleOnWheel();
 	}
 
-	componentWillReceiveProps() {
-		this.updateButtons();
-	}
-
-	updateButtons = () => {
+	setButtons = () => {
 		const { primaryRegions, currentRegion, currentSubRegions } = this.props;
 
 		if (!currentRegion) {
 			return;
 		}
 
-		this.setState({
-			buttons: [
-				{
-					condition: true,
-					targetRegion: primaryRegions[currentRegion.index - 1],
-					name: 'prev'
-				},
-				{
-					condition: true,
-					targetRegion: primaryRegions[currentRegion.index + 1],
-					name: 'next'
-				}
-			]
-		});
+		return [
+			{
+				condition: true,
+				targetRegion: primaryRegions[currentRegion.index - 1],
+				name: 'prev'
+			},
+			{
+				condition: true,
+				targetRegion: primaryRegions[currentRegion.index + 1],
+				name: 'next'
+			}
+		]
 	}
 
 	handleOnWheel = () => {
@@ -85,32 +74,25 @@ class SidewaysButtons extends Component {
 	}
 
 	render() {
-		const { currentPrimaryRegion, isMovingRegions, regionTextColour } = this.props,
-			{ buttons } = this.state;
+		const { currentPrimaryRegion, isMovingRegions, regionTextColour } = this.props;
+
+		let buttons = [];
+		buttons = this.setButtons();
 
 		return (
 			<nav className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
-				{buttons.map((button, index) => {
-					if (button.condition && button.targetRegion) {
-						return (
-							<Link 
-								key={index}
-								to={button.targetRegion.path_hash}
-								onClick={e => { if (isMovingRegions) e.preventDefault(); }} 
-								className={`direction direction--${button.name}`}
-							>
-								<span className="direction__inner">
-									<span className="direction__text is-displayed-lg">{button.targetRegion.title}</span>
-									<span className="direction__icon">
-										<i></i>
-										<i></i>
-									</span>
-								</span>
-							</Link>
-						)
-					} else {
-						return null;
-					}
+				{buttons && buttons.map((button, index) => {
+					let targetRegion = button.targetRegion;
+
+					return (
+						<DirectionButton
+							key={index}
+							to={targetRegion ? targetRegion.path_hash : ''}
+							isVisible={targetRegion && button.condition}
+							name={button.name}
+							title={targetRegion ? targetRegion.title : ''}
+						/>
+					)
 				})}
 			</nav>	
 		)

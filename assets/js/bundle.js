@@ -12710,7 +12710,7 @@ var Application = function (_Component) {
 
 			return _react2.default.createElement(
 				'div',
-				null,
+				{ className: isMovingRegions ? 'js-moving-regions' : 'js-stationary' },
 				_react2.default.createElement(_DataFetcher2.default, null),
 				_react2.default.createElement(_Navigation2.default, null),
 				_react2.default.createElement(_SidewaysButtons2.default, null),
@@ -14057,43 +14057,113 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(13);
 
 var _reactRouterDom = __webpack_require__(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DirectionButton = function DirectionButton(props) {
-	return _react2.default.createElement(
-		_reactRouterDom.Link,
-		{
-			to: '' + props.matchUrl + (props.to ? '/' + props.to : ''),
-			onClick: function onClick(e) {
-				if (props.isMovingRegions) e.preventDefault();
-			},
-			className: 'direction direction--' + props.name
-		},
-		_react2.default.createElement(
-			'span',
-			{ className: 'direction__inner' },
-			_react2.default.createElement(
-				'span',
-				{ className: 'direction__text is-displayed-lg' },
-				props.title
-			),
-			_react2.default.createElement(
-				'span',
-				{ className: 'direction__icon' },
-				_react2.default.createElement('i', null),
-				_react2.default.createElement('i', null)
-			)
-		)
-	);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DirectionButton = function (_Component) {
+	_inherits(DirectionButton, _Component);
+
+	function DirectionButton() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		_classCallCheck(this, DirectionButton);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DirectionButton.__proto__ || Object.getPrototypeOf(DirectionButton)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+			isVisible: false
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
+
+	_createClass(DirectionButton, [{
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps() {
+			var isVisible = this.props.isVisible;
+
+			this.setState({ isVisible: isVisible ? true : false });
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _props = this.props,
+			    matchUrl = _props.matchUrl,
+			    to = _props.to,
+			    isMovingRegions = _props.isMovingRegions,
+			    name = _props.name,
+			    title = _props.title,
+			    formattedTo = matchUrl ? '' + matchUrl + (to ? '/' + to : '') : to;
+
+
+			var isVisibleProps = this.props.isVisible,
+			    isVisibleState = this.state.isVisible;
+
+			var visibiltyClass = '';
+
+			if (!isVisibleProps) {
+				visibiltyClass = 'js-hidden-button';
+			}
+
+			if (!isVisibleState && isVisibleProps) {
+				visibiltyClass = 'js-visible-button';
+			}
+
+			return _react2.default.createElement(
+				_reactRouterDom.Link,
+				{
+					to: formattedTo,
+					onClick: function onClick(e) {
+						if (isMovingRegions) e.preventDefault();
+					},
+					className: 'direction direction--' + name + ' ' + visibiltyClass
+				},
+				_react2.default.createElement(
+					'span',
+					{ className: 'direction__inner' },
+					_react2.default.createElement(
+						'span',
+						{ className: 'direction__text is-displayed-lg' },
+						title
+					),
+					_react2.default.createElement(
+						'span',
+						{ className: 'direction__icon' },
+						_react2.default.createElement('i', null),
+						_react2.default.createElement('i', null)
+					)
+				)
+			);
+		}
+	}]);
+
+	return DirectionButton;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+	return {
+		isMovingRegions: state.transitions.isMovingRegions
+	};
 };
 
-exports.default = DirectionButton;
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(DirectionButton);
 
 /***/ }),
 /* 137 */
@@ -14561,21 +14631,21 @@ var PrimaryRegion = function (_Component) {
 					}
 				}),
 				buttons.map(function (button, index) {
-					if (button.targetRegion && button.condition) {
+					var targetRegion = button.targetRegion,
+					    to = false;
 
-						var to = button.targetRegion === data ? false : button.targetRegion.path_hash;
-
-						return _react2.default.createElement(_DirectionButton2.default, {
-							key: index,
-							matchUrl: match.url,
-							to: to,
-							name: button.name,
-							title: button.targetRegion.title,
-							isMovingRegions: isMovingRegions
-						});
-					} else {
-						return null;
+					if (targetRegion) {
+						to = targetRegion === data ? false : targetRegion.path_hash;
 					}
+
+					return _react2.default.createElement(_DirectionButton2.default, {
+						key: index,
+						matchUrl: match.url,
+						to: to,
+						isVisible: targetRegion && button.condition,
+						name: button.name,
+						title: targetRegion ? targetRegion.title : ''
+					});
 				}),
 				subRegions.map(function (subRegion, index) {
 					return _react2.default.createElement(_reactRouterDom.Route, {
@@ -14629,6 +14699,10 @@ var _reactRedux = __webpack_require__(13);
 
 var _reactRouterDom = __webpack_require__(21);
 
+var _DirectionButton = __webpack_require__(136);
+
+var _DirectionButton2 = _interopRequireDefault(_DirectionButton);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -14636,9 +14710,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// import DirectionButton from './DirectionButton';
-
 
 var replaceLocation = function replaceLocation(newHash) {
 	var currentLocation = window.location;
@@ -14659,9 +14730,7 @@ var SidewaysButtons = function (_Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SidewaysButtons.__proto__ || Object.getPrototypeOf(SidewaysButtons)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-			buttons: []
-		}, _this.updateButtons = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SidewaysButtons.__proto__ || Object.getPrototypeOf(SidewaysButtons)).call.apply(_ref, [this].concat(args))), _this), _this.setButtons = function () {
 			var _this$props = _this.props,
 			    primaryRegions = _this$props.primaryRegions,
 			    currentRegion = _this$props.currentRegion,
@@ -14672,17 +14741,15 @@ var SidewaysButtons = function (_Component) {
 				return;
 			}
 
-			_this.setState({
-				buttons: [{
-					condition: true,
-					targetRegion: primaryRegions[currentRegion.index - 1],
-					name: 'prev'
-				}, {
-					condition: true,
-					targetRegion: primaryRegions[currentRegion.index + 1],
-					name: 'next'
-				}]
-			});
+			return [{
+				condition: true,
+				targetRegion: primaryRegions[currentRegion.index - 1],
+				name: 'prev'
+			}, {
+				condition: true,
+				targetRegion: primaryRegions[currentRegion.index + 1],
+				name: 'next'
+			}];
 		}, _this.handleOnWheel = function () {
 			var lastDeltaY = 0;
 
@@ -14714,13 +14781,7 @@ var SidewaysButtons = function (_Component) {
 	_createClass(SidewaysButtons, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			this.updateButtons();
 			this.handleOnWheel();
-		}
-	}, {
-		key: 'componentWillReceiveProps',
-		value: function componentWillReceiveProps() {
-			this.updateButtons();
 		}
 	}, {
 		key: 'render',
@@ -14728,44 +14789,25 @@ var SidewaysButtons = function (_Component) {
 			var _props = this.props,
 			    currentPrimaryRegion = _props.currentPrimaryRegion,
 			    isMovingRegions = _props.isMovingRegions,
-			    regionTextColour = _props.regionTextColour,
-			    buttons = this.state.buttons;
+			    regionTextColour = _props.regionTextColour;
 
+
+			var buttons = [];
+			buttons = this.setButtons();
 
 			return _react2.default.createElement(
 				'nav',
 				{ className: regionTextColour == 'dark' ? 'directions directions--background' : 'directions' },
-				buttons.map(function (button, index) {
-					if (button.condition && button.targetRegion) {
-						return _react2.default.createElement(
-							_reactRouterDom.Link,
-							{
-								key: index,
-								to: button.targetRegion.path_hash,
-								onClick: function onClick(e) {
-									if (isMovingRegions) e.preventDefault();
-								},
-								className: 'direction direction--' + button.name
-							},
-							_react2.default.createElement(
-								'span',
-								{ className: 'direction__inner' },
-								_react2.default.createElement(
-									'span',
-									{ className: 'direction__text is-displayed-lg' },
-									button.targetRegion.title
-								),
-								_react2.default.createElement(
-									'span',
-									{ className: 'direction__icon' },
-									_react2.default.createElement('i', null),
-									_react2.default.createElement('i', null)
-								)
-							)
-						);
-					} else {
-						return null;
-					}
+				buttons && buttons.map(function (button, index) {
+					var targetRegion = button.targetRegion;
+
+					return _react2.default.createElement(_DirectionButton2.default, {
+						key: index,
+						to: targetRegion ? targetRegion.path_hash : '',
+						isVisible: targetRegion && button.condition,
+						name: button.name,
+						title: targetRegion ? targetRegion.title : ''
+					});
 				})
 			);
 		}

@@ -24,7 +24,7 @@ class Application extends Component {
 		const style = { position: 'absolute', zIndex: '200'}
 
 		return (
-			<div>
+			<div className={isMovingRegions ? 'js-moving-regions' : 'js-stationary'}>
 				<DataFetcher />
 
 				<Navigation />

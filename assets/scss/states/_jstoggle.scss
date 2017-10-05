@@ -2,7 +2,6 @@
 // Classes toggled in JS
 // =====================
 
-$regions-slide-duration: 1s;
 $regions-fade-duration: $regions-slide-duration / 2;
 $regions-sides: 'left', 'top', 'right', 'bottom';
 
@@ -93,6 +92,38 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 	}
 }
 
+
+// keyframes for buttons
+@keyframes button-slide-right {
+	50% {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+}
+
+@keyframes button-slide-left {
+	50% {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+}
+
+@keyframes button-slide-up {
+	50% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+}
+
+@keyframes button-slide-down {
+	50% {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+}
+
+
+
 // apply animations
 .js {
 	&-outgoing {
@@ -113,6 +144,68 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 		&-fade {
 			opacity: 0;
 			animation: in-from-fade $regions-fade-duration $regions-fade-duration;
+		}
+	}
+
+	&-moving-regions {
+		.direction {
+			pointer-events: none; // TODO - disable hover state when moving
+
+			&--next {
+				animation: button-slide-right $regions-slide-duration;
+			}
+
+			&--prev {
+				animation: button-slide-left $regions-slide-duration;
+			}
+
+			&--up {
+				animation: button-slide-up $regions-slide-duration;
+			}
+
+			&--down {
+				animation: button-slide-down $regions-slide-duration;
+			}
+		}		
+	}
+}
+
+.direction {
+	&.js-hidden-button {
+		pointer-events: none;
+		animation: none;
+		opacity: 0;
+		transition: all $regions-slide-duration / 2;
+	}
+
+	&.js-visible-button {
+		transform: none;
+		opacity: 1;
+		transition: all $regions-slide-duration / 2 $regions-slide-duration / 2;
+		animation: none;
+	}
+
+	&--prev {
+		&.js-hidden-button {
+			transform: translateX(-100%);
+		}
+	}
+
+	&--next {
+		&.js-hidden-button {
+			transform: translateX(100%);
+		}
+	}
+
+	&--up {
+		&.js-hidden-button {
+			transform: translateY(-100%);
+		}
+	}
+
+	&--down {
+		&.js-hidden-button {
+			transform: translateY(100%);
 		}
 	}
 }
