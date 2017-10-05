@@ -60,6 +60,12 @@
   padding: 1.875rem 1.875rem 4.375rem;
 }
 
+@media (min-width: 62rem) {
+  .padding--full {
+    padding: 6.25rem 6.25rem 9.375rem;
+  }
+}
+
 .list--plain {
   margin: 0;
   padding: 0;

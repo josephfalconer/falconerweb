@@ -26,6 +26,10 @@
 
 	&--full {
 		padding: remcalc(30) remcalc(30) remcalc(70);
+
+		@include mq(lg) {
+			padding: remcalc(100) remcalc(100) remcalc(150);
+		}
 	}
 }
 
