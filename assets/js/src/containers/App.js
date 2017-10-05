@@ -28,11 +28,7 @@ class Application extends Component {
 		// TODO
 		const style = { position: 'absolute', zIndex: '200'}
 
-
 		let className = '';
-
-		console.log(regionTextColour);
-
 		className += isMovingRegions ? 'js-moving-regions' : 'js-stationary';
 		className += regionTextColour == 'dark' ? ' js-nav-backgrounds' : '';
 
