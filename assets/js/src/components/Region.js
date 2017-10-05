@@ -40,14 +40,18 @@ const Region = props => {
 						<div className="region__intro" dangerouslySetInnerHTML={{__html: data.intro_text}}></div>
 					</header>
 
-					{currentModules.length && currentModules.map((contentModule, index) => {	
-						return (
-							<ContentModules 
-								key={index}
-								moduleType={contentModule.module_type} 
-							/>
-						)
-					})}
+					{currentModules.length ? 
+						currentModules.map((contentModule, index) => {	
+							return (
+								<ContentModules 
+									key={index}
+									moduleType={contentModule.module_type} 
+								/>
+							)
+						})
+						:
+						null
+					}
 				</div>
 			</div>
 		</article>		
