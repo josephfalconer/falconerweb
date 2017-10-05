@@ -17,7 +17,6 @@ class SidewaysButtons extends Component {
 		currentSubRegions: PropTypes.array.isRequired,
 		currentRegion: PropTypes.object,
 		isMovingRegions: PropTypes.bool.isRequired,
-		regionTextColour: PropTypes.string.isRequired,
 	}
 
 	componentDidMount() {
@@ -74,13 +73,13 @@ class SidewaysButtons extends Component {
 	}
 
 	render() {
-		const { currentPrimaryRegion, isMovingRegions, regionTextColour } = this.props;
+		const { currentPrimaryRegion, isMovingRegions } = this.props;
 
 		let buttons = [];
 		buttons = this.setButtons();
 
 		return (
-			<nav className={regionTextColour == 'dark' ? 'directions directions--background' : 'directions'}>
+			<nav className='directions'>
 				{buttons && buttons.map((button, index) => {
 					let targetRegion = button.targetRegion;
 
@@ -108,7 +107,6 @@ const mapStateToProps = state => (
     	currentSubRegions: state.transitions.currentSubRegions,
     	currentRegion: state.transitions.currentRegion,
     	isMovingRegions: state.transitions.isMovingRegions,
-    	regionTextColour: state.transitions.currentTextColour
     }
 );
 

@@ -35,12 +35,6 @@ $nav-toplink-width-xl: 100px;
 		transform: translateY(-200px);
 	}
 
-	@include m(background) {
-		.nav__menu {
-			background-color: $black-transparent;
-		}
-	}
-
 	a { 
 		transition: color $transition-duration; 
 		color: $white; 

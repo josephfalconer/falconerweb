@@ -149,7 +149,7 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 
 	&-moving-regions {
 		.direction {
-			pointer-events: none; // TODO - disable hover state when moving
+			pointer-events: none; 
 
 			&--next {
 				animation: button-slide-right $regions-slide-duration;
@@ -166,7 +166,30 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 			&--down {
 				animation: button-slide-down $regions-slide-duration;
 			}
+
+			i {
+				transition: all 0.2s;
+
+				&:first-of-type {
+					transform: rotate(90deg);
+				}
+
+				&:last-of-type {
+					transform: none;
+				}
+			}
+
+			&__text {
+				display: none;
+			}
 		}		
+	}
+
+	&-nav-backgrounds {
+		.nav__menu,
+		.direction {
+			background-color: $black-transparent;
+		}
 	}
 }
 

@@ -20,17 +20,11 @@ $direction-size-md: 30;
 	&:hover {
 		i {
 			&:first-of-type {
-				@include mq(lg) {
-					transform: translate(10px,-10px) rotate(45deg);
-				}
-				
+				transform: translate(10px,-10px) rotate(45deg);
 			}
 
 			&:last-of-type {
-				@include mq(lg) {
-					transform: translate(-10px,10px) rotate(45deg);
-				}
-				
+				transform: translate(-10px,10px) rotate(45deg);
 			}
 		}
 	}
@@ -43,15 +37,11 @@ $direction-size-md: 30;
 	&:hover {
 		i {
 			&:first-of-type {
-				@include mq(lg) {
-					transform: rotate(135deg);
-				}
+				transform: rotate(135deg);
 			}
 
 			&:last-of-type {
-				@include mq(lg) {
-					transform: rotate(-45deg);
-				}
+				transform: rotate(-45deg);
 			}
 		}
 	}
@@ -72,10 +62,6 @@ $direction-size-md: 30;
 	outline: none;
 	// @include square( remcalc($direction-size-sm + 10) );
 	color: $white;
-	// opacity: 1;
-
-	// background-color: red;
-	// transition: background-color $regions-slide-duration / 2;
 
 	@include mq(md) {
 		// @include square( remcalc($direction-size-md + 10) );

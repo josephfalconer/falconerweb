@@ -15,16 +15,29 @@ class Application extends Component {
         subRegions: PropTypes.array,
         isMovingRegions: PropTypes.bool.isRequired,
         outgoingRegion: PropTypes.object,
+        regionTextColour: PropTypes.string.isRequired
 	}
 
 	render() {	
-		const { primaryRegions, outgoingRegion, isMovingRegions} = this.props;
+		const { 
+			primaryRegions, 
+			outgoingRegion, 
+			isMovingRegions, 
+			regionTextColour } = this.props;
 
 		// TODO
 		const style = { position: 'absolute', zIndex: '200'}
 
+
+		let className = '';
+
+		console.log(regionTextColour);
+
+		className += isMovingRegions ? 'js-moving-regions' : 'js-stationary';
+		className += regionTextColour == 'dark' ? ' js-nav-backgrounds' : '';
+
 		return (
-			<div className={isMovingRegions ? 'js-moving-regions' : 'js-stationary'}>
+			<div className={className}>
 				<DataFetcher />
 
 				<Navigation />
@@ -69,7 +82,7 @@ const mapStateToProps = state => (
         subRegions: state.data.subRegions,
         isMovingRegions: state.transitions.isMovingRegions,
         outgoingRegion: state.transitions.outgoingRegion,
-        regionsClass: state.transitions.regionsClass
+        regionTextColour: state.transitions.currentTextColour,
     }
 );
 

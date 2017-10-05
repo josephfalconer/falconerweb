@@ -456,36 +456,28 @@ svg {
   text-align: center;
 }
 
-@media (min-width: 62rem) {
-  .direction--up:hover i:first-of-type, .direction--down:hover i:first-of-type {
-    -webkit-transform: translate(10px, -10px) rotate(45deg);
-            transform: translate(10px, -10px) rotate(45deg);
-  }
+.direction--up:hover i:first-of-type, .direction--down:hover i:first-of-type {
+  -webkit-transform: translate(10px, -10px) rotate(45deg);
+          transform: translate(10px, -10px) rotate(45deg);
 }
 
-@media (min-width: 62rem) {
-  .direction--up:hover i:last-of-type, .direction--down:hover i:last-of-type {
-    -webkit-transform: translate(-10px, 10px) rotate(45deg);
-            transform: translate(-10px, 10px) rotate(45deg);
-  }
+.direction--up:hover i:last-of-type, .direction--down:hover i:last-of-type {
+  -webkit-transform: translate(-10px, 10px) rotate(45deg);
+          transform: translate(-10px, 10px) rotate(45deg);
 }
 
 .direction--prev, .direction--next {
   top: 50%;
 }
 
-@media (min-width: 62rem) {
-  .direction--prev:hover i:first-of-type, .direction--next:hover i:first-of-type {
-    -webkit-transform: rotate(135deg);
-            transform: rotate(135deg);
-  }
+.direction--prev:hover i:first-of-type, .direction--next:hover i:first-of-type {
+  -webkit-transform: rotate(135deg);
+          transform: rotate(135deg);
 }
 
-@media (min-width: 62rem) {
-  .direction--prev:hover i:last-of-type, .direction--next:hover i:last-of-type {
-    -webkit-transform: rotate(-45deg);
-            transform: rotate(-45deg);
-  }
+.direction--prev:hover i:last-of-type, .direction--next:hover i:last-of-type {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
 }
 
 .directions--background .direction {
@@ -733,10 +725,6 @@ svg {
 .nav--homepage {
   -webkit-transform: translateY(-200px);
           transform: translateY(-200px);
-}
-
-.nav--background .nav__menu {
-  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .nav a {
@@ -1741,6 +1729,30 @@ svg {
 .js-moving-regions .direction--down {
   -webkit-animation: button-slide-down 1s;
           animation: button-slide-down 1s;
+}
+
+.js-moving-regions .direction i {
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.js-moving-regions .direction i:first-of-type {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.js-moving-regions .direction i:last-of-type {
+  -webkit-transform: none;
+          transform: none;
+}
+
+.js-moving-regions .direction__text {
+  display: none;
+}
+
+.js-nav-backgrounds .nav__menu,
+.js-nav-backgrounds .direction {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .direction.js-hidden-button {

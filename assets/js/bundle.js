@@ -12702,15 +12702,23 @@ var Application = function (_Component) {
 			var _props = this.props,
 			    primaryRegions = _props.primaryRegions,
 			    outgoingRegion = _props.outgoingRegion,
-			    isMovingRegions = _props.isMovingRegions;
+			    isMovingRegions = _props.isMovingRegions,
+			    regionTextColour = _props.regionTextColour;
 
 			// TODO
 
 			var style = { position: 'absolute', zIndex: '200' };
 
+			var className = '';
+
+			console.log(regionTextColour);
+
+			className += isMovingRegions ? 'js-moving-regions' : 'js-stationary';
+			className += regionTextColour == 'dark' ? ' js-nav-backgrounds' : '';
+
 			return _react2.default.createElement(
 				'div',
-				{ className: isMovingRegions ? 'js-moving-regions' : 'js-stationary' },
+				{ className: className },
 				_react2.default.createElement(_DataFetcher2.default, null),
 				_react2.default.createElement(_Navigation2.default, null),
 				_react2.default.createElement(_SidewaysButtons2.default, null),
@@ -12753,7 +12761,8 @@ Application.propTypes = {
 	primaryRegions: _react.PropTypes.array,
 	subRegions: _react.PropTypes.array,
 	isMovingRegions: _react.PropTypes.bool.isRequired,
-	outgoingRegion: _react.PropTypes.object
+	outgoingRegion: _react.PropTypes.object,
+	regionTextColour: _react.PropTypes.string.isRequired
 };
 
 
@@ -12763,7 +12772,7 @@ var mapStateToProps = function mapStateToProps(state) {
 		subRegions: state.data.subRegions,
 		isMovingRegions: state.transitions.isMovingRegions,
 		outgoingRegion: state.transitions.outgoingRegion,
-		regionsClass: state.transitions.regionsClass
+		regionTextColour: state.transitions.currentTextColour
 	};
 };
 
@@ -14063,8 +14072,6 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(13);
-
 var _reactRouterDom = __webpack_require__(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -14107,7 +14114,6 @@ var DirectionButton = function (_Component) {
 			var _props = this.props,
 			    matchUrl = _props.matchUrl,
 			    to = _props.to,
-			    isMovingRegions = _props.isMovingRegions,
 			    name = _props.name,
 			    title = _props.title,
 			    formattedTo = matchUrl ? '' + matchUrl + (to ? '/' + to : '') : to;
@@ -14130,9 +14136,6 @@ var DirectionButton = function (_Component) {
 				_reactRouterDom.Link,
 				{
 					to: formattedTo,
-					onClick: function onClick(e) {
-						if (isMovingRegions) e.preventDefault();
-					},
 					className: 'direction direction--' + name + ' ' + visibiltyClass
 				},
 				_react2.default.createElement(
@@ -14157,13 +14160,7 @@ var DirectionButton = function (_Component) {
 	return DirectionButton;
 }(_react.Component);
 
-var mapStateToProps = function mapStateToProps(state) {
-	return {
-		isMovingRegions: state.transitions.isMovingRegions
-	};
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(DirectionButton);
+exports.default = DirectionButton;
 
 /***/ }),
 /* 137 */
@@ -14353,14 +14350,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Navigation = function Navigation(props) {
 	var navigationLinks = props.navigationLinks,
-	    isMovingRegions = props.isMovingRegions,
-	    regionTextColour = props.regionTextColour;
+	    isMovingRegions = props.isMovingRegions;
 
 
 	if (navigationLinks.length) {
 		return _react2.default.createElement(
 			'nav',
-			{ className: regionTextColour == 'dark' ? 'nav nav--background' : 'nav' },
+			{ className: 'nav' },
 			_react2.default.createElement(
 				'ul',
 				{ className: 'nav__menu list--plain' },
@@ -14412,15 +14408,13 @@ var Navigation = function Navigation(props) {
 
 Navigation.propTypes = {
 	navigationLinks: _react.PropTypes.array.isRequired,
-	isMovingRegions: _react.PropTypes.bool.isRequired,
-	regionTextColour: _react.PropTypes.string.isRequired
+	isMovingRegions: _react.PropTypes.bool.isRequired
 };
 
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		navigationLinks: state.data.navigationLinks,
-		isMovingRegions: state.transitions.isMovingRegions,
-		regionTextColour: state.transitions.currentTextColour
+		isMovingRegions: state.transitions.isMovingRegions
 	};
 };
 
@@ -14788,8 +14782,7 @@ var SidewaysButtons = function (_Component) {
 		value: function render() {
 			var _props = this.props,
 			    currentPrimaryRegion = _props.currentPrimaryRegion,
-			    isMovingRegions = _props.isMovingRegions,
-			    regionTextColour = _props.regionTextColour;
+			    isMovingRegions = _props.isMovingRegions;
 
 
 			var buttons = [];
@@ -14797,7 +14790,7 @@ var SidewaysButtons = function (_Component) {
 
 			return _react2.default.createElement(
 				'nav',
-				{ className: regionTextColour == 'dark' ? 'directions directions--background' : 'directions' },
+				{ className: 'directions' },
 				buttons && buttons.map(function (button, index) {
 					var targetRegion = button.targetRegion;
 
@@ -14820,8 +14813,7 @@ SidewaysButtons.propTypes = {
 	primaryRegions: _react.PropTypes.array.isRequired,
 	currentSubRegions: _react.PropTypes.array.isRequired,
 	currentRegion: _react.PropTypes.object,
-	isMovingRegions: _react.PropTypes.bool.isRequired,
-	regionTextColour: _react.PropTypes.string.isRequired
+	isMovingRegions: _react.PropTypes.bool.isRequired
 };
 
 
@@ -14831,8 +14823,7 @@ var mapStateToProps = function mapStateToProps(state) {
 		currentPrimaryRegion: state.transitions.currentPrimaryRegion,
 		currentSubRegions: state.transitions.currentSubRegions,
 		currentRegion: state.transitions.currentRegion,
-		isMovingRegions: state.transitions.isMovingRegions,
-		regionTextColour: state.transitions.currentTextColour
+		isMovingRegions: state.transitions.isMovingRegions
 	};
 };
 

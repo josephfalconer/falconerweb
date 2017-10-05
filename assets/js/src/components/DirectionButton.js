@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 
@@ -14,7 +13,7 @@ class DirectionButton extends Component {
 	}
 
 	render() {
-		const { matchUrl, to, isMovingRegions, name, title } = this.props,
+		const { matchUrl, to, name, title } = this.props,
 			formattedTo = matchUrl ? `${matchUrl}${to ? '/' + to : ''}` : to;
 
 		const isVisibleProps = this.props.isVisible,
@@ -33,7 +32,6 @@ class DirectionButton extends Component {
 		return (
 			<Link 
 				to={formattedTo}
-				onClick={e => { if (isMovingRegions) e.preventDefault(); }} 
 				className={`direction direction--${name} ${visibiltyClass}`}
 			>
 				<span className="direction__inner">
@@ -48,10 +46,4 @@ class DirectionButton extends Component {
 	}
 }
 
-const mapStateToProps = state => (
-    {	
-    	isMovingRegions: state.transitions.isMovingRegions,
-    }
-);
-
-export default connect(mapStateToProps)(DirectionButton);
+export default DirectionButton;
