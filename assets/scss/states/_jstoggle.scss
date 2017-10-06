@@ -182,6 +182,10 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 			&__text {
 				display: none;
 			}
+
+			&:hover .direction__icon::after {
+				opacity: 1;
+			}
 		}		
 	}
 

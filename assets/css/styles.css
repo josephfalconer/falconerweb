@@ -1756,6 +1756,10 @@ svg {
   display: none;
 }
 
+.js-moving-regions .direction:hover .direction__icon::after {
+  opacity: 1;
+}
+
 .js-nav-backgrounds .nav__menu,
 .js-nav-backgrounds .direction {
   background-color: rgba(0, 0, 0, 0.5);
