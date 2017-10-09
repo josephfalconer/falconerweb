@@ -41,7 +41,7 @@ class Application extends Component {
 				<SidewaysButtons />
 
 				<div style={style}>
-					HELLO! Welcome.
+					WORK IN PROGRESS! Welcome.
 					<Link to="start">Start</Link>
 				</div>
 				

@@ -12829,7 +12829,7 @@ var Application = function (_Component) {
 				_react2.default.createElement(
 					'div',
 					{ style: style },
-					'HELLO! Welcome.',
+					'WORK IN PROGRESS! Welcome.',
 					_react2.default.createElement(
 						_reactRouterDom.Link,
 						{ to: 'start' },
