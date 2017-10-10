@@ -4,12 +4,12 @@ import React from 'react';
 const DemosIcon = props => {
 	return (
 		<svg className="svg--demos" viewBox="0 0 505 505">
-			<circle className="stroke bubble--bob1" strokeWidth="8" strokeMiterlimit="10" cx="180" cy="410" r="40.5"></circle>
-			<circle className="stroke bubble--bob2" strokeWidth="8" strokeMiterlimit="10" cx="250" cy="390" r="20.5"></circle>
-			<circle className="stroke bubble--bob3" strokeWidth="8" strokeMiterlimit="10" cx="320" cy="400" r="30.5"></circle>
-			<circle className="stroke bubble--rise3" strokeWidth="8" strokeMiterlimit="10" cx="286.911" cy="405" r="34.5"></circle>
-			<circle className="stroke bubble--rise2" strokeWidth="8" strokeMiterlimit="10" cx="237.911" cy="390" r="20.5"></circle>
-			<circle className="stroke bubble--rise1" strokeWidth="8" strokeMiterlimit="10" cx="281.411" cy="380" r="11"></circle>
+			<circle fill="transparent" className="stroke bubble--bob1" strokeWidth="8" strokeMiterlimit="10" cx="180" cy="410" r="40.5"></circle>
+			<circle fill="transparent" className="stroke bubble--bob2" strokeWidth="8" strokeMiterlimit="10" cx="250" cy="390" r="20.5"></circle>
+			<circle fill="transparent" className="stroke bubble--bob3" strokeWidth="8" strokeMiterlimit="10" cx="320" cy="400" r="30.5"></circle>
+			<circle fill="transparent" className="stroke bubble--rise3" strokeWidth="8" strokeMiterlimit="10" cx="286.911" cy="405" r="34.5"></circle>
+			<circle fill="transparent" className="stroke bubble--rise2" strokeWidth="8" strokeMiterlimit="10" cx="237.911" cy="390" r="20.5"></circle>
+			<circle fill="transparent" className="stroke bubble--rise1" strokeWidth="8" strokeMiterlimit="10" cx="281.411" cy="380" r="11"></circle>
 			<path className="fill" d="M505.045,467.323c0,21.226-23.136,38.497-51.595,38.497H53.385c-28.479,0-51.611-17.271-51.611-38.497
 			c0-2.059,0.511-4.104,1.493-6.023L141.84,190.374c0.048-0.429,0.131-0.86,0.203-1.283V33.848h-16.374
 			c-12.534,0-22.676-7.578-22.676-16.925C102.994,7.578,113.136,0,125.67,0h39.05c12.534,0,22.694,7.578,22.694,16.923v173.475
