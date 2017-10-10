@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'core',
     'regions',
     'skills',
-    'projects',
     'demos',
 ]
 

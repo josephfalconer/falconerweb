@@ -31,11 +31,7 @@ class DataFetcher extends Component {
 		{
 			url: '/demos/',
 			type: 'ADD_DEMOS'
-		},
-		// {
-		// 	url: '/projects/',
-		// 	type: 'ADD_PROJECTS'
-		// }
+		}
 	]
 
 	state = {
