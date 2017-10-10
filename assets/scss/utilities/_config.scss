@@ -111,8 +111,10 @@ $regions-slide-duration: 1s;
 
 // TODO tidy these up:
 // Nav 
-$nav-height		: 50px;
-$nav-li-ht		: 40px;
+$nav-height-sm		: 40;
+$nav-height-lg		: 70;
+$nav-border-radius	: 10;
+
 // Border
 $border--white	: dashed 1px $white;
 

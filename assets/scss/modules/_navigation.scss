@@ -11,28 +11,18 @@ $nav-circlelink-width-xxl: 50;
 $nav-toplink-width-xl: 100px;
 
 .nav {
-	display: flex;
 	position: absolute;
 	left: 0;
 	bottom: 0;
 	z-index: $navigation-z-index;
-	@include sides(100%, remcalc(50));
+	@include sides(100%, remcalc($nav-height-sm));
 	background-color: rgba(255,255,255,0);
-    justify-content: center;
     transform: none;
     transition: transform 1s;
 
-	@include mq(md) {
-		padding: 0 5%
-	}
-
 	@include mq(lg) {
-		height: remcalc(75);
+		height: remcalc($nav-height-lg);
 		padding: 0;
-	}
-
-	@include m(homepage) {
-		transform: translateY(-200px);
 	}
 
 	a { 
@@ -44,23 +34,19 @@ $nav-toplink-width-xl: 100px;
 		transition: color $transition-duration;
 	}
 
-	@include e(menu) {
+	&__menu {
 		display: flex;
-		border-radius: remcalc(20) remcalc(20) 0 0;
-		margin: 0 auto;
-		width: remcalc(220);
-		padding-left: 0;
-		padding-top: 0;
+		border-radius: 0 remcalc($nav-border-radius) 0 0;
+		@include sides(35%, 100%);
+		padding: 0 remcalc(5);
 		transition: background-color $transition-duration;
 
 		@include mq(lg) {
-			@include sides(remcalc(300), initial);
-			height: initial;
-			align-items: center; 
+			width: remcalc(300);
 		}
 	}
 
-	@include e(item) {
+	&__item {
 		display: flex;
 		flex: 1 0 25%;
 		order: 1;

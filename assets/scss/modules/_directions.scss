@@ -2,14 +2,19 @@
 // Sliding frontcover module
 // =========================
 
+$direction-offset-sm: 5;
 $direction-offset: 20;
 $direction-size-sm: 20;
-$direction-size-md: 30;
+$direction-size-lg: 30;
 
 
 %vertical-direction {
 	left: calc(50% - 35px);
-	@include sides( remcalc(70), remcalc(50) );
+	@include sides(remcalc(70), remcalc($nav-height-sm));
+
+	@include mq(lg) {
+		height: remcalc(50);
+	}
 
 	.direction__text {
 		left: remcalc(-35);
@@ -48,7 +53,7 @@ $direction-size-md: 30;
 }
 
 .directions {
-	@include m(background) {
+	&--background {
 		.direction {
 			background-color: $black-transparent;
 		}
@@ -60,12 +65,7 @@ $direction-size-md: 30;
 	position: fixed;
 	z-index: $navigation-z-index;
 	outline: none;
-	// @include square( remcalc($direction-size-sm + 10) );
 	color: $white;
-
-	@include mq(md) {
-		// @include square( remcalc($direction-size-md + 10) );
-	}
 
 	&:hover {
 		.direction__text {
@@ -82,9 +82,9 @@ $direction-size-md: 30;
 		}
 	}
 
-	@include m(prev) {
+	&--prev {
 		@extend %sideways-direction;
-		left: remcalc(5);
+		left: remcalc(10);
 
 		@include mq(lg) {
 			left: remcalc($direction-offset);
@@ -95,13 +95,21 @@ $direction-size-md: 30;
 		}
 
 		.direction__icon {
-			transform: rotate(-45deg);
+			@include mq(lg) {
+				transform: rotate(-45deg);
+			}
+
+			&::after {
+				@include mq(md, max) {
+					transform: rotate(-45deg);
+				}
+			}
 		}
 	}
 
-	@include m(next) {
+	&--next {
 		@extend %sideways-direction;
-		right: remcalc(5);		
+		right: remcalc(10);		
 
 		@include mq(lg) {
 			right: remcalc($direction-offset);
@@ -110,16 +118,24 @@ $direction-size-md: 30;
 		.direction__text {
 			right: 0;
 		}
-		
+
 		.direction__icon {
-			transform: rotate(135deg);
+			@include mq(lg) {
+				transform: rotate(135deg);
+			}
+
+			&::after {
+				@include mq(md, max) {
+					transform: rotate(135deg);
+				}
+			}
 		}
 	}
 
-	@include m(up) {
+	&--up {
 		@extend %vertical-direction;
 		top: 0;
-		border-radius: 0 0 remcalc(10) remcalc(10);
+		border-radius: 0 0 remcalc($nav-border-radius) remcalc($nav-border-radius);
 
 		.direction__inner {
 			margin: remcalc(5) auto 0;
@@ -130,24 +146,34 @@ $direction-size-md: 30;
 		}
 		
 		.direction__icon {
-			transform: rotate(45deg);
+			@include mq(lg) {
+				transform: rotate(45deg);
+			}
+
+			&::after {
+				@include mq(md, max) {
+					transform: rotate(45deg);
+				}
+			}
 		}
 	}
 
 	&--down {
 		@extend %vertical-direction;
-		bottom: remcalc(35);
+		bottom: 0;
+		border-radius: remcalc($nav-border-radius) remcalc($nav-border-radius) 0 0;
 
-		@include mq(md) {
-			bottom: remcalc(40);
-		}
-
-		@include mq(lg) {
-			bottom: remcalc(80);
-		}
-		
 		.direction__icon {
-			transform: rotate(225deg);
+			@include mq(lg) {
+				transform: rotate(225deg);
+			}
+
+			&::after {
+				@include mq(md, max) {
+					margin-bottom: remcalc($direction-offset-sm);
+					transform: rotate(225deg);
+				}
+			}
 		}
 	}
 
@@ -155,35 +181,38 @@ $direction-size-md: 30;
 		display: block;
 		position: relative;
 		margin: 0 auto;
-		@include square( remcalc($direction-size-sm) );
+		@include sides(remcalc($direction-size-sm), 100%);
 
-		@include mq(md) {
-			@include square( remcalc($direction-size-md) );
+		@include mq(lg) {
+			@include sides(remcalc($direction-size-lg), remcalc($direction-size-lg));
 		}
+
 	}
 
 	&__text {
 		position: absolute;
 		top: 0;
-		line-height: remcalc($direction-size-md);
+		line-height: remcalc($direction-size-lg);
 		opacity: 0;
 		transition: opacity $transition-duration;
 	}
 
 	&__icon {
-		display: block;
 		position: absolute;
 		top: 0;
 		left: 0;
-		@include square(100%);		
+		@include square(100%);			
+
+	    @include mq(md, max) {
+	    	display: flex;
+	    	align-items: center;
+		    justify-content: center;
+	    }	
 
 		&::after {
 			content: "";
 			display: block;
-			position: absolute;
-		    top: remcalc(5.29);
-		    left: remcalc(5.29);
-			@include square(remcalc(12.5));
+			@include square(remcalc(18));
 			background-image: url(/static/arrow.svg);
 			animation: fade-in-out 1s infinite;
 			transition: opacity $transition-duration;
@@ -192,13 +221,8 @@ $direction-size-md: 30;
 				background-size: remcalc(32);
 			}
 
-			@include mq(md) {
-				top: remcalc(10);
-			    left: remcalc(10);
-				@include square(remcalc(17.5));
-			}
-
 			@include mq(lg) {
+				position: absolute;
 				top: remcalc(8.5);
 			    left: remcalc(8.5);
 			    @include square(remcalc(12.5));

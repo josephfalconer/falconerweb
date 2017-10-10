@@ -453,7 +453,13 @@ svg {
 .direction--up, .direction--down {
   left: calc(50% - 35px);
   width: 4.375rem;
-  height: 3.125rem;
+  height: 2.5rem;
+}
+
+@media (min-width: 62rem) {
+  .direction--up, .direction--down {
+    height: 3.125rem;
+  }
 }
 
 .direction--up .direction__text, .direction--down .direction__text {
@@ -511,7 +517,7 @@ svg {
 }
 
 .direction--prev {
-  left: 0.3125rem;
+  left: 0.625rem;
 }
 
 @media (min-width: 62rem) {
@@ -524,13 +530,22 @@ svg {
   left: 0;
 }
 
-.direction--prev .direction__icon {
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
+@media (min-width: 62rem) {
+  .direction--prev .direction__icon {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+  }
+}
+
+@media (max-width: 61.9375rem) {
+  .direction--prev .direction__icon::after {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+  }
 }
 
 .direction--next {
-  right: 0.3125rem;
+  right: 0.625rem;
 }
 
 @media (min-width: 62rem) {
@@ -543,9 +558,18 @@ svg {
   right: 0;
 }
 
-.direction--next .direction__icon {
-  -webkit-transform: rotate(135deg);
-          transform: rotate(135deg);
+@media (min-width: 62rem) {
+  .direction--next .direction__icon {
+    -webkit-transform: rotate(135deg);
+            transform: rotate(135deg);
+  }
+}
+
+@media (max-width: 61.9375rem) {
+  .direction--next .direction__icon::after {
+    -webkit-transform: rotate(135deg);
+            transform: rotate(135deg);
+  }
 }
 
 .direction--up {
@@ -563,30 +587,38 @@ svg {
   }
 }
 
-.direction--up .direction__icon {
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
+@media (min-width: 62rem) {
+  .direction--up .direction__icon {
+    -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+  }
+}
+
+@media (max-width: 61.9375rem) {
+  .direction--up .direction__icon::after {
+    -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+  }
 }
 
 .direction--down {
-  bottom: 2.1875rem;
-}
-
-@media (min-width: 48rem) {
-  .direction--down {
-    bottom: 2.5rem;
-  }
+  bottom: 0;
+  border-radius: 0.625rem 0.625rem 0 0;
 }
 
 @media (min-width: 62rem) {
-  .direction--down {
-    bottom: 5rem;
+  .direction--down .direction__icon {
+    -webkit-transform: rotate(225deg);
+            transform: rotate(225deg);
   }
 }
 
-.direction--down .direction__icon {
-  -webkit-transform: rotate(225deg);
-          transform: rotate(225deg);
+@media (max-width: 61.9375rem) {
+  .direction--down .direction__icon::after {
+    margin-bottom: 0.3125rem;
+    -webkit-transform: rotate(225deg);
+            transform: rotate(225deg);
+  }
 }
 
 .direction__inner {
@@ -594,10 +626,10 @@ svg {
   position: relative;
   margin: 0 auto;
   width: 1.25rem;
-  height: 1.25rem;
+  height: 100%;
 }
 
-@media (min-width: 48rem) {
+@media (min-width: 62rem) {
   .direction__inner {
     width: 1.875rem;
     height: 1.875rem;
@@ -614,7 +646,6 @@ svg {
 }
 
 .direction__icon {
-  display: block;
   position: absolute;
   top: 0;
   left: 0;
@@ -622,14 +653,25 @@ svg {
   height: 100%;
 }
 
+@media (max-width: 61.9375rem) {
+  .direction__icon {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+}
+
 .direction__icon::after {
   content: "";
   display: block;
-  position: absolute;
-  top: 0.33063rem;
-  left: 0.33063rem;
-  width: 0.78125rem;
-  height: 0.78125rem;
+  width: 1.125rem;
+  height: 1.125rem;
   background-image: url(/static/arrow.svg);
   -webkit-animation: fade-in-out 1s infinite;
           animation: fade-in-out 1s infinite;
@@ -643,17 +685,9 @@ svg {
   }
 }
 
-@media (min-width: 48rem) {
-  .direction__icon::after {
-    top: 0.625rem;
-    left: 0.625rem;
-    width: 1.09375rem;
-    height: 1.09375rem;
-  }
-}
-
 @media (min-width: 62rem) {
   .direction__icon::after {
+    position: absolute;
     top: 0.53125rem;
     left: 0.53125rem;
     width: 0.78125rem;
@@ -694,19 +728,13 @@ svg {
 }
 
 .nav {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   position: absolute;
   left: 0;
   bottom: 0;
   z-index: 10;
   width: 100%;
-  height: 3.125rem;
+  height: 2.5rem;
   background-color: rgba(255, 255, 255, 0);
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   -webkit-transform: none;
           transform: none;
   -webkit-transition: -webkit-transform 1s;
@@ -715,22 +743,11 @@ svg {
   transition: transform 1s, -webkit-transform 1s;
 }
 
-@media (min-width: 48rem) {
-  .nav {
-    padding: 0 5%;
-  }
-}
-
 @media (min-width: 62rem) {
   .nav {
-    height: 4.6875rem;
+    height: 4.375rem;
     padding: 0;
   }
-}
-
-.nav--homepage {
-  -webkit-transform: translateY(-200px);
-          transform: translateY(-200px);
 }
 
 .nav a {
@@ -748,11 +765,10 @@ svg {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  border-radius: 1.25rem 1.25rem 0 0;
-  margin: 0 auto;
-  width: 13.75rem;
-  padding-left: 0;
-  padding-top: 0;
+  border-radius: 0 0.625rem 0 0;
+  width: 35%;
+  height: 100%;
+  padding: 0 0.3125rem;
   -webkit-transition: background-color 0.25s;
   transition: background-color 0.25s;
 }
@@ -760,11 +776,6 @@ svg {
 @media (min-width: 62rem) {
   .nav__menu {
     width: 18.75rem;
-    height: initial;
-    height: initial;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
   }
 }
 
