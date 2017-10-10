@@ -14573,6 +14573,46 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var replaceLocation = function replaceLocation(newHash) {
+	var currentLocation = window.location;
+	window.location = currentLocation.origin + '/#/' + newHash;
+};
+
+var setScroll = function setScroll(buttons) {
+
+	var lastDeltaY = 0;
+
+	var scrollHandler = function scrollHandler(e) {
+		var event = window.event || e,
+		    // old IE support
+		deltaY = event.deltaY;
+		// { isMovingRegions } = this.props;
+
+		// const regionElement = document.getElementsByClassName('region')[0];
+
+		// console.log(regionElement);
+
+		// if (isMovingRegions) {
+		// 	return
+		// } 
+
+		if (deltaY > lastDeltaY) {
+			if (buttons[0].targetRegion) {
+				replaceLocation(buttons[0].targetRegion.path_hash);
+			}
+		} else {
+			//  && regionElement.scrollTop == 0
+			if (buttons[1].targetRegion) {
+				replaceLocation(buttons[1].targetRegion.path_hash);
+			}
+		}
+
+		lastDeltaY = event.deltaY;
+	};
+
+	window.onwheel = scrollHandler;
+};
+
 var PrimaryRegion = function (_Component) {
 	_inherits(PrimaryRegion, _Component);
 
@@ -14659,6 +14699,9 @@ var PrimaryRegion = function (_Component) {
 			    subRegions = this.setSubRegions(),
 			    buttons = this.setButtons(subRegions);
 
+			// if (buttons.length) {
+			// 	setScroll(buttons);
+			// }
 
 			return _react2.default.createElement(
 				'div',
@@ -14751,11 +14794,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var replaceLocation = function replaceLocation(newHash) {
-	var currentLocation = window.location;
-	window.location = currentLocation.origin + '/#/' + newHash;
-};
-
 var SidewaysButtons = function (_Component) {
 	_inherits(SidewaysButtons, _Component);
 
@@ -14790,40 +14828,10 @@ var SidewaysButtons = function (_Component) {
 				targetRegion: primaryRegions[currentRegion.index + 1],
 				name: 'next'
 			}];
-		}, _this.handleOnWheel = function () {
-			var lastDeltaY = 0;
-
-			window.onwheel = function (e) {
-				var event = window.event || e,
-				    deltaY = event.deltaY,
-				    buttons = _this.state.buttons,
-				    isMovingRegions = _this.props.isMovingRegions;
-
-				var regionElement = document.getElementsByClassName('region')[0];
-
-				if (isMovingRegions) {
-					return;
-				}
-
-				if (deltaY > lastDeltaY) {
-					if (buttons[2].targetRegion) {
-						replaceLocation(buttons[2].targetRegion.path_hash);
-					}
-				} else {
-					if (buttons[3].targetRegion && regionElement.scrollTop == 0) {
-						replaceLocation(buttons[3].targetRegion.path_hash);
-					}
-				}
-			};
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
 	_createClass(SidewaysButtons, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			this.handleOnWheel();
-		}
-	}, {
 		key: 'render',
 		value: function render() {
 			var _props = this.props,

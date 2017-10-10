@@ -7,6 +7,48 @@ import DirectionButton from './DirectionButton';
 import * as actions from '../actions/transitions';
 
 
+
+const replaceLocation = newHash => {
+	const currentLocation = window.location;
+	window.location = `${currentLocation.origin}/#/${newHash}`;
+}
+
+const setScroll = buttons => {
+
+	let lastDeltaY = 0;
+
+	const scrollHandler = e => {
+		const event = window.event || e, // old IE support
+			deltaY = event.deltaY;
+			// { isMovingRegions } = this.props;
+
+		// const regionElement = document.getElementsByClassName('region')[0];
+
+		// console.log(regionElement);
+
+		// if (isMovingRegions) {
+		// 	return
+		// } 
+
+		if (deltaY > lastDeltaY) {
+			if (buttons[0].targetRegion) {
+				replaceLocation(buttons[0].targetRegion.path_hash);
+			}
+			
+		} else {
+			//  && regionElement.scrollTop == 0
+			if (buttons[1].targetRegion) {
+				replaceLocation(buttons[1].targetRegion.path_hash);
+			} 
+		}
+
+		lastDeltaY = event.deltaY;
+	}
+
+	window.onwheel = scrollHandler;
+}
+
+
 class PrimaryRegion extends Component {
 
 	static propTypes = {
@@ -62,6 +104,10 @@ class PrimaryRegion extends Component {
 			subRegions = this.setSubRegions(),
 			buttons = this.setButtons(subRegions);
 
+		// if (buttons.length) {
+		// 	setScroll(buttons);
+		// }
+		
 		return (
 			<div>
 				<Route 
