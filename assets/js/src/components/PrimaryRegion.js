@@ -8,44 +8,8 @@ import * as actions from '../actions/transitions';
 
 
 
-const replaceLocation = newHash => {
-	const currentLocation = window.location;
-	window.location = `${currentLocation.origin}/#/${newHash}`;
-}
-
-const setScroll = buttons => {
-
-	let lastDeltaY = 0;
-
-	const scrollHandler = e => {
-		const event = window.event || e, // old IE support
-			deltaY = event.deltaY;
-			// { isMovingRegions } = this.props;
-
-		// const regionElement = document.getElementsByClassName('region')[0];
-
-		// console.log(regionElement);
-
-		// if (isMovingRegions) {
-		// 	return
-		// } 
-
-		if (deltaY > lastDeltaY) {
-			if (buttons[0].targetRegion) {
-				replaceLocation(buttons[0].targetRegion.path_hash);
-			}
-			
-		} else {
-			//  && regionElement.scrollTop == 0
-			if (buttons[1].targetRegion) {
-				replaceLocation(buttons[1].targetRegion.path_hash);
-			} 
-		}
-
-		lastDeltaY = event.deltaY;
-	}
-
-	window.onwheel = scrollHandler;
+const replaceLocation = (matchUrl, newHash) => {
+	window.location.hash = `${matchUrl}${newHash ? '/' + newHash : ''}`;
 }
 
 
@@ -85,7 +49,7 @@ class PrimaryRegion extends Component {
 			return [];
 		}
 
-		return [
+		let buttons = [
 			{
 				condition: currentRegion.y > 0,
 				targetRegion: subRegions[currentRegion.y - 2] || data,
@@ -95,8 +59,59 @@ class PrimaryRegion extends Component {
 				condition: true,
 				targetRegion: subRegions[currentRegion.y],
 				name: 'down'
-			}			
+			}
 		]
+
+		for (let button of buttons) {
+			let targetRegion = button.targetRegion;
+
+			if (targetRegion) {
+				button.to = targetRegion === data ? false : targetRegion.path_hash;
+			}
+		}
+
+		return buttons;
+	}
+
+	setScroll = buttons => {
+
+		const _PrimaryRegion = this;
+
+		if (!buttons.length) {
+			return;
+		}
+
+		let lastDeltaY = 0;
+
+		const scrollHandler = e => {
+			const event = window.event || e, // old IE support
+				deltaY = event.deltaY,
+				{ match, isMovingRegions } = _PrimaryRegion.props;
+
+			// const regionElement = document.getElementsByClassName('region')[0];
+
+			// console.log(regionElement);
+
+			if (isMovingRegions) {
+				return
+			} 
+
+			if (deltaY > lastDeltaY) {
+				if (buttons[1].targetRegion) {
+					replaceLocation(match.url, buttons[1].to);
+				}
+				
+			} else {
+				//  && regionElement.scrollTop == 0
+				if (buttons[0].targetRegion) {
+					replaceLocation(match.url, buttons[0].to);
+				} 
+			}
+
+			lastDeltaY = event.deltaY;
+		}
+
+		window.onwheel = scrollHandler;
 	}
 
 	render() {
@@ -104,9 +119,9 @@ class PrimaryRegion extends Component {
 			subRegions = this.setSubRegions(),
 			buttons = this.setButtons(subRegions);
 
-		// if (buttons.length) {
-		// 	setScroll(buttons);
-		// }
+		if (buttons.length) {
+			this.setScroll(buttons, match.url);
+		}
 		
 		return (
 			<div>
@@ -119,18 +134,13 @@ class PrimaryRegion extends Component {
 				/>
 				
 				{buttons.map((button, index) => {
-					let targetRegion = button.targetRegion,
-						to = false;
-
-					if (targetRegion) {
-						to = targetRegion === data ? false : targetRegion.path_hash;
-					}
+					let targetRegion = button.targetRegion;
 
 					return (
 						<DirectionButton
 							key={index}
 							matchUrl={match.url}
-							to={to}
+							to={button.to}
 							isVisible={targetRegion && button.condition}
 							name={button.name}
 							title={targetRegion ? targetRegion.title : ''}

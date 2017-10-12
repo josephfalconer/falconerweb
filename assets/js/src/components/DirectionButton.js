@@ -14,6 +14,7 @@ class DirectionButton extends Component {
 
 	render() {
 		const { matchUrl, to, name, title } = this.props,
+			// if no matchUrl it's a sideways button
 			formattedTo = matchUrl ? `${matchUrl}${to ? '/' + to : ''}` : to;
 
 		const isVisibleProps = this.props.isVisible,
