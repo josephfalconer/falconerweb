@@ -19,12 +19,5 @@
 .textblock {
     margin: 0 auto;
     max-width: remcalc(850);
-	padding-top: remcalc(50);
-	padding-bottom: remcalc(50);
-	text-align: left;
-
-	@include mq(lg) {
-		padding-top: remcalc(80);
-		padding-bottom: remcalc(80);
-	}
+	text-align: left;	
 }

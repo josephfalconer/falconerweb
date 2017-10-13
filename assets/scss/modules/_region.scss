@@ -63,17 +63,33 @@
 	}
 
 	&__header {
-		padding-left: remcalc(30);
-		padding-right: remcalc(30);
+		padding: 0 remcalc(30) remcalc(25) remcalc(30);
 
 		@include mq(lg) {
-			padding-left: remcalc(50);
-			padding-right: remcalc(50);
+			padding: 0 remcalc(50) remcalc(40) remcalc(50);
 		}
 	}
 
-	&__intro {
-		margin: 0 auto;
-		max-width: remcalc(900);
+	&__title {
+		margin-bottom: 0;
 	}
+
+	&__intro {
+		margin: remcalc(20) auto 0;
+		max-width: remcalc(900);
+
+		@include mq(lg) {
+			margin-top: remcalc(40);
+		}
+	}
+}
+
+.module {
+    padding-top: remcalc(25);
+    padding-bottom: remcalc(25);
+
+    @include mq(lg) {
+        padding-top: remcalc(40);
+        padding-bottom: remcalc(40);
+    }
 }

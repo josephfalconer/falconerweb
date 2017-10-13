@@ -420,20 +420,40 @@ svg {
 }
 
 .region__header {
-  padding-left: 1.875rem;
-  padding-right: 1.875rem;
+  padding: 0 1.875rem 1.5625rem 1.875rem;
 }
 
 @media (min-width: 62rem) {
   .region__header {
-    padding-left: 3.125rem;
-    padding-right: 3.125rem;
+    padding: 0 3.125rem 2.5rem 3.125rem;
   }
 }
 
+.region__title {
+  margin-bottom: 0;
+}
+
 .region__intro {
-  margin: 0 auto;
+  margin: 1.25rem auto 0;
   max-width: 56.25rem;
+}
+
+@media (min-width: 62rem) {
+  .region__intro {
+    margin-top: 2.5rem;
+  }
+}
+
+.module {
+  padding-top: 1.5625rem;
+  padding-bottom: 1.5625rem;
+}
+
+@media (min-width: 62rem) {
+  .module {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
 }
 
 .direction--up, .direction--down {
@@ -1031,16 +1051,7 @@ svg {
 .textblock {
   margin: 0 auto;
   max-width: 53.125rem;
-  padding-top: 3.125rem;
-  padding-bottom: 3.125rem;
   text-align: left;
-}
-
-@media (min-width: 62rem) {
-  .textblock {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
 }
 
 @-webkit-keyframes rise {

@@ -37,9 +37,13 @@ const Region = props => {
 			<div className={regionInnerClass} style={backgroundStyle}>
 				<div className="region__content">
 					<header className="region__header container">
-						{Icon && <span className="region__icon">{Icon}</span>}
-						<h1>{data.display_title || data.title}</h1>
-						<div className="region__intro" dangerouslySetInnerHTML={{__html: data.intro_text}}></div>
+						{Icon && 
+							<span className="region__icon">{Icon}</span>
+						}
+						<h1 className="region__title">{data.display_title || data.title}</h1>
+						{data.intro_text &&
+							<p className="region__intro" dangerouslySetInnerHTML={{__html: data.intro_text}}></p>
+						}
 					</header>
 
 					{currentModules.length ? 
