@@ -7830,7 +7830,7 @@ var Region = function Region(props) {
 
 	return _react2.default.createElement(
 		'article',
-		{ className: props.regionClass },
+		{ id: data.path_hash, className: props.regionClass },
 		_react2.default.createElement(
 			'div',
 			{ className: regionInnerClass, style: backgroundStyle },
@@ -14599,11 +14599,10 @@ var PrimaryRegion = function (_Component) {
 				    deltaY = event.deltaY,
 				    _PrimaryRegion$props = _PrimaryRegion.props,
 				    match = _PrimaryRegion$props.match,
-				    isMovingRegions = _PrimaryRegion$props.isMovingRegions;
+				    isMovingRegions = _PrimaryRegion$props.isMovingRegions,
+				    currentRegion = _PrimaryRegion$props.currentRegion;
 
-				// const regionElement = document.getElementsByClassName('region')[0];
-
-				// console.log(regionElement);
+				var regionElement = document.getElementById(currentRegion.path_hash);
 
 				if (isMovingRegions) {
 					return;
@@ -14614,8 +14613,7 @@ var PrimaryRegion = function (_Component) {
 						replaceLocation(match.url, buttons[1].to);
 					}
 				} else {
-					//  && regionElement.scrollTop == 0
-					if (buttons[0].targetRegion) {
+					if (buttons[0].targetRegion && regionElement.scrollTop == 0) {
 						replaceLocation(match.url, buttons[0].to);
 					}
 				}

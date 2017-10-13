@@ -86,11 +86,9 @@ class PrimaryRegion extends Component {
 		const scrollHandler = e => {
 			const event = window.event || e, // old IE support
 				deltaY = event.deltaY,
-				{ match, isMovingRegions } = _PrimaryRegion.props;
+				{ match, isMovingRegions, currentRegion } = _PrimaryRegion.props;
 
-			// const regionElement = document.getElementsByClassName('region')[0];
-
-			// console.log(regionElement);
+			const regionElement = document.getElementById(currentRegion.path_hash);
 
 			if (isMovingRegions) {
 				return
@@ -102,8 +100,7 @@ class PrimaryRegion extends Component {
 				}
 				
 			} else {
-				//  && regionElement.scrollTop == 0
-				if (buttons[0].targetRegion) {
+				if (buttons[0].targetRegion && regionElement.scrollTop == 0) {
 					replaceLocation(match.url, buttons[0].to);
 				} 
 			}
