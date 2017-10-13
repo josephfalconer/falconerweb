@@ -31,11 +31,11 @@ content_module_types = (
 class Region(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	order = models.IntegerField(default=0)
-	path_hash = models.CharField(max_length=255, blank=True)
+	path_hash = models.CharField(max_length=255, blank=True, unique=True)
 	icon = models.CharField(max_length=200, choices=icons, blank=True)
 	background = models.CharField(max_length=200, choices=backgrounds, blank=True)
 	text_colour = models.CharField(max_length=200, choices=text_colours, default='dark')
-	title = models.CharField(max_length=20, unique=True)
+	title = models.CharField(max_length=20)
 	display_title = models.CharField(max_length=255, blank=True)
 	intro_text = models.TextField(blank=True)
 	center_content = models.BooleanField(default=False)
@@ -56,7 +56,7 @@ class SubRegion(Region):
 	parent_region = models.ForeignKey(
 		PrimaryRegion, 
 		on_delete=models.CASCADE,
-		to_field='title'
+		to_field='path_hash'
 	)
 	
 
@@ -66,8 +66,9 @@ class ContentModule(models.Model):
 	region = models.ForeignKey(
 		SubRegion, 
 		on_delete=models.CASCADE,
-		to_field='title'
+		to_field='path_hash'
 	)
+	text = models.TextField(blank=True)
 
 	def __str__(self):
 		return "#{} {} / {}".format(self.order, self.module_type, self.region)

@@ -7784,9 +7784,9 @@ var _Icons = __webpack_require__(79);
 
 var _Icons2 = _interopRequireDefault(_Icons);
 
-var _ContentModules = __webpack_require__(146);
+var _ContentModule = __webpack_require__(326);
 
-var _ContentModules2 = _interopRequireDefault(_ContentModules);
+var _ContentModule2 = _interopRequireDefault(_ContentModule);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7813,15 +7813,17 @@ var Region = function Region(props) {
 
 		var module = _ref;
 
-		if (module.region == data.title) {
+		if (module.region == data.path_hash) {
 			currentModules.push(module);
 		}
 	}
 
-	if (!currentModules.length) {
-		regionInnerClass += data.center_content ? ' center-content' : ' padding--full';
-	} else {
-		regionInnerClass += ' padding--top';
+	if (!currentModules.length && data.center_content) {
+		regionInnerClass += ' center-content';
+	}
+
+	if (!data.center_content) {
+		regionInnerClass += ' padding--ends';
 	}
 
 	if (Icon) {
@@ -7839,7 +7841,7 @@ var Region = function Region(props) {
 				{ className: 'region__content' },
 				_react2.default.createElement(
 					'header',
-					null,
+					{ className: 'region__header container' },
 					Icon && _react2.default.createElement(
 						'span',
 						{ className: 'region__icon' },
@@ -7853,9 +7855,9 @@ var Region = function Region(props) {
 					_react2.default.createElement('div', { className: 'region__intro', dangerouslySetInnerHTML: { __html: data.intro_text } })
 				),
 				currentModules.length ? currentModules.map(function (contentModule, index) {
-					return _react2.default.createElement(_ContentModules2.default, {
+					return _react2.default.createElement(_ContentModule2.default, {
 						key: index,
-						moduleType: contentModule.module_type
+						fields: contentModule
 					});
 				}) : null
 			)
@@ -14288,8 +14290,6 @@ var IncomingRegion = function (_Component) {
 				regionClass += this.getTransitonClass();
 			}
 
-			// console.log(`${data.title}: ${regionClass}`);
-
 			return _react2.default.createElement(_Region2.default, {
 				data: data,
 				regionClass: regionClass
@@ -14653,7 +14653,7 @@ var PrimaryRegion = function (_Component) {
 
 				var subRegion = _ref3;
 
-				if (subRegion.parent_region == data.title) {
+				if (subRegion.parent_region == data.path_hash) {
 					y++;
 					currentSubRegions.push(_extends({}, subRegion, {
 						x: data.x,
@@ -14974,59 +14974,7 @@ var DemosIcon = function DemosIcon(props) {
 exports.default = DemosIcon;
 
 /***/ }),
-/* 146 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _SkillsAccordion = __webpack_require__(148);
-
-var _SkillsAccordion2 = _interopRequireDefault(_SkillsAccordion);
-
-var _DemosMenu = __webpack_require__(147);
-
-var _DemosMenu2 = _interopRequireDefault(_DemosMenu);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ContentModules = function ContentModules(props) {
-	return _react2.default.createElement(
-		'section',
-		{ className: 'module' },
-		_react2.default.createElement(
-			'div',
-			{ className: 'container' },
-			props.moduleType == 'skills_accordion' && _react2.default.createElement(_SkillsAccordion2.default, {
-				skills: props.data
-			}),
-			props.moduleType == 'demos_menu' && _react2.default.createElement(_DemosMenu2.default, {
-				demos: props.data
-			}),
-			props.moduleType == 'text' && _react2.default.createElement(
-				'p',
-				null,
-				'TEXT CONTENT MODULE HERE!'
-			)
-		)
-	);
-};
-
-ContentModules.propTypes = {
-	moduleType: _react.PropTypes.string.isRequired
-};
-
-exports.default = ContentModules;
-
-/***/ }),
+/* 146 */,
 /* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32302,6 +32250,56 @@ module.exports = function(module) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _SkillsAccordion = __webpack_require__(148);
+
+var _SkillsAccordion2 = _interopRequireDefault(_SkillsAccordion);
+
+var _DemosMenu = __webpack_require__(147);
+
+var _DemosMenu2 = _interopRequireDefault(_DemosMenu);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ContentModule = function ContentModule(props) {
+	var fields = props.fields;
+
+
+	console.log(fields);
+
+	return _react2.default.createElement(
+		'section',
+		{ className: 'module' },
+		fields.module_type == 'skills_accordion' && _react2.default.createElement(_SkillsAccordion2.default, null),
+		fields.module_type == 'demos_menu' && _react2.default.createElement(_DemosMenu2.default, null),
+		fields.module_type == 'text' && _react2.default.createElement('div', { className: 'textblock container', dangerouslySetInnerHTML: { __html: fields.text } })
+	);
+};
+
+ContentModule.propTypes = {
+	// moduleFields: PropTypes.string.isRequired,
+};
+
+exports.default = ContentModule;
 
 /***/ })
 /******/ ]);

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Icons from './icons/Icons';
-import ContentModules from './modules/ContentModules';
+import ContentModule from './modules/ContentModule';
 
 
 const Region = props => {
@@ -15,16 +15,18 @@ const Region = props => {
 		currentModules = [];
 
 	for (let module of contentModules) {
-		if (module.region == data.title) {
+		if (module.region == data.path_hash) {
 			currentModules.push(module);
 		}
 	}
 
-	if (!currentModules.length) {
-		regionInnerClass += data.center_content ? ' center-content' : ' padding--full';
-	} else {
-		regionInnerClass += ' padding--top';
-	}
+	if (!currentModules.length && data.center_content) {
+		regionInnerClass += ' center-content';
+	} 
+
+	if (!data.center_content) {
+		regionInnerClass += ' padding--ends';
+	} 
 
 	if (Icon) {
 		Icon = Icon.call();
@@ -34,7 +36,7 @@ const Region = props => {
 		<article id={data.path_hash} className={props.regionClass}>
 			<div className={regionInnerClass} style={backgroundStyle}>
 				<div className="region__content">
-					<header>
+					<header className="region__header container">
 						{Icon && <span className="region__icon">{Icon}</span>}
 						<h1>{data.display_title || data.title}</h1>
 						<div className="region__intro" dangerouslySetInnerHTML={{__html: data.intro_text}}></div>
@@ -43,9 +45,9 @@ const Region = props => {
 					{currentModules.length ? 
 						currentModules.map((contentModule, index) => {	
 							return (
-								<ContentModules 
+								<ContentModule 
 									key={index}
-									moduleType={contentModule.module_type} 
+									fields={contentModule} 
 								/>
 							)
 						})

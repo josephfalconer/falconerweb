@@ -26,7 +26,11 @@
 	&__icon {
 		display: block;
 		margin: 0 auto;
-		max-width: remcalc(150);
+		width: remcalc(80);
+
+		@include mq(lg) {
+			width: remcalc(150);
+		}
 
 		.stroke {
 			stroke: darken($white, 20%);
@@ -58,8 +62,18 @@
 		min-height: 100%;
 	}
 
+	&__header {
+		padding-left: remcalc(30);
+		padding-right: remcalc(30);
+
+		@include mq(lg) {
+			padding-left: remcalc(50);
+			padding-right: remcalc(50);
+		}
+	}
+
 	&__intro {
 		margin: 0 auto;
-		max-width: remcalc(700);
+		max-width: remcalc(900);
 	}
 }

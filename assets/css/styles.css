@@ -52,17 +52,15 @@
   }
 }
 
-.padding--top {
-  padding-top: 1.875rem;
-}
-
-.padding--full {
-  padding: 1.875rem 1.875rem 4.375rem;
+.padding--ends {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }
 
 @media (min-width: 62rem) {
-  .padding--full {
-    padding: 6.25rem 6.25rem 9.375rem;
+  .padding--ends {
+    padding-top: 7.5rem;
+    padding-bottom: 7.5rem;
   }
 }
 
@@ -338,46 +336,16 @@ svg {
   max-height: 100%;
 }
 
-.main-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  -webkit-transition: top 1s;
-  transition: top 1s;
-}
-
-.page {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 100%;
-}
-
-.page__background {
-  background-color: #fff;
-  background-image: url(/static/backgrounds/squares.png);
-}
-
-.page::-webkit-scrollbar {
-  width: 0;
+.container {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 62.5rem;
 }
 
 @media (min-width: 48rem) {
   .container {
     margin: 0 auto;
-  }
-}
-
-@media (min-width: 62rem) {
-  .container {
-    max-width: 960px;
-  }
-}
-
-@media (min-width: 75rem) {
-  .container {
-    max-width: 1140px;
+    width: 80%;
   }
 }
 
@@ -409,7 +377,13 @@ svg {
 .region__icon {
   display: block;
   margin: 0 auto;
-  max-width: 9.375rem;
+  width: 5rem;
+}
+
+@media (min-width: 62rem) {
+  .region__icon {
+    width: 9.375rem;
+  }
 }
 
 .region__icon .stroke {
@@ -445,9 +419,21 @@ svg {
   min-height: 100%;
 }
 
+.region__header {
+  padding-left: 1.875rem;
+  padding-right: 1.875rem;
+}
+
+@media (min-width: 62rem) {
+  .region__header {
+    padding-left: 3.125rem;
+    padding-right: 3.125rem;
+  }
+}
+
 .region__intro {
   margin: 0 auto;
-  max-width: 43.75rem;
+  max-width: 56.25rem;
 }
 
 .direction--up, .direction--down {
@@ -1042,6 +1028,21 @@ svg {
   text-align: left;
 }
 
+.textblock {
+  margin: 0 auto;
+  max-width: 53.125rem;
+  padding-top: 3.125rem;
+  padding-bottom: 3.125rem;
+  text-align: left;
+}
+
+@media (min-width: 62rem) {
+  .textblock {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
 @-webkit-keyframes rise {
   0% {
     -webkit-transform: translate3d(-20px, -0px, 0);
@@ -1186,19 +1187,14 @@ svg {
 
 .skillsfeature {
   background: #fff;
+  margin: 0 auto;
+  max-width: 62.5rem;
 }
 
 @media (min-width: 48rem) {
   .skillsfeature {
     -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-  }
-}
-
-@media (min-width: 62rem) {
-  .skillsfeature {
-    margin: 0 auto;
-    width: 85%;
   }
 }
 
@@ -1293,6 +1289,11 @@ svg {
 
 .skillsfeature__contentinner p:last-child {
   margin-bottom: 0;
+}
+
+.demosfeature {
+  margin: 0 auto;
+  max-width: 75rem;
 }
 
 @media (min-width: 48rem) {

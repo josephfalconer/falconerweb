@@ -29,7 +29,7 @@ class PrimaryRegion extends Component {
 		}
 
 		for (let subRegion of subRegions) {
-			if (subRegion.parent_region == data.title) {
+			if (subRegion.parent_region == data.path_hash) {
 				y++;
 				currentSubRegions.push({ 
 					...subRegion, 

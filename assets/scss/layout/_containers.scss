@@ -2,42 +2,14 @@
 // General containers
 // ==================
 
-.main-container {
-	position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transition: top 1s;
-}
-
-.page {
-	overflow-y: scroll;
-	overflow-x: hidden;
-    height: 100%;
-
-    @include e(background) {
-    	background-color: $white;
-		background-image: url(/static/backgrounds/squares.png);
-    }
-
-	&::-webkit-scrollbar {
-		width: 0;
-	}
-}
-
 // control the max width of content
 .container {
+	margin: 0 auto;
+	width: 90%;
+	max-width: remcalc(1000);
+
     @include mq(md) {
-		// width: 90%;
-		margin: 0 auto;
-	}
-
-	@include mq(lg) {
-		max-width: $container-max-width-lg;
-	}
-
-	@include mq(xl) {
-		max-width: $container-max-width-xl;
+    	margin: 0 auto;
+		width: 80%;
 	}
 }

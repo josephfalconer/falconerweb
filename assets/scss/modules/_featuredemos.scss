@@ -3,6 +3,8 @@
 // ====================================
 
 .demosfeature {
+	margin: 0 auto;
+	max-width: remcalc(1200);
 
 	@include mq(md) {
 		display: flex;
