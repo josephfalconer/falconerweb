@@ -1025,6 +1025,13 @@ svg {
   }
 }
 
+@media (min-width: 62rem) {
+  .text {
+    line-height: 2rem;
+    font-size: 1.375rem;
+  }
+}
+
 .text--light {
   color: #fff;
 }
