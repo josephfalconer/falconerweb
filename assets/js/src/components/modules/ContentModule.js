@@ -7,8 +7,6 @@ import DemosMenu from './DemosMenu';
 const ContentModule = props => {
 	const { fields } = props;
 
-	console.log(fields);
-
 	return (
 		<section className="module">
 			{fields.module_type == 'skills_accordion' &&

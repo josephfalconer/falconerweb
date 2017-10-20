@@ -4,14 +4,12 @@ import { Link, Route } from 'react-router-dom';
 
 import IncomingRegion from './IncomingRegion';
 import DirectionButton from './DirectionButton';
-import * as actions from '../actions/transitions';
 
 
 
 const replaceLocation = (matchUrl, newHash) => {
 	window.location.hash = `${matchUrl}${newHash ? '/' + newHash : ''}`;
 }
-
 
 class PrimaryRegion extends Component {
 
@@ -88,17 +86,20 @@ class PrimaryRegion extends Component {
 				deltaY = event.deltaY,
 				{ match, isMovingRegions, currentRegion } = _PrimaryRegion.props;
 
+			// see Region component - region div gets path_hash as id attr
 			const regionElement = document.getElementById(currentRegion.path_hash);
 
 			if (isMovingRegions) {
 				return
 			} 
 
+			// down
 			if (deltaY > lastDeltaY) {
 				if (buttons[1].targetRegion) {
 					replaceLocation(match.url, buttons[1].to);
 				}
-				
+			
+			// up
 			} else {
 				if (buttons[0].targetRegion && regionElement.scrollTop == 0) {
 					replaceLocation(match.url, buttons[0].to);
@@ -111,13 +112,41 @@ class PrimaryRegion extends Component {
 		window.onwheel = scrollHandler;
 	}
 
+	setArrowKeys = buttons => {
+		const _PrimaryRegion = this;
+
+		document.addEventListener('keydown', (e) => {
+			const  { isMovingRegions, match } = this.props;
+
+			if (isMovingRegions)
+				return
+
+			switch(e.which) {
+				case 38:
+					// up
+					replaceLocation(match.url, buttons[0].to);
+					break;
+
+				case 40:
+					// down
+					replaceLocation(match.url, buttons[1].to);
+					break;
+
+				default:
+					false;
+			}
+
+		});
+	}
+
 	render() {
 		const { data, match, isMovingRegions, currentRegion } = this.props,
 			subRegions = this.setSubRegions(),
 			buttons = this.setButtons(subRegions);
 
 		if (buttons.length) {
-			this.setScroll(buttons, match.url);
+			this.setScroll(buttons);
+			this.setArrowKeys(buttons);
 		}
 		
 		return (

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import DirectionButton from './DirectionButton';
+import * as actions from '../actions/transitions';
+import * as helpers from '../helpers';
 
 
 class SidewaysButtons extends Component {
@@ -18,7 +20,7 @@ class SidewaysButtons extends Component {
 		const { primaryRegions, currentRegion, currentSubRegions } = this.props;
 
 		if (!currentRegion) {
-			return;
+			return [];
 		}
 
 		return [
@@ -35,11 +37,44 @@ class SidewaysButtons extends Component {
 		]
 	}
 
+	setArrowKeys = buttons => {
+		const _SidewaysButtons = this;
+
+		document.addEventListener('keydown', (e) => {
+			const { isMovingRegions } = _SidewaysButtons.props;
+			let targetRegion = false;
+
+			if (isMovingRegions)
+				return
+
+			switch(e.which) {
+				case 37:
+					targetRegion = buttons[0].targetRegion;
+					break;
+
+				case 39:
+					targetRegion = buttons[1].targetRegion;
+					break;
+
+				default:
+					false;
+			}
+
+			if (targetRegion) 
+				window.location.hash = targetRegion.path_hash;
+
+		});
+	}
+
 	render() {
 		const { currentPrimaryRegion, isMovingRegions } = this.props;
 
 		let buttons = [];
 		buttons = this.setButtons();
+
+		if (buttons.length) {
+			this.setArrowKeys(buttons);
+		}
 
 		return (
 			<nav className='directions'>

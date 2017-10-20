@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import Region from './Region';
 import * as actions from '../actions/transitions';
+import * as helpers from '../helpers';
 
 
 class IncomingRegion extends Component {
@@ -48,12 +49,12 @@ class IncomingRegion extends Component {
 		let transitionClass = ' js-incoming js-incoming-';
 
 		// enter from left or right
-		if (actions.isSideways(currentRegion, outgoingRegion)) {
-			transitionClass += actions.isLeftwards(currentRegion, outgoingRegion) ? 'left' : 'right';
+		if (helpers.isSideways(currentRegion, outgoingRegion)) {
+			transitionClass += helpers.isLeftwards(currentRegion, outgoingRegion) ? 'left' : 'right';
 
 		// enter from top or bottom
-		} else if (actions.isVertical(currentRegion, outgoingRegion)) {
-			transitionClass += actions.isUpwards(currentRegion, outgoingRegion) ? 'top' : 'bottom';
+		} else if (helpers.isVertical(currentRegion, outgoingRegion)) {
+			transitionClass += helpers.isUpwards(currentRegion, outgoingRegion) ? 'top' : 'bottom';
 
 		// fade in
 		} else {

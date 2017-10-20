@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { isSideways, isVertical, isLeftwards, isUpwards } from '../actions/transitions';
+import { isSideways, isVertical, isLeftwards, isUpwards } from '../helpers';
 import Region from './Region';
 
 

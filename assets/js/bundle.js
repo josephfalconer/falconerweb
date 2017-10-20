@@ -5120,29 +5120,13 @@ module.exports = canDefineProperty;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.updateTransitions = exports.isUpwards = exports.isLeftwards = exports.isVertical = exports.isSideways = undefined;
+exports.updateTransitions = undefined;
 
 var _transitions = __webpack_require__(76);
 
 var TransitionActionTypes = _interopRequireWildcard(_transitions);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var isSideways = exports.isSideways = function isSideways(currentRegion, outgoingRegion) {
-	return outgoingRegion.y == currentRegion.y && Math.abs(outgoingRegion.x - currentRegion.x) == 1;
-};
-
-var isVertical = exports.isVertical = function isVertical(currentRegion, outgoingRegion) {
-	return outgoingRegion.x == currentRegion.x && Math.abs(outgoingRegion.y - currentRegion.y) == 1;
-};
-
-var isLeftwards = exports.isLeftwards = function isLeftwards(currentRegion, outgoingRegion) {
-	return currentRegion.x < outgoingRegion.x;
-};
-
-var isUpwards = exports.isUpwards = function isUpwards(currentRegion, outgoingRegion) {
-	return currentRegion.y < outgoingRegion.y;
-};
 
 var updateTransitions = exports.updateTransitions = function updateTransitions(data, type) {
 	return {
@@ -14190,6 +14174,10 @@ var _transitions = __webpack_require__(44);
 
 var actions = _interopRequireWildcard(_transitions);
 
+var _helpers = __webpack_require__(325);
+
+var helpers = _interopRequireWildcard(_helpers);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -14224,12 +14212,12 @@ var IncomingRegion = function (_Component) {
 			var transitionClass = ' js-incoming js-incoming-';
 
 			// enter from left or right
-			if (actions.isSideways(currentRegion, outgoingRegion)) {
-				transitionClass += actions.isLeftwards(currentRegion, outgoingRegion) ? 'left' : 'right';
+			if (helpers.isSideways(currentRegion, outgoingRegion)) {
+				transitionClass += helpers.isLeftwards(currentRegion, outgoingRegion) ? 'left' : 'right';
 
 				// enter from top or bottom
-			} else if (actions.isVertical(currentRegion, outgoingRegion)) {
-				transitionClass += actions.isUpwards(currentRegion, outgoingRegion) ? 'top' : 'bottom';
+			} else if (helpers.isVertical(currentRegion, outgoingRegion)) {
+				transitionClass += helpers.isUpwards(currentRegion, outgoingRegion) ? 'top' : 'bottom';
 
 				// fade in
 			} else {
@@ -14434,7 +14422,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(13);
 
-var _transitions = __webpack_require__(44);
+var _helpers = __webpack_require__(325);
 
 var _Region = __webpack_require__(78);
 
@@ -14452,12 +14440,12 @@ var OutgoingRegion = function OutgoingRegion(props) {
 	var regionClass = 'region js-outgoing js-outgoing-';
 
 	// exit to left or right
-	if ((0, _transitions.isSideways)(currentRegion, outgoingRegion)) {
-		regionClass += (0, _transitions.isLeftwards)(currentRegion, outgoingRegion) ? 'right' : 'left';
+	if ((0, _helpers.isSideways)(currentRegion, outgoingRegion)) {
+		regionClass += (0, _helpers.isLeftwards)(currentRegion, outgoingRegion) ? 'right' : 'left';
 
 		// exit to top or bottom
-	} else if ((0, _transitions.isVertical)(currentRegion, outgoingRegion)) {
-		regionClass += (0, _transitions.isUpwards)(currentRegion, outgoingRegion) ? 'bottom' : 'top';
+	} else if ((0, _helpers.isVertical)(currentRegion, outgoingRegion)) {
+		regionClass += (0, _helpers.isUpwards)(currentRegion, outgoingRegion) ? 'bottom' : 'top';
 
 		// fade out
 	} else {
@@ -14509,12 +14497,6 @@ var _IncomingRegion2 = _interopRequireDefault(_IncomingRegion);
 var _DirectionButton = __webpack_require__(77);
 
 var _DirectionButton2 = _interopRequireDefault(_DirectionButton);
-
-var _transitions = __webpack_require__(44);
-
-var actions = _interopRequireWildcard(_transitions);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14602,16 +14584,20 @@ var PrimaryRegion = function (_Component) {
 				    isMovingRegions = _PrimaryRegion$props.isMovingRegions,
 				    currentRegion = _PrimaryRegion$props.currentRegion;
 
+				// see Region component - region div gets path_hash as id attr
 				var regionElement = document.getElementById(currentRegion.path_hash);
 
 				if (isMovingRegions) {
 					return;
 				}
 
+				// down
 				if (deltaY > lastDeltaY) {
 					if (buttons[1].targetRegion) {
 						replaceLocation(match.url, buttons[1].to);
 					}
+
+					// up
 				} else {
 					if (buttons[0].targetRegion && regionElement.scrollTop == 0) {
 						replaceLocation(match.url, buttons[0].to);
@@ -14622,6 +14608,32 @@ var PrimaryRegion = function (_Component) {
 			};
 
 			window.onwheel = scrollHandler;
+		}, _this.setArrowKeys = function (buttons) {
+			var _PrimaryRegion = _this;
+
+			document.addEventListener('keydown', function (e) {
+				var _this$props2 = _this.props,
+				    isMovingRegions = _this$props2.isMovingRegions,
+				    match = _this$props2.match;
+
+
+				if (isMovingRegions) return;
+
+				switch (e.which) {
+					case 38:
+						// up
+						replaceLocation(match.url, buttons[0].to);
+						break;
+
+					case 40:
+						// down
+						replaceLocation(match.url, buttons[1].to);
+						break;
+
+					default:
+						false;
+				}
+			});
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -14677,7 +14689,8 @@ var PrimaryRegion = function (_Component) {
 
 
 			if (buttons.length) {
-				this.setScroll(buttons, match.url);
+				this.setScroll(buttons);
+				this.setArrowKeys(buttons);
 			}
 
 			return _react2.default.createElement(
@@ -14758,6 +14771,16 @@ var _DirectionButton = __webpack_require__(77);
 
 var _DirectionButton2 = _interopRequireDefault(_DirectionButton);
 
+var _transitions = __webpack_require__(44);
+
+var actions = _interopRequireWildcard(_transitions);
+
+var _helpers = __webpack_require__(325);
+
+var helpers = _interopRequireWildcard(_helpers);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -14788,7 +14811,7 @@ var SidewaysButtons = function (_Component) {
 
 
 			if (!currentRegion) {
-				return;
+				return [];
 			}
 
 			return [{
@@ -14800,6 +14823,31 @@ var SidewaysButtons = function (_Component) {
 				targetRegion: primaryRegions[currentRegion.index + 1],
 				name: 'next'
 			}];
+		}, _this.setArrowKeys = function (buttons) {
+			var _SidewaysButtons = _this;
+
+			document.addEventListener('keydown', function (e) {
+				var isMovingRegions = _SidewaysButtons.props.isMovingRegions;
+
+				var targetRegion = false;
+
+				if (isMovingRegions) return;
+
+				switch (e.which) {
+					case 37:
+						targetRegion = buttons[0].targetRegion;
+						break;
+
+					case 39:
+						targetRegion = buttons[1].targetRegion;
+						break;
+
+					default:
+						false;
+				}
+
+				if (targetRegion) window.location.hash = targetRegion.path_hash;
+			});
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -14813,6 +14861,10 @@ var SidewaysButtons = function (_Component) {
 
 			var buttons = [];
 			buttons = this.setButtons();
+
+			if (buttons.length) {
+				this.setArrowKeys(buttons);
+			}
 
 			return _react2.default.createElement(
 				'nav',
@@ -15001,8 +15053,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ContentModule = function ContentModule(props) {
 	var fields = props.fields;
 
-
-	console.log(fields);
 
 	return _react2.default.createElement(
 		'section',
@@ -32295,6 +32345,35 @@ module.exports = function(module) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var isSideways = exports.isSideways = function isSideways(currentRegion, outgoingRegion) {
+	return outgoingRegion.y == currentRegion.y && Math.abs(outgoingRegion.x - currentRegion.x) == 1;
+};
+
+var isVertical = exports.isVertical = function isVertical(currentRegion, outgoingRegion) {
+	return outgoingRegion.x == currentRegion.x && Math.abs(outgoingRegion.y - currentRegion.y) == 1;
+};
+
+var isLeftwards = exports.isLeftwards = function isLeftwards(currentRegion, outgoingRegion) {
+	return currentRegion.x < outgoingRegion.x;
+};
+
+var isUpwards = exports.isUpwards = function isUpwards(currentRegion, outgoingRegion) {
+	return currentRegion.y < outgoingRegion.y;
+};
 
 /***/ })
 /******/ ]);
