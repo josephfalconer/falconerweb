@@ -163,7 +163,7 @@ class PrimaryRegion extends Component {
 							key={index}
 							matchUrl={match.url}
 							to={button.to}
-							isVisible={targetRegion && button.condition}
+							isVisible={button.condition}
 							name={button.name}
 							title={targetRegion ? targetRegion.title : ''}
 						/>

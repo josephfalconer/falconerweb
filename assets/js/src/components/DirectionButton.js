@@ -9,7 +9,7 @@ class DirectionButton extends Component {
 
 	componentWillReceiveProps() {
 		const { isVisible } = this.props;
-		this.setState({ isVisible: isVisible ? true : false });
+		this.setState({ isVisible: isVisible });
 	}
 
 	render() {
@@ -17,8 +17,12 @@ class DirectionButton extends Component {
 			// if no matchUrl it's a sideways button
 			formattedTo = matchUrl ? `${matchUrl}${to ? '/' + to : ''}` : to;
 
+
+
 		const isVisibleProps = this.props.isVisible,
 			isVisibleState = this.state.isVisible;
+
+		console.log(isVisibleProps, name);
 
 		let visibiltyClass = '';
 

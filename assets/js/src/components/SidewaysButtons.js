@@ -11,13 +11,12 @@ class SidewaysButtons extends Component {
 
 	static propTypes = {
 		primaryRegions: PropTypes.array.isRequired,
-		currentSubRegions: PropTypes.array.isRequired,
 		currentRegion: PropTypes.object,
 		isMovingRegions: PropTypes.bool.isRequired,
 	}
 
 	setButtons = () => {
-		const { primaryRegions, currentRegion, currentSubRegions } = this.props;
+		const { primaryRegions, currentRegion } = this.props;
 
 		if (!currentRegion) {
 			return [];
@@ -25,12 +24,10 @@ class SidewaysButtons extends Component {
 
 		return [
 			{
-				condition: true,
 				targetRegion: primaryRegions[currentRegion.index - 1],
 				name: 'prev'
 			},
 			{
-				condition: true,
 				targetRegion: primaryRegions[currentRegion.index + 1],
 				name: 'next'
 			}
@@ -41,10 +38,10 @@ class SidewaysButtons extends Component {
 		const _SidewaysButtons = this;
 
 		document.addEventListener('keydown', (e) => {
-			const { isMovingRegions } = _SidewaysButtons.props;
+			const { isMovingRegions, currentRegion } = _SidewaysButtons.props;
 			let targetRegion = false;
 
-			if (isMovingRegions)
+			if (isMovingRegions || currentRegion.y != 0)
 				return
 
 			switch(e.which) {
@@ -67,8 +64,6 @@ class SidewaysButtons extends Component {
 	}
 
 	render() {
-		const { currentPrimaryRegion, isMovingRegions } = this.props;
-
 		let buttons = [];
 		buttons = this.setButtons();
 
@@ -85,7 +80,7 @@ class SidewaysButtons extends Component {
 						<DirectionButton
 							key={index}
 							to={targetRegion ? targetRegion.path_hash : ''}
-							isVisible={targetRegion && button.condition}
+							isVisible={targetRegion}
 							name={button.name}
 							title={targetRegion ? targetRegion.title : ''}
 						/>
@@ -101,8 +96,6 @@ class SidewaysButtons extends Component {
 const mapStateToProps = state => (
     {	
     	primaryRegions: state.data.primaryRegions,
-    	currentPrimaryRegion: state.transitions.currentPrimaryRegion,
-    	currentSubRegions: state.transitions.currentSubRegions,
     	currentRegion: state.transitions.currentRegion,
     	isMovingRegions: state.transitions.isMovingRegions,
     }

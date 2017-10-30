@@ -7717,7 +7717,7 @@ var DirectionButton = function (_Component) {
 		value: function componentWillReceiveProps() {
 			var isVisible = this.props.isVisible;
 
-			this.setState({ isVisible: isVisible ? true : false });
+			this.setState({ isVisible: isVisible });
 		}
 	}, {
 		key: 'render',
@@ -7732,6 +7732,8 @@ var DirectionButton = function (_Component) {
 
 			var isVisibleProps = this.props.isVisible,
 			    isVisibleState = this.state.isVisible;
+
+			console.log(isVisibleProps, name);
 
 			var visibiltyClass = '';
 
@@ -14727,7 +14729,7 @@ var PrimaryRegion = function (_Component) {
 						key: index,
 						matchUrl: match.url,
 						to: button.to,
-						isVisible: targetRegion && button.condition,
+						isVisible: button.condition,
 						name: button.name,
 						title: targetRegion ? targetRegion.title : ''
 					});
@@ -14823,8 +14825,7 @@ var SidewaysButtons = function (_Component) {
 		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SidewaysButtons.__proto__ || Object.getPrototypeOf(SidewaysButtons)).call.apply(_ref, [this].concat(args))), _this), _this.setButtons = function () {
 			var _this$props = _this.props,
 			    primaryRegions = _this$props.primaryRegions,
-			    currentRegion = _this$props.currentRegion,
-			    currentSubRegions = _this$props.currentSubRegions;
+			    currentRegion = _this$props.currentRegion;
 
 
 			if (!currentRegion) {
@@ -14832,11 +14833,9 @@ var SidewaysButtons = function (_Component) {
 			}
 
 			return [{
-				condition: true,
 				targetRegion: primaryRegions[currentRegion.index - 1],
 				name: 'prev'
 			}, {
-				condition: true,
 				targetRegion: primaryRegions[currentRegion.index + 1],
 				name: 'next'
 			}];
@@ -14844,11 +14843,13 @@ var SidewaysButtons = function (_Component) {
 			var _SidewaysButtons = _this;
 
 			document.addEventListener('keydown', function (e) {
-				var isMovingRegions = _SidewaysButtons.props.isMovingRegions;
+				var _SidewaysButtons$prop = _SidewaysButtons.props,
+				    isMovingRegions = _SidewaysButtons$prop.isMovingRegions,
+				    currentRegion = _SidewaysButtons$prop.currentRegion;
 
 				var targetRegion = false;
 
-				if (isMovingRegions) return;
+				if (isMovingRegions || currentRegion.y != 0) return;
 
 				switch (e.which) {
 					case 37:
@@ -14871,11 +14872,6 @@ var SidewaysButtons = function (_Component) {
 	_createClass(SidewaysButtons, [{
 		key: 'render',
 		value: function render() {
-			var _props = this.props,
-			    currentPrimaryRegion = _props.currentPrimaryRegion,
-			    isMovingRegions = _props.isMovingRegions;
-
-
 			var buttons = [];
 			buttons = this.setButtons();
 
@@ -14892,7 +14888,7 @@ var SidewaysButtons = function (_Component) {
 					return _react2.default.createElement(_DirectionButton2.default, {
 						key: index,
 						to: targetRegion ? targetRegion.path_hash : '',
-						isVisible: targetRegion && button.condition,
+						isVisible: targetRegion,
 						name: button.name,
 						title: targetRegion ? targetRegion.title : ''
 					});
@@ -14906,7 +14902,6 @@ var SidewaysButtons = function (_Component) {
 
 SidewaysButtons.propTypes = {
 	primaryRegions: _react.PropTypes.array.isRequired,
-	currentSubRegions: _react.PropTypes.array.isRequired,
 	currentRegion: _react.PropTypes.object,
 	isMovingRegions: _react.PropTypes.bool.isRequired
 };
@@ -14915,8 +14910,6 @@ SidewaysButtons.propTypes = {
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		primaryRegions: state.data.primaryRegions,
-		currentPrimaryRegion: state.transitions.currentPrimaryRegion,
-		currentSubRegions: state.transitions.currentSubRegions,
 		currentRegion: state.transitions.currentRegion,
 		isMovingRegions: state.transitions.isMovingRegions
 	};
