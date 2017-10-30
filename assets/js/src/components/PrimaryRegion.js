@@ -13,8 +13,19 @@ const replaceLocation = (matchUrl, newHash) => {
 
 class PrimaryRegion extends Component {
 
+	constructor(props) {
+		super(props);
+
+		this.buttons = [];
+	}
+
 	static propTypes = {
 		data: PropTypes.object.isRequired,
+	}
+
+	componentWillUnmount() {
+		// don't need this accumulating with other PrimaryRegion instances
+		document.removeEventListener('keydown', this.arrowKeyHandler);
 	}
 
 	setSubRegions() {
@@ -47,6 +58,8 @@ class PrimaryRegion extends Component {
 			return [];
 		}
 
+		// console.log(currentRegion.y, subRegions.length);
+
 		let buttons = [
 			{
 				condition: currentRegion.y > 0,
@@ -54,7 +67,7 @@ class PrimaryRegion extends Component {
 				name: 'up'
 			},
 			{
-				condition: true,
+				condition: currentRegion.y < subRegions.length,
 				targetRegion: subRegions[currentRegion.y],
 				name: 'down'
 			}
@@ -67,76 +80,58 @@ class PrimaryRegion extends Component {
 				button.to = targetRegion === data ? false : targetRegion.path_hash;
 			}
 		}
-
+		
 		return buttons;
 	}
 
-	setScroll = buttons => {
+	wheelHandler = e => {
+		const event = window.event || e, // old IE support
+			deltaY = event.deltaY,
+			{ buttons } = this,
+			{ match, isMovingRegions, currentRegion } = this.props;
 
-		const _PrimaryRegion = this;
+		// see Region component - region div gets path_hash as id attr
+		const regionElement = document.getElementById(currentRegion.path_hash);
 
-		if (!buttons.length) {
-			return;
+		if (isMovingRegions) {
+			return
+		} 
+
+		// down
+		if (deltaY > 0 && buttons[1].condition) {
+			replaceLocation(match.url, buttons[1].to);
+		} 
+
+		// up
+		if (deltaY < 0 && buttons[0].condition) {
+			if (regionElement.scrollTop == 0)
+				replaceLocation(match.url, buttons[0].to);
 		}
-
-		let lastDeltaY = 0;
-
-		const scrollHandler = e => {
-			const event = window.event || e, // old IE support
-				deltaY = event.deltaY,
-				{ match, isMovingRegions, currentRegion } = _PrimaryRegion.props;
-
-			// see Region component - region div gets path_hash as id attr
-			const regionElement = document.getElementById(currentRegion.path_hash);
-
-			if (isMovingRegions) {
-				return
-			} 
-
-			// down
-			if (deltaY > lastDeltaY) {
-				if (buttons[1].targetRegion) {
-					replaceLocation(match.url, buttons[1].to);
-				}
-			
-			// up
-			} else {
-				if (buttons[0].targetRegion && regionElement.scrollTop == 0) {
-					replaceLocation(match.url, buttons[0].to);
-				} 
-			}
-
-			lastDeltaY = event.deltaY;
-		}
-
-		window.onwheel = scrollHandler;
 	}
 
-	setArrowKeys = buttons => {
-		const _PrimaryRegion = this;
+	arrowKeyHandler = e => {
+		const  { isMovingRegions, match } = this.props,
+			{ buttons } = this;
 
-		document.addEventListener('keydown', (e) => {
-			const  { isMovingRegions, match } = this.props;
+		if (isMovingRegions)
+			return
 
-			if (isMovingRegions)
-				return
+		switch(e.which) {
+			case 38:
+				// up
+				const to = buttons[0].to ? buttons[0].to : '';
+				replaceLocation(match.url, to);
+				break;
 
-			switch(e.which) {
-				case 38:
-					// up
-					replaceLocation(match.url, buttons[0].to);
-					break;
-
-				case 40:
-					// down
+			case 40:
+				// down
+				if (buttons[1].to) 
 					replaceLocation(match.url, buttons[1].to);
-					break;
+				break;
 
-				default:
-					false;
-			}
-
-		});
+			default:
+				false;
+		}
 	}
 
 	render() {
@@ -145,8 +140,9 @@ class PrimaryRegion extends Component {
 			buttons = this.setButtons(subRegions);
 
 		if (buttons.length) {
-			this.setScroll(buttons);
-			this.setArrowKeys(buttons);
+			this.buttons = buttons;
+			window.onwheel = this.wheelHandler;
+			document.addEventListener('keydown', this.arrowKeyHandler);
 		}
 		
 		return (
