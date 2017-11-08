@@ -58,8 +58,6 @@ class PrimaryRegion extends Component {
 			return [];
 		}
 
-		// console.log(currentRegion.y, subRegions.length);
-
 		let buttons = [
 			{
 				condition: currentRegion.y > 0,
@@ -90,13 +88,10 @@ class PrimaryRegion extends Component {
 			{ buttons } = this,
 			{ match, isMovingRegions, currentRegion } = this.props;
 
-		// see Region component - region div gets path_hash as id attr
-		const regionElement = document.getElementById(currentRegion.path_hash);
-
 		if (isMovingRegions) {
 			return
 		} 
-
+		
 		// down
 		if (deltaY > 0 && buttons[1].condition) {
 			replaceLocation(match.url, buttons[1].to);
@@ -104,7 +99,7 @@ class PrimaryRegion extends Component {
 
 		// up
 		if (deltaY < 0 && buttons[0].condition) {
-			if (regionElement.scrollTop == 0)
+			if (document.body.scrollTop == 0)
 				replaceLocation(match.url, buttons[0].to);
 		}
 	}

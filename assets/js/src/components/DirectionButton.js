@@ -22,8 +22,6 @@ class DirectionButton extends Component {
 		const isVisibleProps = this.props.isVisible,
 			isVisibleState = this.state.isVisible;
 
-		console.log(isVisibleProps, name);
-
 		let visibiltyClass = '';
 
 		if (!isVisibleProps) {

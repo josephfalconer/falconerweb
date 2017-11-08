@@ -33,7 +33,7 @@ const Region = props => {
 	}
 
 	return (
-		<article id={data.path_hash} className={props.regionClass}>
+		<article className={props.regionClass}>
 			<div className={regionInnerClass} style={backgroundStyle}>
 				<div className="region__content">
 					<header className="region__header container">
