@@ -17,41 +17,41 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 // incoming keyframes
 @keyframes in-from-left {
 	0% {
-		transform: translateX(-100%);
+		transform: translate(-100%, -50%);
 	}
 
 	100% {
-		transform: translateX(0);
+		transform: translate(0, -50%);
 	}
 }
 
 @keyframes in-from-top {
 	0% {
-		transform: translateY(-100%);
+		transform: translate(-50%, -100%);
 	}
 
 	100% {
-		transform: translateY(0);
+		transform: translate(-50%, 0);
 	}
 }
 
 @keyframes in-from-bottom {
 	0% {
-		transform: translateY(100%);
+		transform: translate(-50%, 100%);
 	}
 
 	100% {
-		transform: translateY(0);
+		transform: translate(-50%, 0);
 	}
 }
 
 @keyframes in-from-right {
 	0% {
-		transform: translateX(100%);
+		transform: translate(100%, -50%);
 	}
 
 	100% {
-		transform: translateX(0);
+		transform: translate(0, -50%);
 	}
 }
 
@@ -64,25 +64,25 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 // outgoing keyframes
 @keyframes out-to-left {
 	100% {
-		transform: translateX(-100%);
+		transform: translate(-100%, -50%);
 	}
 }
 
 @keyframes out-to-top {
 	100% {
-		transform: translateY(-100%);
+		transform: translate(-50%, -100%);
 	}
 }
 
 @keyframes out-to-bottom {
 	100% {
-		transform: translateY(100%);
+		transform: translate(-50%, 100%);
 	}
 }
 
 @keyframes out-to-right {
 	100% {
-		transform: translateX(100%);
+		transform: translate(100%, -50%);
 	}
 }
 
