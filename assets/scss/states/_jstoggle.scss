@@ -14,7 +14,7 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 	}
 }
 
-// incoming keyframes
+// REGIONS - incoming keyframes
 @keyframes in-from-left {
 	0% {
 		transform: translateX(-100%);
@@ -61,7 +61,7 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 	}
 }
 
-// outgoing keyframes
+// REGIONS - outgoing keyframes
 @keyframes out-to-left {
 	100% {
 		transform: translateX(-100%);
@@ -93,7 +93,7 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 }
 
 
-// keyframes for buttons
+// BUTTONS - keyframes
 @keyframes button-slide-right {
 	50% {
 		transform: translateX(100%);
