@@ -14,7 +14,7 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 	}
 }
 
-// incoming keyframes
+// REGIONS - incoming keyframes
 @keyframes in-from-left {
 	0% {
 		transform: translateX(-100%);
@@ -61,7 +61,7 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 	}
 }
 
-// outgoing keyframes
+// REGIONS - outgoing keyframes
 @keyframes out-to-left {
 	100% {
 		transform: translateX(-100%);
@@ -93,31 +93,31 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 }
 
 
-// keyframes for buttons
+// BUTTONS - keyframes
 @keyframes button-slide-right {
 	50% {
-		transform: translateX(100%);
+		transform: translate(100%, -50%);
 		opacity: 0;
 	}
 }
 
 @keyframes button-slide-left {
 	50% {
-		transform: translateX(-100%);
+		transform: translate(-100%, -50%);
 		opacity: 0;
 	}
 }
 
 @keyframes button-slide-up {
 	50% {
-		transform: translateY(-100%);
+		transform: translate(-50%, -100%);
 		opacity: 0;
 	}
 }
 
 @keyframes button-slide-down {
 	50% {
-		transform: translateY(100%);
+		transform: translate(-50%, 100%);
 		opacity: 0;
 	}
 }
