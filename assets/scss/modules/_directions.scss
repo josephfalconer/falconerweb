@@ -13,7 +13,7 @@ $direction-size-lg: 30;
 	@include sides(remcalc(70), remcalc($nav-height-sm));
 
 	@include mq(lg) {
-		height: remcalc(50);
+		@include sides(remcalc(100), remcalc(50));
 	}
 
 	.direction__text {

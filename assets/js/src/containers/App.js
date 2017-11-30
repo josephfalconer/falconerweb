@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, Redirect } from 'react-router-dom';
 
 import DataFetcher from './DataFetcher';
 import Navigation from '../components/Navigation';
@@ -40,10 +40,7 @@ class Application extends Component {
 
 				<SidewaysButtons />
 
-				<div style={style}>
-					WORK IN PROGRESS! Welcome.
-					<Link to="start">Start</Link>
-				</div>
+				<Redirect to={`${this.props.match.url}start`} />
 				
 				<main className="regions">
 					{outgoingRegion && isMovingRegions &&

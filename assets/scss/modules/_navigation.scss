@@ -3,19 +3,17 @@
 // ==============================
 
 // variables namespaced to nav
-$mobile-menu-ln-ht : 25px;
-
 $nav-circlelink-width: 45;
 $nav-circlelink-width-xxl: 50;
 
-$nav-toplink-width-xl: 100px;
 
 .nav {
-	position: absolute;
+	position: fixed;
 	left: 0;
 	bottom: 0;
 	z-index: $navigation-z-index;
-	@include sides(100%, remcalc($nav-height-sm));
+	height: remcalc($nav-height-sm);
+	min-width: remcalc(130);
 	background-color: rgba(255,255,255,0);
     transform: none;
     transition: transform 1s;
@@ -37,13 +35,9 @@ $nav-toplink-width-xl: 100px;
 	&__menu {
 		display: flex;
 		border-radius: 0 remcalc($nav-border-radius) 0 0;
-		@include sides(35%, 100%);
+		@include square(100%);
 		padding: 0 remcalc(5);
 		transition: background-color $transition-duration;
-
-		@include mq(lg) {
-			width: remcalc(300);
-		}
 	}
 
 	&__item {
@@ -90,6 +84,7 @@ $nav-toplink-width-xl: 100px;
 
 		@include mq(lg) {
 			position: relative;
+			margin-bottom: remcalc(5);
 		}
 
 		&:hover {
