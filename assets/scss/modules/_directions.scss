@@ -9,8 +9,9 @@ $direction-size-lg: 30;
 
 
 %vertical-direction {
-	left: calc(50% - 35px);
+	left: 50%;
 	@include sides(remcalc(70), remcalc($nav-height-sm));
+	transform: translateX(-50%);
 
 	@include mq(lg) {
 		@include sides(remcalc(100), remcalc(50));
@@ -37,7 +38,7 @@ $direction-size-lg: 30;
 
 %sideways-direction {
 	top: 50%;
-	// transform: translateY(-50%);
+	transform: translateY(-50%);
 
 	&:hover {
 		i {
