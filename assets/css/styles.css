@@ -464,6 +464,7 @@ svg {
 
 @media (min-width: 62rem) {
   .direction--up, .direction--down {
+    left: calc(50% - 50px);
     width: 6.25rem;
     height: 3.125rem;
   }
@@ -486,7 +487,7 @@ svg {
 }
 
 .direction--prev, .direction--next {
-  top: 50%;
+  top: calc(50% - 15px);
 }
 
 .direction--prev:hover i:first-of-type, .direction--next:hover i:first-of-type {
