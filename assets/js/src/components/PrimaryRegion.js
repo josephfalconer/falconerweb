@@ -5,11 +5,8 @@ import { Link, Route } from 'react-router-dom';
 import IncomingRegion from './IncomingRegion';
 import DirectionButton from './DirectionButton';
 
+import * as helpers from '../helpers';
 
-
-const replaceLocation = (matchUrl, newHash) => {
-	window.location.hash = `${matchUrl}${newHash ? '/' + newHash : ''}`;
-}
 
 class PrimaryRegion extends Component {
 
@@ -82,28 +79,6 @@ class PrimaryRegion extends Component {
 		return buttons;
 	}
 
-	wheelHandler = e => {
-		const event = window.event || e, // old IE support
-			deltaY = event.deltaY,
-			{ buttons } = this,
-			{ match, isMovingRegions, currentRegion } = this.props;
-
-		if (isMovingRegions) {
-			return
-		} 
-		
-		// down
-		if (deltaY > 0 && buttons[1].condition) {
-			replaceLocation(match.url, buttons[1].to);
-		} 
-
-		// up
-		if (deltaY < 0 && buttons[0].condition) {
-			if (document.body.scrollTop == 0)
-				replaceLocation(match.url, buttons[0].to);
-		}
-	}
-
 	arrowKeyHandler = e => {
 		const  { isMovingRegions, match } = this.props,
 			{ buttons } = this;
@@ -115,13 +90,13 @@ class PrimaryRegion extends Component {
 			case 38:
 				// up
 				const to = buttons[0].to ? buttons[0].to : '';
-				replaceLocation(match.url, to);
+				helpers.replaceLocation(match.url, to);
 				break;
 
 			case 40:
 				// down
 				if (buttons[1].to) 
-					replaceLocation(match.url, buttons[1].to);
+					helpers.replaceLocation(match.url, buttons[1].to);
 				break;
 
 			default:
@@ -136,7 +111,6 @@ class PrimaryRegion extends Component {
 
 		if (buttons.length) {
 			this.buttons = buttons;
-			window.onwheel = this.wheelHandler;
 			document.addEventListener('keydown', this.arrowKeyHandler);
 		}
 		

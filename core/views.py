@@ -13,8 +13,3 @@ def navigation(request):
 	serialized_data = serializers.serialize("json", data)
 
 	return HttpResponse(serialized_data)
-
-
-def unconference(request):
-	return HttpResponse("<h1>Repo:</h1><p>https://joefalconer21@bitbucket.org/joesprojects/unconference.git</p>")
-

@@ -18,10 +18,8 @@ class SidewaysButtons extends Component {
 	setButtons = () => {
 		const { primaryRegions, currentRegion } = this.props;
 
-		if (!currentRegion) {
-			return [];
-		}
-
+		if (!currentRegion) return [];
+		
 		return [
 			{
 				targetRegion: primaryRegions[currentRegion.index - 1],
@@ -59,7 +57,6 @@ class SidewaysButtons extends Component {
 
 			if (targetRegion) 
 				window.location.hash = targetRegion.path_hash;
-
 		});
 	}
 
@@ -67,10 +64,9 @@ class SidewaysButtons extends Component {
 		let buttons = [];
 		buttons = this.setButtons();
 
-		if (buttons.length) {
+		if (buttons.length)
 			this.setArrowKeys(buttons);
-		}
-
+		
 		return (
 			<nav className='directions'>
 				{buttons && buttons.map((button, index) => {

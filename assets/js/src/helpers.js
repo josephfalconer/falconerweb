@@ -13,3 +13,7 @@ export const isLeftwards = (currentRegion, outgoingRegion) => {
 export const isUpwards = (currentRegion, outgoingRegion) => {
 	return currentRegion.y < outgoingRegion.y;
 }
+
+export const replaceLocation = (matchUrl, newHash) => {
+	window.location.hash = `${matchUrl}${newHash ? '/' + newHash : ''}`;
+}

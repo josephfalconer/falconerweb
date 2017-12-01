@@ -17,21 +17,17 @@ class DirectionButton extends Component {
 			// if no matchUrl it's a sideways button
 			formattedTo = matchUrl ? `${matchUrl}${to ? '/' + to : ''}` : to;
 
-
-
 		const isVisibleProps = this.props.isVisible,
 			isVisibleState = this.state.isVisible;
 
 		let visibiltyClass = '';
 
-		if (!isVisibleProps) {
+		if (!isVisibleProps) 
 			visibiltyClass = 'js-hidden-button';
-		}
-
-		if (!isVisibleState && isVisibleProps) {
-			visibiltyClass = 'js-visible-button';
-		}
 		
+		if (!isVisibleState && isVisibleProps) 
+			visibiltyClass = 'js-visible-button';
+				
 		return (
 			<Link 
 				to={formattedTo}

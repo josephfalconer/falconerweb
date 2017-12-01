@@ -26,7 +26,6 @@ urlpatterns = [
     url(r'^regions/', include('regions.urls')),
     url(r'^skills/', include('skills.urls')),
     url(r'^demos/', include('demos.urls')),
-    url(r'^unconference/', views.unconference),
     url(r'^$', views.main),
 ]
 
