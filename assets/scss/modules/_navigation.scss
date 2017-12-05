@@ -9,7 +9,7 @@ $nav-circlelink-width-xxl: 50;
 
 .nav {
 	position: fixed;
-	left: 0;
+	right: 0;
 	bottom: 0;
 	z-index: $navigation-z-index;
 	height: remcalc($nav-height-sm);
@@ -34,7 +34,7 @@ $nav-circlelink-width-xxl: 50;
 
 	&__menu {
 		display: flex;
-		border-radius: 0 remcalc($nav-border-radius) 0 0;
+		border-radius: remcalc($nav-border-radius) 0 0 0;
 		@include square(100%);
 		padding: 0 remcalc(5);
 		transition: background-color $transition-duration;
