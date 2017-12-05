@@ -12832,6 +12832,8 @@ var Application = function (_Component) {
 			className += isMovingRegions ? 'js-moving-regions' : 'js-stationary';
 			className += regionTextColour == 'dark' ? ' js-nav-backgrounds' : '';
 
+			if (isMovingRegions) document.getElementById('regions').scrollTop = 0;
+
 			return _react2.default.createElement(
 				'div',
 				{ className: className },
@@ -12841,7 +12843,7 @@ var Application = function (_Component) {
 				_react2.default.createElement(_reactRouterDom.Redirect, { to: this.props.match.url + 'start' }),
 				_react2.default.createElement(
 					'main',
-					{ className: 'regions' },
+					{ id: 'regions', className: 'regions' },
 					outgoingRegion && isMovingRegions && _react2.default.createElement(_OutgoingRegion2.default, { data: outgoingRegion }),
 					primaryRegions && primaryRegions.map(function (region, index) {
 						var hash = '/' + region.path_hash;

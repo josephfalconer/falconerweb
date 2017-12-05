@@ -10,13 +10,7 @@ html,
 body { 
 	margin: 0; 
 	padding: 0;
-	@include square(100%); 
-	overflow-x: hidden;
-	overflow-y: scroll;
-
-	&::-webkit-scrollbar {
-		width: 0px;
-	}
+	@include square(100%); 	
 }
 
 body {

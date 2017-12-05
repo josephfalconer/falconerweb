@@ -32,6 +32,9 @@ class Application extends Component {
 		className += isMovingRegions ? 'js-moving-regions' : 'js-stationary';
 		className += regionTextColour == 'dark' ? ' js-nav-backgrounds' : '';
 
+		if (isMovingRegions)
+			document.getElementById('regions').scrollTop = 0;
+
 		return (
 			<div className={className}>
 				<DataFetcher />
@@ -42,7 +45,7 @@ class Application extends Component {
 
 				<Redirect to={`${this.props.match.url}start`} />
 				
-				<main className="regions">
+				<main id="regions" className="regions">
 					{outgoingRegion && isMovingRegions &&
 						<OutgoingRegion data={outgoingRegion} />
 					}
