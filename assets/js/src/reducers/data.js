@@ -7,7 +7,7 @@ const initialState = {
 	contentModules: [],
 	skills: [],
 	demos: [],
-	projects: []
+	currentSubRegions: []
 }
 
 export default function Data(state=initialState, action) {
@@ -53,13 +53,6 @@ export default function Data(state=initialState, action) {
 			return {
 				...state,
 				demos: action.data
-			};
-		}
-
-		case DataActionTypes.ADD_PROJECTS: {
-			return {
-				...state,
-				projects: action.data
 			};
 		}
 			

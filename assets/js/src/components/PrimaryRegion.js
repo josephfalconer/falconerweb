@@ -1,41 +1,53 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link, Route } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 
 import IncomingRegion from './IncomingRegion';
-import DirectionButton from './DirectionButton';
-
-import * as helpers from '../helpers';
+import * as actions from '../actions/transitions';
 
 
 class PrimaryRegion extends Component {
 
 	constructor(props) {
 		super(props);
-
 		this.buttons = [];
+		this.subRegions = [];
+		this.isSetSubRegions = false;
+		this.updateData = bindActionCreators(actions.updateTransitions, props.dispatch);
 	}
 
 	static propTypes = {
 		data: PropTypes.object.isRequired,
+		subRegions: PropTypes.array,
+		match: PropTypes.object.isRequired,
 	}
 
-	componentWillUnmount() {
-		// don't need this accumulating with other PrimaryRegion instances
-		document.removeEventListener('keydown', this.arrowKeyHandler);
+	componentDidMount() {
+		// tell Redux about current Router match
+		this.updateData(this.props.match.url, 'UPDATE_CURRENT_MATCH');
+
+		// allow time for API data to reach Redux store
+		setTimeout(() => {
+			this.setSubRegions();
+		}, 100);
 	}
 
-	setSubRegions() {
+	setSubRegions = () => {
+		this.subRegions = this.getSubRegions();
+		// tell redux about current subregions
+		this.updateData(this.subRegions, 'SET_CURRENT_SUB_REGIONS');
+	}
+
+	getSubRegions = () => {
 		const { subRegions, data } = this.props;
 		let currentSubRegions = [],
 			y = 0;
 
-		if (!subRegions.length) {
-			return [];
-		}
-
+		if (!subRegions.length) return [];
+		
 		for (let subRegion of subRegions) {
-			if (subRegion.parent_region == data.path_hash) {
+			if (subRegion.parent_region === data.path_hash) {
 				y++;
 				currentSubRegions.push({ 
 					...subRegion, 
@@ -48,71 +60,8 @@ class PrimaryRegion extends Component {
 		return currentSubRegions;
 	}
 
-	setButtons = subRegions => {
-		const { data, currentRegion } = this.props;
-
-		if (!currentRegion) {
-			return [];
-		}
-
-		let buttons = [
-			{
-				condition: currentRegion.y > 0,
-				targetRegion: subRegions[currentRegion.y - 2] || data,
-				name: 'up'
-			},
-			{
-				condition: currentRegion.y < subRegions.length,
-				targetRegion: subRegions[currentRegion.y],
-				name: 'down'
-			}
-		]
-
-		for (let button of buttons) {
-			let targetRegion = button.targetRegion;
-
-			if (targetRegion) {
-				button.to = targetRegion === data ? false : targetRegion.path_hash;
-			}
-		}
-		
-		return buttons;
-	}
-
-	arrowKeyHandler = e => {
-		const  { isMovingRegions, match } = this.props,
-			{ buttons } = this;
-
-		if (isMovingRegions)
-			return
-
-		switch(e.which) {
-			case 38:
-				// up
-				const to = buttons[0].to ? buttons[0].to : '';
-				helpers.replaceLocation(match.url, to);
-				break;
-
-			case 40:
-				// down
-				if (buttons[1].to) 
-					helpers.replaceLocation(match.url, buttons[1].to);
-				break;
-
-			default:
-				false;
-		}
-	}
-
 	render() {
-		const { data, match, isMovingRegions, currentRegion } = this.props,
-			subRegions = this.setSubRegions(),
-			buttons = this.setButtons(subRegions);
-
-		if (buttons.length) {
-			this.buttons = buttons;
-			document.addEventListener('keydown', this.arrowKeyHandler);
-		}
+		const { data, match } = this.props;
 		
 		return (
 			<div>
@@ -123,23 +72,8 @@ class PrimaryRegion extends Component {
 						<IncomingRegion data={data} />
 					)}
 				/>
-				
-				{buttons.map((button, index) => {
-					let targetRegion = button.targetRegion;
 
-					return (
-						<DirectionButton
-							key={index}
-							matchUrl={match.url}
-							to={button.to}
-							isVisible={button.condition}
-							name={button.name}
-							title={targetRegion ? targetRegion.title : ''}
-						/>
-					)
-				})}
-
-				{subRegions.map((subRegion, index) => {
+				{this.subRegions.map((subRegion, index) => {
 					return (
 						<Route 
 							key={index}
@@ -159,8 +93,6 @@ class PrimaryRegion extends Component {
 const mapStateToProps = state => (
     {
     	subRegions: state.data.subRegions,
-    	currentRegion: state.transitions.currentRegion,
-    	isMovingRegions: state.transitions.isMovingRegions
     }
 );
 

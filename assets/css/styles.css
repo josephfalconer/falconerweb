@@ -1616,70 +1616,6 @@ svg {
   }
 }
 
-@-webkit-keyframes button-slide-right {
-  50% {
-    -webkit-transform: translateX(100%);
-            transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-@keyframes button-slide-right {
-  50% {
-    -webkit-transform: translateX(100%);
-            transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-@-webkit-keyframes button-slide-left {
-  50% {
-    -webkit-transform: translateX(-100%);
-            transform: translateX(-100%);
-    opacity: 0;
-  }
-}
-
-@keyframes button-slide-left {
-  50% {
-    -webkit-transform: translateX(-100%);
-            transform: translateX(-100%);
-    opacity: 0;
-  }
-}
-
-@-webkit-keyframes button-slide-up {
-  50% {
-    -webkit-transform: translateY(-100%);
-            transform: translateY(-100%);
-    opacity: 0;
-  }
-}
-
-@keyframes button-slide-up {
-  50% {
-    -webkit-transform: translateY(-100%);
-            transform: translateY(-100%);
-    opacity: 0;
-  }
-}
-
-@-webkit-keyframes button-slide-down {
-  50% {
-    -webkit-transform: translateY(100%);
-            transform: translateY(100%);
-    opacity: 0;
-  }
-}
-
-@keyframes button-slide-down {
-  50% {
-    -webkit-transform: translateY(100%);
-            transform: translateY(100%);
-    opacity: 0;
-  }
-}
-
 .js-outgoing {
   z-index: 8;
 }
@@ -1739,75 +1675,25 @@ svg {
           animation: in-from-fade 0.5s 0.5s;
 }
 
-.js-moving-regions .direction {
-  pointer-events: none;
-}
-
-.js-moving-regions .direction--next {
-  -webkit-animation: button-slide-right 1s;
-          animation: button-slide-right 1s;
-}
-
-.js-moving-regions .direction--prev {
-  -webkit-animation: button-slide-left 1s;
-          animation: button-slide-left 1s;
-}
-
-.js-moving-regions .direction--up {
-  -webkit-animation: button-slide-up 1s;
-          animation: button-slide-up 1s;
-}
-
-.js-moving-regions .direction--down {
-  -webkit-animation: button-slide-down 1s;
-          animation: button-slide-down 1s;
-}
-
-.js-moving-regions .direction i {
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-}
-
-.js-moving-regions .direction i:first-of-type {
-  -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
-}
-
-.js-moving-regions .direction i:last-of-type {
-  -webkit-transform: none;
-          transform: none;
-}
-
-.js-moving-regions .direction__text {
-  display: none;
-}
-
-.js-moving-regions .direction:hover .direction__icon::after {
-  opacity: 1;
-}
-
 .js-nav-backgrounds .nav__menu,
 .js-nav-backgrounds .direction {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.direction.js-hidden-button {
-  pointer-events: none;
-  -webkit-animation: none;
-          animation: none;
-  opacity: 0;
+.direction {
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
+}
+
+.direction.js-hidden-button {
+  pointer-events: none;
+  opacity: 0;
 }
 
 .direction.js-visible-button {
   -webkit-transform: none;
           transform: none;
   opacity: 1;
-  -webkit-transition: all 0.5s 0.5s;
-  transition: all 0.5s 0.5s;
-  -webkit-animation: none;
-          animation: none;
 }
 
 .direction--prev.js-hidden-button {

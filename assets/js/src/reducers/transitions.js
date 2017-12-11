@@ -19,10 +19,10 @@ export default function Transitions(state=initialState, action) {
 			};
 		}
 
-		case TransitionActionTypes.SET_CURRENT_PRIMARY_REGION: {
+		case TransitionActionTypes.SET_CURRENT_REGION: {
 			return {
 				...state,
-				currentPrimaryRegion: action.data
+				currentRegion: action.data
 			};
 		}
 
@@ -33,10 +33,10 @@ export default function Transitions(state=initialState, action) {
 			};
 		}
 
-		case TransitionActionTypes.SET_CURRENT_REGION: {
+		case TransitionActionTypes.UPDATE_CURRENT_MATCH: {
 			return {
 				...state,
-				currentRegion: action.data
+				currentMatch: action.data
 			};
 		}
 

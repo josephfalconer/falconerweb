@@ -14,6 +14,16 @@ export const isUpwards = (currentRegion, outgoingRegion) => {
 	return currentRegion.y < outgoingRegion.y;
 }
 
-export const replaceLocation = (matchUrl, newHash) => {
-	window.location.hash = `${matchUrl}${newHash ? '/' + newHash : ''}`;
+export const formatNewHash = (newHash, matchUrl, currentMatch) => {
+	let isToTop = false;
+
+	// between child routes/parent
+	if (matchUrl) {
+		isToTop = `/${newHash}` === currentMatch;
+		newHash = `${currentMatch}${isToTop ? '' : '/' + newHash}`;
+		return newHash;
+	} 
+
+	// between parent routes
+	return newHash;
 }

@@ -6,7 +6,7 @@ import DataFetcher from './DataFetcher';
 import Navigation from '../components/Navigation';
 import PrimaryRegion from '../components/PrimaryRegion';
 import OutgoingRegion from '../components/OutgoingRegion';
-import SidewaysButtons from '../components/SidewaysButtons';
+import DirectionButtons from '../components/DirectionButtons';
 
 class Application extends Component {
 
@@ -41,7 +41,7 @@ class Application extends Component {
 
 				<Navigation />
 
-				<SidewaysButtons />
+				<DirectionButtons />
 
 				<Redirect to={`${this.props.match.url}start`} />
 				

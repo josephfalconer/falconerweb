@@ -92,38 +92,6 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 	}
 }
 
-
-// BUTTONS - keyframes
-@keyframes button-slide-right {
-	50% {
-		transform: translateX(100%);
-		opacity: 0;
-	}
-}
-
-@keyframes button-slide-left {
-	50% {
-		transform: translateX(-100%);
-		opacity: 0;
-	}
-}
-
-@keyframes button-slide-up {
-	50% {
-		transform: translateY(-100%);
-		opacity: 0;
-	}
-}
-
-@keyframes button-slide-down {
-	50% {
-		transform: translateY(100%);
-		opacity: 0;
-	}
-}
-
-
-
 // apply animations
 .js {
 	&-outgoing {
@@ -147,48 +115,6 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 		}
 	}
 
-	&-moving-regions {
-		.direction {
-			pointer-events: none; 
-
-			&--next {
-				animation: button-slide-right $regions-slide-duration;
-			}
-
-			&--prev {
-				animation: button-slide-left $regions-slide-duration;
-			}
-
-			&--up {
-				animation: button-slide-up $regions-slide-duration;
-			}
-
-			&--down {
-				animation: button-slide-down $regions-slide-duration;
-			}
-
-			i {
-				transition: all 0.2s;
-
-				&:first-of-type {
-					transform: rotate(90deg);
-				}
-
-				&:last-of-type {
-					transform: none;
-				}
-			}
-
-			&__text {
-				display: none;
-			}
-
-			&:hover .direction__icon::after {
-				opacity: 1;
-			}
-		}		
-	}
-
 	&-nav-backgrounds {
 		.nav__menu,
 		.direction {
@@ -198,18 +124,16 @@ $regions-sides: 'left', 'top', 'right', 'bottom';
 }
 
 .direction {
+	transition: all $regions-slide-duration / 2;
+	
 	&.js-hidden-button {
 		pointer-events: none;
-		animation: none;
 		opacity: 0;
-		transition: all $regions-slide-duration / 2;
 	}
 
 	&.js-visible-button {
 		transform: none;
 		opacity: 1;
-		transition: all $regions-slide-duration / 2 $regions-slide-duration / 2;
-		animation: none;
 	}
 
 	&--prev {
