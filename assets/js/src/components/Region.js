@@ -8,7 +8,6 @@ import ContentModules from './modules/ContentModules';
 const Region = props => {
 
 	const { data, contentModules } = props,
-		backgroundStyle = { backgroundImage: `url(${data.background})` },
 		Icon = Icons[data.icon.toUpperCase()];
 
 	let regionInnerClass = `region__inner text text--${data.text_colour}`,
@@ -17,22 +16,23 @@ const Region = props => {
 
 	for (let module of contentModules) {
 		if (module.region == data.path_hash) {
-			isNeededModules = true;
+			
+			if (!isNeededModules)
+				isNeededModules = true;
+
 			currentModules.push(module);
 		}
 	}
 
-	if (!currentModules.length && data.center_content) {
+	if (!currentModules.length && data.center_content) 
 		regionInnerClass += ' center-content';
-	} 
 
-	if (!data.center_content) {
+	if (!data.center_content) 
 		regionInnerClass += ' padding--ends';
-	} 
 
 	return (
 		<article className={props.regionClass}>
-			<div className={regionInnerClass} style={backgroundStyle}>
+			<div className={regionInnerClass} style={{ backgroundImage: `url(${data.background})` }}>
 				<div className="region__content">
 					<header className="region__header container">
 						{Icon && 

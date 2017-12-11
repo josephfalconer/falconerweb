@@ -7803,7 +7803,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Region = function Region(props) {
 	var data = props.data,
 	    contentModules = props.contentModules,
-	    backgroundStyle = { backgroundImage: 'url(' + data.background + ')' },
 	    Icon = _Icons2.default[data.icon.toUpperCase()];
 
 	var regionInnerClass = 'region__inner text text--' + data.text_colour,
@@ -7825,25 +7824,23 @@ var Region = function Region(props) {
 		var module = _ref;
 
 		if (module.region == data.path_hash) {
-			isNeededModules = true;
+
+			if (!isNeededModules) isNeededModules = true;
+
 			currentModules.push(module);
 		}
 	}
 
-	if (!currentModules.length && data.center_content) {
-		regionInnerClass += ' center-content';
-	}
+	if (!currentModules.length && data.center_content) regionInnerClass += ' center-content';
 
-	if (!data.center_content) {
-		regionInnerClass += ' padding--ends';
-	}
+	if (!data.center_content) regionInnerClass += ' padding--ends';
 
 	return _react2.default.createElement(
 		'article',
 		{ className: props.regionClass },
 		_react2.default.createElement(
 			'div',
-			{ className: regionInnerClass, style: backgroundStyle },
+			{ className: regionInnerClass, style: { backgroundImage: 'url(' + data.background + ')' } },
 			_react2.default.createElement(
 				'div',
 				{ className: 'region__content' },
