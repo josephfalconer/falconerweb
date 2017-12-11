@@ -7803,11 +7803,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Region = function Region(props) {
 	var data = props.data,
 	    contentModules = props.contentModules,
-	    backgroundStyle = { backgroundImage: 'url(' + data.background + ')' };
-	var Icon = _Icons2.default[data.icon],
-	    regionInnerClass = 'region__inner text text--' + data.text_colour,
-	    currentModules = [];
+	    backgroundStyle = { backgroundImage: 'url(' + data.background + ')' },
+	    Icon = _Icons2.default[data.icon.toUpperCase()];
 
+	var regionInnerClass = 'region__inner text text--' + data.text_colour,
+	    currentModules = [];
 
 	for (var _iterator = contentModules, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
 		var _ref;
@@ -7836,10 +7836,6 @@ var Region = function Region(props) {
 		regionInnerClass += ' padding--ends';
 	}
 
-	if (Icon) {
-		Icon = Icon.call();
-	}
-
 	return _react2.default.createElement(
 		'article',
 		{ className: props.regionClass },
@@ -7855,7 +7851,7 @@ var Region = function Region(props) {
 					Icon && _react2.default.createElement(
 						'span',
 						{ className: 'region__icon' },
-						Icon
+						Icon()
 					),
 					_react2.default.createElement(
 						'h1',
@@ -7923,19 +7919,20 @@ var _IconDemos2 = _interopRequireDefault(_IconDemos);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Icons = {
-	logo: function logo() {
+	LOGO: function LOGO() {
 		return _react2.default.createElement(_IconLogo2.default, null);
 	},
-	skills: function skills() {
+	SKILLS: function SKILLS() {
 		return _react2.default.createElement(_IconSkills2.default, null);
 	},
-	projects: function projects() {
+	PROJECTS: function PROJECTS() {
 		return _react2.default.createElement(_IconProjects2.default, null);
 	},
-	demos: function demos() {
+	DEMOS: function DEMOS() {
 		return _react2.default.createElement(_IconDemos2.default, null);
 	}
-}; // Manifest for icon components
+};
+
 exports.default = Icons;
 
 /***/ }),
@@ -14365,12 +14362,9 @@ var Navigation = function Navigation(props) {
 				'ul',
 				{ className: 'nav__menu list--plain' },
 				navigationLinks.map(function (link, index) {
+
 					var navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item',
-					    hash = '/' + link.linked_region,
-					    Icon = _Icons2.default[link.icon];
-
-
-					Icon = Icon.call();
+					    Icon = _Icons2.default[link.icon.toUpperCase()];
 
 					return _react2.default.createElement(
 						'li',
@@ -14378,7 +14372,7 @@ var Navigation = function Navigation(props) {
 						_react2.default.createElement(
 							_reactRouterDom.NavLink,
 							{
-								to: hash,
+								to: '/' + link.linked_region,
 								className: 'nav__link',
 								activeClassName: 'nav__link nav__link--current',
 								exact: true,
@@ -14386,13 +14380,13 @@ var Navigation = function Navigation(props) {
 									if (isMovingRegions) e.preventDefault();
 								}
 							},
-							_react2.default.createElement(
+							Icon && _react2.default.createElement(
 								'span',
 								{ className: 'nav__linkcircle' },
 								_react2.default.createElement(
 									'span',
 									{ className: 'nav__icon is-displayed-lg' },
-									Icon
+									Icon()
 								)
 							),
 							_react2.default.createElement(

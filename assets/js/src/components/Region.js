@@ -8,10 +8,10 @@ import ContentModule from './modules/ContentModule';
 const Region = props => {
 
 	const { data, contentModules } = props,
-		backgroundStyle = { backgroundImage: `url(${data.background})` };
+		backgroundStyle = { backgroundImage: `url(${data.background})` },
+		Icon = Icons[data.icon.toUpperCase()];
 
-	let { [data.icon]:Icon } = Icons,
-		regionInnerClass = `region__inner text text--${data.text_colour}`,
+	let regionInnerClass = `region__inner text text--${data.text_colour}`,
 		currentModules = [];
 
 	for (let module of contentModules) {
@@ -28,17 +28,13 @@ const Region = props => {
 		regionInnerClass += ' padding--ends';
 	} 
 
-	if (Icon) {
-		Icon = Icon.call();
-	}
-
 	return (
 		<article className={props.regionClass}>
 			<div className={regionInnerClass} style={backgroundStyle}>
 				<div className="region__content">
 					<header className="region__header container">
 						{Icon && 
-							<span className="region__icon">{Icon}</span>
+							<span className="region__icon">{Icon()}</span>
 						}
 						<h1 className="region__title">{data.display_title || data.title}</h1>
 						{data.intro_text &&

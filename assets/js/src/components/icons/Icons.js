@@ -1,4 +1,3 @@
-// Manifest for icon components
 import React from 'react';
 
 import IconLogo from './IconLogo';
@@ -8,16 +7,16 @@ import IconDemos from './IconDemos';
 
 
 const Icons = {
-	logo: () => {
+	LOGO: () => {
 		return <IconLogo/>;
 	},
-	skills: () => {
+	SKILLS: () => {
 		return <IconSkills/>;
 	},
-	projects: () => {
+	PROJECTS: () => {
 		return <IconProjects/>;
 	},
-	demos: () => {
+	DEMOS: () => {
 		return <IconDemos/>;
 	}
 }

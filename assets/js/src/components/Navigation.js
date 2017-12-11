@@ -14,25 +14,24 @@ const Navigation = props => {
 				<ul className="nav__menu list--plain">
 					{navigationLinks.map((link, index) => {
 						
-						let navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item',
-							hash = `/${link.linked_region}`,
-							{ [link.icon]:Icon } = Icons;
-
-						Icon = Icon.call();
+						const navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item',
+							Icon = Icons[link.icon.toUpperCase()];
 
 						return (
 							<li key={index} className={navItemClass} >
 								<NavLink
-									to={hash}
+									to={`/${link.linked_region}`}
 									className="nav__link"
 									activeClassName="nav__link nav__link--current"
 									exact
 									onClick={e => { if (isMovingRegions) e.preventDefault(); }}
 								>
-									<span className="nav__linkcircle">
-										<span className="nav__icon is-displayed-lg">{Icon}</span>
-										
-					                </span>
+									{Icon &&
+										<span className="nav__linkcircle">
+											<span className="nav__icon is-displayed-lg">{Icon()}</span>
+						                </span>
+									}
+									
 					                <span className="nav__linktext is-displayed-lg">{link.text}</span>
 								</NavLink>
 							</li>
