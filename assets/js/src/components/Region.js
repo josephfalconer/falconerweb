@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Icons from './icons/Icons';
-import ContentModule from './modules/ContentModule';
+import ContentModules from './modules/ContentModules';
 
 
 const Region = props => {
@@ -12,10 +12,12 @@ const Region = props => {
 		Icon = Icons[data.icon.toUpperCase()];
 
 	let regionInnerClass = `region__inner text text--${data.text_colour}`,
-		currentModules = [];
+		currentModules = [],
+		isNeededModules = false;
 
 	for (let module of contentModules) {
 		if (module.region == data.path_hash) {
+			isNeededModules = true;
 			currentModules.push(module);
 		}
 	}
@@ -42,17 +44,13 @@ const Region = props => {
 						}
 					</header>
 
-					{currentModules.length ? 
+					{isNeededModules &&
 						currentModules.map((contentModule, index) => {	
-							return (
-								<ContentModule 
-									key={index}
-									fields={contentModule} 
-								/>
-							)
+							const Module = ContentModules[contentModule.module_type.toUpperCase()];
+
+							if (Module) 
+								return Module(contentModule, index);
 						})
-						:
-						null
 					}
 				</div>
 			</div>

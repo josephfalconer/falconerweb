@@ -7794,9 +7794,9 @@ var _Icons = __webpack_require__(80);
 
 var _Icons2 = _interopRequireDefault(_Icons);
 
-var _ContentModule = __webpack_require__(147);
+var _ContentModules = __webpack_require__(147);
 
-var _ContentModule2 = _interopRequireDefault(_ContentModule);
+var _ContentModules2 = _interopRequireDefault(_ContentModules);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7807,7 +7807,8 @@ var Region = function Region(props) {
 	    Icon = _Icons2.default[data.icon.toUpperCase()];
 
 	var regionInnerClass = 'region__inner text text--' + data.text_colour,
-	    currentModules = [];
+	    currentModules = [],
+	    isNeededModules = false;
 
 	for (var _iterator = contentModules, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
 		var _ref;
@@ -7824,6 +7825,7 @@ var Region = function Region(props) {
 		var module = _ref;
 
 		if (module.region == data.path_hash) {
+			isNeededModules = true;
 			currentModules.push(module);
 		}
 	}
@@ -7860,12 +7862,11 @@ var Region = function Region(props) {
 					),
 					data.intro_text && _react2.default.createElement('p', { className: 'region__intro', dangerouslySetInnerHTML: { __html: data.intro_text } })
 				),
-				currentModules.length ? currentModules.map(function (contentModule, index) {
-					return _react2.default.createElement(_ContentModule2.default, {
-						key: index,
-						fields: contentModule
-					});
-				}) : null
+				isNeededModules && currentModules.map(function (contentModule, index) {
+					var Module = _ContentModules2.default[contentModule.module_type.toUpperCase()];
+
+					if (Module) return Module(contentModule, index);
+				})
 			)
 		)
 	);
@@ -15013,24 +15014,19 @@ var _DemosMenu2 = _interopRequireDefault(_DemosMenu);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ContentModule = function ContentModule(props) {
-	var fields = props.fields;
-
-
-	return _react2.default.createElement(
-		'section',
-		{ className: 'module' },
-		fields.module_type == 'skills_accordion' && _react2.default.createElement(_SkillsAccordion2.default, null),
-		fields.module_type == 'demos_menu' && _react2.default.createElement(_DemosMenu2.default, null),
-		fields.module_type == 'text' && _react2.default.createElement('div', { className: 'textblock container', dangerouslySetInnerHTML: { __html: fields.text } })
-	);
+var ContentModules = {
+	SKILLS_ACCORDION: function SKILLS_ACCORDION(fields, key) {
+		return _react2.default.createElement(_SkillsAccordion2.default, { key: key });
+	},
+	DEMOS_MENU: function DEMOS_MENU(fields, key) {
+		return _react2.default.createElement(_DemosMenu2.default, { key: key });
+	},
+	TEXT: function TEXT(fields, key) {
+		return _react2.default.createElement('div', { key: key, className: 'textblock container', dangerouslySetInnerHTML: { __html: fields.text } });
+	}
 };
 
-ContentModule.propTypes = {
-	// moduleFields: PropTypes.string.isRequired,
-};
-
-exports.default = ContentModule;
+exports.default = ContentModules;
 
 /***/ }),
 /* 148 */
