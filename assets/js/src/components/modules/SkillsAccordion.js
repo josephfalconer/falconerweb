@@ -35,7 +35,7 @@ class ModuleSkills extends Component {
 				<div className="skillsfeature text">
 					{this.props.skills.map((skill, index) => {
 
-						let isCurrentSkill = index == currentIndex,
+						const isCurrentSkill = index == currentIndex,
 							skillClass = isCurrentSkill ? 'skillsfeature__skill skillsfeature__skill--current' : 'skillsfeature__skill',
 							heightValue = isCurrentSkill ? this.state.currentSkillHeight : '6.25rem',
 							heightStyle = {

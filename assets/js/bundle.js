@@ -15019,7 +15019,7 @@ var ModuleDemos = function (_Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this.setBackgrounds();
-			this.interval = setInterval(this.setBackgrounds, 10000);
+			this.interval = setInterval(this.setBackgrounds, 5000);
 		}
 	}, {
 		key: 'componentWillUnmount',

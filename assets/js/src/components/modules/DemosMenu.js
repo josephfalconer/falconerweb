@@ -14,7 +14,7 @@ class ModuleDemos extends Component {
 
 	componentDidMount() {
 		this.setBackgrounds();
-		this.interval = setInterval(this.setBackgrounds, 10000);
+		this.interval = setInterval(this.setBackgrounds, 5000);
 	};
 
 	componentWillUnmount() {
@@ -49,7 +49,7 @@ class ModuleDemos extends Component {
 			<ul className="demosfeature list--plain text" data-js="ShiftingBackgrounds">
 				{this.props.demos.map((demo, index) => {
 					
-					let backgroundColor = backgroundColours[index],
+					const backgroundColor = backgroundColours[index],
 						backgroundStyle = {
 							backgroundColor: backgroundColor
 						}

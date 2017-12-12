@@ -1320,8 +1320,8 @@ svg {
   -webkit-box-flex: 1;
       -ms-flex: 1 50%;
           flex: 1 50%;
-  -webkit-transition: background 2s;
-  transition: background 2s;
+  -webkit-transition: background 5s;
+  transition: background 5s;
 }
 
 @media (min-width: 62rem) {

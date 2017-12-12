@@ -12,17 +12,17 @@
 		box-shadow: 0 0 50px $grey-transparent;
 	}
 
-	@include e(item) {
+	&__item {
 		display: inline-block;
 		flex: 1 50%;
-		transition: background 2s;
+		transition: background 5s;
 
 		@include mq(lg) {
 			flex: 1 50%;
 		}
 	}
 
-	@include e(link) {
+	&__link {
 		display: block;
 		position: relative;
 	    @include square(100%);
@@ -40,7 +40,7 @@
 	    }
 	}
 
-	@include e(text) {
+	&__text {
 		padding: 30px;
 
 		@include mq(lg) {
@@ -48,16 +48,16 @@
 		}
 	}
 
-	@include e(title) {
+	&__title {
 		margin-top: 0;
 	}
 
-	@include e(description) {
+	&__description {
 		margin: 0;
 		text-align: left;
 	}
 
-	@include e(tooltip) {
+	&__tooltip {
 		display: block;
 		position: absolute;
 		bottom: 0;
