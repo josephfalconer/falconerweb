@@ -11,9 +11,7 @@ class PrimaryRegion extends Component {
 
 	constructor(props) {
 		super(props);
-		this.buttons = [];
 		this.subRegions = [];
-		this.isSetSubRegions = false;
 		this.updateData = bindActionCreators(actions.updateTransitions, props.dispatch);
 	}
 
