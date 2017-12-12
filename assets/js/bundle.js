@@ -14223,44 +14223,25 @@ var DirectionButtons = function (_Component) {
 				name: 'down'
 			}];
 		}, _this.setArrowKeys = function (e) {
+			if (!_this.buttons.length) return;
+
 			var _this$props2 = _this.props,
 			    isMovingRegions = _this$props2.isMovingRegions,
-			    currentMatch = _this$props2.currentMatch,
-			    buttons = _this.buttons;
+			    currentMatch = _this$props2.currentMatch;
 
 
-			var buttonIndex = void 0;
+			var buttonIndexes = {
+				37: 0,
+				39: 1,
+				38: 2,
+				40: 3
+			};
 
-			if (!buttons.length || isMovingRegions) return;
+			var button = _this.buttons[buttonIndexes[e.which]];
 
-			switch (e.which) {
-				case 37:
-					// left arrow
-					buttonIndex = 0;
-					break;
+			if (!button || !button.isVisible || isMovingRegions) return;
 
-				case 39:
-					// right arrow
-					buttonIndex = 1;
-					break;
-
-				case 38:
-					// up arrow
-					buttonIndex = 2;
-					break;
-
-				case 40:
-					// down arrow
-					buttonIndex = 3;
-					break;
-
-				default:
-					return false;
-			}
-
-			if (!buttons[buttonIndex].isVisible) return;
-
-			window.location.hash = helpers.formatNewHash(buttons[buttonIndex].targetRegion.path_hash, buttons[buttonIndex].matchUrl, currentMatch);
+			window.location.hash = helpers.formatNewHash(button.targetRegion.path_hash, button.matchUrl, currentMatch);
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 

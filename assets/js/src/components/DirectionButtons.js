@@ -69,44 +69,25 @@ class DirectionButtons extends Component {
 	}
 
 	setArrowKeys = e => {
-		const { isMovingRegions, currentMatch } = this.props,
-			buttons = this.buttons;
+		if (!this.buttons.length) return;
 
-		let buttonIndex;
-
-		if (!buttons.length || isMovingRegions)
-			return;
-
-		switch(e.which) {
-			case 37:
-				// left arrow
-				buttonIndex = 0;
-				break;
-
-			case 39:
-				// right arrow
-				buttonIndex = 1;
-				break;
-
-			case 38:
-				// up arrow
-				buttonIndex = 2;
-				break;
-
-			case 40:
-				// down arrow
-				buttonIndex = 3;
-				break;
-
-			default:
-				return false;
+		const { isMovingRegions, currentMatch } = this.props;
+		
+		const buttonIndexes = {
+			37: 0,
+			39: 1,
+			38: 2,
+			40: 3
 		}
 
-		if (!buttons[buttonIndex].isVisible) return;
+		const button = this.buttons[buttonIndexes[e.which]];
+
+		if (!button || !button.isVisible || isMovingRegions)
+			return;
 
 		window.location.hash = helpers.formatNewHash(
-			buttons[buttonIndex].targetRegion.path_hash, 
-			buttons[buttonIndex].matchUrl, 
+			button.targetRegion.path_hash, 
+			button.matchUrl, 
 			currentMatch
 		);
 	}
