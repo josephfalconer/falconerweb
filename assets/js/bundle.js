@@ -3937,18 +3937,9 @@ var isUpwards = exports.isUpwards = function isUpwards(currentRegion, outgoingRe
 	return currentRegion.y < outgoingRegion.y;
 };
 
-var formatNewHash = exports.formatNewHash = function formatNewHash(newHash, matchUrl, currentMatch) {
-	var isToTop = false;
-
-	// between child routes/parent
-	if (matchUrl) {
-		isToTop = '/' + newHash === currentMatch;
-		newHash = '' + currentMatch + (isToTop ? '' : '/' + newHash);
-		return newHash;
-	}
-
-	// between parent routes
-	return newHash;
+var formatHash = exports.formatHash = function formatHash(newHash, currentMatch) {
+	var isToTop = '/' + newHash === currentMatch;
+	return '' + currentMatch + (isToTop ? '' : '/' + newHash);
 };
 
 /***/ }),
@@ -14083,10 +14074,6 @@ var _reactRouterDom = __webpack_require__(21);
 
 var _helpers = __webpack_require__(35);
 
-var helpers = _interopRequireWildcard(_helpers);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DirectionButton = function DirectionButton(props) {
@@ -14097,12 +14084,13 @@ var DirectionButton = function DirectionButton(props) {
 	    visibiltyClass = 'js-' + (button.isVisible && !isMovingRegions ? 'visible' : 'hidden') + '-button';
 
 
-	var newHash = helpers.formatNewHash(targetRegion ? targetRegion.path_hash : '', button.matchUrl, currentMatch);
+	var targetHash = targetRegion ? targetRegion.path_hash : '';
+	var linkTo = button.matchUrl ? (0, _helpers.formatHash)(targetHash, currentMatch) : targetHash;
 
 	return _react2.default.createElement(
 		_reactRouterDom.Link,
 		{
-			to: newHash,
+			to: linkTo,
 			className: 'direction direction--' + button.name + ' ' + visibiltyClass
 		},
 		_react2.default.createElement(
@@ -14165,8 +14153,6 @@ var _transitions = __webpack_require__(45);
 var actions = _interopRequireWildcard(_transitions);
 
 var _helpers = __webpack_require__(35);
-
-var helpers = _interopRequireWildcard(_helpers);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -14241,7 +14227,10 @@ var DirectionButtons = function (_Component) {
 
 			if (!button || !button.isVisible || isMovingRegions) return;
 
-			window.location.hash = helpers.formatNewHash(button.targetRegion.path_hash, button.matchUrl, currentMatch);
+			var targetHash = button.targetRegion.path_hash;
+			var newHash = button.matchUrl ? (0, _helpers.formatHash)(targetHash, currentMatch) : targetHash;
+
+			window.location.hash = newHash;
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 

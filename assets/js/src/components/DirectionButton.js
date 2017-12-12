@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 
-import * as helpers from '../helpers';
+import { formatHash } from '../helpers';
 
 
 const DirectionButton = props => {
@@ -13,15 +13,12 @@ const DirectionButton = props => {
 		{ targetRegion } = button,
 		visibiltyClass = `js-${button.isVisible && !isMovingRegions ? 'visible' : 'hidden'}-button`;
 	
-	let newHash = helpers.formatNewHash(
-		targetRegion ? targetRegion.path_hash : '', 
-		button.matchUrl, 
-		currentMatch
-	);
+	const targetHash = targetRegion ? targetRegion.path_hash : '';
+	const linkTo = button.matchUrl ? formatHash(targetHash, currentMatch) : targetHash;
 			
 	return (
 		<Link 
-			to={newHash}
+			to={linkTo}
 			className={`direction direction--${button.name} ${visibiltyClass}`}
 		>
 			<span className="direction__inner">

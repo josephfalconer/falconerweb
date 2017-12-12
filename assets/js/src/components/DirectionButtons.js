@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import DirectionButton from './DirectionButton';
 import * as actions from '../actions/transitions';
-import * as helpers from '../helpers';
+import { formatHash } from '../helpers';
 
 
 class DirectionButtons extends Component {
@@ -85,11 +85,10 @@ class DirectionButtons extends Component {
 		if (!button || !button.isVisible || isMovingRegions)
 			return;
 
-		window.location.hash = helpers.formatNewHash(
-			button.targetRegion.path_hash, 
-			button.matchUrl, 
-			currentMatch
-		);
+		const targetHash = button.targetRegion.path_hash;
+		const newHash = button.matchUrl ? formatHash(targetHash, currentMatch) : targetHash;
+		
+		window.location.hash = newHash;
 	}
 
 	render() {
