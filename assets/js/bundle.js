@@ -12713,11 +12713,9 @@ var Application = function (_Component) {
 			    primaryRegions = _props.primaryRegions,
 			    outgoingRegion = _props.outgoingRegion,
 			    isMovingRegions = _props.isMovingRegions,
-			    regionTextColour = _props.regionTextColour;
+			    regionTextColour = _props.regionTextColour,
+			    match = _props.match;
 
-			// TODO
-
-			var style = { position: 'absolute', zIndex: '200' };
 
 			var className = '';
 			className += isMovingRegions ? 'js-moving-regions' : 'js-stationary';
@@ -12731,7 +12729,7 @@ var Application = function (_Component) {
 				_react2.default.createElement(_DataFetcher2.default, null),
 				_react2.default.createElement(_Navigation2.default, null),
 				_react2.default.createElement(_DirectionButtons2.default, null),
-				_react2.default.createElement(_reactRouterDom.Redirect, { to: this.props.match.url + 'start' }),
+				_react2.default.createElement(_reactRouterDom.Redirect, { to: match.url + 'start' }),
 				_react2.default.createElement(
 					'main',
 					{ id: 'regions', className: 'regions' },
@@ -14489,7 +14487,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Navigation = function Navigation(props) {
 	var navigationLinks = props.navigationLinks,
-	    isMovingRegions = props.isMovingRegions;
+	    isMovingRegions = props.isMovingRegions,
+	    currentMatch = props.currentMatch;
 
 
 	if (navigationLinks.length) {
@@ -14502,7 +14501,8 @@ var Navigation = function Navigation(props) {
 				navigationLinks.map(function (link, index) {
 
 					var navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item',
-					    Icon = _Icons2.default[link.icon.toUpperCase()];
+					    Icon = _Icons2.default[link.icon.toUpperCase()],
+					    isCurrent = '/' + link.linked_region === currentMatch;
 
 					return _react2.default.createElement(
 						'li',
@@ -14511,8 +14511,7 @@ var Navigation = function Navigation(props) {
 							_reactRouterDom.NavLink,
 							{
 								to: '/' + link.linked_region,
-								className: 'nav__link',
-								activeClassName: 'nav__link nav__link--current',
+								className: 'nav__link ' + (isCurrent && 'nav__link--current'),
 								exact: true,
 								onClick: function onClick(e) {
 									if (isMovingRegions) e.preventDefault();
@@ -14544,13 +14543,15 @@ var Navigation = function Navigation(props) {
 
 Navigation.propTypes = {
 	navigationLinks: _react.PropTypes.array.isRequired,
-	isMovingRegions: _react.PropTypes.bool.isRequired
+	isMovingRegions: _react.PropTypes.bool.isRequired,
+	currentMatch: _react.PropTypes.string
 };
 
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		navigationLinks: state.data.navigationLinks,
-		isMovingRegions: state.transitions.isMovingRegions
+		isMovingRegions: state.transitions.isMovingRegions,
+		currentMatch: state.transitions.currentMatch
 	};
 };
 

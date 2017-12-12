@@ -6,7 +6,7 @@ import Icons from './icons/Icons';
 
 
 const Navigation = props => {
-	const { navigationLinks, isMovingRegions } = props;
+	const { navigationLinks, isMovingRegions, currentMatch } = props;
 
 	if (navigationLinks.length) {
 		return (
@@ -15,14 +15,14 @@ const Navigation = props => {
 					{navigationLinks.map((link, index) => {
 						
 						const navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item',
-							Icon = Icons[link.icon.toUpperCase()];
+							Icon = Icons[link.icon.toUpperCase()],
+							isCurrent = `/${link.linked_region}` === currentMatch;
 
 						return (
 							<li key={index} className={navItemClass} >
 								<NavLink
 									to={`/${link.linked_region}`}
-									className="nav__link"
-									activeClassName="nav__link nav__link--current"
+									className={`nav__link ${isCurrent && 'nav__link--current'}`}
 									exact
 									onClick={e => { if (isMovingRegions) e.preventDefault(); }}
 								>
@@ -49,12 +49,14 @@ const Navigation = props => {
 Navigation.propTypes = {
 	navigationLinks: PropTypes.array.isRequired,
 	isMovingRegions: PropTypes.bool.isRequired,
+	currentMatch: PropTypes.string,
 }
 
 const mapStateToProps = state => (
     {
     	navigationLinks: state.data.navigationLinks,
     	isMovingRegions: state.transitions.isMovingRegions,
+    	currentMatch: state.transitions.currentMatch,
     }
 );
 

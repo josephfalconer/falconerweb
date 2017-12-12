@@ -23,10 +23,9 @@ class Application extends Component {
 			primaryRegions, 
 			outgoingRegion, 
 			isMovingRegions, 
-			regionTextColour } = this.props;
-
-		// TODO
-		const style = { position: 'absolute', zIndex: '200'}
+			regionTextColour,
+			match
+		} = this.props;
 
 		let className = '';
 		className += isMovingRegions ? 'js-moving-regions' : 'js-stationary';
@@ -43,7 +42,7 @@ class Application extends Component {
 
 				<DirectionButtons />
 
-				<Redirect to={`${this.props.match.url}start`} />
+				<Redirect to={`${match.url}start`} />
 				
 				<main id="regions" className="regions">
 					{outgoingRegion && isMovingRegions &&
