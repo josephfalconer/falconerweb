@@ -1,0 +1,8 @@
+- Sort out primary region/sub region relationship in backend. 
+  Primary regions should have some sort of model method which gets the required data for each sub region.
+  On the front end should only have to iterate without matching sub regions to primary regions.
+  
+- Sort out rendering of routes - sub routes shouldn't be wrapped under the render components of primary routes.
+  Current strategy renders sub routes unreachable when not currently visiting the related primary route.
+  
+- Don't have separate branches production/master. Consider having different settings outside of VC.
