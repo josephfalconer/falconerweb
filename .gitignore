@@ -6,3 +6,7 @@ static/*
 
 # pyc files
 *.pyc
+
+# built assets
+assets/js/bundle.js
+assets/js/bundle.js.map
