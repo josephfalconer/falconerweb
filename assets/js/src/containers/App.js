@@ -2,11 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link, Route, Redirect } from 'react-router-dom';
 
+import IncomingRegion from '../components/IncomingRegion';
 import DataFetcher from './DataFetcher';
-import Navigation from '../components/Navigation';
-import PrimaryRegion from '../components/PrimaryRegion';
-import OutgoingRegion from '../components/OutgoingRegion';
 import DirectionButtons from '../components/DirectionButtons';
+import Navigation from '../components/Navigation';
+import OutgoingRegion from '../components/OutgoingRegion';
+import PrimaryRegion from '../components/PrimaryRegion';
 
 class Application extends Component {
 
@@ -18,11 +19,48 @@ class Application extends Component {
         regionTextColour: PropTypes.string.isRequired
 	}
 
-	render() {	
-		const { 
-			primaryRegions, 
-			outgoingRegion, 
-			isMovingRegions, 
+	getSubRegions = primaryRegion => {
+		const { subRegions } = this.props;
+		let ownSubRegions = [];
+		let y = 0;
+		// TODO - this will be refactored when backend data structure is fixed
+		if (subRegions.length) {
+			subRegions.forEach(subRegion => {
+				if (subRegion.parent_region === primaryRegion.path_hash) {
+					y++;
+					ownSubRegions.push({
+						...subRegion,
+						x: primaryRegion.x,
+						y: y
+					});
+				}
+			});
+			console.log(ownSubRegions);
+			return ownSubRegions;
+		}
+		// return [];
+	}
+
+	renderSubRegions = (subRegions, match) => {
+		if (subRegions.length) {
+			return subRegions.map(subRegion => (
+				<Route
+					key={`path-${subRegion.path_hash}`}
+					path={`${match.url}/${subRegion.path_hash}`}
+					render={() => (
+						<IncomingRegion data={subRegion} match={match}/>
+					)}
+				/>
+			));
+		}
+		return null;
+	}
+
+	render() {
+		const {
+			primaryRegions,
+			outgoingRegion,
+			isMovingRegions,
 			regionTextColour,
 			match
 		} = this.props;
@@ -31,40 +69,36 @@ class Application extends Component {
 		className += isMovingRegions ? 'js-moving-regions' : 'js-stationary';
 		className += regionTextColour == 'dark' ? ' js-nav-backgrounds' : '';
 
-		if (isMovingRegions)
+		if (isMovingRegions) {
 			document.getElementById('regions').scrollTop = 0;
+		}
 
 		return (
 			<div className={className}>
 				<DataFetcher />
-
 				<Navigation />
-
 				<DirectionButtons />
 
-				<Redirect to={`${match.url}start`} />
-				
 				<main id="regions" className="regions">
 					{outgoingRegion && isMovingRegions &&
 						<OutgoingRegion data={outgoingRegion} />
 					}
 
 					{primaryRegions && primaryRegions.map((region, index) => {
+						const subRegions = this.getSubRegions(region);
 						let hash = `/${region.path_hash}`;
 						return (
-							<Route 
+							<Route
 								key={index}
 								path={hash}
-								render={props => (
-									<PrimaryRegion 
-										data={region}
-										match={props.match}
-									/>
-								)} 						
-							/>
+								render={() => (
+									<IncomingRegion data={region} />
+								)}
+							>
+								{this.renderSubRegions(subRegions, match)}
+							</Route>
 						);
 					})}
-
 				</main>
 			</div>
 		)

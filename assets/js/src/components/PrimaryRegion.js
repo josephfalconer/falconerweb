@@ -43,15 +43,15 @@ class PrimaryRegion extends Component {
 			y = 0;
 
 		if (!subRegions.length) return [];
-		
+
 		for (let subRegion of subRegions) {
 			if (subRegion.parent_region === data.path_hash) {
 				y++;
-				currentSubRegions.push({ 
-					...subRegion, 
+				currentSubRegions.push({
+					...subRegion,
 					x: data.x,
-					y: y 
-				});				
+					y: y
+				});
 			}
 		}
 
@@ -60,28 +60,16 @@ class PrimaryRegion extends Component {
 
 	render() {
 		const { data, match } = this.props;
-		
+
 		return (
 			<div>
-				<Route 
+				<Route
 					path={match.url}
 					exact
 					render={props => (
 						<IncomingRegion data={data} />
 					)}
 				/>
-
-				{this.subRegions.map((subRegion, index) => {
-					return (
-						<Route 
-							key={index}
-							path={`${match.url}/${subRegion.path_hash}`}
-							render={props => (
-								<IncomingRegion data={subRegion} match={props.match}/>
-							)} 						
-						/>
-					)
-				})}
 			</div>
 		)
 	}
