@@ -6,13 +6,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { HashRouter, Route} from 'react-router-dom';
+import { browserHistory, HashRouter } from 'react-router-dom';
 
 require('../../scss/styles.scss');
 
+import App from './containers/app';
 import reducers from './reducers';
-import Application from './containers/App';
-
 
 const store = createStore(
 	reducers,
@@ -22,7 +21,7 @@ const store = createStore(
 ReactDOM.render(
 	<Provider store={store}>
 		<HashRouter>
-			<Route path="/" component={Application} />
+			<App />
 		</HashRouter>
 	</Provider>,
 	document.getElementById('application')

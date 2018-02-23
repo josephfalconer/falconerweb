@@ -15,6 +15,6 @@ export const isUpwards = (currentRegion, outgoingRegion) => {
 }
 
 export const formatHash = (newHash, currentMatch) => {
-	let isToTop = `/${newHash}` === currentMatch;
-	return `${currentMatch}${isToTop ? '' : '/' + newHash}`;
+	let isToTop = newHash === currentMatch;
+	return `/${currentMatch}${isToTop ? '' : '/' + newHash}`;
 }

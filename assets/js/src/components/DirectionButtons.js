@@ -38,7 +38,9 @@ class DirectionButtons extends Component {
 			currentSubRegions
 		} = this.props;
 
-		if (!currentRegion) return [];
+		if (!currentRegion) {
+			return [];
+		} 
 
 		return [
 			{
@@ -69,17 +71,17 @@ class DirectionButtons extends Component {
 	}
 
 	setArrowKeys = e => {
-		if (!this.buttons.length) return;
+		if (!this.buttons.length) {
+			return;
+		}
 
 		const { isMovingRegions, currentMatch } = this.props;
-		
 		const buttonIndexes = {
 			37: 0,
 			39: 1,
 			38: 2,
 			40: 3
 		}
-
 		const button = this.buttons[buttonIndexes[e.which]];
 
 		if (!button || !button.isVisible || isMovingRegions)
@@ -87,13 +89,11 @@ class DirectionButtons extends Component {
 
 		const targetHash = button.targetRegion.path_hash;
 		const newHash = button.matchUrl ? formatHash(targetHash, currentMatch) : targetHash;
-		
 		window.location.hash = newHash;
 	}
 
 	render() {
 		const { isMovingRegions, currentMatch } = this.props;
-		
 		return (
 			<nav className='directions'>
 				{this.buttons && this.buttons.map((button, index) => {

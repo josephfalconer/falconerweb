@@ -1,13 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { Link, Route, Redirect } from 'react-router-dom';
 
 import IncomingRegion from '../components/IncomingRegion';
-import DataFetcher from './DataFetcher';
+import DataFetcher from '../components/DataFetcher';
 import DirectionButtons from '../components/DirectionButtons';
+import Regions from '../components/Main';
 import Navigation from '../components/Navigation';
 import OutgoingRegion from '../components/OutgoingRegion';
-import PrimaryRegion from '../components/PrimaryRegion';
+
 
 class Application extends Component {
 
@@ -105,14 +107,44 @@ class Application extends Component {
 	};
 }
 
+// const mapStateToProps = state => (
+//     {
+//         primaryRegions: state.data.primaryRegions,
+//         subRegions: state.data.subRegions,
+//         isMovingRegions: state.transitions.isMovingRegions,
+//         outgoingRegion: state.transitions.outgoingRegion,
+//         regionTextColour: state.transitions.currentTextColour,
+//     }
+// );
+
+const App = props => {
+	const { isMovingRegions, regionTextColour } = props;
+	let className = '';
+	className += isMovingRegions ? 'js-moving-regions' : 'js-stationary';
+	className += regionTextColour == 'dark' ? ' js-nav-backgrounds' : '';
+
+	return (
+		<div className={className}>
+			<DataFetcher />
+			<header>
+				<Navigation />
+				<DirectionButtons />
+			</header>
+			<Regions />			
+		</div>
+	)
+}
+
+App.propTypes = {
+	isMovingRegions: PropTypes.bool,
+    regionTextColour: PropTypes.string,
+}
+
 const mapStateToProps = state => (
-    {
-        primaryRegions: state.data.primaryRegions,
-        subRegions: state.data.subRegions,
-        isMovingRegions: state.transitions.isMovingRegions,
-        outgoingRegion: state.transitions.outgoingRegion,
+	{
+		isMovingRegions: state.transitions.isMovingRegions,
         regionTextColour: state.transitions.currentTextColour,
-    }
+	}
 );
 
-export default connect(mapStateToProps)(Application);
+export default withRouter(connect(mapStateToProps)(App));

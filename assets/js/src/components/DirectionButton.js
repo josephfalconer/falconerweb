@@ -6,13 +6,12 @@ import { formatHash } from '../helpers';
 
 const DirectionButton = props => {
 	const { 
-			button,
-			currentMatch,
-			isMovingRegions
-		} = props,
-		{ targetRegion } = button,
-		visibiltyClass = `js-${button.isVisible && !isMovingRegions ? 'visible' : 'hidden'}-button`;
-	
+		button,
+		currentMatch,
+		isMovingRegions
+	} = props;
+	const { targetRegion } = button;
+	const visibiltyClass = `js-${button.isVisible && !isMovingRegions ? 'visible' : 'hidden'}-button`;
 	const targetHash = targetRegion ? targetRegion.path_hash : '';
 	const linkTo = button.matchUrl ? formatHash(targetHash, currentMatch) : targetHash;
 			

@@ -1,34 +1,36 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 
 import Icons from './icons/Icons';
 import ContentModules from './modules/ContentModules';
 
 
 const Region = props => {
-
-	const { data, contentModules } = props,
-		Icon = Icons[data.icon.toUpperCase()];
-
-	let regionInnerClass = `region__inner text text--${data.text_colour}`,
-		currentModules = [],
-		isNeededModules = false;
+	const { data, contentModules } = props;
+	const Icon = Icons[data.icon.toUpperCase()];
+	let regionInnerClass = `region__inner text text--${data.text_colour}`;
+	let currentModules = [];
+	let isNeededModules = false;
 
 	for (let module of contentModules) {
 		if (module.region == data.path_hash) {
 			
-			if (!isNeededModules)
+			if (!isNeededModules) {
 				isNeededModules = true;
-
+			}
 			currentModules.push(module);
 		}
 	}
 
-	if (!currentModules.length && data.center_content) 
+	if (!currentModules.length && data.center_content) {
 		regionInnerClass += ' center-content';
+	}
 
-	if (!data.center_content) 
+	if (!data.center_content) {
 		regionInnerClass += ' padding--ends';
+	}
 
 	return (
 		<article className={props.regionClass}>
@@ -47,9 +49,9 @@ const Region = props => {
 					{isNeededModules &&
 						currentModules.map((contentModule, index) => {	
 							const Module = ContentModules[contentModule.module_type.toUpperCase()];
-
-							if (Module) 
+							if (Module) {
 								return Module(contentModule, index);
+							}
 						})
 					}
 				</div>
