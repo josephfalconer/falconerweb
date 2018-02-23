@@ -8,3 +8,9 @@
 - Find a way to make /start/ show at root url, or add a welcome component (maybe with animated curly brackets/highlight controls etc)
 
 - Refactor dispatch actions/reducers
+
+- Tidy up code style/any other refactoring
+
+- Investigate using BrowserRouter with Django (pass browserHistory to router, fix 404 etc).
+
+-
