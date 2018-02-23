@@ -3,9 +3,8 @@
   On the front end should only have to iterate without matching sub regions to primary regions.
   Backend methods could also asign x/y values to sub regions.
 
-- Sort out rendering of routes - sub routes shouldn't be wrapped under the render components of primary routes.
-  Current strategy renders sub routes unreachable when not currently visiting the related primary route.
-
 - Don't have separate branches production/master. Consider having different settings outside of VC.
 
-- Switch redirect for <IndexRoute render={<IncomingRegion data={primaryRegions[0]}} /> } />
+- Find a way to make /start/ show at root url, or add a welcome component (maybe with animated curly brackets/highlight controls etc)
+
+- Refactor dispatch actions/reducers
