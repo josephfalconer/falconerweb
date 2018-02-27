@@ -10,7 +10,7 @@ const Icons = {
 	LOGO: () => {
 		return <IconLogo/>;
 	},
-	SKILLS: () => {
+	TOOLS: () => {
 		return <IconSkills/>;
 	},
 	PROJECTS: () => {
