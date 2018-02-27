@@ -8,5 +8,6 @@ node_modules
 *.pyc
 
 # built assets
-assets/js/bundle.js
-assets/js/bundle.js.map
+static/js/bundle.js
+static/js/bundle.js.map
+static/css/*
