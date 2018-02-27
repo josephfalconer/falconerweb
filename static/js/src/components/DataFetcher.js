@@ -15,10 +15,6 @@ const REQUESTS = [
 		type: 'ADD_PRIMARY_REGIONS'
 	},
 	// {
-	// 	url: 'api/zones/content-modules',
-	// 	type: 'ADD_CONTENT_MODULES'
-	// },
-	// {
 	// 	url: 'api/toolkit/',
 	// 	type: 'ADD_SKILLS'
 	// },

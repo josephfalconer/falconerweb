@@ -44,9 +44,3 @@ def zones_data(request):
 		x = x + 1
 		y = 0
 	return HttpResponse(json.dumps(data))
-
-def zones_generic_data(request, model_name):
-	data = model_objects[model_name]
-	serialized_data = serializers.serialize("json", data)
-
-	return HttpResponse(serialized_data)
