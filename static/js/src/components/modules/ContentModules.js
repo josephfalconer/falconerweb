@@ -5,14 +5,14 @@ import DemosMenu from './DemosMenu';
 
 
 const ContentModules = {
-	SKILLS_ACCORDION: (fields, key) => {
-		return <SkillsAccordion key={key} />;
+	SKILLS_ACCORDION: (fields, index) => {
+		return <SkillsAccordion key={`${fields.module_type}-${index}`} />;
 	},
-	DEMOS_MENU: (fields, key) => {
-		return <DemosMenu key={key} />;
+	DEMOS_MENU: (fields, index) => {
+		return <DemosMenu key={`${fields.module_type}-${index}`} />;
 	},
-	TEXT: (fields, key) => {
-		return <div key={key} className="textblock container" dangerouslySetInnerHTML={{__html: fields.text}}></div>;
+	TEXT: (fields, index) => {
+		return <div key={`${fields.module_type}-${index}`} className="textblock container" dangerouslySetInnerHTML={{__html: fields.text}}></div>;
 	}
 }
 
