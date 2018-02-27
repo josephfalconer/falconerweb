@@ -4,11 +4,6 @@ import json
 from .models import ParentZone, ChildZone, ContentModule
 
 
-# do these 3 queries fire every time the view is invoked or just once?
-model_objects = {
-	"content_modules": ContentModule.objects.all()
-}
-
 def serialize_zone_object(zone_object, **kwargs):
 	return {
 		'path_hash': zone_object.path_hash,
@@ -24,6 +19,12 @@ def serialize_zone_object(zone_object, **kwargs):
 		'y': kwargs['y']
 	}
 
+def serialize_module_object(module_object):
+	return {
+		'module_type': module_object.module_type,
+		'text': module_object.text,
+	}
+
 def zones_data(request):
 	parent_zones = ParentZone.objects.all()
 	data = []
@@ -32,10 +33,13 @@ def zones_data(request):
 	for zone in parent_zones:
 		sorted_data = serialize_zone_object(zone, x=x, y=0, index=x)
 		sorted_data['child_zones'] = []
-		child_zones = zone.child_zones.all()
-		for child_zone in child_zones:
+		for child_zone in zone.own_child_zones:
 			y = y + 1
-			sorted_data['child_zones'].append(serialize_zone_object(child_zone, x=x, y=y, index=y))
+			sorted_child_zone = serialize_zone_object(child_zone, x=x, y=y, index=y)
+			sorted_child_zone['content_modules'] = []
+			for module in child_zone.own_content_modules:
+				sorted_child_zone['content_modules'].append(serialize_module_object(module))
+			sorted_data['child_zones'].append(sorted_child_zone)
 		data.append(sorted_data)
 		x = x + 1
 		y = 0

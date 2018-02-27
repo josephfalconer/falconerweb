@@ -49,16 +49,21 @@ class Zone(models.Model):
 
 
 class ParentZone(Zone):
-	pass
+	@property
+	def own_child_zones(self):
+		return self.child_zones.all()
 
 
 class ChildZone(Zone):
 	parent_zone = models.ForeignKey(
 		ParentZone, 
 		on_delete=models.CASCADE,
-		to_field='path_hash',
 		related_name='child_zones'
 	)
+
+	@property
+	def own_content_modules(self):
+		return self.content_modules.all()
 	
 
 class ContentModule(models.Model):
@@ -67,7 +72,7 @@ class ContentModule(models.Model):
 	zone = models.ForeignKey(
 		ChildZone, 
 		on_delete=models.CASCADE,
-		to_field='path_hash'
+		related_name='content_modules'
 	)
 	text = models.TextField(blank=True)
 
