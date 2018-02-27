@@ -1,0 +1,58 @@
+// ======
+// Global base styles
+// ==================
+
+* {
+	box-sizing: border-box;
+}
+
+html, 
+body { 
+	margin: 0; 
+	padding: 0;
+	@include square(100%); 	
+}
+
+body {
+	background-color: $black;
+	text-align: center;
+	font-family: $font-family--primary;
+	color: $text-color-main;
+}
+
+#application {
+	@include square(100%); 
+
+	> div {
+		@include square(100%); 
+	}
+}
+
+a {
+	text-decoration: none;
+}
+
+button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+h1,
+h2,
+h3,
+h4 {
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+h1 {
+	font-family: $font-family--secondary;
+}
+
+h4 { 
+	font-size: 1.035em; 
+}
+
+svg { 
+	overflow: visible;
+	max-width: 100%;
+	max-height: 100%;
+}

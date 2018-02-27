@@ -1,0 +1,20 @@
+// =====
+// Functions which depend on config
+// ================================
+
+// Import if Google Fonts URL is defined
+@if variable-exists(font-url--google) {
+	@import url($font-url--google);
+}
+
+// return a specified breakpoint from the map
+@function break($key) {
+	$pixel-size: map-get($breakpoints, $key);
+	@return remcalc($pixel-size);
+}
+
+// convert to rem
+@function remcalc($size) {
+	$rem-size: $size / 16;
+	@return #{$rem-size}rem;
+}

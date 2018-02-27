@@ -1,0 +1,15 @@
+// ===========
+// General containers
+// ==================
+
+// control the max width of content
+.container {
+	margin: 0 auto;
+	width: 90%;
+	max-width: remcalc(1000);
+
+    @include mq(md) {
+    	margin: 0 auto;
+		width: 80%;
+	}
+}

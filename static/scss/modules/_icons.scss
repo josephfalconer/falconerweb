@@ -1,0 +1,26 @@
+// ============
+// Style global icons
+// ==================
+
+$social-icon-width: 30px;
+
+.icon {
+	@include m(social) {
+		display: inline-block;
+		@include square($social-icon-width);
+
+		&:nth-child(n+2) {
+			margin-left: $social-icon-width / 5;
+		}
+
+		.fill {
+			fill: $text-color-main;
+		}
+
+		&:hover {
+			.fill {
+				fill: $text-color-light;
+			}
+		}
+	}
+}

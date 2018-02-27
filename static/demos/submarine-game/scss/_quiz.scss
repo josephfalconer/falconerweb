@@ -1,0 +1,93 @@
+// ====================================
+// Quiz questions display
+// ===================================
+
+$fnt-sz-lg : 2em;
+$fnt-sz    : 1.5em;
+
+$yellow : #f2df4f;
+
+.quiz {
+	@include box(100%);
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: $blue--sea;
+	z-index: 600;
+	@include e(panel) {
+		@include dimensions(90%, initial);
+		@include transform(translateX(-50%));
+		@include transition($tn-norm: opacity .7s);
+		background: rgba(255,255,255,.4);
+		border-radius: 20px;
+		position: absolute;
+		bottom: 20px;
+		left: 50%;
+		opacity: 0;
+		padding: 10px;
+		@include mq(medium) {
+			width: 400px;
+			font-size: 1.2em;
+		}
+		@include mq(large) {
+			width: 500px;
+			@include transform(translate3d(-50%,-50%,0));
+			bottom: initial;
+			top: 50%;
+			
+		}
+	}
+	@include e(question) {
+		line-height: 35px;
+		letter-spacing: .6px;
+		font-size: $fnt-sz;
+		@include mq(large) {
+			line-height: 45px;
+			letter-spacing: 1px;
+			font-size: $fnt-sz-lg;
+		}
+		
+	}
+	@include e(choice) {
+		@extend %tn-all;
+		border: none;
+		background: white;
+		border: white 3px solid;
+		padding: 5px 8px;
+		margin: 5px;
+		cursor: pointer;
+		border-radius: 10px;
+		outline: none;
+		font-size: 1.5rem;
+		&:hover {
+			background: $yellow;
+		}
+		&:focus {
+			border-radius: 10px;
+			border: $yellow 3px solid;
+		}
+	}
+	h1 { line-height: 60px; letter-spacing: 1.4px; color: white }
+	h2 { color: white; }
+	@include e(arrow) {
+		@include box(30px);
+		/* The guide arrow is animated to point downwards */
+		@include animation(point 2s infinite);
+		@extend %tn-all;
+		position: absolute;
+		bottom: 50px;
+		left: 0;
+		right: 0;
+		margin: 0 auto;
+		font-size: 2em;
+		color: white;
+		opacity: 0;
+		&.visible {
+			opacity: 1;
+		}
+	}
+}
+
+/* Animation to point the arrow downwards */
+@include keyframes-pfx(point, 50%, translateY(10px))
+

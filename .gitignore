@@ -4,9 +4,6 @@ env
 # node modules
 node_modules
 
-# static files
-static/*
-
 # pyc files
 *.pyc
 

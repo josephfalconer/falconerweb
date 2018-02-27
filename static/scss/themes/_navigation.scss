@@ -1,0 +1,66 @@
+// =====================
+// Theme the site navigation for 'painting' pages
+// ==============================================
+
+$navigation-border-grey: 1px solid $grey--accent;
+
+
+.nav--grey.active {
+	.topmenu__trigger {
+		color: $orange--active;
+	}
+
+	.arrow {
+		&::after {
+			background: $orange--active;
+		}
+		&::before {
+			background: $orange--active;
+		}
+	}
+}
+
+.nav {
+	.fill {
+		fill: darken($grey--accent, 5%);
+	}
+
+	.stroke {
+		stroke: darken($grey--accent, 5%);
+	}
+
+	circle {
+		stroke: darken($grey--accent, 5%);
+		fill: rgba(255,255,255,0);
+	}
+
+	@include e(link) { 
+		&--current, &:hover, &:focus {
+			@include mq(md, max) {
+				color: $orange--dark;
+			}
+
+			circle {
+				stroke: $orange--dark;
+			}
+
+			.fill {
+				fill: $orange--dark;
+
+				@include m(onlyhover) {
+					fill: $orange--dark;					
+				}
+			}
+
+			.stroke {
+				stroke: $orange--dark;
+			}
+		}
+	}
+	
+	@include e(linkcircle) {
+		@include mq(lg) {
+			border: remcalc(2) solid $emperor;
+		}
+	}
+}

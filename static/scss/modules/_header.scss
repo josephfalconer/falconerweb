@@ -1,0 +1,39 @@
+// =========
+// Page heroes
+// ===========
+
+.header {
+	@include e(content) {
+		padding: 3rem 0;
+
+		@include mq(md) {
+			padding: 5rem 0;			
+		}
+
+		@include mq(xl) {
+			padding: 8rem 0;			
+		}
+	}
+
+	@include e(title) {
+		margin-top: 0;
+
+		@include mq(md) {
+			line-height: remcalc(48);
+			font-size: remcalc(38);			
+		}
+	}
+
+	@include e(intro) {
+		margin: 0 auto;
+		max-width: 700px;
+		line-height: remcalc(30);
+		text-align: left;
+		font-size: remcalc(20);
+
+		@include mq(md) {
+			line-height: remcalc(35);
+			font-size: remcalc(25);			
+		}
+	}
+}

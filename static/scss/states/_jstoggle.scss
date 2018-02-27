@@ -1,0 +1,166 @@
+// =====
+// Classes toggled in JS
+// =====================
+
+$regions-fade-duration: $regions-slide-duration / 2;
+$regions-sides: 'left', 'top', 'right', 'bottom';
+
+// cycle through sides applying animations
+@mixin animations($type) {
+	@each $side in $regions-sides {
+		&-#{$side} {
+			animation: #{$type}-#{$side} $regions-slide-duration;
+		}
+	}
+}
+
+// REGIONS - incoming keyframes
+@keyframes in-from-left {
+	0% {
+		transform: translateX(-100%);
+	}
+
+	100% {
+		transform: translateX(0);
+	}
+}
+
+@keyframes in-from-top {
+	0% {
+		transform: translateY(-100%);
+	}
+
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@keyframes in-from-bottom {
+	0% {
+		transform: translateY(100%);
+	}
+
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@keyframes in-from-right {
+	0% {
+		transform: translateX(100%);
+	}
+
+	100% {
+		transform: translateX(0);
+	}
+}
+
+@keyframes in-from-fade {
+	100% {
+		opacity: 1;
+	}
+}
+
+// REGIONS - outgoing keyframes
+@keyframes out-to-left {
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+@keyframes out-to-top {
+	100% {
+		transform: translateY(-100%);
+	}
+}
+
+@keyframes out-to-bottom {
+	100% {
+		transform: translateY(100%);
+	}
+}
+
+@keyframes out-to-right {
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+@keyframes out-to-fade {
+	100% {
+		opacity: 0;
+	}
+}
+
+// apply animations
+.js {
+	&-outgoing {
+		z-index: $navigation-z-index - 2;
+
+		@include animations('out-to');	
+
+		&-fade {
+			animation: out-to-fade $regions-fade-duration forwards;
+		}	
+	}
+
+	&-incoming {
+		z-index: $navigation-z-index - 1;
+
+		@include animations('in-from');
+
+		&-fade {
+			opacity: 0;
+			animation: in-from-fade $regions-fade-duration $regions-fade-duration;
+		}
+	}
+
+	&-nav-backgrounds {
+		.nav__menu,
+		.direction {
+			background-color: $black-transparent;
+		}
+	}
+}
+
+.direction {
+	transition: all $regions-slide-duration / 2;
+	
+	&.js-hidden-button {
+		pointer-events: none;
+		opacity: 0;
+	}
+
+	&.js-visible-button {
+		transform: none;
+		opacity: 1;
+	}
+
+	&--prev {
+		&.js-hidden-button {
+			transform: translateX(-100%);
+		}
+	}
+
+	&--next {
+		&.js-hidden-button {
+			transform: translateX(100%);
+		}
+	}
+
+	&--up {
+		&.js-hidden-button {
+			transform: translateY(-100%);
+		}
+	}
+
+	&--down {
+		&.js-hidden-button {
+			transform: translateY(100%);
+		}
+	}
+}
+
+.js-hide-overflow {
+	overflow: hidden;
+}
