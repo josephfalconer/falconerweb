@@ -47,7 +47,8 @@ const Main = props => {
 								<IncomingRegion 
 									pathToParent={path_hash}
 									data={parentZone} 
-									ownChildRegions={child_zones}
+									isParentZone
+									ownChildZones={child_zones}
 								/>
 							)}
 						/>

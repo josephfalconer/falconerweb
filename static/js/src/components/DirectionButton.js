@@ -8,10 +8,10 @@ const DirectionButton = props => {
 	const { 
 		button,
 		currentMatch,
-		isMovingRegions
+		isMovingZones
 	} = props;
 	const { targetRegion } = button;
-	const visibiltyClass = `js-${button.isVisible && !isMovingRegions ? 'visible' : 'hidden'}-button`;
+	const visibiltyClass = `js-${button.isVisible && !isMovingZones ? 'visible' : 'hidden'}-button`;
 	const targetHash = targetRegion ? targetRegion.path_hash : '';
 	const linkTo = button.matchUrl ? formatHash(targetHash, currentMatch) : targetHash;
 			
@@ -33,12 +33,12 @@ const DirectionButton = props => {
 
 DirectionButton.propTypes = {
 	button: PropTypes.object.isRequired,
-	isMovingRegions: PropTypes.bool.isRequired,
+	isMovingZones: PropTypes.bool.isRequired,
 	currentMatch: PropTypes.string.isRequired,
 }
 
 DirectionButton.defaultProps = {
-	isMovingRegions: false,
+	isMovingZones: false,
 }
 
 export default DirectionButton;

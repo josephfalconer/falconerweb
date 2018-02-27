@@ -8,12 +8,11 @@ import { formatHash } from '../helpers';
 
 
 class DirectionButtons extends Component {
-
 	static propTypes = {
-		primaryRegions: PropTypes.array.isRequired,
+		parentZones: PropTypes.array.isRequired,
 		currentRegion: PropTypes.object,
-		isMovingRegions: PropTypes.bool.isRequired,
-		currentSubRegions: PropTypes.array.isRequired,
+		isMovingZones: PropTypes.bool.isRequired,
+		currentChildZones: PropTypes.array.isRequired,
 		currentMatch: PropTypes.string,
 	}
 
@@ -32,31 +31,31 @@ class DirectionButtons extends Component {
 	}
 
 	setButtons = () => {
-		const { parentZones, currentRegion } = this.props;
-		if (currentRegion) {
+		const { parentZones, currentZone, currentChildZones } = this.props;
+		if (currentZone) {
 			return [
 				{
-					isVisible: currentRegion.x > 0 && currentRegion.y === 0,
+					isVisible: currentZone.x > 0 && currentZone.y === 0,
 					matchUrl: false,
-					targetRegion: primaryRegions[currentRegion.index - 1],
+					targetRegion: parentZones[currentZone.index - 1],
 					name: 'prev'
 				},
 				{
-					isVisible: (currentRegion.x + 1) < primaryRegions.length && currentRegion.y === 0,
+					isVisible: (currentZone.x + 1) < parentZones.length && currentZone.y === 0,
 					matchUrl: false,
-					targetRegion: primaryRegions[currentRegion.index + 1],
+					targetRegion: parentZones[currentZone.index + 1],
 					name: 'next'
 				},
 				{
-					isVisible: currentRegion.y > 0,
+					isVisible: currentZone.y > 0,
 					matchUrl: true,
-					targetRegion: currentRegion[currentRegion.y - 2] || primaryRegions[currentRegion.x],
+					targetRegion: currentChildZones[currentZone.y - 2] || parentZones[currentZone.x],
 					name: 'up'
 				},
 				{
-					isVisible: currentRegion.y < currentSubRegions.length,
+					isVisible: currentZone.y < currentChildZones.length,
 					matchUrl: true,
-					targetRegion: currentSubRegions[currentRegion.y],
+					targetRegion: currentChildZones[currentZone.y],
 					name: 'down'
 				}
 			]
@@ -66,7 +65,7 @@ class DirectionButtons extends Component {
 
 	setArrowKeys = e => {
 		if (this.buttons.length) {
-			const { isMovingRegions, currentMatch } = this.props;
+			const { isMovingZones, currentMatch } = this.props;
 			const buttonIndexes = {
 				37: 0,
 				39: 1,
@@ -75,7 +74,7 @@ class DirectionButtons extends Component {
 			}
 			const button = this.buttons[buttonIndexes[e.which]];
 
-			if (!button || !button.isVisible || isMovingRegions) {
+			if (!button || !button.isVisible || isMovingZones) {
 				return;
 			}
 
@@ -86,7 +85,7 @@ class DirectionButtons extends Component {
 	}
 
 	render() {
-		const { isMovingRegions, currentMatch } = this.props;
+		const { isMovingZones, currentMatch } = this.props;
 		return (
 			<nav className='directions'>
 				{this.buttons && this.buttons.map((button, index) => {
@@ -95,7 +94,7 @@ class DirectionButtons extends Component {
 							key={index}
 							button={button}
 							currentMatch={currentMatch}
-							isMovingRegions={isMovingRegions}
+							isMovingZones={isMovingZones}
 						/>
 					)
 				})}
@@ -104,12 +103,12 @@ class DirectionButtons extends Component {
 	}
 }
 
-
 const mapStateToProps = state => (
     {	
     	parentZones: state.data.parentZones,
-    	currentRegion: state.transitions.currentRegion,
-    	isMovingRegions: state.transitions.isMovingRegions,
+    	currentZone: state.transitions.currentRegion,
+    	currentChildZones: state.transitions.currentSubRegions,
+    	isMovingZones: state.transitions.isMovingRegions,
     	currentMatch: state.transitions.currentMatch,
     }
 );
