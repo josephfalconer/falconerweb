@@ -1,4 +1,4 @@
-"""project URL Configuration
+"""falconerweb URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
@@ -13,9 +13,24 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+from project.core import views
+
+
+api_urlpatters = [
+    url(r'^navigation/', views.navigation),
+    url(r'^zones/', include('project.zones.urls')),
+    url(r'^toolkit/', include('project.toolkit.urls')),
+    # url(r'^demos/', include('project.demos.urls')),
+]
 
 urlpatterns = [
+	url(r'^api/', include(api_urlpatters)),
     url(r'^admin/', admin.site.urls),
+    url(r'^$', views.main),
 ]
+
+urlpatterns += staticfiles_urlpatterns()

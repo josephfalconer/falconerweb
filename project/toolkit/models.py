@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+from project.core.models import GenericItem
+
+
+class Tool(GenericItem):
+	pass

@@ -14,3 +14,5 @@
 - Investigate using BrowserRouter with Django (pass browserHistory to router, fix 404 etc).
 
 - Investigate the effect of using Route render prop for IncomingRegion: any side effects on performance or anything? Is it better to just give Route a child -> IncomingRegion?
+
+- Fix buttons/subregions for new backend data structure

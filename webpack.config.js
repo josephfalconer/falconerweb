@@ -7,9 +7,9 @@ const extractCSS = new ExtractTextPlugin('../css/styles.css');
 const autoPrefixer = require('autoprefixer');
 
 module.exports = {
-	entry: './assets/js/src/index.js',
+	entry: './static/js/src/index.js',
 	output: {
-        path: path.join(__dirname, 'assets/js'),
+        path: path.join(__dirname, 'static/js'),
         filename: 'bundle.js'
     },
 	devtool: "source-map",
