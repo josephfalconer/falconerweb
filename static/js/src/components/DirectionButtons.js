@@ -10,14 +10,14 @@ import { formatHash } from '../helpers';
 class DirectionButtons extends Component {
 	static propTypes = {
 		parentZones: PropTypes.array.isRequired,
-		currentRegion: PropTypes.object,
+		currentZone: PropTypes.object,
 		isMovingZones: PropTypes.bool.isRequired,
 		currentChildZones: PropTypes.array.isRequired,
 		currentMatch: PropTypes.string,
 	}
 
 	componentDidMount() {
-		// allow time for currentSubRegions to reach Redux store
+		// allow time for currentChildZones to reach Redux store
 		setTimeout(() => {
 			this.buttons = this.setButtons();
 		}, 200);
@@ -37,30 +37,30 @@ class DirectionButtons extends Component {
 				{
 					isVisible: currentZone.x > 0 && currentZone.y === 0,
 					matchUrl: false,
-					targetRegion: parentZones[currentZone.index - 1],
+					targetZone: parentZones[currentZone.index - 1],
 					name: 'prev'
 				},
 				{
 					isVisible: (currentZone.x + 1) < parentZones.length && currentZone.y === 0,
 					matchUrl: false,
-					targetRegion: parentZones[currentZone.index + 1],
+					targetZone: parentZones[currentZone.index + 1],
 					name: 'next'
 				},
 				{
 					isVisible: currentZone.y > 0,
 					matchUrl: true,
-					targetRegion: currentChildZones[currentZone.y - 2] || parentZones[currentZone.x],
+					targetZone: currentChildZones[currentZone.y - 2] || parentZones[currentZone.x],
 					name: 'up'
 				},
 				{
 					isVisible: currentZone.y < currentChildZones.length,
 					matchUrl: true,
-					targetRegion: currentChildZones[currentZone.y],
+					targetZone: currentChildZones[currentZone.y],
 					name: 'down'
 				}
 			]
-		} 
-		return [];		
+		}
+		return [];
 	}
 
 	setArrowKeys = e => {
@@ -78,7 +78,7 @@ class DirectionButtons extends Component {
 				return;
 			}
 
-			const targetHash = button.targetRegion.path_hash;
+			const targetHash = button.targetZone.path_hash;
 			const newHash = button.matchUrl ? formatHash(targetHash, currentMatch) : targetHash;
 			window.location.hash = newHash;
 		}
@@ -98,17 +98,17 @@ class DirectionButtons extends Component {
 						/>
 					)
 				})}
-			</nav>	
+			</nav>
 		)
 	}
 }
 
 const mapStateToProps = state => (
-    {	
+    {
     	parentZones: state.data.parentZones,
-    	currentZone: state.transitions.currentRegion,
-    	currentChildZones: state.transitions.currentSubRegions,
-    	isMovingZones: state.transitions.isMovingRegions,
+    	currentZone: state.transitions.currentZone,
+    	currentChildZones: state.transitions.currentChildZones,
+    	isMovingZones: state.transitions.isMovingZones,
     	currentMatch: state.transitions.currentMatch,
     }
 );

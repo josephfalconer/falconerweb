@@ -3,11 +3,9 @@ import * as DataActionTypes from '../actiontypes/data';
 const initialState = {
 	navigationLinks: [],
 	parentZones: [],
-	subRegions: [],
-	contentModules: [],
 	skills: [],
 	demos: [],
-	currentSubRegions: []
+	currentSubZones: []
 }
 
 export default function Data(state=initialState, action) {
@@ -18,16 +16,10 @@ export default function Data(state=initialState, action) {
 				navigationLinks: action.data
 			};
 		}
-		case DataActionTypes.ADD_PRIMARY_REGIONS: {
+		case DataActionTypes.ADD_ZONES: {
 			return {
 				...state,
 				parentZones: action.data
-			};
-		}
-		case DataActionTypes.ADD_CONTENT_MODULES: {
-			return {
-				...state,
-				contentModules: action.data
 			};
 		}
 		case DataActionTypes.ADD_SKILLS: {
@@ -45,5 +37,5 @@ export default function Data(state=initialState, action) {
 		default:
 			return state
 	}
-	
+
 }

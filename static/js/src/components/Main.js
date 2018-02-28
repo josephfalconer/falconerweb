@@ -3,22 +3,22 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link, Route } from 'react-router-dom';
 
-import IncomingRegion from '../components/IncomingRegion';
-import OutgoingRegion from '../components/OutgoingRegion';
+import IncomingZone from '../components/IncomingZone';
+import OutgoingZone from '../components/OutgoingZone';
 
 
 function renderChildZones(parentPath, childZones) {
 	if (childZones) {
 		return childZones.map(childZone => (
-			<Route 
-				key={`region-${childZone.path_hash}`}
-				path={`/${parentPath}/${childZone.path_hash}/`} 
+			<Route
+				key={`zone-${childZone.path_hash}`}
+				path={`/${parentPath}/${childZone.path_hash}/`}
 				render={() => (
-					<IncomingRegion 
+					<IncomingZone
 						pathToParent={parentPath}
-						data={childZone} 
+						data={childZone}
 					/>
-				)} 
+				)}
 			/>
 		))
 	}
@@ -26,27 +26,27 @@ function renderChildZones(parentPath, childZones) {
 }
 
 const Main = props => {
-	const { parentZones, outgoingRegion, isMovingRegions } = props;
-	if (isMovingRegions) {
+	const { parentZones, outgoingZone, isMovingZones } = props;
+	if (isMovingZones) {
 		// TODO - replace with ref?
 		document.getElementById('regions').scrollTop = 0;
 	}
 	return (
-		<main id="regions" className="regions">	
-			{outgoingRegion && isMovingRegions &&
-				<OutgoingRegion data={outgoingRegion} />
+		<main id="regions" className="regions">
+			{outgoingZone && isMovingZones &&
+				<OutgoingZone data={outgoingZone} />
 			}
 			{parentZones && parentZones.map(parentZone => {
 				const { path_hash, child_zones } = parentZone;
 				return (
-					<div key={`region-${path_hash}`}>
+					<div key={`zone-${path_hash}`}>
 						<Route
 							exact
-							path={`/${path_hash}/`} 
+							path={`/${path_hash}/`}
 							render={() => (
-								<IncomingRegion 
+								<IncomingZone
 									pathToParent={path_hash}
-									data={parentZone} 
+									data={parentZone}
 									isParentZone
 									ownChildZones={child_zones}
 								/>
@@ -61,19 +61,19 @@ const Main = props => {
 }
 
 Main.propTypes = {
-    primaryRegions: PropTypes.array,
-    subRegions: PropTypes.array,
-    isMovingRegions: PropTypes.bool.isRequired,
-    outgoingRegion: PropTypes.object,
-    regionTextColour: PropTypes.string.isRequired
+    primaryZones: PropTypes.array,
+    subZones: PropTypes.array,
+    isMovingZones: PropTypes.bool.isRequired,
+    outgoingZone: PropTypes.object,
+    ZoneTextColour: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => (
     {
         parentZones: state.data.parentZones,
-        isMovingRegions: state.transitions.isMovingRegions,
-        outgoingRegion: state.transitions.outgoingRegion,
-        regionTextColour: state.transitions.currentTextColour,
+        isMovingZones: state.transitions.isMovingZones,
+        outgoingZone: state.transitions.outgoingZone,
+        zoneTextColour: state.transitions.currentTextColour,
     }
 );
 

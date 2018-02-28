@@ -2,34 +2,34 @@ import * as TransitionActionTypes from '../actiontypes/transitions';
 
 
 const initialState = {
-	isMovingRegions: false,
+	isMovingZones: false,
 	regionTransitionTimeout: 1000,
 	currentTextColour: 'light',
-	currentSubRegions: [],
+	currentChildZones: [],
 }
 
 export default function Transitions(state=initialState, action) {
 
 	switch(action.type) {
 
-		case TransitionActionTypes.SET_MOVING_REGIONS: {
+		case TransitionActionTypes.SET_MOVING_ZONES: {
 			return {
 				...state,
-				isMovingRegions: action.data
+				isMovingZones: action.data
 			};
 		}
 
-		case TransitionActionTypes.SET_CURRENT_REGION: {
+		case TransitionActionTypes.SET_CURRENT_ZONE: {
 			return {
 				...state,
-				currentRegion: action.data
+				currentZone: action.data
 			};
 		}
 
-		case TransitionActionTypes.SET_CURRENT_SUB_REGIONS: {
+		case TransitionActionTypes.SET_CURRENT_CHILD_ZONES: {
 			return {
 				...state,
-				currentSubRegions: action.data
+				currentChildZones: action.data
 			};
 		}
 
@@ -47,15 +47,15 @@ export default function Transitions(state=initialState, action) {
 			};
 		}
 
-		case TransitionActionTypes.SET_OUTGOING_REGION: {
+		case TransitionActionTypes.SET_OUTGOING_ZONE: {
 			return {
 				...state,
-				outgoingRegion: action.data
+				outgoingZone: action.data
 			};
 		}
 
 		default:
 			return state
 	}
-	
+
 }

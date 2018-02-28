@@ -5,23 +5,23 @@ import { formatHash } from '../helpers';
 
 
 const DirectionButton = props => {
-	const { 
+	const {
 		button,
 		currentMatch,
 		isMovingZones
 	} = props;
-	const { targetRegion } = button;
+	const { targetZone } = button;
 	const visibiltyClass = `js-${button.isVisible && !isMovingZones ? 'visible' : 'hidden'}-button`;
-	const targetHash = targetRegion ? targetRegion.path_hash : '';
+	const targetHash = targetZone ? targetZone.path_hash : '';
 	const linkTo = button.matchUrl ? formatHash(targetHash, currentMatch) : targetHash;
-			
+
 	return (
-		<Link 
+		<Link
 			to={linkTo}
 			className={`direction direction--${button.name} ${visibiltyClass}`}
 		>
 			<span className="direction__inner">
-				<span className="direction__text is-displayed-lg">{targetRegion ? targetRegion.title : null}</span>
+				<span className="direction__text is-displayed-lg">{targetZone ? targetZone.title : null}</span>
 				<span className="direction__icon">
 					<i></i>
 					<i></i>

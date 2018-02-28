@@ -5,15 +5,15 @@ import { Link, Route, Redirect } from 'react-router-dom';
 
 import DataFetcher from '../components/DataFetcher';
 import DirectionButtons from '../components/DirectionButtons';
-import Regions from '../components/Main';
+import Main from '../components/Main';
 import Navigation from '../components/Navigation';
 
 
 const App = props => {
-	const { isMovingRegions, regionTextColour } = props;
+	const { isMovingZones, zoneTextColour } = props;
 	let className = '';
-	className += isMovingRegions ? 'js-moving-regions' : 'js-stationary';
-	className += regionTextColour == 'dark' ? ' js-nav-backgrounds' : '';
+	className += isMovingZones ? 'js-moving-regions' : 'js-stationary';
+	className += zoneTextColour == 'dark' ? ' js-nav-backgrounds' : '';
 
 	return (
 		<div className={className}>
@@ -22,20 +22,20 @@ const App = props => {
 				<Navigation />
 				<DirectionButtons />
 			</header>
-			<Regions />
+			<Main />
 		</div>
 	)
 }
 
 App.propTypes = {
-	isMovingRegions: PropTypes.bool,
-    regionTextColour: PropTypes.string,
+	isMovingZones: PropTypes.bool,
+    zoneTextColour: PropTypes.string,
 }
 
 const mapStateToProps = state => (
 	{
-		isMovingRegions: state.transitions.isMovingRegions,
-        regionTextColour: state.transitions.currentTextColour,
+		isMovingZones: state.transitions.isMovingZones,
+        zoneTextColour: state.transitions.currentTextColour,
 	}
 );
 

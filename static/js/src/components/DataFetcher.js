@@ -12,7 +12,7 @@ const REQUESTS = [
 	// },
 	{
 		url: 'api/zones/all-zones',
-		type: 'ADD_PRIMARY_REGIONS'
+		type: 'ADD_ZONES'
 	},
 	// {
 	// 	url: 'api/toolkit/',

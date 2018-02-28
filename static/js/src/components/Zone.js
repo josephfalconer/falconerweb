@@ -16,22 +16,22 @@ function renderContentModules(data) {
 	return null;
 }
 
-const Region = props => {
+const Zone = props => {
 	const { data, contentModules } = props;
 	const Icon = Icons[data.icon.toUpperCase()];
-	let regionInnerClass = `region__inner text text--${data.text_colour}`;
+	let zoneInnerClass = `region__inner text text--${data.text_colour}`;
 	if (!data.content_modules && data.center_content) {
-		regionInnerClass += ' center-content';
+		zoneInnerClass += ' center-content';
 	}
 	if (!data.center_content) {
-		regionInnerClass += ' padding--ends';
+		zoneInnerClass += ' padding--ends';
 	}
 	return (
-		<article className={props.regionClass}>
-			<div className={regionInnerClass} style={{ backgroundImage: `url(${data.background})` }}>
+		<article className={props.zoneClass}>
+			<div className={zoneInnerClass} style={{ backgroundImage: `url(${data.background})` }}>
 				<div className="region__content">
 					<header className="region__header container">
-						{Icon && 
+						{Icon &&
 							<span className="region__icon">{Icon()}</span>
 						}
 						<h1 className="region__title">{data.display_title || data.title}</h1>
@@ -42,14 +42,14 @@ const Region = props => {
 					{renderContentModules(data)}
 				</div>
 			</div>
-		</article>		
+		</article>
 	)
 }
 
-Region.propTypes = {
+Zone.propTypes = {
 	data: PropTypes.object.isRequired,
 	contentModules: PropTypes.array,
-	regionClass: PropTypes.string.isRequired,
+	zoneClass: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = state => (
@@ -58,4 +58,4 @@ const mapStateToProps = state => (
     }
 );
 
-export default connect(mapStateToProps)(Region);
+export default connect(mapStateToProps)(Zone);

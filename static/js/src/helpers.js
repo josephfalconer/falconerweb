@@ -1,17 +1,17 @@
-export const isSideways = (currentRegion, outgoingRegion) => {
-	return outgoingRegion.y == currentRegion.y && Math.abs(outgoingRegion.x - currentRegion.x) == 1;
+export const isSideways = (currentZone, outgoingZone) => {
+	return outgoingZone.y == currentZone.y && Math.abs(outgoingZone.x - currentZone.x) == 1;
 }
 
-export const isVertical = (currentRegion, outgoingRegion) => {
-	return outgoingRegion.x == currentRegion.x && Math.abs(outgoingRegion.y - currentRegion.y) == 1;
+export const isVertical = (currentZone, outgoingZone) => {
+	return outgoingZone.x == currentZone.x && Math.abs(outgoingZone.y - currentZone.y) == 1;
 }
 
-export const isLeftwards = (currentRegion, outgoingRegion) => {
-	return currentRegion.x < outgoingRegion.x;
+export const isLeftwards = (currentZone, outgoingZone) => {
+	return currentZone.x < outgoingZone.x;
 }
 
-export const isUpwards = (currentRegion, outgoingRegion) => {
-	return currentRegion.y < outgoingRegion.y;
+export const isUpwards = (currentZone, outgoingZone) => {
+	return currentZone.y < outgoingZone.y;
 }
 
 export const formatHash = (newHash, currentMatch) => {
