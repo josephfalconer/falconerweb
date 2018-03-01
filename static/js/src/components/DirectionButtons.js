@@ -13,7 +13,7 @@ class DirectionButtons extends Component {
 		currentZone: PropTypes.object,
 		isMovingZones: PropTypes.bool.isRequired,
 		currentChildZones: PropTypes.array.isRequired,
-		currentMatch: PropTypes.string,
+		parentPathHash: PropTypes.string,
 	}
 
 	componentDidMount() {
@@ -36,25 +36,25 @@ class DirectionButtons extends Component {
 			return [
 				{
 					isVisible: currentZone.x > 0 && currentZone.y === 0,
-					matchUrl: false,
+					isParentChild: false,
 					targetZone: parentZones[currentZone.index - 1],
 					name: 'prev'
 				},
 				{
 					isVisible: (currentZone.x + 1) < parentZones.length && currentZone.y === 0,
-					matchUrl: false,
+					isParentChild: false,
 					targetZone: parentZones[currentZone.index + 1],
 					name: 'next'
 				},
 				{
 					isVisible: currentZone.y > 0,
-					matchUrl: true,
+					isParentChild: true,
 					targetZone: currentChildZones[currentZone.y - 2] || parentZones[currentZone.x],
 					name: 'up'
 				},
 				{
 					isVisible: currentZone.y < currentChildZones.length,
-					matchUrl: true,
+					isParentChild: true,
 					targetZone: currentChildZones[currentZone.y],
 					name: 'down'
 				}
@@ -65,7 +65,7 @@ class DirectionButtons extends Component {
 
 	setArrowKeys = e => {
 		if (this.buttons.length) {
-			const { isMovingZones, currentMatch } = this.props;
+			const { isMovingZones, parentPathHash } = this.props;
 			const buttonIndexes = {
 				37: 0,
 				39: 1,
@@ -79,13 +79,13 @@ class DirectionButtons extends Component {
 			}
 
 			const targetHash = button.targetZone.path_hash;
-			const newHash = button.matchUrl ? formatHash(targetHash, currentMatch) : targetHash;
+			const newHash = button.matchUrl ? formatHash(targetHash, parentPathHash) : targetHash;
 			window.location.hash = newHash;
 		}
 	}
 
 	render() {
-		const { isMovingZones, currentMatch } = this.props;
+		const { isMovingZones, parentPathHash } = this.props;
 		return (
 			<nav className='directions'>
 				{this.buttons && this.buttons.map((button, index) => {
@@ -93,7 +93,7 @@ class DirectionButtons extends Component {
 						<DirectionButton
 							key={index}
 							button={button}
-							currentMatch={currentMatch}
+							parentPathHash={parentPathHash}
 							isMovingZones={isMovingZones}
 						/>
 					)
@@ -109,7 +109,7 @@ const mapStateToProps = state => (
     	currentZone: state.transitions.currentZone,
     	currentChildZones: state.transitions.currentChildZones,
     	isMovingZones: state.transitions.isMovingZones,
-    	currentMatch: state.transitions.currentMatch,
+    	parentPathHash: state.transitions.parentPathHash,
     }
 );
 

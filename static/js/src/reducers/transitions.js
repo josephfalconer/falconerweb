@@ -3,7 +3,7 @@ import * as TransitionActionTypes from '../actiontypes/transitions';
 
 const initialState = {
 	isMovingZones: false,
-	regionTransitionTimeout: 1000,
+	zoneTransitionTimeout: 1000,
 	currentTextColour: 'light',
 	currentChildZones: [],
 }
@@ -36,7 +36,7 @@ export default function Transitions(state=initialState, action) {
 		case TransitionActionTypes.UPDATE_CURRENT_MATCH: {
 			return {
 				...state,
-				currentMatch: action.data
+				parentPathHash: action.data
 			};
 		}
 

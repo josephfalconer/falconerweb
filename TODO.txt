@@ -1,8 +1,3 @@
-- Sort out primary region/sub region relationship in backend.
-  Primary regions should have some sort of model method which gets the required data for each sub region.
-  On the front end should only have to iterate without matching sub regions to primary regions.
-  Backend methods could also asign x/y values to sub regions.
-
 - Don't have separate branches production/master. Consider having different settings outside of VC.
 
 - Find a way to make /start/ show at root url, or add a welcome component (maybe with animated curly brackets/highlight controls etc)
@@ -15,4 +10,4 @@
 
 - Investigate the effect of using Route render prop for IncomingRegion: any side effects on performance or anything? Is it better to just give Route a child -> IncomingRegion?
 
-- Fix buttons/subregions for new backend data structure
+- Instead of get by id, const node = ReactDOM.findDOMNode(this);

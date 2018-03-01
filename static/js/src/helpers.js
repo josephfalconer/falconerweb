@@ -14,7 +14,7 @@ export const isUpwards = (currentZone, outgoingZone) => {
 	return currentZone.y < outgoingZone.y;
 }
 
-export const formatHash = (newHash, currentMatch) => {
-	let isToTop = newHash === currentMatch;
-	return `/${currentMatch}${isToTop ? '' : '/' + newHash}`;
+export const formatHash = (newHash, parentPathHash) => {
+	let isToParent = newHash === parentPathHash;
+	return `/${parentPathHash}${isToParent ? '' : '/' + newHash}`;
 }

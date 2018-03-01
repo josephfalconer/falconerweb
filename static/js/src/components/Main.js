@@ -62,10 +62,8 @@ const Main = props => {
 
 Main.propTypes = {
     primaryZones: PropTypes.array,
-    subZones: PropTypes.array,
     isMovingZones: PropTypes.bool.isRequired,
     outgoingZone: PropTypes.object,
-    ZoneTextColour: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => (
@@ -73,7 +71,6 @@ const mapStateToProps = state => (
         parentZones: state.data.parentZones,
         isMovingZones: state.transitions.isMovingZones,
         outgoingZone: state.transitions.outgoingZone,
-        zoneTextColour: state.transitions.currentTextColour,
     }
 );
 
