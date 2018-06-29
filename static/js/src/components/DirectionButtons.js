@@ -1,10 +1,11 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import DirectionButton from './DirectionButton';
+import { updateStoreState } from '../actions/';
 import * as actions from '../actions/transitions';
-import { formatHash } from '../helpers';
+import { formatVerticalPath } from '../helpers';
 
 
 class DirectionButtons extends Component {
@@ -16,45 +17,43 @@ class DirectionButtons extends Component {
 		parentPathHash: PropTypes.string,
 	}
 
-	componentDidMount() {
-		// allow time for currentChildZones to reach Redux store
-		setTimeout(() => {
-			this.buttons = this.setButtons();
-		}, 200);
+	componentWillReceiveProps(nextProps) {
+		if (this.props.currentZone !== nextProps.currentZone) {
+			this.props.updateStoreState({
+				directionButtons: this.getButtons(nextProps)
+			});
+		}
+		if (this.props.directionButtons !== nextProps.directionButtons) {
+			document.removeEventListener('keydown', this.navigateFromKeyPress);
+			document.addEventListener('keydown', this.navigateFromKeyPress);
+		}
 	}
 
-	componentWillReceiveProps() {
-		// refresh buttons and arrow key listener
-		this.buttons = this.setButtons();
-		document.removeEventListener('keydown', this.setArrowKeys);
-		document.addEventListener('keydown', this.setArrowKeys);
-	}
-
-	setButtons = () => {
-		const { parentZones, currentZone, currentChildZones } = this.props;
+	getButtons = nextProps => {
+		const { parentZones, currentZone, currentChildZones } = nextProps;
 		if (currentZone) {
 			return [
 				{
 					isVisible: currentZone.x > 0 && currentZone.y === 0,
-					isParentChild: false,
+					isVertical: false,
 					targetZone: parentZones[currentZone.index - 1],
 					name: 'prev'
 				},
 				{
 					isVisible: (currentZone.x + 1) < parentZones.length && currentZone.y === 0,
-					isParentChild: false,
+					isVertical: false,
 					targetZone: parentZones[currentZone.index + 1],
 					name: 'next'
 				},
 				{
 					isVisible: currentZone.y > 0,
-					isParentChild: true,
+					isVertical: true,
 					targetZone: currentChildZones[currentZone.y - 2] || parentZones[currentZone.x],
 					name: 'up'
 				},
 				{
 					isVisible: currentZone.y < currentChildZones.length,
-					isParentChild: true,
+					isVertical: true,
 					targetZone: currentChildZones[currentZone.y],
 					name: 'down'
 				}
@@ -63,32 +62,40 @@ class DirectionButtons extends Component {
 		return [];
 	}
 
-	setArrowKeys = e => {
-		if (this.buttons.length) {
-			const { isMovingZones, parentPathHash } = this.props;
-			const buttonIndexes = {
-				37: 0,
-				39: 1,
-				38: 2,
-				40: 3
+	navigateFromKeyPress = event => {
+		const { isMovingZones, parentPathHash, directionButtons } = this.props;
+		if (directionButtons) {
+			const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
+			if (button && button.isVisible && !isMovingZones) {
+				const targetHash = button.targetZone.path_hash;
+				const newHash = 
+					button.isVertical ? 
+					formatVerticalPath(parentPathHash, targetHash) : 
+					targetHash;
+				this.props.history.push(newHash);
+				// window.location.hash = newHash;
 			}
-			const button = this.buttons[buttonIndexes[e.which]];
+		}
+	}
 
-			if (!button || !button.isVisible || isMovingZones) {
-				return;
-			}
-
-			const targetHash = button.targetZone.path_hash;
-			const newHash = button.matchUrl ? formatHash(targetHash, parentPathHash) : targetHash;
-			window.location.hash = newHash;
+	getButtonIndexFromPressedKey = event => {
+		switch (event.which) {
+			case 37:
+				return 0;
+			case 39:
+				return 1;
+			case 38:
+				return 2;
+			case 40:
+				return 3;
 		}
 	}
 
 	render() {
-		const { isMovingZones, parentPathHash } = this.props;
+		const { isMovingZones, parentPathHash, directionButtons } = this.props;
 		return (
 			<nav className='directions'>
-				{this.buttons && this.buttons.map((button, index) => {
+				{directionButtons && directionButtons.map((button, index) => {
 					return (
 						<DirectionButton
 							key={index}
@@ -110,7 +117,10 @@ const mapStateToProps = state => (
     	currentChildZones: state.transitions.currentChildZones,
     	isMovingZones: state.transitions.isMovingZones,
     	parentPathHash: state.transitions.parentPathHash,
+    	directionButtons: state.transitions.directionButtons,
     }
 );
 
-export default connect(mapStateToProps)(DirectionButtons);
+export default withRouter(connect(mapStateToProps, {
+	updateStoreState,
+})(DirectionButtons));

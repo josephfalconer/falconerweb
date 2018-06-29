@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 
-import { formatHash } from '../helpers';
+import { formatVerticalPath } from '../helpers';
 
 
 const DirectionButton = props => {
@@ -11,11 +11,16 @@ const DirectionButton = props => {
 		isMovingZones
 	} = props;
 	const { targetZone } = button;
-	const visibiltyClass = `js-${button.isVisible && !isMovingZones ? 'visible' : 'hidden'}-button`;
+	const visibiltyClass = 
+		`js-${button.isVisible && !isMovingZones ? 
+			'visible' : 
+			'hidden'}-button`;
 	let linkTo = '';
 	if (button.isVisible && targetZone) {
-		console.log(parentPathHash);
-		linkTo = button.isParentChild ? formatHash(targetZone.path_hash, parentPathHash) : targetZone.path_hash;
+		linkTo = 
+			button.isVertical ? 
+			formatVerticalPath(targetZone.path_hash, parentPathHash) : 
+			targetZone.path_hash;
 	}
 	return (
 		<Link
