@@ -1,4 +1,5 @@
 import * as TransitionActionTypes from '../actiontypes/transitions';
+import * as ActionTypes from '../actiontypes/';
 
 
 const initialState = {
@@ -11,6 +12,12 @@ const initialState = {
 export default function Transitions(state=initialState, action) {
 
 	switch(action.type) {
+		case ActionTypes.SIMPLE_STATE_UPDATE: {
+			return {
+				...state,
+				...action.payload
+			}
+		}
 
 		case TransitionActionTypes.SET_MOVING_ZONES: {
 			return {
