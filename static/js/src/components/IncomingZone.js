@@ -26,8 +26,7 @@ class IncomingZone extends Component {
 			isParentZone,
 			ownChildZones,
 			pathToParent,
-			updateStoreState,
-			currentChildZones
+			updateStoreState
 		} = this.props;
 		let storeUpdateData = {
 			parentPathHash: pathToParent,
@@ -43,10 +42,7 @@ class IncomingZone extends Component {
 	}
 
 	componentWillUnmount() {
-		// show this zone outgoing
-		this.props.updateStoreState({
-			outgoingZone: this.props.data
-		});
+		this.props.updateStoreState({outgoingZone: this.props.data});
 	}
 
 	getTransitonClass = () => {
@@ -64,7 +60,6 @@ class IncomingZone extends Component {
 	render() {
 		const { data, outgoingZone, isMovingZones } = this.props;
 		let zoneClass = 'region';
-		// apply an animation
  		if (outgoingZone && isMovingZones) {
  			zoneClass += this.getTransitonClass();
  		}
