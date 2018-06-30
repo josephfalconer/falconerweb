@@ -67,9 +67,8 @@ class DirectionButtons extends Component {
 			const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
 			if (button && button.isVisible && !isMovingZones) {
 				const targetHash = button.targetZone.path_hash;
-				const newHash = button.isVertical ? formatVerticalPath(parentPathHash, targetHash) : targetHash;
-				// this.props.history.push(newHash);
-				window.location.hash = newHash;
+				const newHash = button.isVertical ? formatVerticalPath(parentPathHash, targetHash) : `/${targetHash}`;
+				this.props.history.push(newHash);
 			}
 		}
 	}
@@ -114,7 +113,6 @@ function mapStateToProps({
 	parentPathHash,
 	directionButtons
 }, props) {
-	console.log(currentChildZones);
 	return {
 		...props,
 		parentZones,
