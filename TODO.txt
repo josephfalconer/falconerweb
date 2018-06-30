@@ -2,10 +2,6 @@
 
 - Find a way to make /start/ show at root url, or add a welcome component (maybe with animated curly brackets/highlight controls etc)
 
-- Refactor dispatch actions/reducers
-
-- Tidy up code style/any other refactoring
-
 - Investigate using BrowserRouter with Django (pass browserHistory to router, fix 404 etc).
 
 - Investigate the effect of using Route render prop for IncomingRegion: any side effects on performance or anything? Is it better to just give Route a child -> IncomingRegion?
@@ -15,3 +11,5 @@
 - work out if withRouter is needed in all the places I've used it
 
 - pull in nav items, skills, demos
+
+- if child zone is first to render needs to put its siblings into store
