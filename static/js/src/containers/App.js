@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link, Route, Redirect } from 'react-router-dom';
 
-import { addData } from '../actions/data';
+import { updateStoreState } from '../actions';
 import DirectionButtons from '../components/DirectionButtons';
 import Main from '../components/Main';
 import Navigation from '../components/Navigation';
@@ -12,7 +12,9 @@ class App extends PureComponent {
 	componentDidMount() {
 		fetch('api/zones/all-zones/')
 		.then(response => response.json())
-		.then(data => this.props.addData(data, 'ADD_ZONES'))
+		.then(data => this.props.updateStoreState({
+			parentZones: data
+		}))
 		.catch(error => console.log(error));
 	}
 
@@ -38,13 +40,14 @@ App.propTypes = {
   zoneTextColour: PropTypes.string,
 }
 
-const mapStateToProps = state => (
-	{
-		isMovingZones: state.transitions.isMovingZones,
-    zoneTextColour: state.transitions.currentTextColour,
+function mapStateToProps({isMovingZones, zoneTextColour}, props) {
+	return {
+		...props,
+		isMovingZones,
+		zoneTextColour,
 	}
-);
+}
 
 export default withRouter(connect(mapStateToProps, {
-	addData
+	updateStoreState
 })(App));

@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
 import DirectionButton from './DirectionButton';
-import { updateStoreState } from '../actions/';
-import * as actions from '../actions/transitions';
+import { updateStoreState } from '../actions';
 import { formatVerticalPath } from '../helpers';
 
 
@@ -68,12 +67,9 @@ class DirectionButtons extends Component {
 			const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
 			if (button && button.isVisible && !isMovingZones) {
 				const targetHash = button.targetZone.path_hash;
-				const newHash = 
-					button.isVertical ? 
-					formatVerticalPath(parentPathHash, targetHash) : 
-					targetHash;
-				this.props.history.push(newHash);
-				// window.location.hash = newHash;
+				const newHash = button.isVertical ? formatVerticalPath(parentPathHash, targetHash) : targetHash;
+				// this.props.history.push(newHash);
+				window.location.hash = newHash;
 			}
 		}
 	}
@@ -110,16 +106,25 @@ class DirectionButtons extends Component {
 	}
 }
 
-const mapStateToProps = state => (
-    {
-    	parentZones: state.data.parentZones,
-    	currentZone: state.transitions.currentZone,
-    	currentChildZones: state.transitions.currentChildZones,
-    	isMovingZones: state.transitions.isMovingZones,
-    	parentPathHash: state.transitions.parentPathHash,
-    	directionButtons: state.transitions.directionButtons,
-    }
-);
+function mapStateToProps({
+	parentZones, 
+	currentZone, 
+	currentChildZones,
+	isMovingZones,
+	parentPathHash,
+	directionButtons
+}, props) {
+	console.log(currentChildZones);
+	return {
+		...props,
+		parentZones,
+		currentZone,
+		currentChildZones,
+		isMovingZones,
+		parentPathHash,
+		directionButtons,
+	}
+}
 
 export default withRouter(connect(mapStateToProps, {
 	updateStoreState,

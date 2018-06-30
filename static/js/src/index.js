@@ -11,10 +11,10 @@ import { browserHistory, HashRouter } from 'react-router-dom';
 require('../../scss/styles.scss');
 
 import App from './containers/app';
-import reducers from './reducers';
+import reducer from './reducer';
 
 const store = createStore(
-	reducers,
+	reducer,
 	window.devToolsExtension && window.devToolsExtension()
 );
 

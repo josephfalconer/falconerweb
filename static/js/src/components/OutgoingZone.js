@@ -32,11 +32,12 @@ const OutgoingZone = props => {
 	)
 }
 
-const mapStateToProps = state => (
-    {
-    	outgoingZone: state.transitions.outgoingZone,
-    	currentZone: state.transitions.currentZone,
-    }
-);
+function mapStateToProps({outgoingZone, currentZone}, props) {
+	return {
+		...props,
+		outgoingZone,
+		currentZone
+	}
+}
 
 export default connect(mapStateToProps)(OutgoingZone);

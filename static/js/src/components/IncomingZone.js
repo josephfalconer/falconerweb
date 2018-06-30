@@ -4,48 +4,49 @@ import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
 
 import Zone from './Zone';
-import { updateTransitions } from '../actions/transitions';
+import { updateStoreState } from '../actions';
+import { ZONE_TRANSITION_TIMEOUT } from '../constants';
 import * as helpers from '../helpers';
 
 
 class IncomingZone extends Component {
 	static propTypes = {
-		currentZone: PropTypes.object,
 		data: PropTypes.object.isRequired,
-		outgoingZone: PropTypes.object,
 		ownChildZones: PropTypes.array,
 		pathToParent: PropTypes.string.isRequired,
-		timeoutDelay: PropTypes.number.isRequired,
+		isParentZone: PropTypes.bool,
+		outgoingZone: PropTypes.object,
+		currentZone: PropTypes.object,
 		isMovingZones: PropTypes.bool.isRequired,
 	}
 
 	componentDidMount() {
 		const {
 			data,
-			timeoutDelay,
 			isParentZone,
 			ownChildZones,
 			pathToParent,
-			updateTransitions
+			updateStoreState,
+			currentChildZones
 		} = this.props;
-		// allows direction buttons to render
-		updateTransitions(data, 'SET_CURRENT_ZONE');
-		// allows outgoing zone to render
-		updateTransitions(true, 'SET_MOVING_ZONES');
-		// affects styles for nav and direction buttons
-		updateTransitions(data.text_colour, 'SET_TEXT_COLOUR');
-		updateTransitions(pathToParent, 'UPDATE_CURRENT_MATCH');
-		if (isParentZone) {
-			updateTransitions(ownChildZones, 'SET_CURRENT_CHILD_ZONES');
+		let storeUpdateData = {
+			parentPathHash: pathToParent,
+			currentZone: data,
+			currentTextColour: data.text_colour,
+			isMovingZones: true,
 		}
-		setTimeout(() => {
-			updateTransitions(false, 'SET_MOVING_ZONES');
-		}, timeoutDelay);
+		if (isParentZone) {
+			storeUpdateData['currentChildZones'] = ownChildZones;
+		}
+		updateStoreState(storeUpdateData);
+		setTimeout(() => updateStoreState({isMovingZones: false}), ZONE_TRANSITION_TIMEOUT);
 	}
 
 	componentWillUnmount() {
 		// show this zone outgoing
-		this.props.updateTransitions(this.props.data, 'SET_OUTGOING_ZONE');
+		this.props.updateStoreState({
+			outgoingZone: this.props.data
+		});
 	}
 
 	getTransitonClass = () => {
@@ -73,15 +74,19 @@ class IncomingZone extends Component {
 	}
 }
 
-const mapStateToProps = state => (
-    {
-    	isMovingZones: state.transitions.isMovingZones,
-    	outgoingZone: state.transitions.outgoingZone,
-    	currentZone: state.transitions.currentZone,
-    	timeoutDelay: state.transitions.zoneTransitionTimeout,
-    }
-);
+function mapStateToProps({
+	isMovingZones, 
+	outgoingZone, 
+	currentZone,
+}, props) {
+	return {
+		...props,
+		isMovingZones,
+		outgoingZone,
+		currentZone,
+	}
+}
 
 export default withRouter(connect(mapStateToProps, {
-	updateTransitions
+	updateStoreState
 })(IncomingZone));

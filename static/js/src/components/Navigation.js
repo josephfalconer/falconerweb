@@ -52,12 +52,17 @@ Navigation.propTypes = {
 	currentMatch: PropTypes.string,
 }
 
-const mapStateToProps = state => (
-    {
-    	navigationLinks: state.data.navigationLinks,
-    	isMovingZones: state.transitions.isMovingZones,
-    	currentMatch: state.transitions.currentMatch,
-    }
-);
+function mapStateToProps({
+	navigationLinks, 
+	isMovingZones, 
+	currentMatch
+}, props) {
+	return {
+		...props,
+		navigationLinks,
+		isMovingZones,
+		currentMatch,
+	}
+}
 
 export default connect(mapStateToProps)(Navigation);

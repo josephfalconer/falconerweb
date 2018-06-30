@@ -66,12 +66,17 @@ Main.propTypes = {
     outgoingZone: PropTypes.object,
 }
 
-const mapStateToProps = state => (
-    {
-        parentZones: state.data.parentZones,
-        isMovingZones: state.transitions.isMovingZones,
-        outgoingZone: state.transitions.outgoingZone,
-    }
-);
+function mapStateToProps({
+	parentZones, 
+	isMovingZones, 
+	outgoingZone
+}, props) {
+	return {
+		...props,
+		parentZones,
+		isMovingZones,
+		outgoingZone,
+	}
+}
 
 export default withRouter(connect(mapStateToProps)(Main));

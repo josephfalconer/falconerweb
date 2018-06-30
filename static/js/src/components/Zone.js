@@ -52,10 +52,11 @@ Zone.propTypes = {
 	zoneClass: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = state => (
-    {
-    	contentModules: state.data.contentModules
-    }
-);
+function mapStateToProps({contentModules}, props) {
+	return {
+		...props,
+		contentModules,
+	}
+}
 
 export default connect(mapStateToProps)(Zone);
