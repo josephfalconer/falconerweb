@@ -29,7 +29,7 @@ class IncomingZone extends Component {
 			updateStoreState
 		} = this.props;
 		let storeUpdateData = {
-			parentPathHash: pathToParent,
+			currentParentZoneHash: pathToParent,
 			currentZone: data,
 			currentTextColour: data.text_colour,
 			isMovingZones: true,
