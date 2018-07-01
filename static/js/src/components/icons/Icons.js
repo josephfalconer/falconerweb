@@ -5,20 +5,11 @@ import IconProjects from './IconProjects';
 import IconSkills from './IconSkills';
 import IconDemos from './IconDemos';
 
-
 const Icons = {
-	LOGO: () => {
-		return <IconLogo/>;
-	},
-	TOOLS: () => {
-		return <IconSkills/>;
-	},
-	PROJECTS: () => {
-		return <IconProjects/>;
-	},
-	DEMOS: () => {
-		return <IconDemos/>;
-	}
+	LOGO: () => <IconLogo />,
+	TOOLS: () => <IconSkills />,
+	PROJECTS: () => <IconProjects />,
+	DEMOS: () => <IconDemos />
 }
 
 export default Icons;

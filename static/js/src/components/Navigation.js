@@ -1,26 +1,22 @@
 import React, { PropTypes } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Icons from './icons/Icons';
 
-
 const Navigation = props => {
 	const { navigationLinks, isMovingZones, currentMatch } = props;
-
 	if (navigationLinks.length) {
 		return (
 			<nav className='nav'>
 				<ul className="nav__menu list--plain">
 					{navigationLinks.map((link, index) => {
-
-						const navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item',
-							Icon = Icons[link.icon.toUpperCase()],
-							isCurrent = `/${link.linked_zone}` === currentMatch;
-
+						const navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item';
+						const Icon = Icons[link.icon.toUpperCase()];
+						const isCurrent = `/${link.linked_zone}` === currentMatch;
 						return (
 							<li key={index} className={navItemClass} >
-								<NavLink
+								<Link
 									to={`/${link.linked_zone}`}
 									className={`nav__link ${isCurrent && 'nav__link--current'}`}
 									exact
@@ -28,22 +24,21 @@ const Navigation = props => {
 								>
 									{Icon &&
 										<span className="nav__linkcircle">
-											<span className="nav__icon is-displayed-lg">{Icon()}</span>
-						                </span>
+											<span className="nav__icon is-displayed-lg">
+												<Icon />
+											</span>
+		                </span>
 									}
-
-					                <span className="nav__linktext is-displayed-lg">{link.text}</span>
-								</NavLink>
+	                <span className="nav__linktext is-displayed-lg">{link.text}</span>
+								</Link>
 							</li>
 						);
 					})}
 				</ul>
 			</nav>
 		)
-	} else {
-		return null;
 	}
-
+	return null;
 }
 
 Navigation.propTypes = {
