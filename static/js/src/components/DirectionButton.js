@@ -7,7 +7,7 @@ import { formatVerticalPath } from '../helpers';
 const DirectionButton = props => {
 	const {
 		button,
-		parentPathHash,
+		currentParentZoneHash,
 		isMovingZones
 	} = props;
 	const { targetZone } = button;
@@ -17,7 +17,7 @@ const DirectionButton = props => {
 			'hidden'}-button`;
 	let linkTo = '';
 	if (button.isVisible && targetZone) {
-		linkTo = button.isVertical ? formatVerticalPath(parentPathHash, targetZone.path_hash) : targetZone.path_hash;
+		linkTo = button.isVertical ? formatVerticalPath(currentParentZoneHash, targetZone.path_hash) : targetZone.path_hash;
 	}
 	return (
 		<Link
@@ -38,7 +38,7 @@ const DirectionButton = props => {
 DirectionButton.propTypes = {
 	button: PropTypes.object.isRequired,
 	isMovingZones: PropTypes.bool.isRequired,
-	parentPathHash: PropTypes.string.isRequired,
+	currentParentZoneHash: PropTypes.string.isRequired,
 }
 
 DirectionButton.defaultProps = {

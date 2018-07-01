@@ -1,15 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.core import serializers
+import json
 
 from .models import NavigationLink
 
+
+def serialize_navigation_link(navigation_link):
+	return {
+		'text': navigation_link.text,
+		'linked_zone': navigation_link.linked_zone,
+		'icon': navigation_link.icon
+	}
 
 def main(request):
 	return render(request, "main.html")
 
 def navigation(request):
-	data = NavigationLink.objects.all()
-	serialized_data = serializers.serialize("json", data)
-
-	return HttpResponse(serialized_data)
+	data = [serialize_navigation_link(link) for link in NavigationLink.objects.all()]
+	return HttpResponse(json.dumps(data))

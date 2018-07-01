@@ -12,10 +12,10 @@ class App extends PureComponent {
 	componentDidMount() {
 		fetch('api/zones/all-zones/')
 		.then(response => response.json())
-		.then(data => this.props.updateStoreState({
-			parentZones: data
-		}))
-		.catch(error => console.log(error));
+		.then(parentZones => this.props.updateStoreState({parentZones}));
+		fetch('api/navigation/')
+		.then(response => response.json())
+		.then(navigationLinks => this.props.updateStoreState({navigationLinks}));
 	}
 
 	render() {

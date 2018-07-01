@@ -13,7 +13,7 @@ class DirectionButtons extends Component {
 		currentZone: PropTypes.object,
 		isMovingZones: PropTypes.bool.isRequired,
 		currentChildZones: PropTypes.array.isRequired,
-		parentPathHash: PropTypes.string,
+		currentParentZoneHash: PropTypes.string,
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -62,12 +62,12 @@ class DirectionButtons extends Component {
 	}
 
 	navigateFromKeyPress = event => {
-		const { isMovingZones, parentPathHash, directionButtons } = this.props;
+		const { isMovingZones, currentParentZoneHash, directionButtons } = this.props;
 		if (directionButtons) {
 			const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
 			if (button && button.isVisible && !isMovingZones) {
 				const targetHash = button.targetZone.path_hash;
-				const newHash = button.isVertical ? formatVerticalPath(parentPathHash, targetHash) : `/${targetHash}`;
+				const newHash = button.isVertical ? formatVerticalPath(currentParentZoneHash, targetHash) : `/${targetHash}`;
 				this.props.history.push(newHash);
 			}
 		}
@@ -87,7 +87,7 @@ class DirectionButtons extends Component {
 	}
 
 	render() {
-		const { isMovingZones, parentPathHash, directionButtons } = this.props;
+		const { isMovingZones, currentParentZoneHash, directionButtons } = this.props;
 		return (
 			<nav className='directions'>
 				{directionButtons && directionButtons.map((button, index) => {
@@ -95,7 +95,7 @@ class DirectionButtons extends Component {
 						<DirectionButton
 							key={index}
 							button={button}
-							parentPathHash={parentPathHash}
+							currentParentZoneHash={currentParentZoneHash}
 							isMovingZones={isMovingZones}
 						/>
 					)
@@ -110,7 +110,7 @@ function mapStateToProps({
 	currentZone, 
 	currentChildZones,
 	isMovingZones,
-	parentPathHash,
+	currentParentZoneHash,
 	directionButtons
 }, props) {
 	return {
@@ -119,7 +119,7 @@ function mapStateToProps({
 		currentZone,
 		currentChildZones,
 		isMovingZones,
-		parentPathHash,
+		currentParentZoneHash,
 		directionButtons,
 	}
 }

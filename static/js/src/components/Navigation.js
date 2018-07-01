@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Icons from './icons/Icons';
 
 const Navigation = props => {
-	const { navigationLinks, isMovingZones, currentMatch } = props;
+	const { navigationLinks, isMovingZones, currentParentZoneHash } = props;
 	if (navigationLinks.length) {
 		return (
 			<nav className='nav'>
@@ -13,13 +13,13 @@ const Navigation = props => {
 					{navigationLinks.map((link, index) => {
 						const navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item';
 						const Icon = Icons[link.icon.toUpperCase()];
-						const isCurrent = `/${link.linked_zone}` === currentMatch;
+						console.log(`${link.linked_zone}`, currentParentZoneHash);
+						const isCurrent = `${link.linked_zone}` === currentParentZoneHash;
 						return (
 							<li key={index} className={navItemClass} >
 								<Link
 									to={`/${link.linked_zone}`}
 									className={`nav__link ${isCurrent && 'nav__link--current'}`}
-									exact
 									onClick={e => { if (isMovingZones) e.preventDefault(); }}
 								>
 									{Icon &&
@@ -44,19 +44,19 @@ const Navigation = props => {
 Navigation.propTypes = {
 	navigationLinks: PropTypes.array.isRequired,
 	isMovingZones: PropTypes.bool.isRequired,
-	currentMatch: PropTypes.string,
+	currentParentZoneHash: PropTypes.string,
 }
 
 function mapStateToProps({
 	navigationLinks, 
 	isMovingZones, 
-	currentMatch
+	currentParentZoneHash
 }, props) {
 	return {
 		...props,
 		navigationLinks,
 		isMovingZones,
-		currentMatch,
+		currentParentZoneHash,
 	}
 }
 
