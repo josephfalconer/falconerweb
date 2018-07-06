@@ -4,7 +4,6 @@ const INITIAL_STATE = {
   navigationLinks: [],
   parentZones: [],
   skills: [],
-  demos: [],
   currentSubZones: [],
   isMovingZones: false,
   currentTextColour: 'light',
