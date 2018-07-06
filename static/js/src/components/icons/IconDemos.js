@@ -1,7 +1,6 @@
 import React from 'react';
 
-
-const DemosIcon = props => {
+function DemosIcon(props) {
 	return (
 		<svg className="svg--demos" viewBox="0 0 505 505">
 			<circle fill="transparent" className="stroke bubble--bob1" strokeWidth="8" strokeMiterlimit="10" cx="180" cy="410" r="40.5"></circle>

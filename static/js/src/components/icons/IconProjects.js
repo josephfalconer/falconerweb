@@ -1,7 +1,6 @@
 import React from 'react';
 
-
-const ProjectsIcon = props => {
+function ProjectsIcon(props) {
 	return (
 		<svg className="svg--projects" viewBox="6 6 46.5 46.5">
 			<path className="fill iconbit iconbit--at" d="M38.051,43.488v-27.25c0-1.063-0.43-2.028-1.283-2.895c-0.855-0.867-1.826-1.3-2.912-1.3h-8.945

@@ -1,7 +1,6 @@
 import React from 'react';
 
-
-const LogoIcon = props => {
+function LogoIcon(props) {
 	return (
 		<svg className="svg--logo" width="60px" height="60px" viewBox="0 0 60 60">
 			<polyline className="fill" points="54.667,27.473 22.589,27.473 22.589,16.793 60,16.8 60,5.147 11.492,5.147 11.492,60 22.589,60 

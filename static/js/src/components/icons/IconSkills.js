@@ -1,7 +1,6 @@
 import React from 'react';
 
-
-const DemosIcon = props => {
+function DemosIcon(props) {
 	return (
 		<svg className="svg--skills" viewBox="8 5.5 46.5 46.5">
 			<path id="screwdriver" className="fill iconbit iconbit--screwdriver" d="M42.677,11.227c-0.365,0.267-0.709,0.556-1.012,0.878
