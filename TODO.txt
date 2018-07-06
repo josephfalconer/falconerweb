@@ -10,8 +10,12 @@
 
 - work out if withRouter is needed in all the places I've used it
 
-- pull in nav items, skills, demos
+- pull in skills, demos
 
 - if child zone is first to render needs to put its siblings into store
 
-- set up nav links admin properly - load up zones in that form
+- clean up migrations/add test back up there
+
+- write a proper action creator for api calls
+
+- why doesnt nav have background on white page
