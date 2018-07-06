@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Icons from './icons/Icons';
 
-const Navigation = props => {
+function Navigation(props) {
 	const { navigationLinks, isMovingZones, currentParentZoneHash } = props;
 	if (navigationLinks.length) {
 		return (
@@ -13,7 +13,6 @@ const Navigation = props => {
 					{navigationLinks.map((link, index) => {
 						const navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item';
 						const Icon = Icons[link.icon.toUpperCase()];
-						console.log(`${link.linked_zone}`, currentParentZoneHash);
 						const isCurrent = `${link.linked_zone}` === currentParentZoneHash;
 						return (
 							<li key={index} className={navItemClass} >
