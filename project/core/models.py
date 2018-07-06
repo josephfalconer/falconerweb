@@ -1,7 +1,5 @@
 from django.db import models
 
-from project.zones.models import ParentZone
-
 
 class GenericItem(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
@@ -28,3 +26,4 @@ class NavigationLink(models.Model):
 
 	class Meta:
 		ordering = ['order',]
+		

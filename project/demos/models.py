@@ -1,3 +1,6 @@
 from django.db import models
+from project.core.models import GenericItem
 
-# Create your models here.
+
+class Demo(GenericItem):
+	path = models.CharField(max_length=255)
