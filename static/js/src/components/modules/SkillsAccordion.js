@@ -1,8 +1,8 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 
-class ModuleSkills extends Component {
+class ModuleSkills extends PureComponent {
 
 	static propTypes = {
 		skills: PropTypes.array.isRequired,

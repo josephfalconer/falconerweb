@@ -1,7 +1,6 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { bindActionCreators } from 'redux';
 
 import Zone from './Zone';
 import { updateStoreState } from '../actions';
@@ -9,7 +8,7 @@ import { ZONE_TRANSITION_TIMEOUT } from '../constants';
 import * as helpers from '../helpers';
 
 
-class IncomingZone extends Component {
+class IncomingZone extends PureComponent {
 	static propTypes = {
 		data: PropTypes.object.isRequired,
 		ownChildZones: PropTypes.array,

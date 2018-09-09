@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ import { updateStoreState } from '../actions';
 import { formatVerticalPath } from '../helpers';
 
 
-class DirectionButtons extends Component {
+class DirectionButtons extends PureComponent {
 	static propTypes = {
 		parentZones: PropTypes.array.isRequired,
 		currentZone: PropTypes.object,

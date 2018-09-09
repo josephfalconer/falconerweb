@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { updateStoreState } from '../../actions';
@@ -9,7 +9,7 @@ function getHSL() {
   return `hsl(${randomHue}, 90%, 30%)`;
 }
 
-class ModuleDemos extends Component {
+class ModuleDemos extends PureComponent {
 	static propTypes = {
 		demos: PropTypes.array.isRequired,
 	};
@@ -32,7 +32,6 @@ class ModuleDemos extends Component {
   }
 
 	setBackgrounds = () => {
-    console.log('setBackgrounds');
   	const demoBackgroundColours = this.props.demos.map(() => getHSL());
     this.props.updateStoreState({demoBackgroundColours});
 	}
