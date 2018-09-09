@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '4f(dfa!s#=adtryzikpv&#!!(-xn$2v8*(_4!(uvfbmrgo6@rt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['josephfalconer.pythonanywhere.com',]
 
 
 # Application definition
@@ -126,3 +126,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+try:
+    from project.local_settings import *
+except ImportError:
+    pass

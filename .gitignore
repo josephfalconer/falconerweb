@@ -11,3 +11,6 @@ node_modules
 static/js/bundle.js
 static/js/bundle.js.map
 static/css/*
+
+# environment settings
+project/local_settings.py
