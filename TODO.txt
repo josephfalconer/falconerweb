@@ -1,10 +1,6 @@
-- Don't have separate branches production/master. Consider having different settings outside of VC.
-
-- Find a way to make /start/ show at root url, or add a welcome component (maybe with animated curly brackets/highlight controls etc)
+- Find a way to make /start/ show at root url, or add a welcome component (maybe with animated curly brackets/highlight controls etc) - fix this with url exact ('/') and maybe have a is_homepage flag on parentZone model?
 
 - Investigate using BrowserRouter with Django (pass browserHistory to router, fix 404 etc).
-
-- Investigate the effect of using Route render prop for IncomingRegion: any side effects on performance or anything? Is it better to just give Route a child -> IncomingRegion?
 
 - Instead of get by id, const node = ReactDOM.findDOMNode(this);
 
