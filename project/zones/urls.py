@@ -1,8 +1,8 @@
 from django.conf.urls import url
 
-from . import views
+from project.zones.views import ZonesListView
 
 
 urlpatterns = [
-	url(r'^all-zones/', views.zones_data),
+	url(r'^$', ZonesListView.as_view(), name='list'),
 ]

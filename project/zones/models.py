@@ -49,31 +49,17 @@ class Zone(models.Model):
 
 
 class ParentZone(Zone):
-	@property
-	def own_child_zones(self):
-		return self.child_zones.all()
+	pass
 
 
 class ChildZone(Zone):
-	parent_zone = models.ForeignKey(
-		ParentZone, 
-		on_delete=models.CASCADE,
-		related_name='child_zones'
-	)
-
-	@property
-	def own_content_modules(self):
-		return self.content_modules.all()
+	parent_zone = models.ForeignKey(ParentZone, related_name='child_zones')
 	
 
 class ContentModule(models.Model):
 	order = models.IntegerField(default=0)
 	module_type = models.CharField(max_length=100, choices=CONTENT_MODULE_TYPES)
-	zone = models.ForeignKey(
-		ChildZone, 
-		on_delete=models.CASCADE,
-		related_name='content_modules'
-	)
+	zone = models.ForeignKey(ChildZone, related_name='content_modules')
 	text = models.TextField(blank=True)
 
 	def __str__(self):
@@ -81,3 +67,4 @@ class ContentModule(models.Model):
 
 	class Meta:
 		ordering = ['order',]
+		

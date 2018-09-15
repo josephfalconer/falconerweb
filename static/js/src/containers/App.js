@@ -10,7 +10,7 @@ import Navigation from '../components/Navigation';
 
 class App extends PureComponent {
 	componentDidMount() {
-		fetch('api/zones/all-zones/')
+		fetch('api/zones/')
 		.then(response => response.json())
 		.then(parentZones => this.props.updateStoreState({parentZones}));
 		fetch('api/navigation/')
