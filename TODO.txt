@@ -2,8 +2,6 @@
 
 - Investigate using BrowserRouter with Django (pass browserHistory to router, fix 404 etc).
 
-- Instead of get by id, const node = ReactDOM.findDOMNode(this);
-
 - pull in skills, demos
 
 - if child zone is first to render needs to put its siblings into store
