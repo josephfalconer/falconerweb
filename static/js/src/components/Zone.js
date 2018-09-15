@@ -17,7 +17,7 @@ function renderContentModules(data) {
 }
 
 const Zone = props => {
-	const { data, contentModules } = props;
+	const { data } = props;
 	const Icon = Icons[data.icon.toUpperCase()];
 	let zoneInnerClass = `region__inner text text--${data.text_colour}`;
 	if (!data.content_modules && data.center_content) {
@@ -52,11 +52,4 @@ Zone.propTypes = {
 	zoneClass: PropTypes.string.isRequired,
 }
 
-function mapStateToProps({contentModules}, props) {
-	return {
-		...props,
-		contentModules,
-	}
-}
-
-export default connect(mapStateToProps)(Zone);
+export default Zone;
