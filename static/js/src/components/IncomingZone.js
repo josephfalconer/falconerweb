@@ -81,6 +81,6 @@ function mapStateToProps({
 	}
 }
 
-export default withRouter(connect(mapStateToProps, {
+export default connect(mapStateToProps, {
 	updateStoreState
-})(IncomingZone));
+})(IncomingZone);

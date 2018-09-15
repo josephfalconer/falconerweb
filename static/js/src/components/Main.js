@@ -26,7 +26,7 @@ function renderChildZones(parentPath, childZones) {
 }
 
 const Main = props => {
-	const { parentZones, outgoingZone, isMovingZones } = props;
+	const { parentZones, outgoingZone, isMovingZones, location } = props;
 	if (isMovingZones) {
 		// TODO - replace with ref?
 		document.getElementById('regions').scrollTop = 0;
@@ -49,6 +49,7 @@ const Main = props => {
 									data={parentZone}
 									isParentZone
 									ownChildZones={child_zones}
+									location={location}
 								/>
 							)}
 						/>
