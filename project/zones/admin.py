@@ -1,6 +1,5 @@
 from django.contrib import admin
-
-from .models import ChildZone, ContentModule, ParentZone
+from project.zones.models import Zone, ContentModule
 
 
 class ContentModuleInline(admin.StackedInline):
@@ -8,10 +7,9 @@ class ContentModuleInline(admin.StackedInline):
 	min_num = 0
 	extra = 0
 
-class ChildZoneAdmin(admin.ModelAdmin):
+
+class ZoneAdmin(admin.ModelAdmin):
 	inlines = [ContentModuleInline,]
 
 
-admin.site.register(ParentZone)
-admin.site.register(ChildZone, ChildZoneAdmin)
-
+admin.site.register(Zone, ZoneAdmin)

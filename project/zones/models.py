@@ -39,27 +39,27 @@ class Zone(models.Model):
 	display_title = models.CharField(max_length=255, blank=True)
 	intro_text = models.TextField(blank=True)
 	center_content = models.BooleanField(default=False)
+	parent_zone = models.ForeignKey('self', null=True, blank=True, related_name='child_zones')
 
 	class Meta:
-		abstract = True
 		ordering = ['order',]
 
 	def __str__(self):
 		return self.title
 
 
-class ParentZone(Zone):
-	pass
+# class ParentZone(Zone):
+# 	pass
 
 
-class ChildZone(Zone):
-	parent_zone = models.ForeignKey(ParentZone, related_name='child_zones')
+# class ChildZone(Zone):
+# 	parent_zone = models.ForeignKey(ParentZone, related_name='child_zones')
 	
 
 class ContentModule(models.Model):
 	order = models.IntegerField(default=0)
 	module_type = models.CharField(max_length=100, choices=CONTENT_MODULE_TYPES)
-	zone = models.ForeignKey(ChildZone, related_name='content_modules')
+	zone = models.ForeignKey(Zone, related_name='content_modules')
 	text = models.TextField(blank=True)
 
 	def __str__(self):
@@ -67,4 +67,3 @@ class ContentModule(models.Model):
 
 	class Meta:
 		ordering = ['order',]
-		

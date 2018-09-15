@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from project.zones.models import ParentZone, ChildZone, ContentModule
+from project.zones.models import Zone, ContentModule
 
 
 class ContentModuleSerializer(serializers.ModelSerializer):
@@ -10,9 +10,10 @@ class ContentModuleSerializer(serializers.ModelSerializer):
 
 
 class ZoneSerializer(serializers.ModelSerializer):
-
+	content_modules = ContentModuleSerializer(many=True)
+	
 	class Meta:
-		model = ParentZone
+		model = Zone
 		fields = (
 			'path_hash',
 			'icon',
@@ -21,21 +22,15 @@ class ZoneSerializer(serializers.ModelSerializer):
 			'title',
 			'display_title',
 			'intro_text',
-			'center_content'
+			'center_content',
+			'content_modules'
 		)
 
 
-class ChildZoneSerializer(ZoneSerializer):
-	content_modules = ContentModuleSerializer(many=True)
-
+class ZoneListSerializer(ZoneSerializer):
+	child_zones = ZoneSerializer(many=True)
+	
 	class Meta:
-		model = ChildZone
-		fields = ZoneSerializer.Meta.fields + ('content_modules',)
-
-
-class ParentZonesListSerializer(ZoneSerializer):
-	child_zones = ChildZoneSerializer(many=True)
-
-	class Meta:
+		model = Zone
 		fields = ZoneSerializer.Meta.fields + ('child_zones',)
 	

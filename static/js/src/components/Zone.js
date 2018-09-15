@@ -20,7 +20,7 @@ const Zone = props => {
 	const { data } = props;
 	const Icon = Icons[data.icon.toUpperCase()];
 	let zoneInnerClass = `region__inner text text--${data.text_colour}`;
-	if (!data.content_modules && data.center_content) {
+	if (!data.content_modules.length && data.center_content) {
 		zoneInnerClass += ' center-content';
 	}
 	if (!data.center_content) {
