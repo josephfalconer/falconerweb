@@ -1,1 +1,2 @@
 export const SIMPLE_STATE_UPDATE = 'SIMPLE_STATE_UPDATE';
+export const ADD_ZONES_DATA = 'ADD_ZONES_DATA';

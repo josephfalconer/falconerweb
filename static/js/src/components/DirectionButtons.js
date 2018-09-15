@@ -7,7 +7,6 @@ import DirectionButton from './DirectionButton';
 import { updateStoreState } from '../actions';
 import { formatVerticalPath } from '../helpers';
 
-
 class DirectionButtons extends PureComponent {
 	static propTypes = {
 		parentZones: PropTypes.array.isRequired,
@@ -36,13 +35,13 @@ class DirectionButtons extends PureComponent {
 				{
 					isVisible: currentZone.x > 0 && currentZone.y === 0,
 					isVertical: false,
-					targetZone: parentZones[currentZone.index - 1],
+					targetZone: parentZones[currentZone.x - 1],
 					name: 'prev'
 				},
 				{
 					isVisible: (currentZone.x + 1) < parentZones.length && currentZone.y === 0,
 					isVertical: false,
-					targetZone: parentZones[currentZone.index + 1],
+					targetZone: parentZones[currentZone.x + 1],
 					name: 'next'
 				},
 				{

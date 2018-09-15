@@ -17,6 +17,11 @@ export default function simpleReducer(state = INITIAL_STATE, action) {
         ...state,
         ...action.payload
       }
+    case ActionTypes.ADD_ZONES_DATA:
+      return {
+        ...state,
+        parentZones: action.zonesData
+      }
     default:
       return state;
   }
