@@ -62,15 +62,41 @@ class DirectionButtons extends PureComponent {
 	}
 
 	navigateFromKeyPress = event => {
-		const { isMovingZones, currentParentZoneHash, directionButtons } = this.props;
+		const {
+			isMovingZones,
+			currentParentZoneHash,
+			directionButtons,
+			history,
+			containerElement
+		} = this.props;
 		if (directionButtons) {
 			const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
-			if (button && button.isVisible && !isMovingZones) {
+			if ((button && button.isVisible) && !isMovingZones) {
 				const targetHash = button.targetZone.path_hash;
 				const newHash = button.isVertical ? formatVerticalPath(currentParentZoneHash, targetHash) : `/${targetHash}`;
-				this.props.history.push(newHash);
+				if (this.isGoodToPush(button)) {
+					history.push(newHash);
+				} else {
+					containerElement.focus();
+				}
 			}
 		}
+	}
+
+	isGoodToPush = button => {
+		const { containerElement } = this.props;
+		if (button.isVertical) {
+			if (button.name === 'up' && containerElement.scrollTop > 0) {
+				return false;
+			}
+			if (button.name === 'down') {
+				const maxScrollDownPosition = containerElement.scrollHeight - containerElement.offsetHeight;
+				if (maxScrollDownPosition - containerElement.scrollTop > 0) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	getButtonIndexFromPressedKey = event => {
@@ -111,7 +137,8 @@ function mapStateToProps({
 	currentChildZones,
 	isMovingZones,
 	currentParentZoneHash,
-	directionButtons
+	directionButtons,
+	containerElement
 }, props) {
 	return {
 		...props,
@@ -121,6 +148,7 @@ function mapStateToProps({
 		isMovingZones,
 		currentParentZoneHash,
 		directionButtons,
+		containerElement
 	}
 }
 

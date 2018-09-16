@@ -41,12 +41,19 @@ class IncomingZone extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		this.props.updateStoreState({outgoingZone: this.props.data});
+		const { containerElement, updateStoreState, data } = this.props;
+		updateStoreState({
+			outgoingZone: data,
+			lastScrollTop: containerElement.scrollTop
+		});
+		if (containerElement) {
+			containerElement.scrollTop = 0;
+		}
 	}
 
 	getTransitonClass = () => {
 		const { outgoingZone, currentZone } = this.props;
-		let transitionClass = ' js-incoming js-incoming-';
+		let transitionClass = 'js-incoming js-incoming-';
 		if (helpers.isSideways(currentZone, outgoingZone)) {
 			return transitionClass += helpers.isLeftwards(currentZone, outgoingZone) ? 'left' : 'right';
 		}
@@ -60,7 +67,7 @@ class IncomingZone extends PureComponent {
 		const { data, outgoingZone, isMovingZones } = this.props;
 		let zoneClass = 'region';
  		if (outgoingZone && isMovingZones) {
- 			zoneClass += this.getTransitonClass();
+			zoneClass = `${zoneClass} js-hide-overflow ${this.getTransitonClass()}`;
  		}
 		return (
 			<Zone data={data} zoneClass={zoneClass} />
@@ -72,12 +79,14 @@ function mapStateToProps({
 	isMovingZones, 
 	outgoingZone, 
 	currentZone,
+	containerElement,
 }, props) {
 	return {
 		...props,
 		isMovingZones,
 		outgoingZone,
 		currentZone,
+		containerElement
 	}
 }
 

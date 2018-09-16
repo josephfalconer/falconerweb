@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link, Route } from 'react-router-dom';
 
-import IncomingZone from '../components/IncomingZone';
-import OutgoingZone from '../components/OutgoingZone';
+import { updateStoreState } from '../actions';
+import IncomingZone from './IncomingZone';
+import OutgoingZone from './OutgoingZone';
 
 class Main extends PureComponent {
 	constructor(props) {
@@ -12,16 +13,15 @@ class Main extends PureComponent {
 		this.setContainerRef = element => this.containerElement = element;
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (this.containerElement && nextProps.isMovingZones) {
-			this.containerElement.scrollTop;
-		}
+	componentDidMount() {
+		this.props.updateStoreState({containerElement: this.containerElement});
 	}
 
 	render() {
 		const { parentZones, outgoingZone, isMovingZones, location } = this.props;
+		const className = isMovingZones ? 'regions js-hide-overflow' : 'regions';
 		return (
-			<main ref={this.setContainerRef} className="regions">
+			<main tabIndex="0" ref={this.setContainerRef} className={className}>
 				{outgoingZone && isMovingZones &&
 					<OutgoingZone data={outgoingZone} />
 				}
@@ -81,4 +81,6 @@ function mapStateToProps({
 	}
 }
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps, {
+	updateStoreState
+})(Main));
