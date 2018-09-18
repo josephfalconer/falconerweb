@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import Zone from './Zone';
-import { updateStoreState } from '../actions';
+import { updateOutgoingZone, updateStoreState } from '../actions';
 import { ZONE_TRANSITION_TIMEOUT } from '../constants';
 import * as helpers from '../helpers';
 
@@ -30,11 +30,8 @@ class IncomingZone extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		const { currentZoneScrollWrapper, updateStoreState, data } = this.props;
-		updateStoreState({
-			outgoingZone: data,
-			lastScrollTop: currentZoneScrollWrapper.scrollTop
-		});
+		const { currentZoneScrollWrapper, updateOutgoingZone, data } = this.props;
+		updateOutgoingZone(data, currentZoneScrollWrapper.scrollTop);
 		if (currentZoneScrollWrapper) {
 			currentZoneScrollWrapper.scrollTop = 0;
 		}
@@ -73,7 +70,8 @@ IncomingZone.propTypes = {
 	currentZone: PropTypes.object,
 	isMovingZones: PropTypes.bool.isRequired,
 	updateStoreState: PropTypes.func.isRequired,
-	currentZoneScrollWrapper: PropTypes.element,
+	currentZoneScrollWrapper: PropTypes.object,
+	updateOutgoingZone: PropTypes.func.isRequired,
 }
 
 function mapStateToProps({
@@ -92,5 +90,6 @@ function mapStateToProps({
 }
 
 export default connect(mapStateToProps, {
+	updateOutgoingZone,
 	updateStoreState
 })(IncomingZone);

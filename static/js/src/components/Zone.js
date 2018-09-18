@@ -22,9 +22,10 @@ class Zone extends PureComponent {
 	}
 
 	componentDidMount() {
-		if (this.props.isOutgoingZone) {
-			this.scrollWrapper.scrollTop = this.props.lastScrollTop
-		} else {
+		if (this.props.data.lastScrollTop) {
+			this.scrollWrapper.scrollTop = this.props.data.lastScrollTop;
+		}
+		if (!this.props.isOutgoingZone) {
 			this.props.updateStoreState({currentZoneScrollWrapper: this.scrollWrapper});
 		}
 	}

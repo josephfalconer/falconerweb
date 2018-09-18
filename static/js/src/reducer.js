@@ -22,6 +22,22 @@ export default function simpleReducer(state = INITIAL_STATE, action) {
         ...state,
         parentZones: action.zonesData
       }
+    case ActionTypes.UPDATE_OUTGOING_ZONE:
+      const outgoingZone = {
+        ...action.outgoingZone,
+        lastScrollTop: action.lastScrollTop
+      };
+      let parentZones = state.parentZones;
+      if (outgoingZone.is_child_zone) {
+        parentZones[outgoingZone.x].child_zones[outgoingZone.y - 1] = outgoingZone;
+      } else {
+        parentZones[outgoingZone.x] = outgoingZone;
+      }
+      return {
+        ...state,
+        outgoingZone,
+        parentZones
+      }
     default:
       return state;
   }

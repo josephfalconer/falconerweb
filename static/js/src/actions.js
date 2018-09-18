@@ -26,3 +26,11 @@ export function addZonesData(payload) {
     })
   }
 }
+
+export function updateOutgoingZone(outgoingZone, lastScrollTop = 0) {
+  return {
+    type: ActionTypes.UPDATE_OUTGOING_ZONE,
+    outgoingZone,
+    lastScrollTop
+  }
+}
