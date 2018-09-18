@@ -7,18 +7,7 @@ import { updateStoreState } from '../actions';
 import { ZONE_TRANSITION_TIMEOUT } from '../constants';
 import * as helpers from '../helpers';
 
-
 class IncomingZone extends PureComponent {
-	static propTypes = {
-		data: PropTypes.object.isRequired,
-		ownChildZones: PropTypes.array,
-		pathToParent: PropTypes.string.isRequired,
-		isParentZone: PropTypes.bool,
-		outgoingZone: PropTypes.object,
-		currentZone: PropTypes.object,
-		isMovingZones: PropTypes.bool.isRequired,
-	}
-
 	componentDidMount() {
 		const {
 			data,
@@ -73,6 +62,18 @@ class IncomingZone extends PureComponent {
 			<Zone data={data} zoneClass={zoneClass} updateStoreState={updateStoreState} />
 		)
 	}
+}
+
+IncomingZone.propTypes = {
+	data: PropTypes.object.isRequired,
+	ownChildZones: PropTypes.array,
+	pathToParent: PropTypes.string.isRequired,
+	isParentZone: PropTypes.bool,
+	outgoingZone: PropTypes.object,
+	currentZone: PropTypes.object,
+	isMovingZones: PropTypes.bool.isRequired,
+	updateStoreState: PropTypes.func.isRequired,
+	currentZoneScrollWrapper: PropTypes.element,
 }
 
 function mapStateToProps({

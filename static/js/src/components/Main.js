@@ -53,9 +53,10 @@ const Main = ({
 );
 
 Main.propTypes = {
-    primaryZones: PropTypes.array,
-    isMovingZones: PropTypes.bool.isRequired,
-    outgoingZone: PropTypes.object,
+  primaryZones: PropTypes.array,
+  isMovingZones: PropTypes.bool.isRequired,
+  outgoingZone: PropTypes.object,
+  location: PropTypes.object.isRequired,
 }
 
 function mapStateToProps({
