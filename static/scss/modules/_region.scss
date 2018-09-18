@@ -23,6 +23,11 @@
 		width: 0px;
 	}
 
+	&:focus {
+		outline: none;
+		border: none;
+	}
+
 	&__icon {
 		display: block;
 		margin: 0 auto;
