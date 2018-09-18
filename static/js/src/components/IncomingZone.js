@@ -30,11 +30,7 @@ class IncomingZone extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		const { currentZoneScrollWrapper, updateOutgoingZone, data } = this.props;
-		updateOutgoingZone(data, currentZoneScrollWrapper.scrollTop);
-		if (currentZoneScrollWrapper) {
-			currentZoneScrollWrapper.scrollTop = 0;
-		}
+		this.props.updateOutgoingZone(this.props.data, this.props.currentZoneScrollWrapper.scrollTop);
 	}
 
 	getTransitonClass = () => {
@@ -50,13 +46,16 @@ class IncomingZone extends PureComponent {
 	}
 
 	render() {
-		const { data, outgoingZone, isMovingZones, updateStoreState } = this.props;
 		let zoneClass = 'region';
- 		if (outgoingZone && isMovingZones) {
+		if (this.props.outgoingZone && this.props.isMovingZones) {
 			zoneClass = `${zoneClass} js-hide-overflow ${this.getTransitonClass()}`;
  		}
 		return (
-			<Zone data={data} zoneClass={zoneClass} updateStoreState={updateStoreState} />
+			<Zone
+				data={this.props.data}
+				zoneClass={zoneClass}
+				updateStoreState={this.props.updateStoreState}
+			/>
 		)
 	}
 }
