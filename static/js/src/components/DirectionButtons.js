@@ -67,7 +67,7 @@ class DirectionButtons extends PureComponent {
 			currentParentZoneHash,
 			directionButtons,
 			history,
-			containerElement
+			currentZoneScrollWrapper
 		} = this.props;
 		if (directionButtons) {
 			const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
@@ -77,21 +77,21 @@ class DirectionButtons extends PureComponent {
 				if (this.isGoodToPush(button)) {
 					history.push(newHash);
 				} else {
-					containerElement.focus();
+					currentZoneScrollWrapper.focus();
 				}
 			}
 		}
 	}
 
 	isGoodToPush = button => {
-		const { containerElement } = this.props;
+		const { currentZoneScrollWrapper } = this.props;
 		if (button.isVertical) {
-			if (button.name === 'up' && containerElement.scrollTop > 0) {
+			if (button.name === 'up' && currentZoneScrollWrapper.scrollTop > 0) {
 				return false;
 			}
 			if (button.name === 'down') {
-				const maxScrollDownPosition = containerElement.scrollHeight - containerElement.offsetHeight;
-				if (maxScrollDownPosition - containerElement.scrollTop > 0) {
+				const maxScrollDownPosition = currentZoneScrollWrapper.scrollHeight - currentZoneScrollWrapper.offsetHeight;
+				if (maxScrollDownPosition - currentZoneScrollWrapper.scrollTop > 0) {
 					return false;
 				}
 			}
@@ -138,7 +138,7 @@ function mapStateToProps({
 	isMovingZones,
 	currentParentZoneHash,
 	directionButtons,
-	containerElement
+	currentZoneScrollWrapper
 }, props) {
 	return {
 		...props,
@@ -148,7 +148,7 @@ function mapStateToProps({
 		isMovingZones,
 		currentParentZoneHash,
 		directionButtons,
-		containerElement
+		currentZoneScrollWrapper
 	}
 }
 
