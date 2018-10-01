@@ -29,7 +29,6 @@ const Main = ({
 								pathToParent={path_hash}
 								data={parentZone}
 								isParentZone
-								ownChildZones={child_zones}
 								location={location}
 							/>
 						)}

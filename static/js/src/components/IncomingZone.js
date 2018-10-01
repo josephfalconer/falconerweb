@@ -9,23 +9,13 @@ import * as helpers from '../helpers';
 
 class IncomingZone extends PureComponent {
 	componentDidMount() {
-		const {
-			data,
-			isParentZone,
-			ownChildZones,
-			pathToParent,
-			updateStoreState
-		} = this.props;
-		let storeUpdateData = {
+		const { data, isParentZone, pathToParent, updateStoreState } = this.props;
+		updateStoreState({
 			currentParentZoneHash: pathToParent,
 			currentZone: data,
 			currentTextColour: data.text_colour,
 			isMovingZones: true,
-		}
-		if (isParentZone) {
-			storeUpdateData['currentChildZones'] = ownChildZones;
-		}
-		updateStoreState(storeUpdateData);
+		});
 		setTimeout(() => updateStoreState({isMovingZones: false}), ZONE_TRANSITION_TIMEOUT);
 	}
 
@@ -62,7 +52,6 @@ class IncomingZone extends PureComponent {
 
 IncomingZone.propTypes = {
 	data: PropTypes.object.isRequired,
-	ownChildZones: PropTypes.array,
 	pathToParent: PropTypes.string.isRequired,
 	isParentZone: PropTypes.bool,
 	outgoingZone: PropTypes.object,

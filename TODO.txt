@@ -4,8 +4,6 @@
 
 - pull in skills, demos
 
-- if child zone is first to render needs to put its siblings into store
-
 - clean up migrations/add test back up there
 
 - write a proper action creator for api calls

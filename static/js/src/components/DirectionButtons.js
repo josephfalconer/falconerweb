@@ -12,7 +12,6 @@ class DirectionButtons extends PureComponent {
 		parentZones: PropTypes.array.isRequired,
 		currentZone: PropTypes.object,
 		isMovingZones: PropTypes.bool.isRequired,
-		currentChildZones: PropTypes.array.isRequired,
 		currentParentZoneHash: PropTypes.string,
 	}
 
@@ -29,7 +28,10 @@ class DirectionButtons extends PureComponent {
 	}
 
 	getButtons = nextProps => {
-		const { parentZones, currentZone, currentChildZones } = nextProps;
+		const { parentZones, currentZone } = nextProps;
+		const currentChildZones = nextProps.currentZone.is_child_zone ?
+			nextProps.parentZones[nextProps.currentZone.x].child_zones:
+			nextProps.currentZone.child_zones;
 		if (currentZone) {
 			return [
 				{
@@ -134,7 +136,6 @@ class DirectionButtons extends PureComponent {
 function mapStateToProps({
 	parentZones, 
 	currentZone, 
-	currentChildZones,
 	isMovingZones,
 	currentParentZoneHash,
 	directionButtons,
@@ -144,7 +145,6 @@ function mapStateToProps({
 		...props,
 		parentZones,
 		currentZone,
-		currentChildZones,
 		isMovingZones,
 		currentParentZoneHash,
 		directionButtons,

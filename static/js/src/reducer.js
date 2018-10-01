@@ -7,7 +7,6 @@ const INITIAL_STATE = {
   currentSubZones: [],
   isMovingZones: false,
   currentTextColour: 'light',
-  currentChildZones: [],
 }
 
 export default function simpleReducer(state = INITIAL_STATE, action) {
