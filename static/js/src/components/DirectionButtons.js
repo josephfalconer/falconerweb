@@ -74,7 +74,7 @@ class DirectionButtons extends PureComponent {
 		if (directionButtons) {
 			const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
 			if ((button && button.isVisible) && !isMovingPages) {
-				const targetHash = button.targetPage.path_hash;
+				const targetHash = button.targetPage.slug;
 				const newHash = button.isVertical ? formatVerticalPath(currentParentPageHash, targetHash) : `/${targetHash}`;
 				if (this.isGoodToPush(button)) {
 					history.push(newHash);

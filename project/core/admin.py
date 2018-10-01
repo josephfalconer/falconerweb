@@ -12,7 +12,7 @@ class NavigationLinkForm(forms.ModelForm):
 	    ('PROJECTS', '@ symbol'),
 	    ('DEMOS', 'Laboratory Beaker'),
 	)
-	LINKED_PAGE_CHOICES = list(Page.objects.values_list('path_hash', 'title'))
+	LINKED_PAGE_CHOICES = list(Page.objects.values_list('slug', 'title'))
 
 	class Meta:
 		model = NavigationLink

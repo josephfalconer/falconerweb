@@ -31,7 +31,8 @@ CONTENT_MODULE_TYPES = (
 class Page(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	order = models.IntegerField(default=0)
-	path_hash = models.CharField(max_length=255, blank=True, unique=True)
+	custom_slug = models.CharField(max_length=255, blank=True, null=True, unique=True)
+	slug = models.CharField(max_length=255, unique=True)
 	icon = models.CharField(max_length=200, choices=ICONS, blank=True)
 	background = models.CharField(max_length=200, choices=BACKGROUNDS, blank=True)
 	text_colour = models.CharField(max_length=200, choices=TEXT_COLOURS, default='dark')
@@ -46,6 +47,11 @@ class Page(models.Model):
 
 	def __str__(self):
 		return self.title
+
+	def save(self, *args, **kwargs):
+		if self.custom_slug is not None and self.custom_slug.strip() == '':
+			self.custom_slug = None
+		super().save(*args, **kwargs)
 	
 
 class ContentModule(models.Model):

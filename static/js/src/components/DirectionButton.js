@@ -17,7 +17,7 @@ const DirectionButton = props => {
 			'hidden'}-button`;
 	let linkTo = '';
 	if (button.isVisible && targetPage) {
-		linkTo = button.isVertical ? formatVerticalPath(currentParentPageHash, targetPage.path_hash) : targetPage.path_hash;
+		linkTo = button.isVertical ? formatVerticalPath(currentParentPageHash, targetPage.slug) : targetPage.slug;
 	}
 	return (
 		<Link

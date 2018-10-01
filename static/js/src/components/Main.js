@@ -18,15 +18,15 @@ const Main = ({
 			<OutgoingPage data={outgoingPage} />
 		}
 		{parentPages && parentPages.map(parentPage => {
-			const { path_hash, child_pages } = parentPage;
+			const { slug, child_pages } = parentPage;
 			return (
-				<div key={`page-${path_hash}`}>
+				<div key={`page-${slug}`}>
 					<Route
 						exact
-						path={`/${path_hash}/`}
+						path={`/${slug}/`}
 						render={() => (
 							<IncomingPage
-								pathToParent={path_hash}
+								pathToParent={slug}
 								data={parentPage}
 								location={location}
 							/>
@@ -34,11 +34,11 @@ const Main = ({
 					/>
 					{child_pages && child_pages.map(childPage => (
 						<Route
-							key={`page-${childPage.path_hash}`}
-							path={`/${path_hash}/${childPage.path_hash}/`}
+							key={`page-${childPage.slug}`}
+							path={`/${slug}/${childPage.slug}/`}
 							render={() => (
 								<IncomingPage
-									pathToParent={path_hash}
+									pathToParent={slug}
 									data={childPage}
 								/>
 							)}

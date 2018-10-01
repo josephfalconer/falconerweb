@@ -16,7 +16,7 @@ class PageSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Page
 		fields = (
-			'path_hash',
+			'slug',
 			'icon',
 			'background',
 			'text_colour',
