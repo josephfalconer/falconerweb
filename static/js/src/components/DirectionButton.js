@@ -7,17 +7,17 @@ import { formatVerticalPath } from '../helpers';
 const DirectionButton = props => {
 	const {
 		button,
-		currentParentZoneHash,
-		isMovingZones
+		currentParentPageHash,
+		isMovingPages
 	} = props;
-	const { targetZone } = button;
+	const { targetPage } = button;
 	const visibiltyClass = 
-		`js-${button.isVisible && !isMovingZones ? 
+		`js-${button.isVisible && !isMovingPages ? 
 			'visible' : 
 			'hidden'}-button`;
 	let linkTo = '';
-	if (button.isVisible && targetZone) {
-		linkTo = button.isVertical ? formatVerticalPath(currentParentZoneHash, targetZone.path_hash) : targetZone.path_hash;
+	if (button.isVisible && targetPage) {
+		linkTo = button.isVertical ? formatVerticalPath(currentParentPageHash, targetPage.path_hash) : targetPage.path_hash;
 	}
 	return (
 		<Link
@@ -25,7 +25,7 @@ const DirectionButton = props => {
 			className={`direction direction--${button.name} ${visibiltyClass}`}
 		>
 			<span className="direction__inner">
-				<span className="direction__text is-displayed-lg">{button.isVisible ? targetZone.title : null}</span>
+				<span className="direction__text is-displayed-lg">{button.isVisible ? targetPage.title : null}</span>
 				<span className="direction__icon">
 					<i></i>
 					<i></i>
@@ -37,12 +37,12 @@ const DirectionButton = props => {
 
 DirectionButton.propTypes = {
 	button: PropTypes.object.isRequired,
-	isMovingZones: PropTypes.bool.isRequired,
-	currentParentZoneHash: PropTypes.string.isRequired,
+	isMovingPages: PropTypes.bool.isRequired,
+	currentParentPageHash: PropTypes.string.isRequired,
 }
 
 DirectionButton.defaultProps = {
-	isMovingZones: false,
+	isMovingPages: false,
 }
 
 export default DirectionButton;

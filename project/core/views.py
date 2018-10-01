@@ -8,7 +8,7 @@ from .models import NavigationLink
 def serialize_navigation_link(navigation_link):
 	return {
 		'text': navigation_link.text,
-		'linked_zone': navigation_link.linked_zone,
+		'linked_page': navigation_link.linked_page,
 		'icon': navigation_link.icon
 	}
 

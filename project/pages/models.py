@@ -28,7 +28,7 @@ CONTENT_MODULE_TYPES = (
 )
 
 
-class Zone(models.Model):
+class Page(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	order = models.IntegerField(default=0)
 	path_hash = models.CharField(max_length=255, blank=True, unique=True)
@@ -39,31 +39,23 @@ class Zone(models.Model):
 	display_title = models.CharField(max_length=255, blank=True)
 	intro_text = models.TextField(blank=True)
 	center_content = models.BooleanField(default=False)
-	parent_zone = models.ForeignKey('self', null=True, blank=True, related_name='child_zones')
+	parent_page = models.ForeignKey('self', null=True, blank=True, related_name='child_pages')
 
 	class Meta:
 		ordering = ['order',]
 
 	def __str__(self):
 		return self.title
-
-
-# class ParentZone(Zone):
-# 	pass
-
-
-# class ChildZone(Zone):
-# 	parent_zone = models.ForeignKey(ParentZone, related_name='child_zones')
 	
 
 class ContentModule(models.Model):
 	order = models.IntegerField(default=0)
 	module_type = models.CharField(max_length=100, choices=CONTENT_MODULE_TYPES)
-	zone = models.ForeignKey(Zone, related_name='content_modules')
+	page = models.ForeignKey(Page, related_name='content_modules')
 	text = models.TextField(blank=True)
 
 	def __str__(self):
-		return "#{} {} / {}".format(self.order, self.module_type, self.zone)
+		return "#{} {} / {}".format(self.order, self.module_type, self.page)
 
 	class Meta:
 		ordering = ['order',]

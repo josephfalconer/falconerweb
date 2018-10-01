@@ -7,17 +7,17 @@ export function updateStoreState(payload) {
   }
 }
 
-export function addZonesData(payload) {
+export function addPagesData(payload) {
   return {
-    type: ActionTypes.ADD_ZONES_DATA,
-    zonesData: payload.map((parentZone, x) => {
+    type: ActionTypes.ADD_PAGES_DATA,
+    pagesData: payload.map((parentPage, x) => {
       return {
-        ...parentZone,
+        ...parentPage,
         x: x,
         y: 0,
-        child_zones: parentZone.child_zones.map((childZone, y) => {
+        child_pages: parentPage.child_pages.map((childPage, y) => {
           return {
-            ...childZone,
+            ...childPage,
             x: x,
             y: y + 1,
           }
@@ -27,10 +27,10 @@ export function addZonesData(payload) {
   }
 }
 
-export function updateOutgoingZone(outgoingZone, lastScrollTop = 0) {
+export function updateOutgoingPage(outgoingPage, lastScrollTop = 0) {
   return {
-    type: ActionTypes.UPDATE_OUTGOING_ZONE,
-    outgoingZone,
+    type: ActionTypes.UPDATE_OUTGOING_PAGE,
+    outgoingPage,
     lastScrollTop
   }
 }

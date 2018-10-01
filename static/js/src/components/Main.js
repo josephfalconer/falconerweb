@@ -4,43 +4,42 @@ import { withRouter } from 'react-router';
 import { Link, Route } from 'react-router-dom';
 
 import { updateStoreState } from '../actions';
-import IncomingZone from './IncomingZone';
-import OutgoingZone from './OutgoingZone';
+import IncomingPage from './IncomingPage';
+import OutgoingPage from './OutgoingPage';
 
 const Main = ({
-  parentZones,
-  outgoingZone,
-  isMovingZones,
+  parentPages,
+  outgoingPage,
+  isMovingPages,
   location
 }) => (
 	<main className="regions">
-		{outgoingZone && isMovingZones &&
-			<OutgoingZone data={outgoingZone} />
+		{outgoingPage && isMovingPages &&
+			<OutgoingPage data={outgoingPage} />
 		}
-		{parentZones && parentZones.map(parentZone => {
-			const { path_hash, child_zones } = parentZone;
+		{parentPages && parentPages.map(parentPage => {
+			const { path_hash, child_pages } = parentPage;
 			return (
-				<div key={`zone-${path_hash}`}>
+				<div key={`page-${path_hash}`}>
 					<Route
 						exact
 						path={`/${path_hash}/`}
 						render={() => (
-							<IncomingZone
+							<IncomingPage
 								pathToParent={path_hash}
-								data={parentZone}
-								isParentZone
+								data={parentPage}
 								location={location}
 							/>
 						)}
 					/>
-					{child_zones && child_zones.map(childZone => (
+					{child_pages && child_pages.map(childPage => (
 						<Route
-							key={`zone-${childZone.path_hash}`}
-							path={`/${path_hash}/${childZone.path_hash}/`}
+							key={`page-${childPage.path_hash}`}
+							path={`/${path_hash}/${childPage.path_hash}/`}
 							render={() => (
-								<IncomingZone
+								<IncomingPage
 									pathToParent={path_hash}
-									data={childZone}
+									data={childPage}
 								/>
 							)}
 						/>
@@ -52,22 +51,22 @@ const Main = ({
 );
 
 Main.propTypes = {
-  primaryZones: PropTypes.array,
-  isMovingZones: PropTypes.bool.isRequired,
-  outgoingZone: PropTypes.object,
+  parentPages: PropTypes.array,
+  isMovingPages: PropTypes.bool.isRequired,
+  outgoingPage: PropTypes.object,
   location: PropTypes.object.isRequired,
 }
 
 function mapStateToProps({
-	parentZones, 
-	isMovingZones, 
-	outgoingZone
+	parentPages, 
+	isMovingPages, 
+	outgoingPage
 }, props) {
 	return {
 		...props,
-		parentZones,
-		isMovingZones,
-		outgoingZone,
+		parentPages,
+		isMovingPages,
+		outgoingPage,
 	}
 }
 

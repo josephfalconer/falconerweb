@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from project.zones.models import Zone, ContentModule
+from project.pages.models import Page, ContentModule
 
 
 class ContentModuleSerializer(serializers.ModelSerializer):
@@ -9,12 +9,12 @@ class ContentModuleSerializer(serializers.ModelSerializer):
 		fields = ('module_type', 'text')
 
 
-class ZoneSerializer(serializers.ModelSerializer):
+class PageSerializer(serializers.ModelSerializer):
 	content_modules = ContentModuleSerializer(many=True)
-	is_child_zone = serializers.SerializerMethodField()
+	is_child_page = serializers.SerializerMethodField()
 	
 	class Meta:
-		model = Zone
+		model = Page
 		fields = (
 			'path_hash',
 			'icon',
@@ -25,17 +25,17 @@ class ZoneSerializer(serializers.ModelSerializer):
 			'intro_text',
 			'center_content',
 			'content_modules',
-			'is_child_zone'
+			'is_child_page'
 		)
 
-	def get_is_child_zone(self, instance):
-		return bool(instance.parent_zone)
+	def get_is_child_page(self, instance):
+		return bool(instance.parent_page)
 
 
-class ZoneListSerializer(ZoneSerializer):
-	child_zones = ZoneSerializer(many=True)
+class PageListSerializer(PageSerializer):
+	child_pages = PageSerializer(many=True)
 	
 	class Meta:
-		model = Zone
-		fields = ZoneSerializer.Meta.fields + ('child_zones',)
+		model = Page
+		fields = PageSerializer.Meta.fields + ('child_pages',)
 	

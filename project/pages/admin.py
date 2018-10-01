@@ -1,5 +1,5 @@
 from django.contrib import admin
-from project.zones.models import Zone, ContentModule
+from project.pages.models import Page, ContentModule
 
 
 class ContentModuleInline(admin.StackedInline):
@@ -8,8 +8,8 @@ class ContentModuleInline(admin.StackedInline):
 	extra = 0
 
 
-class ZoneAdmin(admin.ModelAdmin):
+class PageAdmin(admin.ModelAdmin):
 	inlines = [ContentModuleInline,]
 
 
-admin.site.register(Zone, ZoneAdmin)
+admin.site.register(Page, PageAdmin)

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Icons from './icons/Icons';
 
 function Navigation(props) {
-	const { navigationLinks, isMovingZones, currentParentZoneHash } = props;
+	const { navigationLinks, isMovingPages, currentParentPageHash } = props;
 	if (navigationLinks.length) {
 		return (
 			<nav className='nav'>
@@ -13,13 +13,13 @@ function Navigation(props) {
 					{navigationLinks.map((link, index) => {
 						const navItemClass = index == 0 ? 'nav__item nav__item--logo' : 'nav__item';
 						const Icon = Icons[link.icon.toUpperCase()];
-						const isCurrent = `${link.linked_zone}` === currentParentZoneHash;
+						const isCurrent = `${link.linked_page}` === currentParentPageHash;
 						return (
 							<li key={index} className={navItemClass} >
 								<Link
-									to={`/${link.linked_zone}`}
+									to={`/${link.linked_page}`}
 									className={`nav__link ${isCurrent && 'nav__link--current'}`}
-									onClick={e => { if (isMovingZones) e.preventDefault(); }}
+									onClick={e => { if (isMovingPages) e.preventDefault(); }}
 								>
 									{Icon &&
 										<span className="nav__linkcircle">
@@ -42,20 +42,20 @@ function Navigation(props) {
 
 Navigation.propTypes = {
 	navigationLinks: PropTypes.array.isRequired,
-	isMovingZones: PropTypes.bool.isRequired,
-	currentParentZoneHash: PropTypes.string,
+	isMovingPages: PropTypes.bool.isRequired,
+	currentParentPageHash: PropTypes.string,
 }
 
 function mapStateToProps({
 	navigationLinks, 
-	isMovingZones, 
-	currentParentZoneHash
+	isMovingPages, 
+	currentParentPageHash
 }, props) {
 	return {
 		...props,
 		navigationLinks,
-		isMovingZones,
-		currentParentZoneHash,
+		isMovingPages,
+		currentParentPageHash,
 	}
 }
 

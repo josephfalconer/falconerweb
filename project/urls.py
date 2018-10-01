@@ -8,7 +8,7 @@ from project.demos.views import demos_list
 
 api_urlpatters = [
     url(r'^navigation/', views.navigation),
-    url(r'^zones/', include('project.zones.urls')),
+    url(r'^pages/', include('project.pages.urls')),
     url(r'^toolkit/', include('project.toolkit.urls')),
     url(r'^demos/', demos_list),
 ]

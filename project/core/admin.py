@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django import forms
 from project.core.models import NavigationLink
-from project.zones.models import Zone
+from project.pages.models import Page
 
 
 class NavigationLinkForm(forms.ModelForm):
@@ -12,14 +12,14 @@ class NavigationLinkForm(forms.ModelForm):
 	    ('PROJECTS', '@ symbol'),
 	    ('DEMOS', 'Laboratory Beaker'),
 	)
-	LINKED_ZONE_CHOICES = list(Zone.objects.values_list('path_hash', 'title'))
+	LINKED_PAGE_CHOICES = list(Page.objects.values_list('path_hash', 'title'))
 
 	class Meta:
 		model = NavigationLink
 		fields = '__all__'
 
 	icon = forms.ChoiceField(choices=ICON_CHOICES)
-	linked_zone = forms.ChoiceField(choices=LINKED_ZONE_CHOICES)
+	linked_page = forms.ChoiceField(choices=LINKED_PAGE_CHOICES)
 
 
 @admin.register(NavigationLink)

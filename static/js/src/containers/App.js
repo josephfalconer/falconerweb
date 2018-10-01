@@ -3,26 +3,26 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link, Route } from 'react-router-dom';
 
-import { addZonesData, updateStoreState } from '../actions';
+import { addPagesData, updateStoreState } from '../actions';
 import DirectionButtons from '../components/DirectionButtons';
 import Main from '../components/Main';
 import Navigation from '../components/Navigation';
 
 class App extends PureComponent {
 	componentDidMount() {
-		fetch('api/zones/')
+		fetch('api/pages/')
 		.then(response => response.json())
-		.then(parentZones => this.props.addZonesData(parentZones));
+		.then(parentPages => this.props.addPagesData(parentPages));
 		fetch('api/navigation/')
 		.then(response => response.json())
 		.then(navigationLinks => this.props.updateStoreState({navigationLinks}));
 	}
 
 	render() {
-		const { isMovingZones, zoneTextColour } = this.props;
+		const { isMovingPages, pageTextColour } = this.props;
 		let className = '';
-		className += isMovingZones ? 'js-moving-regions' : 'js-stationary';
-		className += zoneTextColour == 'dark' ? ' js-nav-backgrounds' : '';
+		className += isMovingPages ? 'js-moving-regions' : 'js-stationary';
+		className += pageTextColour == 'dark' ? ' js-nav-backgrounds' : '';
 		return (
 			<div className={className}>
 				<header>
@@ -36,19 +36,19 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-	isMovingZones: PropTypes.bool,
-  zoneTextColour: PropTypes.string,
+	isMovingPages: PropTypes.bool,
+  pageTextColour: PropTypes.string,
 }
 
-function mapStateToProps({isMovingZones, zoneTextColour}, props) {
+function mapStateToProps({isMovingPages, pageTextColour}, props) {
 	return {
 		...props,
-		isMovingZones,
-		zoneTextColour,
+		isMovingPages,
+		pageTextColour,
 	}
 }
 
 export default withRouter(connect(mapStateToProps, {
-	addZonesData,
+	addPagesData,
 	updateStoreState
 })(App));

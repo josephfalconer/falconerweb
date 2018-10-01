@@ -1,1 +1,1 @@
-export const ZONE_TRANSITION_TIMEOUT = 1000;
+export const PAGE_TRANSITION_TIMEOUT = 1000;

@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'project.core',
     'project.demos',
     'project.toolkit',
-    'project.zones',
+    'project.pages',
 ]
 
 MIDDLEWARE = [

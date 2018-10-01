@@ -19,7 +19,7 @@ class NavigationLink(models.Model):
 	order = models.IntegerField(default=0)
 	icon = models.CharField(max_length=200)
 	text = models.CharField(max_length=20)
-	linked_zone = models.CharField(max_length=50)
+	linked_page = models.CharField(max_length=50)
 
 	def __str__(self):
 		return self.text

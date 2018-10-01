@@ -15,7 +15,7 @@ function renderContentModules(data) {
 	return null;
 }
 
-class Zone extends PureComponent {
+class Page extends PureComponent {
 	constructor(props) {
 		super(props)
 		this.setScrollWrapper = element => this.scrollWrapper = element;
@@ -25,24 +25,24 @@ class Zone extends PureComponent {
 		if (this.props.data.lastScrollTop) {
 			this.scrollWrapper.scrollTop = this.props.data.lastScrollTop;
 		}
-		if (!this.props.isOutgoingZone) {
-			this.props.updateStoreState({currentZoneScrollWrapper: this.scrollWrapper});
+		if (!this.props.isOutgoingPage) {
+			this.props.updateStoreState({currentPageScrollWrapper: this.scrollWrapper});
 		}
 	}
 
 	render () {
-		const { data, zoneClass, lastScrollTop, isOutgoingZone } = this.props;
+		const { data, pageClass, lastScrollTop } = this.props;
 		const Icon = Icons[data.icon.toUpperCase()];
-		let zoneInnerClass = `region__inner text text--${data.text_colour}`;
+		let pageInnerClass = `region__inner text text--${data.text_colour}`;
 		if (!data.content_modules.length && data.center_content) {
-			zoneInnerClass += ' center-content';
+			pageInnerClass += ' center-content';
 		}
 		if (!data.center_content) {
-			zoneInnerClass += ' padding--ends';
+			pageInnerClass += ' padding--ends';
 		}
 		return (
-			<article tabIndex="0" ref={this.setScrollWrapper} className={zoneClass}>
-				<div className={zoneInnerClass} style={{ backgroundImage: `url(${data.background})`}}>
+			<article tabIndex="0" ref={this.setScrollWrapper} className={pageClass}>
+				<div className={pageInnerClass} style={{ backgroundImage: `url(${data.background})`}}>
 					<div className="region__content">
 						<header className="region__header container">
 							{Icon &&
@@ -61,11 +61,11 @@ class Zone extends PureComponent {
 	}
 }
 
-Zone.propTypes = {
+Page.propTypes = {
 	data: PropTypes.object.isRequired,
 	contentModules: PropTypes.array,
-	zoneClass: PropTypes.string.isRequired,
-	isOutgoingZone: PropTypes.bool,
+	pageClass: PropTypes.string.isRequired,
+	isOutgoingPage: PropTypes.bool,
 }
 
-export default Zone;
+export default Page;

@@ -9,14 +9,14 @@ import { formatVerticalPath } from '../helpers';
 
 class DirectionButtons extends PureComponent {
 	static propTypes = {
-		parentZones: PropTypes.array.isRequired,
-		currentZone: PropTypes.object,
-		isMovingZones: PropTypes.bool.isRequired,
-		currentParentZoneHash: PropTypes.string,
+		parentPages: PropTypes.array.isRequired,
+		currentPage: PropTypes.object,
+		isMovingPages: PropTypes.bool.isRequired,
+		currentParentPageHash: PropTypes.string,
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.currentZone !== nextProps.currentZone) {
+		if (this.props.currentPage !== nextProps.currentPage) {
 			this.props.updateStoreState({
 				directionButtons: this.getButtons(nextProps)
 			});
@@ -28,34 +28,34 @@ class DirectionButtons extends PureComponent {
 	}
 
 	getButtons = nextProps => {
-		const { parentZones, currentZone } = nextProps;
-		const currentChildZones = nextProps.currentZone.is_child_zone ?
-			nextProps.parentZones[nextProps.currentZone.x].child_zones:
-			nextProps.currentZone.child_zones;
-		if (currentZone) {
+		const { parentPages, currentPage } = nextProps;
+		const currentChildPages = nextProps.currentPage.is_child_page ?
+			nextProps.parentPages[nextProps.currentPage.x].child_pages:
+			nextProps.currentPage.child_pages;
+		if (currentPage) {
 			return [
 				{
-					isVisible: currentZone.x > 0 && currentZone.y === 0,
+					isVisible: currentPage.x > 0 && currentPage.y === 0,
 					isVertical: false,
-					targetZone: parentZones[currentZone.x - 1],
+					targetPage: parentPages[currentPage.x - 1],
 					name: 'prev'
 				},
 				{
-					isVisible: (currentZone.x + 1) < parentZones.length && currentZone.y === 0,
+					isVisible: (currentPage.x + 1) < parentPages.length && currentPage.y === 0,
 					isVertical: false,
-					targetZone: parentZones[currentZone.x + 1],
+					targetPage: parentPages[currentPage.x + 1],
 					name: 'next'
 				},
 				{
-					isVisible: currentZone.y > 0,
+					isVisible: currentPage.y > 0,
 					isVertical: true,
-					targetZone: currentChildZones[currentZone.y - 2] || parentZones[currentZone.x],
+					targetPage: currentChildPages[currentPage.y - 2] || parentPages[currentPage.x],
 					name: 'up'
 				},
 				{
-					isVisible: currentZone.y < currentChildZones.length,
+					isVisible: currentPage.y < currentChildPages.length,
 					isVertical: true,
-					targetZone: currentChildZones[currentZone.y],
+					targetPage: currentChildPages[currentPage.y],
 					name: 'down'
 				}
 			]
@@ -65,35 +65,35 @@ class DirectionButtons extends PureComponent {
 
 	navigateFromKeyPress = event => {
 		const {
-			isMovingZones,
-			currentParentZoneHash,
+			isMovingPages,
+			currentParentPageHash,
 			directionButtons,
 			history,
-			currentZoneScrollWrapper
+			currentPageScrollWrapper
 		} = this.props;
 		if (directionButtons) {
 			const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
-			if ((button && button.isVisible) && !isMovingZones) {
-				const targetHash = button.targetZone.path_hash;
-				const newHash = button.isVertical ? formatVerticalPath(currentParentZoneHash, targetHash) : `/${targetHash}`;
+			if ((button && button.isVisible) && !isMovingPages) {
+				const targetHash = button.targetPage.path_hash;
+				const newHash = button.isVertical ? formatVerticalPath(currentParentPageHash, targetHash) : `/${targetHash}`;
 				if (this.isGoodToPush(button)) {
 					history.push(newHash);
 				} else {
-					currentZoneScrollWrapper.focus();
+					currentPageScrollWrapper.focus();
 				}
 			}
 		}
 	}
 
 	isGoodToPush = button => {
-		const { currentZoneScrollWrapper } = this.props;
+		const { currentPageScrollWrapper } = this.props;
 		if (button.isVertical) {
-			if (button.name === 'up' && currentZoneScrollWrapper.scrollTop > 0) {
+			if (button.name === 'up' && currentPageScrollWrapper.scrollTop > 0) {
 				return false;
 			}
 			if (button.name === 'down') {
-				const maxScrollDownPosition = currentZoneScrollWrapper.scrollHeight - currentZoneScrollWrapper.offsetHeight;
-				if (maxScrollDownPosition - currentZoneScrollWrapper.scrollTop > 0) {
+				const maxScrollDownPosition = currentPageScrollWrapper.scrollHeight - currentPageScrollWrapper.offsetHeight;
+				if (maxScrollDownPosition - currentPageScrollWrapper.scrollTop > 0) {
 					return false;
 				}
 			}
@@ -115,7 +115,7 @@ class DirectionButtons extends PureComponent {
 	}
 
 	render() {
-		const { isMovingZones, currentParentZoneHash, directionButtons } = this.props;
+		const { isMovingPages, currentParentPageHash, directionButtons } = this.props;
 		return (
 			<nav className='directions'>
 				{directionButtons && directionButtons.map((button, index) => {
@@ -123,8 +123,8 @@ class DirectionButtons extends PureComponent {
 						<DirectionButton
 							key={index}
 							button={button}
-							currentParentZoneHash={currentParentZoneHash}
-							isMovingZones={isMovingZones}
+							currentParentPageHash={currentParentPageHash}
+							isMovingPages={isMovingPages}
 						/>
 					)
 				})}
@@ -134,21 +134,21 @@ class DirectionButtons extends PureComponent {
 }
 
 function mapStateToProps({
-	parentZones, 
-	currentZone, 
-	isMovingZones,
-	currentParentZoneHash,
+	parentPages, 
+	currentPage, 
+	isMovingPages,
+	currentParentPageHash,
 	directionButtons,
-	currentZoneScrollWrapper
+	currentPageScrollWrapper
 }, props) {
 	return {
 		...props,
-		parentZones,
-		currentZone,
-		isMovingZones,
-		currentParentZoneHash,
+		parentPages,
+		currentPage,
+		isMovingPages,
+		currentParentPageHash,
 		directionButtons,
-		currentZoneScrollWrapper
+		currentPageScrollWrapper
 	}
 }
 

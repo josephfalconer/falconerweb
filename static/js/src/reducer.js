@@ -2,10 +2,9 @@ import * as ActionTypes from './actiontypes';
 
 const INITIAL_STATE = {
   navigationLinks: [],
-  parentZones: [],
+  parentPages: [],
   skills: [],
-  currentSubZones: [],
-  isMovingZones: false,
+  isMovingPages: false,
   currentTextColour: 'light',
 }
 
@@ -16,26 +15,26 @@ export default function simpleReducer(state = INITIAL_STATE, action) {
         ...state,
         ...action.payload
       }
-    case ActionTypes.ADD_ZONES_DATA:
+    case ActionTypes.ADD_PAGES_DATA:
       return {
         ...state,
-        parentZones: action.zonesData
+        parentPages: action.pagesData
       }
-    case ActionTypes.UPDATE_OUTGOING_ZONE:
-      const outgoingZone = {
-        ...action.outgoingZone,
+    case ActionTypes.UPDATE_OUTGOING_PAGE:
+      const outgoingPage = {
+        ...action.outgoingPage,
         lastScrollTop: action.lastScrollTop
       };
-      let parentZones = state.parentZones;
-      if (outgoingZone.is_child_zone) {
-        parentZones[outgoingZone.x].child_zones[outgoingZone.y - 1] = outgoingZone;
+      let parentPages = state.parentPages;
+      if (outgoingPage.is_child_page) {
+        parentPages[outgoingPage.x].child_pages[outgoingPage.y - 1] = outgoingPage;
       } else {
-        parentZones[outgoingZone.x] = outgoingZone;
+        parentPages[outgoingPage.x] = outgoingPage;
       }
       return {
         ...state,
-        outgoingZone,
-        parentZones
+        outgoingPage,
+        parentPages
       }
     default:
       return state;
