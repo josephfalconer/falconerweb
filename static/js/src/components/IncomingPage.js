@@ -9,7 +9,7 @@ import * as helpers from '../helpers';
 
 class IncomingPage extends PureComponent {
 	componentDidMount() {
-		const { data, pathToParent, updateStoreState } = this.props;
+		const { data, pathToParent, updateStoreState, currentPageScrollWrapper } = this.props;
 		updateStoreState({
 			currentParentPageSlug: pathToParent,
 			currentPage: data,
@@ -17,6 +17,15 @@ class IncomingPage extends PureComponent {
 			isMovingPages: true,
 		});
 		setTimeout(() => updateStoreState({isMovingPages: false}), PAGE_TRANSITION_TIMEOUT);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (
+			nextProps.currentPageScrollWrapper &&
+			nextProps.currentPageScrollWrapper !== this.props.currentPageScrollWrapper
+		) {
+			nextProps.currentPageScrollWrapper.focus();
+		}
 	}
 
 	componentWillUnmount() {
