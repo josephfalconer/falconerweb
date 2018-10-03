@@ -34,8 +34,12 @@ class PageSerializer(serializers.ModelSerializer):
 
 class PageListSerializer(PageSerializer):
 	child_pages = PageSerializer(many=True)
+	is_homepage = serializers.SerializerMethodField()
 	
 	class Meta:
 		model = Page
-		fields = PageSerializer.Meta.fields + ('child_pages',)
+		fields = PageSerializer.Meta.fields + ('child_pages', 'is_homepage')
+
+	def get_is_homepage(self, instance):
+		return instance.homepage.exists()
 	

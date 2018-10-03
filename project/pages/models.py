@@ -52,6 +52,20 @@ class Page(models.Model):
 		if self.custom_slug is not None and self.custom_slug.strip() == '':
 			self.custom_slug = None
 		super().save(*args, **kwargs)
+
+
+class Homepage(models.Model):
+	page = models.ForeignKey(Page, related_name='homepage')
+
+	def save(self, *args, **kwargs):
+		self.__class__.objects.exclude(pk=self.pk).delete()
+		super().save()
+
+	def __str__(self):
+		return self.page.title
+
+	class Meta:
+		verbose_name_plural = 'Homepage'
 	
 
 class ContentModule(models.Model):

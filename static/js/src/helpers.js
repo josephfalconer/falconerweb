@@ -16,5 +16,9 @@ export function isUpwards(currentPage, outgoingPage) {
 
 export function formatVerticalPath(parentPath, targetPath) {
 	const isTopTarget = targetPath === parentPath;
-	return `/${parentPath}${isTopTarget ? '' : '/' + targetPath}`;
+  let formattedPath = targetPath;
+  if (parentPath !== '') {
+    formattedPath = `/${parentPath}${isTopTarget ? '' : '/' + targetPath}`
+  }
+	return formattedPath;
 }

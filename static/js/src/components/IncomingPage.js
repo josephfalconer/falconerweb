@@ -11,7 +11,7 @@ class IncomingPage extends PureComponent {
 	componentDidMount() {
 		const { data, pathToParent, updateStoreState } = this.props;
 		updateStoreState({
-			currentParentPageHash: pathToParent,
+			currentParentPageSlug: pathToParent,
 			currentPage: data,
 			currentTextColour: data.text_colour,
 			isMovingPages: true,

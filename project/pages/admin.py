@@ -1,5 +1,5 @@
 from django.contrib import admin
-from project.pages.models import Page, ContentModule
+from project.pages.models import Page, Homepage, ContentModule
 
 
 def clean_slug(title):
@@ -39,3 +39,4 @@ class PageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Page, PageAdmin)
+admin.site.register(Homepage)

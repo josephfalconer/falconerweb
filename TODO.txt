@@ -1,11 +1,3 @@
-- Find a way to make /start/ show at root url, or add a welcome component (maybe with animated curly brackets/highlight controls etc) - fix this with url exact ('/') and maybe have a is_homepage flag on parentZone model?
-
-- Investigate using BrowserRouter with Django (pass browserHistory to router, fix 404 etc).
-
 - pull in skills, demos
-
-- clean up migrations/add test back up there
-
-- write a proper action creator for api calls
 
 - why doesnt nav have background on white page
