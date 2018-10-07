@@ -1,12 +1,10 @@
 import React, { PropTypes } from 'react';
-
-import SkillsAccordion from './SkillsAccordion';
+import ToolsAccordion from './ToolsAccordion';
 import DemosMenu from './DemosMenu';
 
-
 const ContentModules = {
-	SKILLS_ACCORDION: (fields, index) => {
-		return <SkillsAccordion key={`${fields.module_type}-${index}`} />;
+	TOOLS_ACCORDION: (fields, index) => {
+		return <ToolsAccordion key={`${fields.module_type}-${index}`} />;
 	},
 	DEMOS_MENU: (fields, index) => {
 		return <DemosMenu key={`${fields.module_type}-${index}`} />;

@@ -1,12 +1,12 @@
 // =================
-// Style the accordion feature on 'Skills' page
-// ============================================
+// Style the accordion module
+// ==========================
 
 $skills-content-hiddenheight: remcalc(100);
 $skills-content-padding: remcalc(30);
 $skills-heading-height: remcalc(85);
 
-.skillsfeature {
+.accordion {
 	background: $white;
 	margin: 0 auto;
 	max-width: remcalc(1000);
@@ -15,25 +15,25 @@ $skills-heading-height: remcalc(85);
 		box-shadow: 0 0 10px transparentize($black, 0.75);
 	}
 
-	@include e(skill) {
+	&__panel {
 		&:first-child {
-			.skillsfeature__title {
+			.accordion__title {
 				box-shadow: none;
 			}
 		}
 
 		@include m(current) {
-			.skillsfeature__read {
+			.accordion__read {
 				display: none;
 			}
 
-			.skillsfeature__close {
+			.accordion__close {
 				@include mq(lg) {
 					display: block;
 				}
 			}
 
-			.skillsfeature__overlay {
+			.accordion__overlay {
 				opacity: 0;
 				transition: opacity $transition-duration;
 			}
@@ -54,7 +54,7 @@ $skills-heading-height: remcalc(85);
 		}
 
 		&:hover {
-			.skillsfeature__tooltip {
+			.accordion__tooltip {
 				opacity: 1;
 			}
 		}

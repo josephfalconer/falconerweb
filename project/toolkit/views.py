@@ -1,11 +1,8 @@
-from django.http import HttpResponse
-from django.core import serializers
+from rest_framework import generics
+from project.toolkit.models import Tool
+from project.toolkit.serializers import ToolsListSerializer
 
-from .models import Tool
 
-
-def data(request):
-	data = Tool.objects.all()
-	serialized_data = serializers.serialize("json", data)
-
-	return HttpResponse(serialized_data)
+class ToolsListView(generics.ListAPIView):
+	queryset = Tool.objects.all()
+	serializer_class = ToolsListSerializer

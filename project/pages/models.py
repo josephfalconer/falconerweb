@@ -23,7 +23,7 @@ TEXT_COLOURS = (
 
 CONTENT_MODULE_TYPES = (
 	('TEXT', 'Text'),
-	('SKILLS_ACCORDION', 'Skills Accordion'),
+	('TOOLS_ACCORDION', 'Tools Accordion'),
 	('DEMOS_MENU', 'Demos Menu')
 )
 
@@ -75,7 +75,7 @@ class ContentModule(models.Model):
 	text = models.TextField(blank=True)
 
 	def __str__(self):
-		return "#{} {} / {}".format(self.order, self.module_type, self.page)
+		return self.module_type
 
 	class Meta:
 		ordering = ['order',]

@@ -1,7 +1,7 @@
 from django.conf.urls import url
+from project.toolkit.views import ToolsListView
 
-from . import views
 
 urlpatterns = [
-	url(r'^$', views.data),
+	url(r'^$', ToolsListView.as_view(), name='list'),
 ]
