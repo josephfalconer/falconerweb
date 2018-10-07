@@ -1,16 +1,13 @@
-from django.http import HttpResponse
-import json
+from rest_framework import generics
+from django.shortcuts import render
+from project.demos.serializers import DemoListSerializer
 from project.demos.models import Demo
 
 
-def format_demo_values(demo_values):
-	return {
-		'title': demo_values[0],
-		'text': demo_values[1],
-		'path': demo_values[2],
-	}
+class DemoListView(generics.ListAPIView):
+	queryset = Demo.objects.all()
+	serializer_class = DemoListSerializer
 
-def demos_list(request):
-	data = [format_demo_values(demo) for demo in Demo.objects.all().values_list('title', 'text', 'path')]
-	print(data)
-	return HttpResponse(json.dumps(data))
+
+def demo_template_view(request, demo_template):
+	return render(request, 'demos/{}'.format(demo_template))

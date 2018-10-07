@@ -2,21 +2,22 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from project.core import views
-from project.demos.views import demos_list
+from project.core import views as core_views
+from project.demos import views as demo_views
 
 
-api_urlpatters = [
-    url(r'^navigation/', views.navigation),
-    url(r'^pages/', include('project.pages.urls')),
-    url(r'^toolkit/', include('project.toolkit.urls')),
-    url(r'^demos/', demos_list),
+api_urlpatterns = [
+    url(r'^navigation/', core_views.navigation),
+    url(r'^pages/', include('project.pages.urls'), name='pages'),
+    url(r'^toolkit/', include('project.toolkit.urls'), name='toolkit'),
+    url(r'^demos/', demo_views.DemoListView.as_view(), name='demos'),
 ]
 
 urlpatterns = [
-	url(r'^api/', include(api_urlpatters)),
+	url(r'^demos/', include('project.demos.urls')),
+	url(r'^api/', include(api_urlpatterns)),
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.main),
+    url(r'^$', core_views.main),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

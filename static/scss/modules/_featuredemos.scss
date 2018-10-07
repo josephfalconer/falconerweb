@@ -42,6 +42,8 @@
 
 	&__text {
 		padding: 30px;
+		flex-direction: column;
+		height: 100%;
 
 		@include mq(lg) {
 			padding: 100px;
