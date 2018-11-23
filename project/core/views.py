@@ -1,20 +1,13 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-import json
+from django.views.generic.base import TemplateView
+from rest_framework import generics
+from project.core.models import NavigationLink
+from project.core.serializers import NavigationSerializer
 
-from .models import NavigationLink
+
+class MainTemplateView(TemplateView):
+	template_name = 'main.html'
 
 
-def serialize_navigation_link(navigation_link):
-	return {
-		'text': navigation_link.text,
-		'linked_page': navigation_link.linked_page,
-		'icon': navigation_link.icon
-	}
-
-def main(request):
-	return render(request, "main.html")
-
-def navigation(request):
-	data = [serialize_navigation_link(link) for link in NavigationLink.objects.all()]
-	return HttpResponse(json.dumps(data))
+class NavigationListView(generics.ListAPIView):
+	serializer_class = NavigationSerializer
+	queryset = NavigationLink.objects.all()
