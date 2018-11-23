@@ -12,11 +12,11 @@ $nav-circlelink-width-xxl: 50;
 	right: 0;
 	bottom: 0;
 	z-index: $navigation-z-index;
+	border-radius: remcalc($nav-border-radius) 0 0 0;
 	height: remcalc($nav-height-sm);
 	min-width: remcalc(130);
 	background-color: rgba(255,255,255,0);
-    transform: none;
-    transition: transform 1s;
+    transition: background-color $transition-duration * 2;
 
 	@include mq(lg) {
 		height: remcalc($nav-height-lg);
@@ -34,10 +34,8 @@ $nav-circlelink-width-xxl: 50;
 
 	&__menu {
 		display: flex;
-		border-radius: remcalc($nav-border-radius) 0 0 0;
 		@include square(100%);
 		padding: 0 remcalc(5);
-		transition: background-color $transition-duration;
 	}
 
 	&__item {

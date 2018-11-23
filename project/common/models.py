@@ -1,4 +1,5 @@
 from django.db import models
+from project.pages.models import Page, ICONS
 
 
 class GenericItem(models.Model):
@@ -17,9 +18,9 @@ class GenericItem(models.Model):
 
 class NavigationLink(models.Model):
 	order = models.IntegerField(default=0)
-	icon = models.CharField(max_length=200)
+	icon = models.CharField(max_length=200, choices=ICONS, blank=True)
 	text = models.CharField(max_length=20)
-	linked_page = models.CharField(max_length=50)
+	linked_page = models.ForeignKey(Page)
 
 	def __str__(self):
 		return self.text

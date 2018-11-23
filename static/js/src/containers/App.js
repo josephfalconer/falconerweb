@@ -7,6 +7,7 @@ import { addPagesData, updateStoreState } from '../actions';
 import DirectionButtons from '../components/DirectionButtons';
 import Main from '../components/Main';
 import Navigation from '../components/Navigation';
+import { TEXT_COLOURS } from '../constants';
 
 class App extends PureComponent {
 	componentDidMount() {
@@ -19,10 +20,12 @@ class App extends PureComponent {
 	}
 
 	render() {
-		const { isMovingPages, pageTextColour } = this.props;
+		const { isMovingPages, currentTextColour } = this.props;
 		let className = '';
 		className += isMovingPages ? 'js-moving-regions' : 'js-stationary';
-		className += pageTextColour == 'dark' ? ' js-nav-backgrounds' : '';
+		if (currentTextColour === TEXT_COLOURS.DARK) {
+			className += ' js-nav-backgrounds';
+		}
 		return (
 			<div className={className}>
 				<header>
@@ -37,14 +40,14 @@ class App extends PureComponent {
 
 App.propTypes = {
 	isMovingPages: PropTypes.bool,
-  pageTextColour: PropTypes.string,
+  currentTextColour: PropTypes.string,
 }
 
-function mapStateToProps({isMovingPages, pageTextColour}, props) {
+function mapStateToProps({isMovingPages, currentTextColour}, props) {
 	return {
 		...props,
 		isMovingPages,
-		pageTextColour,
+		currentTextColour,
 	}
 }
 

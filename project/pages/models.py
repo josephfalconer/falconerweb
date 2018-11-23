@@ -41,6 +41,7 @@ class Page(models.Model):
 	intro_text = models.TextField(blank=True)
 	center_content = models.BooleanField(default=False)
 	parent_page = models.ForeignKey('self', null=True, blank=True, related_name='child_pages')
+	is_homepage = models.BooleanField(default=False)
 
 	class Meta:
 		ordering = ['order',]
@@ -51,21 +52,13 @@ class Page(models.Model):
 	def save(self, *args, **kwargs):
 		if self.custom_slug is not None and self.custom_slug.strip() == '':
 			self.custom_slug = None
+		if self.is_homepage:
+			self.__class__.objects.filter(is_homepage=True).exclude(pk=self.pk).update(is_homepage=False)
 		super().save(*args, **kwargs)
 
-
-class Homepage(models.Model):
-	page = models.ForeignKey(Page, related_name='homepage')
-
-	def save(self, *args, **kwargs):
-		self.__class__.objects.exclude(pk=self.pk).delete()
-		super().save()
-
-	def __str__(self):
-		return self.page.title
-
-	class Meta:
-		verbose_name_plural = 'Homepage'
+	@property
+	def is_child_page(self):
+		return bool(self.parent_page)
 	
 
 class ContentModule(models.Model):

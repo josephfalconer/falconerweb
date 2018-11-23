@@ -52,14 +52,6 @@ $direction-size-lg: 30;
 	}
 }
 
-.directions {
-	&--background {
-		.direction {
-			background-color: $black-transparent;
-		}
-	}
-}
-
 .direction {
 	display: block;
 	position: fixed;

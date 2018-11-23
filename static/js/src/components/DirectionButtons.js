@@ -116,9 +116,8 @@ class DirectionButtons extends PureComponent {
 
 	render() {
 		const { isMovingPages, currentParentPageSlug, directionButtons, currentTextColour } = this.props;
-		const className = `directions${currentTextColour === 'dark' ? ' directions--background' : ''}`;
 		return (
-			<nav className={className}>
+			<nav className="directions">
 				{directionButtons && directionButtons.map((button, index) => {
 					return (
 						<DirectionButton
