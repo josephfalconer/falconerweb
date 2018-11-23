@@ -1,7 +1,7 @@
 from rest_framework import generics
-from django.shortcuts import render
 from project.demos.serializers import DemoListSerializer
 from project.demos.models import Demo
+from django.views.generic.base import TemplateView
 
 
 class DemoListView(generics.ListAPIView):
@@ -9,5 +9,7 @@ class DemoListView(generics.ListAPIView):
 	serializer_class = DemoListSerializer
 
 
-def demo_template_view(request, demo_template):
-	return render(request, 'demos/{}'.format(demo_template))
+class DemoTemplateView(TemplateView):
+
+	def get_template_names(self):
+		return ['demos/{}.html'.format(self.kwargs['template'])]
