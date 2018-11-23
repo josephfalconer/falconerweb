@@ -1,9 +1,6 @@
 from django.contrib import admin
+from django.utils.text import slugify
 from project.pages.models import Page, Homepage, ContentModule
-
-
-def clean_slug(title):
-	return title.replace(' ', '-').lower()
 
 
 class ContentModuleInline(admin.StackedInline):
@@ -30,11 +27,11 @@ class PageAdmin(admin.ModelAdmin):
 	def save_model(self, request, obj, form, change):
 		if 'custom_slug' in form.changed_data:
 			if obj.custom_slug:
-				obj.slug = clean_slug(obj.custom_slug)
+				obj.slug = slugify(obj.custom_slug)
 			else:
-				obj.slug = clean_slug(obj.title)
+				obj.slug = slugify(obj.title)
 		elif 'title' in form.changed_data:
-			obj.slug = clean_slug(obj.title)
+			obj.slug = slugify(obj.title)
 		super().save_model(request, obj, form, change)
 
 
