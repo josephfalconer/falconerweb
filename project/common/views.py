@@ -1,7 +1,7 @@
 from django.views.generic.base import TemplateView
 from rest_framework import generics
-from project.core.models import NavigationLink
-from project.core.serializers import NavigationSerializer
+from project.common.models import NavigationLink
+from project.common.serializers import NavigationSerializer
 
 
 class MainTemplateView(TemplateView):

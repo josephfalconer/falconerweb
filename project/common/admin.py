@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from project.core.models import NavigationLink
+from project.common.models import NavigationLink
 from project.pages.models import Page
 
 
