@@ -34,15 +34,21 @@ class Page extends PureComponent {
 		const { data, pageClass, lastScrollTop } = this.props;
 		const Icon = Icons[data.icon.toUpperCase()];
 		let pageInnerClass = `region__inner text text--${data.text_colour}`;
+		let backgroundImageStyle = undefined;
 		if (!data.content_modules.length && data.center_content) {
 			pageInnerClass += ' center-content';
 		}
 		if (!data.center_content) {
 			pageInnerClass += ' padding--ends';
 		}
+		if (data.background) {
+			backgroundImageStyle = {
+				backgroundImage: `url(${data.background})`
+			};
+		}
 		return (
 			<article tabIndex="0" ref={this.setScrollWrapper} className={pageClass}>
-				<div className={pageInnerClass} style={{ backgroundImage: `url(${data.background})`}}>
+				<div className={pageInnerClass} style={backgroundImageStyle}>
 					<div className="region__content">
 						<header className="region__header container">
 							{Icon &&
