@@ -1,0 +1,63 @@
+// ======
+// Configuration
+// ========================================
+
+// font stacks 
+$font-url--google: 'https://fonts.googleapis.com/css?family=Roboto:400,700|Archivo+Black:400,700|Tenor+Sans:400';
+$font-family--primary: 'Roboto', Helvetica, Arial, sans-serif;
+$font-family--secondary: 'Archivo Black', Helvetica, Arial, sans-serif;
+$font-family--tertiary: 'Tenor Sans', Helvetica, Arial, sans-serif;
+
+// font sizes
+$font-sizes-body: (
+	md: 18,
+	lg: 22,
+);
+
+// colours
+$black: #000000;
+$white: #ffffff;
+$finlandia: #5b5c5b;
+$sunglow: #ffb732;
+$emperor: #555555;
+$grey--accent	: #4d4d4d;
+$black-transparent: rgba(0,0,0,0.5);
+$clean-transparent: rgba(255,255,255,0);
+$grey-transparent: rgba(0,0,0,0.25);
+
+$orange--active	: $sunglow;
+$orange--dark	: darken($orange--active, 5%);
+$text-color-main: $finlandia;
+$text-color-light: lighten($finlandia, 20%);
+
+// breakpoints
+$bp-xs: 1;
+$bp-sm: 576;
+$bp-md: 768;
+$bp-lg: 992;
+$bp-xl: 1200;
+$bp-xxl: 1400;
+
+// navigation
+$nav-height-sm: 40;
+$nav-height-lg: 75;
+$nav-border-radius: 10;
+$nav-circlelink-width: 45;
+$nav-circlelink-width-xxl: 50;
+
+// direction buttons
+$direction-offset-sm: 5;
+$direction-offset: 20;
+$direction-size-sm: 20;
+$direction-size-lg: 30;
+
+// z-indexes
+$nav-z-index: 10;
+
+// transitions
+$transition-duration: 0.25s;
+
+// pages
+$page-transition-duration: 1s;
+$page-fade-transition-duration: $page-transition-duration / 2;
+$page-sides: 'left', 'top', 'right', 'bottom';

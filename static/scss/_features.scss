@@ -1,0 +1,266 @@
+// ======
+// Page features
+// ========================================
+
+// accordion
+$accordion-heading-height: remcalc(85);
+
+.accordion {
+	background: $white;
+	margin: 0 auto;
+	max-width: remcalc(1000);
+
+	@include mq(md) {
+		box-shadow: 0 0 10px transparentize($black, 0.75);
+	}
+
+	&__panel {
+		&:first-child {
+			.accordion__title {
+				box-shadow: none;
+			}
+		}
+
+		&--current {
+			.accordion__read {
+				display: none;
+			}
+
+			.accordion__close {
+				@include mq(lg) {
+					display: block;
+				}
+			}
+
+			.accordion__overlay {
+				opacity: 0;
+				transition: opacity $transition-duration;
+			}
+		}
+	}
+
+	&__trigger {
+		display: block;
+		position: relative;
+		height: $accordion-heading-height;
+		background: darken($white, 10%);
+		line-height: $accordion-heading-height;
+		color: $text-color-main;
+		transition: background $transition-duration;
+
+		&:hover, &:focus {
+			background: darken($white, 20%);
+		}
+
+		&:hover {
+			.accordion__tooltip {
+				opacity: 1;
+			}
+		}
+	}
+
+	&__title {
+		margin: 0;
+		box-shadow: 0 -#{remcalc(30)} remcalc(25) -#{remcalc(10)} $white;
+	}
+
+	&__tooltip {
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 0;
+		height: $accordion-heading-height;
+		padding-right: 30px;
+		line-height: $accordion-heading-height;
+		opacity: 0;
+		transition: opacity $transition-duration;
+
+		@include mq(md, max) {
+			display: none;
+		}
+	}
+
+	&__close {
+		display: none;
+	}
+
+	&__content {
+		margin: 0 auto;
+		@include sides(90%, remcalc(100));
+		max-width: remcalc(750);
+		overflow: hidden;
+		text-align: left;
+		transition: height $transition-duration * 2;
+	}
+
+	&__contentinner {
+		margin: 0 auto;
+		padding: remcalc(30) 0;
+
+		p {
+			&:first-child {
+				margin-top: 0;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+// demos menu
+.demosfeature {
+	margin: 0 auto;
+	max-width: remcalc(1200);
+
+	@include mq(md) {
+		display: flex;
+		flex-wrap: wrap;
+		box-shadow: 0 0 50px $grey-transparent;
+	}
+
+	&__item {
+		display: inline-block;
+		flex: 1 50%;
+		transition: background 5s;
+
+		@include mq(lg) {
+			flex: 1 50%;
+		}
+	}
+
+	&__link {
+		display: block;
+		position: relative;
+		@include square(100%);
+		background: $clean-transparent;
+		color: $white;
+		transition: all $transition-duration;
+
+		&:hover, &:focus {
+			background: $black-transparent;
+
+			.demosfeature__tooltip {
+				opacity: 1;
+				transform: translateY(-30px);
+			}
+		}
+	}
+
+	&__text {
+		padding: 30px;
+		flex-direction: column;
+		height: 100%;
+
+		@include mq(lg) {
+			padding: 100px;
+		}
+	}
+
+	&__title {
+		margin-top: 0;
+	}
+
+	&__description {
+		margin: 0;
+		text-align: left;
+	}
+
+	&__tooltip {
+		display: block;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		opacity: 0;
+		transition: opacity $transition-duration, transform 0.4s;
+
+		@include mq(md, max) {
+			display: none;
+		}
+	}
+}
+
+// bubble animations
+$bubbles-rising: 3;
+$bubbles-rise-duration: 15s;
+$bubbles-rise-delay: 0s;
+$bubbles-rise-stagger: 5s;
+
+$bubbles-bobbing: 3;
+$bubbles-bob-reach: -20px;
+$bubbles-bob-duration: 3s;
+$bubbles-bob-delay: 0s;
+$bubbles-bob-stagger: 2s;
+
+// create keyframes for rising bubbles
+@keyframes rise {
+	$rise-percentage: 0%;
+	$riseY: 0px;
+	$riseX: 20px;
+
+	@for $i from 1 to 12 {
+
+		// produce alternating directions
+		@if $riseX == -20px {
+			$riseX: 20px;
+		} @else {
+			$riseX: -20px;
+		}
+
+		// add opacity changes for the last two frames
+		@if $rise-percentage == 90% {
+			// the penultimate frame with full opacity
+			#{$rise-percentage} {
+				transform: translate3d(#{$riseX}, -#{$riseY}, 0);
+				opacity: 1;
+			}
+		} @else if $rise-percentage == 100% {
+			// the final frame with zero opacity
+			#{$rise-percentage} {
+				transform: translate3d(#{$riseX}, -#{$riseY}, 0);
+				opacity: 0;
+			}
+		} @else {
+			// a normal frame
+			#{$rise-percentage} {
+				transform: translate3d(#{$riseX}, -#{$riseY}, 0);
+			}
+		}
+		
+		// increment
+		$rise-percentage: $rise-percentage + 10;
+		$riseY: $riseY + 50px;
+	}
+}
+
+// create keyframe for bobbing
+@keyframes bob {
+	50% { 
+		transform: translateY($bubbles-bob-reach); 
+	}
+}
+
+// apply animation to rising bubbles
+@for $i from 1 through $bubbles-rising {
+	.page {
+		.bubble--rise#{$i} {
+			animation: rise $bubbles-rise-duration $bubbles-rise-delay infinite;
+		}
+	}
+	
+	// increment the delay for each bubble's rise
+	$bubbles-rise-delay: $bubbles-rise-delay + $bubbles-rise-stagger;
+}
+
+// apply animations to bobbing bubbles
+@for $i from 1 through $bubbles-bobbing {
+	.page {
+		.bubble--bob#{$i} {
+			animation: bob $bubbles-bob-duration $bubbles-bob-delay infinite;
+		}
+	}
+
+	// increment the delay for each bubble's bob
+	$bubbles-bob-delay: $bubbles-bob-delay + $bubbles-bob-stagger;
+}

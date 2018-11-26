@@ -21,8 +21,8 @@ class App extends PureComponent {
 
 	render() {
 		const { isMovingPages, currentTextColour } = this.props;
-		let className = '';
-		className += isMovingPages ? 'js-moving-regions' : 'js-stationary';
+		let className = 'application__container';
+		className += isMovingPages ? ' js-moving-regions' : ' js-stationary';
 		if (currentTextColour === TEXT_COLOURS.DARK) {
 			className += ' js-nav-backgrounds';
 		}

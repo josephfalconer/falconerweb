@@ -33,7 +33,7 @@ class Page extends PureComponent {
 	render () {
 		const { data, pageClass, lastScrollTop } = this.props;
 		const Icon = Icons[data.icon.toUpperCase()];
-		let pageInnerClass = `region__inner text text--${data.text_colour}`;
+		let pageInnerClass = `page__inner text text--${data.text_colour}`;
 		let backgroundImageStyle = undefined;
 		if (!data.content_modules.length && data.center_content) {
 			pageInnerClass += ' center-content';
@@ -49,14 +49,14 @@ class Page extends PureComponent {
 		return (
 			<article tabIndex="0" ref={this.setScrollWrapper} className={pageClass}>
 				<div className={pageInnerClass} style={backgroundImageStyle}>
-					<div className="region__content">
-						<header className="region__header container">
+					<div className="page__content">
+						<header className="page__header container">
 							{Icon &&
-								<span className="region__icon">{Icon()}</span>
+								<span className="page__icon">{Icon()}</span>
 							}
-							<h1 className="region__title">{data.display_title || data.title}</h1>
+							<h1 className="page__title">{data.display_title || data.title}</h1>
 							{data.intro_text &&
-								<p className="region__intro" dangerouslySetInnerHTML={{__html: data.intro_text}}></p>
+								<p className="page__intro" dangerouslySetInnerHTML={{__html: data.intro_text}}></p>
 							}
 						</header>
 						{renderContentModules(data)}

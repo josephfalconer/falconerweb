@@ -17,7 +17,6 @@ class Navigation extends React.PureComponent {
 				<nav className="nav">
 					<ul className="nav__menu list--plain">
 						{navigationLinks.map((link, index) => {
-							// const navItemClass = link.linked_page.is_homepage ? 'nav__item nav__item--logo' : 'nav__item';
 							const Icon = Icons[link.icon.toUpperCase()];
 							const isCurrent = link.linked_page.slug === currentParentPageSlug;
 							return (

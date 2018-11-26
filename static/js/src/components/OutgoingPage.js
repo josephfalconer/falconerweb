@@ -7,7 +7,7 @@ import Page from './Page';
 const OutgoingPage = props => {
 	// compare incoming and outgoing - Redux store
 	const { data, outgoingPage, currentPage, lastScrollTop } = props;
-	let pageClass = 'region js-hide-overflow js-outgoing js-outgoing-';
+	let pageClass = 'page js-outgoing js-outgoing-';
 	// exit to left or right
 	if (isSideways(currentPage, outgoingPage)) {
 		pageClass += isLeftwards(currentPage, outgoingPage) ? 'right' : 'left';

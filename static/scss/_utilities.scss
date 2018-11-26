@@ -1,0 +1,130 @@
+// ======
+// Utilities and general helper classes
+// ========================================
+
+// functions
+@function remcalc($size) {
+	$rem-size: $size / 16;
+	@return #{$rem-size}rem;
+}
+
+@function break($key) {
+	$pixel-size: map-get((
+		'xs-min': $bp-xs,
+		'sm-min': $bp-sm,
+		'md-min': $bp-md,
+		'lg-min': $bp-lg,
+		'xl-min': $bp-xl,
+		'xxl-min': $bp-xxl,
+		'xs-max': $bp-sm - 1,
+		'sm-max': $bp-md - 1,
+		'md-max': $bp-lg - 1,
+		'lg-max': $bp-xl - 1,
+		'xl-max': $bp-xxl - 1,
+	), $key);
+  @return remcalc($pixel-size);
+}
+
+// mixins
+@mixin square($val) {
+	width: $val;
+	height: $val;
+}
+
+@mixin sides($w, $h) {
+	width: $w;
+	height: $h;
+}
+
+@mixin mq($point, $rule: 'min') {
+  // the media query
+  @if $rule == 'only' {
+    @media (min-width: break(#{$point}-min)) and (max-width: break(#{$point}-max)) {
+      @content
+    }
+  } @else {
+    @media (#{$rule}-width: break(#{$point}-#{$rule})) {
+      @content
+    }
+  }
+}
+
+@mixin fontsizes($font-sizes) {
+	@each $break, $size in $font-sizes {
+		$fontsize: remcalc($size);
+		$lineheight: remcalc($size + 10);
+
+		@include mq(#{$break}) {
+			line-height: #{$lineheight};
+			font-size: #{$fontsize};
+		}
+	}
+}
+
+@mixin page-animations($type) {
+	@each $side in $page-sides {
+		&-#{$side} {
+			animation: #{$type}-#{$side} $page-transition-duration;
+		}
+	}
+}
+
+// helper classes
+.list--plain {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.padding--ends {
+	padding-top: remcalc(80);
+	padding-bottom: remcalc(80);
+
+	@include mq(lg) {
+		padding-top: remcalc(120);
+		padding-bottom: remcalc(120);
+	}
+}
+
+.center-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.link {
+	font-weight: bold;
+	transition: color $transition-duration;
+	
+	&--grey {
+		color: $text-color-main;
+
+		&:hover {
+			color: $text-color-light;
+		}
+	}
+}
+
+.text {
+	@include fontsizes($font-sizes-body);
+
+	&--light {
+		color: $white;
+	}
+}
+
+.textblock {
+	margin: 0 auto;
+	max-width: remcalc(850);
+	text-align: left;	
+}
+
+.container {
+	margin: 0 auto;
+	width: 90%;
+	max-width: remcalc(1000);
+
+  @include mq(md) {
+		width: 80%;
+	}
+}

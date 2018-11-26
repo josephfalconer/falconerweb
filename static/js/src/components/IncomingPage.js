@@ -45,9 +45,9 @@ class IncomingPage extends PureComponent {
 	}
 
 	render() {
-		let pageClass = 'region';
+		let pageClass = 'page';
 		if (this.props.outgoingPage && this.props.isMovingPages) {
-			pageClass = `${pageClass} js-hide-overflow ${this.getTransitonClass()}`;
+			pageClass = `${pageClass} ${this.getTransitonClass()}`;
  		}
 		return (
 			<Page

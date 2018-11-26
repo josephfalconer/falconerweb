@@ -1,6 +1,10 @@
 // ======
-// Global base styles
-// ==================
+// Base styles
+// ========================================
+
+@if variable-exists(font-url--google) {
+	@import url($font-url--google);
+}
 
 * {
 	box-sizing: border-box;
@@ -20,10 +24,10 @@ body {
 	color: $text-color-main;
 }
 
-#application {
+.application {
 	@include square(100%); 
 
-	> div {
+	&__container {
 		@include square(100%); 
 	}
 }
@@ -32,7 +36,10 @@ a {
 	text-decoration: none;
 }
 
-button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+button { 
+	cursor: pointer; 
+	-webkit-tap-highlight-color: transparent; 
+}
 
 h1,
 h2,

@@ -13,7 +13,7 @@ const Main = ({
   isMovingPages,
   location
 }) => (
-	<main className="regions">
+	<main className="pages">
 		{outgoingPage && isMovingPages &&
 			<OutgoingPage data={outgoingPage} />
 		}

@@ -1,12 +1,168 @@
-// ================
-// Sliding frontcover module
-// =========================
+// ======
+// Menu navigation and direction buttons
+// ========================================
 
-$direction-offset-sm: 5;
-$direction-offset: 20;
-$direction-size-sm: 20;
-$direction-size-lg: 30;
+// navigation
+.nav {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	z-index: $nav-z-index;
+	border-radius: remcalc($nav-border-radius) 0 0 0;
+	height: remcalc($nav-height-sm);
+	min-width: remcalc(130);
+	background-color: rgba(255,255,255,0);
+  transition: background-color $transition-duration * 2;
 
+	@include mq(lg) {
+		height: remcalc($nav-height-lg);
+		padding: 0;
+	}
+
+	a { 
+		transition: color $transition-duration; 
+		color: $white; 
+	}
+
+	&__menu {
+		display: flex;
+		@include square(100%);
+		padding: 0 remcalc(5);
+	}
+
+	&__item {
+		display: flex;
+		flex: 1 0 25%;
+		order: 1;
+		justify-content: center;
+    align-items: center;
+		transition: all 1s;
+
+		@include mq(lg) {
+			width: remcalc(70);
+			margin: 0;
+		}
+
+		@include mq(xxl) {
+			width: remcalc(85);
+			margin: 0;
+		}
+	}
+
+	&__link {
+		display: block;
+
+		@include mq(lg) {
+			position: relative;
+			margin-bottom: remcalc(5);
+		}
+
+		.fill {
+			fill: darken($grey--accent, 5%);
+		}
+
+		.stroke {
+			stroke: darken($grey--accent, 5%);
+		}
+
+		circle {
+			stroke: darken($grey--accent, 5%);
+			fill: rgba(255,255,255,0);
+		}
+
+		&--current, &:hover, &:focus {
+			@include mq(md, max) {
+				color: $orange--dark;
+			}
+
+			circle {
+				stroke: $orange--dark;
+			}
+
+			.fill {
+				fill: $orange--dark;
+			}
+
+			.stroke {
+				stroke: $orange--dark;
+			}
+		}
+
+		&:hover {
+			@include mq(lg) {
+				.nav__linktext {
+					transform: translate(-50%,remcalc(5));
+					opacity: 1;
+				}
+			}
+		}
+
+		&--current {
+			.nav__linkcircle {
+				@include mq(md, max) {
+					background-color: $orange--active;
+				}
+			}
+		}
+	}
+
+	&__linkcircle {
+		display: flex;
+		margin: 0 auto;
+		border: remcalc(2) solid $orange--active;
+		border-radius: 50%;
+		@include square(remcalc(15));
+		justify-content: center;
+		align-items: center;
+    transition: all $transition-duration;
+
+    @include mq(lg) {
+			@include square(remcalc($nav-circlelink-width));
+			border: remcalc(2) solid $emperor;
+		}
+
+		@include mq(xxl) {
+			@include square(remcalc($nav-circlelink-width-xxl));
+		}
+	}
+
+	&__icon {
+		@include square(62.5%);
+
+		svg {
+			@include square(100%);
+		}
+	}
+
+	&__linktext {
+		font-family: $font-family--tertiary;
+		
+		@include mq(lg) {
+			position: absolute;
+			left: 50%;
+			bottom: -#{remcalc(10)};
+			font-size: remcalc(14);
+			opacity: 0;
+			transform: translateX(-50%);
+			transition: all 0.4s;
+		}
+	}	
+}
+
+// directions
+@keyframes fade-in-out {
+	0% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
 
 %vertical-direction {
 	left: calc(50% - 35px);
@@ -55,7 +211,7 @@ $direction-size-lg: 30;
 .direction {
 	display: block;
 	position: fixed;
-	z-index: $navigation-z-index;
+	z-index: $nav-z-index;
 	outline: none;
 	color: $white;
 
@@ -195,11 +351,11 @@ $direction-size-lg: 30;
 		left: 0;
 		@include square(100%);			
 
-	    @include mq(md, max) {
-	    	display: flex;
-	    	align-items: center;
-		    justify-content: center;
-	    }	
+    @include mq(md, max) {
+    	display: flex;
+    	align-items: center;
+	    justify-content: center;
+    }	
 
 		&::after {
 			content: "";
@@ -216,8 +372,8 @@ $direction-size-lg: 30;
 			@include mq(lg) {
 				position: absolute;
 				top: remcalc(8.5);
-			    left: remcalc(8.5);
-			    @include square(remcalc(12.5));
+		    left: remcalc(8.5);
+		    @include square(remcalc(12.5));
 			}
 		}
 	}

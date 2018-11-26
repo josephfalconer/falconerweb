@@ -1,21 +1,7 @@
-// ==============
-// Import manifests for all partials
-// =================================
-
-// utilities 
-@import 'utilities/index';
-
-// base 
-@import 'base/index';
-
-// layout 
-@import 'layout/index';
-
-// modules 
-@import 'modules/index';
-
-// states 
-@import 'states/index';
-
-// themes 
-@import 'themes/index';
+@import 'config';
+@import 'utilities';
+@import 'base';
+@import 'pages';
+@import 'navigation';
+@import 'features';
+@import 'states';
