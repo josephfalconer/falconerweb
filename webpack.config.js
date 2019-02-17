@@ -43,7 +43,7 @@ module.exports = {
 						{
 							loader: 'css-loader',
 							options: {
-								outputStyle: 'expanded',
+								outputStyle: 'compressed',
 								sourceMap: true
 							}
 						},
@@ -59,7 +59,7 @@ module.exports = {
 						{
 							loader: 'sass-loader',
 							options: {
-								outputStyle: 'expanded',
+								outputStyle: 'compressed',
 								sourceMap: true
 							}
 						}
@@ -69,6 +69,6 @@ module.exports = {
 		]
 	},
 	plugins:[
-        extractCSS
-    ],
+    extractCSS
+  ],
 };
