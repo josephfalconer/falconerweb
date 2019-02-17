@@ -49,8 +49,8 @@ class Page extends PureComponent {
 		return (
 			<article tabIndex="0" ref={this.setScrollWrapper} className={pageClass}>
 				<div className={pageInnerClass} style={backgroundImageStyle}>
-					<div className="page__content">
-						<header className="page__header container">
+					<div className="page__content container">
+						<header className="page__header">
 							{Icon &&
 								<span className="page__icon">{Icon()}</span>
 							}
