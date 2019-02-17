@@ -122,7 +122,7 @@
 .container {
 	margin: 0 auto;
 	width: 90%;
-	max-width: remcalc(1000);
+	max-width: $container-max-width;
 
   @include mq(md) {
 		width: 80%;

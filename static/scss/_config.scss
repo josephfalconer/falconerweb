@@ -61,3 +61,5 @@ $transition-duration: 0.25s;
 $page-transition-duration: 1s;
 $page-fade-transition-duration: $page-transition-duration / 2;
 $page-sides: 'left', 'top', 'right', 'bottom';
+
+$container-max-width: remcalc(1000);
