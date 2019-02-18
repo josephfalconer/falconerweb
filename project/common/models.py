@@ -20,11 +20,10 @@ class NavigationLink(models.Model):
 	order = models.IntegerField(default=0)
 	icon = models.CharField(max_length=200, choices=ICONS, blank=True)
 	text = models.CharField(max_length=20)
-	linked_page = models.ForeignKey(Page)
+	linked_page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.text
 
 	class Meta:
 		ordering = ['order',]
-		

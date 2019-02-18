@@ -40,7 +40,7 @@ class Page(models.Model):
 	display_title = models.CharField(max_length=255, blank=True)
 	intro_text = models.TextField(blank=True)
 	center_content = models.BooleanField(default=False)
-	parent_page = models.ForeignKey('self', null=True, blank=True, related_name='child_pages')
+	parent_page = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, related_name='child_pages')
 	is_homepage = models.BooleanField(default=False)
 
 	class Meta:
@@ -59,12 +59,12 @@ class Page(models.Model):
 	@property
 	def is_child_page(self):
 		return bool(self.parent_page)
-	
+
 
 class ContentModule(models.Model):
 	order = models.IntegerField(default=0)
 	module_type = models.CharField(max_length=100, choices=CONTENT_MODULE_TYPES)
-	page = models.ForeignKey(Page, related_name='content_modules')
+	page = models.ForeignKey(Page, on_delete=models.CASCADE, related_name='content_modules')
 	text = models.TextField(blank=True)
 
 	def __str__(self):
