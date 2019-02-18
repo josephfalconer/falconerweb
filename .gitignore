@@ -6,6 +6,7 @@ node_modules
 
 # source maps
 static/js/bundle.js.map
+static/css/styles.css.map
 
 # local environment settings
 project/local_settings.py
