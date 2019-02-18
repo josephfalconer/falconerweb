@@ -9,11 +9,11 @@ ICONS = (
 )
 
 BACKGROUNDS = (
-	('/static/backgrounds/asanoha-400px.png', 'Japanese Asanoha'),
-    ('/static/backgrounds/triangles.png', 'Triangles and Hexagons'),
-    ('/static/backgrounds/pyramids.png', 'Pyramids'),
-    ('/static/backgrounds/seigaiha.png', 'Seigaiha'),
-    ('/static/backgrounds/squares.png', 'Grey and White Squares'),
+	('/static/images/asanoha-400px.png', 'Japanese Asanoha'),
+    ('/static/images/triangles.png', 'Triangles and Hexagons'),
+    ('/static/images/pyramids.png', 'Pyramids'),
+    ('/static/images/seigaiha.png', 'Seigaiha'),
+    ('/static/images/squares.png', 'Grey and White Squares'),
 )
 
 TEXT_COLOURS = (
@@ -40,7 +40,7 @@ class Page(models.Model):
 	display_title = models.CharField(max_length=255, blank=True)
 	intro_text = models.TextField(blank=True)
 	center_content = models.BooleanField(default=False)
-	parent_page = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, related_name='child_pages')
+	parent_page = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='child_pages')
 	is_homepage = models.BooleanField(default=False)
 
 	class Meta:

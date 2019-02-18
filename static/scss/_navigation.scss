@@ -361,7 +361,7 @@
 			content: "";
 			display: block;
 			@include square(remcalc(18));
-			background-image: url(/static/arrow.svg);
+			background-image: url(/static/images/arrow.svg);
 			animation: fade-in-out 1s infinite;
 			transition: opacity $transition-duration;
 
@@ -384,7 +384,7 @@
 		top: 0;
 		left: 0;
 		@include square(100%);
-		background: url(/static/arrow-line.svg) no-repeat remcalc(-0.5);
+		background: url(/static/images/arrow-line.svg) no-repeat remcalc(-0.5);
 		background-size: 160%;
 		transition: transform $transition-duration;
 
