@@ -1,18 +1,13 @@
-# virtual environment
-env
-
 # node modules
 node_modules
 
 # pyc files
 *.pyc
 
-# built assets
-static/js/bundle.js
+# source maps
 static/js/bundle.js.map
-static/css/*
 
-# environment settings
+# local environment settings
 project/local_settings.py
 
 # django stuff
