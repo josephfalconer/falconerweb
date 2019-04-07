@@ -2,11 +2,10 @@ import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { updateStoreState } from '../../actions';
 
-
 class ToolsAccordion extends PureComponent {
 	componentDidMount() {
 		if (!this.props.tools.length) {
-			fetch('api/toolkit/')
+			fetch('/api/toolkit/')
 			.then(response => response.json())
 			.then(tools => this.props.updateStoreState({tools}));
 		}

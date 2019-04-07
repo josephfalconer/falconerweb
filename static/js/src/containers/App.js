@@ -11,10 +11,10 @@ import { TEXT_COLOURS } from '../constants';
 
 class App extends PureComponent {
 	componentDidMount() {
-		fetch('api/pages/')
+		fetch('/api/pages/')
 		.then(response => response.json())
 		.then(parentPages => this.props.addPagesData(parentPages));
-		fetch('api/navigation/')
+		fetch('/api/navigation/')
 		.then(response => response.json())
 		.then(navigationLinks => this.props.updateStoreState({navigationLinks}));
 	}

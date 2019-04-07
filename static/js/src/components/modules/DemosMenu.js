@@ -14,9 +14,9 @@ class ModuleDemos extends PureComponent {
 		demos: PropTypes.array.isRequired,
 	};
 
-	componentDidMount() {
+	componentWillMount() {
     this.interval = setInterval(this.setBackgrounds, 3000);
-    fetch('api/demos/')
+    fetch('/api/demos/')
     .then(response => response.json())
     .then(demos => this.props.updateStoreState({demos}));
 	};
