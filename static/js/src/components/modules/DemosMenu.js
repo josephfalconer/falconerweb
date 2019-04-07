@@ -47,7 +47,12 @@ class ModuleDemos extends PureComponent {
           }
 					return (
 						<li className="demosfeature__item" key={`demo-${index}`} style={backgroundStyle}>
-	            <a className="demosfeature__link" target="_blank" rel="noopener noreferrer" href={`${window.location.origin}/demos/${demo.path}`}>
+	            <a 
+                className="demosfeature__link" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                href={`/demo/${demo.path}`}
+              >
                 <div className="demosfeature__text center-content">
                   <h4 className="demosfeature__title">{demo.title}</h4>
                   <p className="demosfeature__description" dangerouslySetInnerHTML={{__html: demo.text}}></p>

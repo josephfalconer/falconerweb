@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { updateStoreState } from '../../actions';
 
 class ToolsAccordion extends PureComponent {
@@ -50,6 +51,13 @@ class ToolsAccordion extends PureComponent {
 						);
 					})}
 				</div>
+				<p className="page__intro">
+					Click
+					{' '}
+					<Link to="/demos/play">here</Link>
+					{' '}
+					to play some JavaScript games I made.
+				</p>
 			</div>
 		);
 	} 	
