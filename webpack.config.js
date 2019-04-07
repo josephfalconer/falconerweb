@@ -9,9 +9,9 @@ const autoPrefixer = require('autoprefixer');
 module.exports = {
 	entry: './static/js/src/index.js',
 	output: {
-        path: path.join(__dirname, 'static/js'),
-        filename: 'bundle.js'
-    },
+    path: path.join(__dirname, 'static/js'),
+    filename: 'bundle.js'
+  },
 	devtool: "source-map",
 	module: {
 		loaders: [
