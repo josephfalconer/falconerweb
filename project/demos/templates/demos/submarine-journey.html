@@ -3,47 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Submarine Explorer</title>
-	<meta name="viewport" content="width=device-width">
-	<link rel="stylesheet" type="text/css" href="{% static 'demos/submarine-game/css/submarine.css' %}">
+  <title>Submarine Scrolling Game</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="{% static 'demos/submarine-game/css/styles.css' %}">
 </head>
 <body>
-	<!-- It would be good to stop the elements shifting when scrollbar appears/disappears -->
-	<div class="sea__container">
-		<div class="sea__inner">
-		
-			<h1 class="main-heading">Submarine Wildlife Adventure</h1>
-
-			<!-- 5 sea creatures -->
-			<div class="creature creature--1 right-offset seahorse"></div>
-			<div class="creature creature--2 right-offset turtle"></div>
-			<div class="creature creature--3 left-offset clown"></div>
-			<div class="creature creature--4 left-offset humpback-whale"></div>
-			<div class="creature creature--5 left-offset frilled-shark"></div>
-
-			<!-- Four background layers of sea plants with parallax effect -->
-			<div class="parallax__layer parallax__layer--0"></div>
-			<div class="parallax__layer parallax__layer--1"></div>
-			<div class="parallax__layer parallax__layer--2"></div>
-			<div class="parallax__layer parallax__layer--3"></div>
-				
-			<div class="submarine"> </div>
-		</div>
-		
-	</div>
-	
-	<div class="quiz">
-		<!-- The centered text area -->
-		<div class="quiz__panel">
-			<p id="question" class="quiz__question"></p>
-			<!-- Buttons are added here dynamically through JavaScript -->
-			<div class="quiz__choices"></div>
-		</div>
-		<span class="quiz__arrow visible">&darr;</span>
-	</div>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script type="text/javascript" src="{% static 'demos/submarine-game/js/app.js' %}"></script>
-
+  <div id="app"></div>
+  <script type="text/javascript" src="{% static 'demos/submarine-game/js/bundle.js' %}"></script>
 </body>
 </html>
