@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 
 import { updateStoreState } from '../../actions';
 
-function getHSL() { 
+function getHSL() {
   // within blue colour range
   let randomHue = Math.floor(Math.random() * (240 - 170 + 1 ) + 170);
   return `hsl(${randomHue}, 90%, 30%)`;
 }
 
-class ModuleDemos extends PureComponent {
+class Demos extends PureComponent {
 	static propTypes = {
 		demos: PropTypes.array.isRequired,
 	};
@@ -17,8 +17,8 @@ class ModuleDemos extends PureComponent {
 	componentWillMount() {
     this.interval = setInterval(this.setBackgrounds, 3000);
     fetch('/api/demos/')
-    .then(response => response.json())
-    .then(demos => this.props.updateStoreState({demos}));
+      .then(response => response.json())
+      .then(demos => this.props.updateStoreState({demos}));
 	};
 
 	componentWillUnmount() {
@@ -39,36 +39,36 @@ class ModuleDemos extends PureComponent {
 	render() {
     const { demos, demoBackgroundColours } = this.props;
 		return (
-			<ul className="demosfeature list--plain text" data-js="ShiftingBackgrounds">
+			<ul className="demos list--plain text" data-js="ShiftingBackgrounds">
 				{demos.map((demo, index) => {
           let backgroundStyle = {}
           if (demoBackgroundColours.length) {
             backgroundStyle['backgroundColor'] = demoBackgroundColours[index];
           }
 					return (
-						<li className="demosfeature__item" key={`demo-${index}`} style={backgroundStyle}>
-	            <a 
-                className="demosfeature__link" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+						<li className="demos__item" key={`demo-${index}`} style={backgroundStyle}>
+	            <a
+                className="demos__link"
+                target="_blank"
+                rel="noopener noreferrer"
                 href={`/play/${demo.path}`}
               >
-                <div className="demosfeature__text center-content">
-                  <h4 className="demosfeature__title">{demo.title}</h4>
-                  <p className="demosfeature__description" dangerouslySetInnerHTML={{__html: demo.text}}></p>
+                <div className="demos__text center-content">
+                  <h4 className="demos__title">{demo.title}</h4>
+                  <p className="demos__description" dangerouslySetInnerHTML={{__html: demo.text}}></p>
                 </div>
-                <span className="demosfeature__tooltip">Open</span>
+                <span className="demos__tooltip">Open</span>
 	            </a>
   	        </li>
 					);
 				})}
 			</ul>
 		);
-	} 	
+	}
 }
 
 function mapStateToProps({demos, demoBackgroundColours}) {
-  return { 
+  return {
   	demos: demos || [],
     demoBackgroundColours: demoBackgroundColours || []
   }
@@ -76,4 +76,4 @@ function mapStateToProps({demos, demoBackgroundColours}) {
 
 export default connect(mapStateToProps, {
   updateStoreState
-})(ModuleDemos);
+})(Demos);
