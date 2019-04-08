@@ -12,10 +12,10 @@ api_urlpatterns = [
 ]
 
 urlpatterns = [
-  	url(r'^demo/', include('project.demos.urls')),
+  	url(r'^play/', include('project.demos.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(api_urlpatterns)),
-    url(r'^(?!^api|^demo|^admin).*', views.MainTemplateView.as_view()),
+    url(r'^(?!^api|^play|^admin).*', views.MainTemplateView.as_view()),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

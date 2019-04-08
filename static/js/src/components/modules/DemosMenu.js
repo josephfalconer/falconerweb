@@ -51,7 +51,7 @@ class ModuleDemos extends PureComponent {
                 className="demosfeature__link" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                href={`/demo/${demo.path}`}
+                href={`/play/${demo.path}`}
               >
                 <div className="demosfeature__text center-content">
                   <h4 className="demosfeature__title">{demo.title}</h4>
