@@ -110,7 +110,7 @@ $accordion-heading-height: remcalc(85);
 }
 
 // demos menu
-.demosfeature {
+.demos {
 	margin: 0 auto;
 	max-width: remcalc(1200);
 
@@ -141,7 +141,7 @@ $accordion-heading-height: remcalc(85);
 		&:hover, &:focus {
 			background: $black-transparent;
 
-			.demosfeature__tooltip {
+			.demos__tooltip {
 				opacity: 1;
 				transform: translateY(-30px);
 			}
