@@ -6,10 +6,10 @@ import IconSkills from './IconSkills';
 import IconDemos from './IconDemos';
 
 const Icons = {
-	LOGO: () => <IconLogo />,
-	TOOLS: () => <IconSkills />,
-	PROJECTS: () => <IconProjects />,
-	DEMOS: () => <IconDemos />
+  LOGO: () => <IconLogo />,
+  TOOLS: () => <IconSkills />,
+  PROJECTS: () => <IconProjects />,
+  DEMOS: () => <IconDemos />
 }
 
 export default Icons;

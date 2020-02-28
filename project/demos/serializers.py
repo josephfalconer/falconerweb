@@ -4,6 +4,6 @@ from project.demos.models import Demo
 
 class DemoListSerializer(serializers.ModelSerializer):
 
-	class Meta:
-		model = Demo
-		fields = ('title', 'text', 'path')
+    class Meta:
+        model = Demo
+        fields = ('title', 'text', 'path')

@@ -5,9 +5,9 @@ from project.common.serializers import NavigationSerializer
 
 
 class MainTemplateView(TemplateView):
-	template_name = 'main.html'
+    template_name = 'main.html'
 
 
 class NavigationListView(generics.ListAPIView):
-	serializer_class = NavigationSerializer
-	queryset = NavigationLink.objects.all()
+    serializer_class = NavigationSerializer
+    queryset = NavigationLink.objects.all()

@@ -4,400 +4,400 @@
 
 // navigation
 .nav {
-	position: fixed;
-	right: 0;
-	bottom: 0;
-	z-index: $nav-z-index;
-	border-radius: remcalc($nav-border-radius) 0 0 0;
-	height: remcalc($nav-height-sm);
-	min-width: remcalc(130);
-	background-color: rgba(255,255,255,0);
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: $nav-z-index;
+  border-radius: remcalc($nav-border-radius) 0 0 0;
+  height: remcalc($nav-height-sm);
+  min-width: remcalc(130);
+  background-color: rgba(255,255,255,0);
   transition: background-color $transition-duration * 2;
 
-	@include mq(lg) {
-		height: remcalc($nav-height-lg);
-		padding: 0;
-	}
+  @include mq(lg) {
+    height: remcalc($nav-height-lg);
+    padding: 0;
+  }
 
-	a { 
-		transition: color $transition-duration; 
-		color: $white; 
-	}
+  a {
+    transition: color $transition-duration;
+    color: $white;
+  }
 
-	&__menu {
-		display: flex;
-		@include square(100%);
-		padding: 0 remcalc(5);
-	}
+  &__menu {
+    display: flex;
+    @include square(100%);
+    padding: 0 remcalc(5);
+  }
 
-	&__item {
-		display: flex;
-		flex: 1 0 25%;
-		order: 1;
-		justify-content: center;
+  &__item {
+    display: flex;
+    flex: 1 0 25%;
+    order: 1;
+    justify-content: center;
     align-items: center;
-		transition: all 1s;
+    transition: all 1s;
 
-		@include mq(lg) {
-			width: remcalc(70);
-			margin: 0;
-		}
+    @include mq(lg) {
+      width: remcalc(70);
+      margin: 0;
+    }
 
-		@include mq(xxl) {
-			width: remcalc(85);
-			margin: 0;
-		}
-	}
+    @include mq(xxl) {
+      width: remcalc(85);
+      margin: 0;
+    }
+  }
 
-	&__link {
-		display: block;
+  &__link {
+    display: block;
 
-		@include mq(lg) {
-			position: relative;
-			margin-bottom: remcalc(5);
-		}
+    @include mq(lg) {
+      position: relative;
+      margin-bottom: remcalc(5);
+    }
 
-		.fill {
-			fill: darken($grey--accent, 5%);
-		}
+    .fill {
+      fill: darken($grey--accent, 5%);
+    }
 
-		.stroke {
-			stroke: darken($grey--accent, 5%);
-		}
+    .stroke {
+      stroke: darken($grey--accent, 5%);
+    }
 
-		circle {
-			stroke: darken($grey--accent, 5%);
-			fill: rgba(255,255,255,0);
-		}
+    circle {
+      stroke: darken($grey--accent, 5%);
+      fill: rgba(255,255,255,0);
+    }
 
-		&--current, &:hover, &:focus {
-			@include mq(md, max) {
-				color: $orange--dark;
-			}
+    &--current, &:hover, &:focus {
+      @include mq(md, max) {
+        color: $orange--dark;
+      }
 
-			circle {
-				stroke: $orange--dark;
-			}
+      circle {
+        stroke: $orange--dark;
+      }
 
-			.fill {
-				fill: $orange--dark;
-			}
+      .fill {
+        fill: $orange--dark;
+      }
 
-			.stroke {
-				stroke: $orange--dark;
-			}
-		}
+      .stroke {
+        stroke: $orange--dark;
+      }
+    }
 
-		&:hover {
-			@include mq(lg) {
-				.nav__linktext {
-					transform: translate(-50%,remcalc(5));
-					opacity: 1;
-				}
-			}
-		}
+    &:hover {
+      @include mq(lg) {
+        .nav__linktext {
+          transform: translate(-50%,remcalc(5));
+          opacity: 1;
+        }
+      }
+    }
 
-		&--current {
-			.nav__linkcircle {
-				@include mq(md, max) {
-					background-color: $orange--active;
-				}
-			}
-		}
-	}
+    &--current {
+      .nav__linkcircle {
+        @include mq(md, max) {
+          background-color: $orange--active;
+        }
+      }
+    }
+  }
 
-	&__linkcircle {
-		display: flex;
-		margin: 0 auto;
-		border: remcalc(2) solid $orange--active;
-		border-radius: 50%;
-		@include square(remcalc(15));
-		justify-content: center;
-		align-items: center;
+  &__linkcircle {
+    display: flex;
+    margin: 0 auto;
+    border: remcalc(2) solid $orange--active;
+    border-radius: 50%;
+    @include square(remcalc(15));
+    justify-content: center;
+    align-items: center;
     transition: all $transition-duration;
 
     @include mq(lg) {
-			@include square(remcalc($nav-circlelink-width));
-			border: remcalc(2) solid $emperor;
-		}
+      @include square(remcalc($nav-circlelink-width));
+      border: remcalc(2) solid $emperor;
+    }
 
-		@include mq(xxl) {
-			@include square(remcalc($nav-circlelink-width-xxl));
-		}
-	}
+    @include mq(xxl) {
+      @include square(remcalc($nav-circlelink-width-xxl));
+    }
+  }
 
-	&__icon {
-		@include square(62.5%);
+  &__icon {
+    @include square(62.5%);
 
-		svg {
-			@include square(100%);
-		}
-	}
+    svg {
+      @include square(100%);
+    }
+  }
 
-	&__linktext {
-		font-family: $font-family--tertiary;
-		
-		@include mq(lg) {
-			position: absolute;
-			left: 50%;
-			bottom: -#{remcalc(10)};
-			font-size: remcalc(14);
-			opacity: 0;
-			transform: translateX(-50%);
-			transition: all 0.4s;
-		}
-	}	
+  &__linktext {
+    font-family: $font-family--tertiary;
+
+    @include mq(lg) {
+      position: absolute;
+      left: 50%;
+      bottom: -#{remcalc(10)};
+      font-size: remcalc(14);
+      opacity: 0;
+      transform: translateX(-50%);
+      transition: all 0.4s;
+    }
+  }
 }
 
 // directions
 @keyframes fade-in-out {
-	0% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0;
+  }
 
-	50% {
-		opacity: 1;
-	}
+  50% {
+    opacity: 1;
+  }
 
-	100% {
-		opacity: 0;
-	}
+  100% {
+    opacity: 0;
+  }
 }
 
 %vertical-direction {
-	left: calc(50% - 35px);
-	@include sides(remcalc(70), remcalc($nav-height-sm));
+  left: calc(50% - 35px);
+  @include sides(remcalc(70), remcalc($nav-height-sm));
 
-	@include mq(lg) {
-		left: calc(50% - 50px);
-		@include sides(remcalc(100), remcalc(50));
-	}
+  @include mq(lg) {
+    left: calc(50% - 50px);
+    @include sides(remcalc(100), remcalc(50));
+  }
 
-	.direction__text {
-		left: remcalc(-35);
-		width: remcalc(100);
-		text-align: center;
-	}
+  .direction__text {
+    left: remcalc(-35);
+    width: remcalc(100);
+    text-align: center;
+  }
 
-	&:hover {
-		i {
-			&:first-of-type {
-				transform: translate(10px,-10px) rotate(45deg);
-			}
+  &:hover {
+    i {
+      &:first-of-type {
+        transform: translate(10px,-10px) rotate(45deg);
+      }
 
-			&:last-of-type {
-				transform: translate(-10px,10px) rotate(45deg);
-			}
-		}
-	}
+      &:last-of-type {
+        transform: translate(-10px,10px) rotate(45deg);
+      }
+    }
+  }
 }
 
 %sideways-direction {
-	top: calc(50% - 15px);
+  top: calc(50% - 15px);
 
-	&:hover {
-		i {
-			&:first-of-type {
-				transform: rotate(135deg);
-			}
+  &:hover {
+    i {
+      &:first-of-type {
+        transform: rotate(135deg);
+      }
 
-			&:last-of-type {
-				transform: rotate(-45deg);
-			}
-		}
-	}
+      &:last-of-type {
+        transform: rotate(-45deg);
+      }
+    }
+  }
 }
 
 .direction {
-	display: block;
-	position: fixed;
-	z-index: $nav-z-index;
-	outline: none;
-	color: $white;
+  display: block;
+  position: fixed;
+  z-index: $nav-z-index;
+  outline: none;
+  color: $white;
 
-	&:hover {
-		.direction__text {
-			opacity: 1;
-		}
+  &:hover {
+    .direction__text {
+      opacity: 1;
+    }
 
-		.direction__icon {
-			&::after {
-				@include mq(lg) {
-					animation: none;
-					opacity: 0;
-				}
-			}
-		}
-	}
+    .direction__icon {
+      &::after {
+        @include mq(lg) {
+          animation: none;
+          opacity: 0;
+        }
+      }
+    }
+  }
 
-	&--prev {
-		@extend %sideways-direction;
-		left: remcalc(10);
+  &--prev {
+    @extend %sideways-direction;
+    left: remcalc(10);
 
-		@include mq(lg) {
-			left: remcalc($direction-offset);
-		}
+    @include mq(lg) {
+      left: remcalc($direction-offset);
+    }
 
-		.direction__text {
-			left: 0;
-		}
+    .direction__text {
+      left: 0;
+    }
 
-		.direction__icon {
-			@include mq(lg) {
-				transform: rotate(-45deg);
-			}
+    .direction__icon {
+      @include mq(lg) {
+        transform: rotate(-45deg);
+      }
 
-			&::after {
-				@include mq(md, max) {
-					transform: rotate(-45deg);
-				}
-			}
-		}
-	}
+      &::after {
+        @include mq(md, max) {
+          transform: rotate(-45deg);
+        }
+      }
+    }
+  }
 
-	&--next {
-		@extend %sideways-direction;
-		right: remcalc(10);		
+  &--next {
+    @extend %sideways-direction;
+    right: remcalc(10);
 
-		@include mq(lg) {
-			right: remcalc($direction-offset);
-		}
+    @include mq(lg) {
+      right: remcalc($direction-offset);
+    }
 
-		.direction__text {
-			right: 0;
-		}
+    .direction__text {
+      right: 0;
+    }
 
-		.direction__icon {
-			@include mq(lg) {
-				transform: rotate(135deg);
-			}
+    .direction__icon {
+      @include mq(lg) {
+        transform: rotate(135deg);
+      }
 
-			&::after {
-				@include mq(md, max) {
-					transform: rotate(135deg);
-				}
-			}
-		}
-	}
+      &::after {
+        @include mq(md, max) {
+          transform: rotate(135deg);
+        }
+      }
+    }
+  }
 
-	&--up {
-		@extend %vertical-direction;
-		top: 0;
-		border-radius: 0 0 remcalc($nav-border-radius) remcalc($nav-border-radius);
+  &--up {
+    @extend %vertical-direction;
+    top: 0;
+    border-radius: 0 0 remcalc($nav-border-radius) remcalc($nav-border-radius);
 
-		.direction__inner {
-			margin: remcalc(5) auto 0;
+    .direction__inner {
+      margin: remcalc(5) auto 0;
 
-			@include mq(lg) {
-				margin-top: remcalc($direction-offset)
-			}
-		}
-		
-		.direction__icon {
-			@include mq(lg) {
-				transform: rotate(45deg);
-			}
+      @include mq(lg) {
+        margin-top: remcalc($direction-offset)
+      }
+    }
 
-			&::after {
-				@include mq(md, max) {
-					transform: rotate(45deg);
-				}
-			}
-		}
-	}
+    .direction__icon {
+      @include mq(lg) {
+        transform: rotate(45deg);
+      }
 
-	&--down {
-		@extend %vertical-direction;
-		bottom: 0;
-		border-radius: remcalc($nav-border-radius) remcalc($nav-border-radius) 0 0;
+      &::after {
+        @include mq(md, max) {
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
 
-		.direction__icon {
-			@include mq(lg) {
-				transform: rotate(225deg);
-			}
+  &--down {
+    @extend %vertical-direction;
+    bottom: 0;
+    border-radius: remcalc($nav-border-radius) remcalc($nav-border-radius) 0 0;
 
-			&::after {
-				@include mq(md, max) {
-					margin-bottom: remcalc($direction-offset-sm);
-					transform: rotate(225deg);
-				}
-			}
-		}
-	}
+    .direction__icon {
+      @include mq(lg) {
+        transform: rotate(225deg);
+      }
 
-	&__inner {
-		display: block;
-		position: relative;
-		margin: 0 auto;
-		@include sides(remcalc($direction-size-sm), 100%);
+      &::after {
+        @include mq(md, max) {
+          margin-bottom: remcalc($direction-offset-sm);
+          transform: rotate(225deg);
+        }
+      }
+    }
+  }
 
-		@include mq(lg) {
-			@include sides(remcalc($direction-size-lg), remcalc($direction-size-lg));
-		}
+  &__inner {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    @include sides(remcalc($direction-size-sm), 100%);
 
-	}
+    @include mq(lg) {
+      @include sides(remcalc($direction-size-lg), remcalc($direction-size-lg));
+    }
 
-	&__text {
-		position: absolute;
-		top: 0;
-		line-height: remcalc($direction-size-lg);
-		opacity: 0;
-		transition: opacity $transition-duration;
-	}
+  }
 
-	&__icon {
-		position: absolute;
-		top: 0;
-		left: 0;
-		@include square(100%);			
+  &__text {
+    position: absolute;
+    top: 0;
+    line-height: remcalc($direction-size-lg);
+    opacity: 0;
+    transition: opacity $transition-duration;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    @include square(100%);
 
     @include mq(md, max) {
-    	display: flex;
-    	align-items: center;
-	    justify-content: center;
-    }	
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-		&::after {
-			content: "";
-			display: block;
-			@include square(remcalc(18));
-			background-image: url(/static/images/arrow.svg);
-			animation: fade-in-out 1s infinite;
-			transition: opacity $transition-duration;
+    &::after {
+      content: "";
+      display: block;
+      @include square(remcalc(18));
+      background-image: url(/static/images/arrow.svg);
+      animation: fade-in-out 1s infinite;
+      transition: opacity $transition-duration;
 
-			@include mq(sm, max) {
-				background-size: remcalc(32);
-			}
+      @include mq(sm, max) {
+        background-size: remcalc(32);
+      }
 
-			@include mq(lg) {
-				position: absolute;
-				top: remcalc(8.5);
-		    left: remcalc(8.5);
-		    @include square(remcalc(12.5));
-			}
-		}
-	}
+      @include mq(lg) {
+        position: absolute;
+        top: remcalc(8.5);
+        left: remcalc(8.5);
+        @include square(remcalc(12.5));
+      }
+    }
+  }
 
-	i {
-		display: block;
-		position: absolute;
-		top: 0;
-		left: 0;
-		@include square(100%);
-		background: url(/static/images/arrow-line.svg) no-repeat remcalc(-0.5);
-		background-size: 160%;
-		transition: transform $transition-duration;
+  i {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    @include square(100%);
+    background: url(/static/images/arrow-line.svg) no-repeat remcalc(-0.5);
+    background-size: 160%;
+    transition: transform $transition-duration;
 
-		@include mq(md, max) {
-			display: none;
-		}
+    @include mq(md, max) {
+      display: none;
+    }
 
-		@include mq(md) {
-			background-size: cover;
-		}
+    @include mq(md) {
+      background-size: cover;
+    }
 
-		&:first-of-type {
-			transform: rotate(90deg);
-		}
-	}
+    &:first-of-type {
+      transform: rotate(90deg);
+    }
+  }
 }
