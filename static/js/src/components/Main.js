@@ -17,37 +17,33 @@ const Main = ({
     {outgoingPage && isMovingPages &&
       <OutgoingPage data={outgoingPage} />
     }
-    {parentPages && parentPages.map(parentPage => {
-      const { slug, child_pages } = parentPage;
-      const parentPageSlug = parentPage.is_homepage ? '' : slug;
-      return (
-        <div key={`page-${slug}`}>
+    {parentPages && parentPages.map(parentPage => (
+      <div key={`page-${parentPage.slug}`}>
+        <Route
+          exact
+          path={`/${parentPage.slug}`}
+          render={() => (
+            <IncomingPage
+              pathToParent={parentPage.slug}
+              data={parentPage}
+              location={location}
+            />
+          )}
+        />
+        {parentPage.child_pages.map(childPage => (
           <Route
-            exact
-            path={parentPage.is_homepage ? '/' : `/${slug}/`}
+            key={`page-${childPage.slug}`}
+            path={`${(parentPage.is_homepage ? '' : '/') + parentPage.slug}/${childPage.slug}/`}
             render={() => (
               <IncomingPage
-                pathToParent={parentPageSlug}
-                data={parentPage}
-                location={location}
+                pathToParent={parentPage.slug}
+                data={childPage}
               />
             )}
           />
-          {child_pages && child_pages.map(childPage => (
-            <Route
-              key={`page-${childPage.slug}`}
-              path={`${parentPage.is_homepage ? '' : '/' + slug}/${childPage.slug}/`}
-              render={() => (
-                <IncomingPage
-                  pathToParent={parentPageSlug}
-                  data={childPage}
-                />
-              )}
-            />
-          ))}
-        </div>
-      )
-    })}
+        ))}
+      </div>
+    ))}
   </main>
 );
 

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 
 ICONS = (
@@ -32,7 +33,6 @@ class Page(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     order = models.IntegerField(default=0)
     custom_slug = models.CharField(max_length=255, blank=True, null=True, unique=True)
-    slug = models.CharField(max_length=255, unique=True)
     icon = models.CharField(max_length=200, choices=ICONS, blank=True)
     background = models.CharField(max_length=200, choices=BACKGROUNDS, blank=True)
     text_colour = models.CharField(max_length=200, choices=TEXT_COLOURS, default='dark')
@@ -50,15 +50,23 @@ class Page(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if self.custom_slug is not None and self.custom_slug.strip() == '':
-            self.custom_slug = None
-        if self.is_homepage:
-            self.__class__.objects.filter(is_homepage=True).exclude(pk=self.pk).update(is_homepage=False)
-        super().save(*args, **kwargs)
+        original_object = Page.objects.filter(pk=self.pk).first()
+        was_homepage = original_object and original_object.is_homepage
+
+        super(Page, self).save(*args, **kwargs)
+
+        if not was_homepage and self.is_homepage:
+            Page.objects.filter(is_homepage=True).exclude(pk=self.pk).update(is_homepage=False)
 
     @property
     def is_child_page(self):
         return bool(self.parent_page)
+
+    @property
+    def slug(self):
+        if self.is_homepage:
+            return ''
+        return slugify(self.custom_slug) if self.custom_slug else slugify(self.title)
 
 
 class ContentModule(models.Model):
