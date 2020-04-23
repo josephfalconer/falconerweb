@@ -4,5 +4,5 @@ from project.toolkit.serializers import ToolsListSerializer
 
 
 class ToolsListView(generics.ListAPIView):
-	queryset = Tool.objects.all()
-	serializer_class = ToolsListSerializer
+    queryset = Tool.objects.all()
+    serializer_class = ToolsListSerializer

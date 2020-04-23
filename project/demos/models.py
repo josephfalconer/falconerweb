@@ -3,4 +3,4 @@ from project.common.models import GenericItem
 
 
 class Demo(GenericItem):
-	path = models.CharField(max_length=255)
+    path = models.CharField(max_length=255)

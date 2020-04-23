@@ -4,5 +4,5 @@ from project.pages.views import PagesView
 
 
 urlpatterns = [
-	url(r'^$', PagesView.as_view(), name='pages'),
+    url(r'^$', PagesView.as_view(), name='pages'),
 ]

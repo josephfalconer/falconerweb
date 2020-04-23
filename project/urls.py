@@ -12,7 +12,7 @@ api_urlpatterns = [
 ]
 
 urlpatterns = [
-  	url(r'^play/', include('project.demos.urls')),
+    url(r'^play/', include('project.demos.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(api_urlpatterns)),
     url(r'^(?!^api|^play|^admin).*', views.MainTemplateView.as_view()),

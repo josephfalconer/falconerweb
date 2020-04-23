@@ -71,8 +71,8 @@ IncomingPage.propTypes = {
 }
 
 function mapStateToProps({
-	isMovingPages, 
-	outgoingPage, 
+	isMovingPages,
+	outgoingPage,
 	currentPage,
 	currentPageScrollWrapper,
 }, props) {

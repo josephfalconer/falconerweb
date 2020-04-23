@@ -4,7 +4,7 @@ from project.pages.models import Page
 
 
 class PagesView(generics.ListAPIView):
-	serializer_class = PageListSerializer
+    serializer_class = PageListSerializer
 
-	def get_queryset(self):
-		return Page.objects.filter(parent_page__isnull=True)
+    def get_queryset(self):
+        return Page.objects.filter(parent_page__isnull=True)

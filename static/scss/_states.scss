@@ -4,76 +4,76 @@
 
 // JS toggle classes
 .js {
-	&-outgoing {
-		z-index: $nav-z-index - 2;
-		@include page-animations('out-to');	
+  &-outgoing {
+    z-index: $nav-z-index - 2;
+    @include page-animations('out-to');
 
-		&-fade {
-			animation: out-to-fade $page-fade-transition-duration forwards;
-		}	
-	}
+    &-fade {
+      animation: out-to-fade $page-fade-transition-duration forwards;
+    }
+  }
 
-	&-incoming {
-		z-index: $nav-z-index - 1;
-		@include page-animations('in-from');
+  &-incoming {
+    z-index: $nav-z-index - 1;
+    @include page-animations('in-from');
 
-		&-fade {
-			opacity: 0;
-			animation: in-from-fade $page-fade-transition-duration $page-fade-transition-duration;
-		}
-	}
+    &-fade {
+      opacity: 0;
+      animation: in-from-fade $page-fade-transition-duration $page-fade-transition-duration;
+    }
+  }
 
-	&-nav-backgrounds {
-		.nav,
-		.direction {
-			background-color: $black-transparent;
-		}
-	}
+  &-nav-backgrounds {
+    .nav,
+    .direction {
+      background-color: $black-transparent;
+    }
+  }
 }
 
 .direction {
-	transition: all $page-transition-duration / 2;
-	
-	&.js-hidden-button {
-		pointer-events: none;
-		opacity: 0;
-	}
+  transition: all $page-transition-duration / 2;
 
-	&.js-visible-button {
-		transform: none;
-		opacity: 1;
-	}
+  &.js-hidden-button {
+    pointer-events: none;
+    opacity: 0;
+  }
 
-	&--prev {
-		&.js-hidden-button {
-			transform: translateX(-100%);
-		}
-	}
+  &.js-visible-button {
+    transform: none;
+    opacity: 1;
+  }
 
-	&--next {
-		&.js-hidden-button {
-			transform: translateX(100%);
-		}
-	}
+  &--prev {
+    &.js-hidden-button {
+      transform: translateX(-100%);
+    }
+  }
 
-	&--up {
-		&.js-hidden-button {
-			transform: translateY(-100%);
-		}
-	}
+  &--next {
+    &.js-hidden-button {
+      transform: translateX(100%);
+    }
+  }
 
-	&--down {
-		&.js-hidden-button {
-			transform: translateY(100%);
-		}
-	}
+  &--up {
+    &.js-hidden-button {
+      transform: translateY(-100%);
+    }
+  }
+
+  &--down {
+    &.js-hidden-button {
+      transform: translateY(100%);
+    }
+  }
 }
 
 // display classes
 .is-displayed-lg {
-	display: none;
-	
-	@include mq(lg) {
-		display: block;
-	}
+  display: none;
+
+  @include mq(lg) {
+    display: block;
+  }
 }

@@ -13,3 +13,6 @@ project/local_settings.py
 
 # django stuff
 collected-static/
+
+# virtual envs
+env/

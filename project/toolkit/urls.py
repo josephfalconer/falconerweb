@@ -3,5 +3,5 @@ from project.toolkit.views import ToolsListView
 
 
 urlpatterns = [
-	url(r'^$', ToolsListView.as_view(), name='list'),
+    url(r'^$', ToolsListView.as_view(), name='list'),
 ]

@@ -5,14 +5,14 @@ from project.pages.models import Page
 
 class NavigationLinkPageSerializer(serializers.ModelSerializer):
 
-	class Meta:
-		model = Page
-		fields = ('is_homepage', 'slug')
+    class Meta:
+        model = Page
+        fields = ('is_homepage', 'slug')
 
 
 class NavigationSerializer(serializers.ModelSerializer):
-	linked_page = NavigationLinkPageSerializer()
+    linked_page = NavigationLinkPageSerializer()
 
-	class Meta:
-		model = NavigationLink
-		fields= ('text', 'linked_page', 'icon')
+    class Meta:
+        model = NavigationLink
+        fields= ('text', 'linked_page', 'icon')
