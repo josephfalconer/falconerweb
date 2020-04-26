@@ -16,3 +16,6 @@ collected-static/
 
 # virtual envs
 env/
+
+# DB
+db.sqlite3
