@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   navigationLinks: [],
   parentPages: [],
   skills: [],
-  isMovingPages: false,
+  isPageTransition: false,
   currentTextColour: 'light',
 }
 

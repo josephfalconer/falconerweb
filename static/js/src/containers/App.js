@@ -1,11 +1,11 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { Fragment, PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Link, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import { addPagesData, updateStoreState } from '../actions';
 import DirectionButtons from '../components/DirectionButtons';
-import Main from '../components/Main';
+import Page from '../components/Page';
 import Navigation from '../components/Navigation';
 import { TEXT_COLOURS } from '../constants';
 
@@ -20,34 +20,72 @@ class App extends PureComponent {
   }
 
   render() {
-    const { isMovingPages, currentTextColour } = this.props;
-    let className = 'application__container';
-    className += isMovingPages ? ' js-moving-regions' : ' js-stationary';
-    if (currentTextColour === TEXT_COLOURS.DARK) {
-      className += ' js-nav-backgrounds';
-    }
+    const { isPageTransition, currentTextColour, parentPages } = this.props;
     return (
-      <div className={className}>
+      <main className={this.getAppContainerClassName()}>
         <header>
           <Navigation />
           <DirectionButtons />
         </header>
-        <Main />
-      </div>
+        {parentPages && parentPages.map(parentPage => (
+          <Fragment key={parentPage.slug}>
+            <Route
+              exact
+              path={`/${parentPage.slug}`}
+              render={() => (
+                <Page
+                  pathToParent={parentPage.slug}
+                  pageData={parentPage}
+                />
+              )}
+            />
+            {parentPage.child_pages.map(childPage => (
+              <Route
+                key={`page-${childPage.slug}`}
+                path={`${(parentPage.is_homepage ? '' : '/') + parentPage.slug}/${childPage.slug}/`}
+                render={() => (
+                  <Page
+                    pathToParent={parentPage.slug}
+                    pageData={childPage}
+                  />
+                )}
+              />
+            ))}
+          </Fragment>
+        ))}
+      </main>
     );
+  }
+
+  getAppContainerClassName = () => {
+    const { isPageTransition, currentTextColour } = this.props;
+    let appContainerClassName = 'app__container';
+    if (isPageTransition) {
+      appContainerClassName += ' js-changing-page';
+    }
+    if (currentTextColour === TEXT_COLOURS.DARK) {
+      appContainerClassName += ' js-nav-backgrounds';
+    }
+    return appContainerClassName;
   }
 }
 
 App.propTypes = {
-  isMovingPages: PropTypes.bool,
+  isPageTransition: PropTypes.bool,
   currentTextColour: PropTypes.string,
+  parentPages: PropTypes.array,
 }
 
-function mapStateToProps({isMovingPages, currentTextColour}, props) {
+function mapStateToProps({
+  isPageTransition,
+  currentTextColour,
+  parentPages
+}, props) {
   return {
     ...props,
-    isMovingPages,
+    isPageTransition,
     currentTextColour,
+    parentPages
   }
 }
 

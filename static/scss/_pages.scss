@@ -56,26 +56,26 @@
   }
 }
 
-.pages {
-  @include square(100%);
-  position: relative;
-  overflow: hidden;
-}
-
 .page {
-  position: absolute;
-  top: 0;
-  left: 0;
-  @include square(100%);
-  overflow: auto;
+  position: relative;
 
-  &::-webkit-scrollbar {
-    width: 0px;
-  }
+  &__content {
+    overflow-y: auto;
 
-  &:focus {
-    outline: none;
-    border: none;
+    &::-webkit-scrollbar {
+      width: 0px;
+    }
+
+    &:focus {
+      outline: none;
+      border: none;
+    }
+
+    &--previous {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
   }
 
   &__icon {

@@ -11,7 +11,7 @@ class DirectionButtons extends PureComponent {
   static propTypes = {
     parentPages: PropTypes.array.isRequired,
     currentPage: PropTypes.object,
-    isMovingPages: PropTypes.bool.isRequired,
+    isPageTransition: PropTypes.bool.isRequired,
     currentParentPageSlug: PropTypes.string,
   }
 
@@ -65,7 +65,7 @@ class DirectionButtons extends PureComponent {
 
   navigateFromKeyPress = event => {
     const {
-      isMovingPages,
+      isPageTransition,
       currentParentPageSlug,
       directionButtons,
       history,
@@ -73,7 +73,7 @@ class DirectionButtons extends PureComponent {
     } = this.props;
     if (directionButtons) {
       const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
-      if ((button && button.isVisible) && !isMovingPages) {
+      if ((button && button.isVisible) && !isPageTransition) {
         const targetSlug = button.targetPage.is_homepage ? '' : button.targetPage.slug;
         const newPath = button.isVertical ? formatVerticalPath(currentParentPageSlug, targetSlug) : `/${targetSlug}`;
         if (this.isGoodToPush(button)) {
@@ -115,7 +115,7 @@ class DirectionButtons extends PureComponent {
   }
 
   render() {
-    const { isMovingPages, currentParentPageSlug, directionButtons, currentTextColour } = this.props;
+    const { isPageTransition, currentParentPageSlug, directionButtons, currentTextColour } = this.props;
     return (
       <nav className="directions">
         {directionButtons && directionButtons.map((button, index) => {
@@ -124,7 +124,7 @@ class DirectionButtons extends PureComponent {
               key={index}
               button={button}
               currentParentPageSlug={currentParentPageSlug}
-              isMovingPages={isMovingPages}
+              isPageTransition={isPageTransition}
             />
           )
         })}
@@ -136,7 +136,7 @@ class DirectionButtons extends PureComponent {
 function mapStateToProps({
   parentPages,
   currentPage,
-  isMovingPages,
+  isPageTransition,
   currentParentPageSlug,
   directionButtons,
   currentPageScrollWrapper,
@@ -146,7 +146,7 @@ function mapStateToProps({
     ...props,
     parentPages,
     currentPage,
-    isMovingPages,
+    isPageTransition,
     currentParentPageSlug,
     directionButtons,
     currentPageScrollWrapper,

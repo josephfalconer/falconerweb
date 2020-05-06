@@ -61,14 +61,6 @@
   }
 }
 
-@mixin page-animations($type) {
-  @each $side in $page-sides {
-    &-#{$side} {
-      animation: #{$type}-#{$side} $page-transition-duration;
-    }
-  }
-}
-
 // helper classes
 .list--plain {
   margin: 0;

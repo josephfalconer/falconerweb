@@ -6,7 +6,7 @@ import Icons from './icons/Icons';
 
 class Navigation extends React.PureComponent {
   blockNavigation = e => {
-    if (this.props.isMovingPages) {
+    if (this.props.isPageTransition) {
       e.preventDefault()
     }
   }
@@ -48,21 +48,21 @@ class Navigation extends React.PureComponent {
 
 Navigation.propTypes = {
   navigationLinks: PropTypes.array.isRequired,
-  isMovingPages: PropTypes.bool.isRequired,
+  isPageTransition: PropTypes.bool.isRequired,
   currentParentPageSlug: PropTypes.string,
   currentTextColour: PropTypes.string,
 }
 
 function mapStateToProps({
   navigationLinks,
-  isMovingPages,
+  isPageTransition,
   currentParentPageSlug,
   currentTextColour
 }, props) {
   return {
     ...props,
     navigationLinks,
-    isMovingPages,
+    isPageTransition,
     currentParentPageSlug,
     currentTextColour
   }

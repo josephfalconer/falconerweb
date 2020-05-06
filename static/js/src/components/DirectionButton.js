@@ -8,11 +8,11 @@ const DirectionButton = props => {
   const {
     button,
     currentParentPageSlug,
-    isMovingPages
+    isPageTransition
   } = props;
   const { targetPage } = button;
   const visibiltyClass =
-    `js-${button.isVisible && !isMovingPages ?
+    `js-${button.isVisible && !isPageTransition ?
       'visible' :
       'hidden'}-button`;
   let linkTo = '';
@@ -37,12 +37,12 @@ const DirectionButton = props => {
 
 DirectionButton.propTypes = {
   button: PropTypes.object.isRequired,
-  isMovingPages: PropTypes.bool.isRequired,
+  isPageTransition: PropTypes.bool.isRequired,
   currentParentPageSlug: PropTypes.string.isRequired,
 }
 
 DirectionButton.defaultProps = {
-  isMovingPages: false,
+  isPageTransition: false,
 }
 
 export default DirectionButton;

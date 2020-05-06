@@ -2,24 +2,54 @@
 // Pages
 // ========================================
 
-// JS toggle classes
+// JS classes
 .js {
-  &-outgoing {
-    z-index: $nav-z-index - 2;
-    @include page-animations('out-to');
-
-    &-fade {
-      animation: out-to-fade $page-fade-transition-duration forwards;
-    }
+  &-changing-page .page__content {
+    overflow-y: hidden;
   }
 
   &-incoming {
-    z-index: $nav-z-index - 1;
-    @include page-animations('in-from');
+    &-top {
+      animation: in-from-top $page-transition-duration;
+
+      .page__content--previous {
+        top: 100%;
+      }
+    }
+
+    &-left {
+      animation: in-from-left $page-transition-duration;
+
+      .page__content--previous {
+        left: 100%;
+      }
+    }
+
+    &-right {
+      animation: in-from-right $page-transition-duration;
+
+      .page__content--previous {
+        left: -100%;
+      }
+    }
+
+    &-bottom {
+      animation: in-from-bottom $page-transition-duration;
+
+      .page__content--previous {
+        top: -100%;
+      }
+    }
 
     &-fade {
-      opacity: 0;
-      animation: in-from-fade $page-fade-transition-duration $page-fade-transition-duration;
+      .page__content--current {
+        opacity: 0;
+        animation: in-from-fade $page-fade-transition-duration $page-fade-transition-duration forwards;
+      }
+
+      .page__content--previous {
+        animation: out-to-fade $page-fade-transition-duration forwards;
+      }
     }
   }
 

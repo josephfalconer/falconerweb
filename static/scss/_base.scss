@@ -11,10 +11,19 @@
 }
 
 html,
+body,
+.app,
+.app__container,
+.page,
+.page__content {
+  @include square(100%);
+}
+
+html,
 body {
   margin: 0;
   padding: 0;
-  @include square(100%);
+  overflow: hidden;
 }
 
 body {
@@ -22,14 +31,6 @@ body {
   text-align: center;
   font-family: $font-family--primary;
   color: $text-color-main;
-}
-
-.application {
-  @include square(100%);
-
-  &__container {
-    @include square(100%);
-  }
 }
 
 a {

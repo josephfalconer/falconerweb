@@ -1,77 +1,100 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
-import Icons from './icons/Icons';
-import ContentModules from './modules/ContentModules';
-
-function renderContentModules(data) {
-  const { content_modules } = data;
-  if (content_modules && content_modules.length) {
-    return content_modules.map((module, index) => {
-      const Module = ContentModules[module.module_type];
-      return Module ? Module(module, index) : null;
-    })
-  }
-  return null;
-}
+import PageContent from './PageContent';
+import { updateOutgoingPage, updateStoreState } from '../actions';
+import { PAGE_TRANSITION_TIMEOUT } from '../constants';
+import * as helpers from '../helpers';
 
 class Page extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.setScrollWrapper = element => this.scrollWrapper = element;
-  }
+	componentDidMount() {
+		const { pageData, pathToParent, updateStoreState } = this.props;
+		updateStoreState({
+			currentParentPageSlug: pathToParent,
+			currentPage: pageData,
+			currentTextColour: pageData.text_colour,
+			isPageTransition: true,
+		});
+		setTimeout(() => updateStoreState({isPageTransition: false}), PAGE_TRANSITION_TIMEOUT);
+	}
 
-  componentDidMount() {
-    if (this.props.data.lastScrollTop) {
-      this.scrollWrapper.scrollTop = this.props.data.lastScrollTop;
-    }
-    if (!this.props.isOutgoingPage) {
-      this.props.updateStoreState({currentPageScrollWrapper: this.scrollWrapper});
-    }
-  }
+	componentWillReceiveProps(nextProps) {
+		if (
+			nextProps.currentPageScrollWrapper &&
+			nextProps.currentPageScrollWrapper !== this.props.currentPageScrollWrapper
+		) {
+			nextProps.currentPageScrollWrapper.focus();
+		}
+	}
 
-  render () {
-    const { data, pageClass, lastScrollTop } = this.props;
-    const Icon = Icons[data.icon.toUpperCase()];
-    let pageInnerClass = `page__inner text text--${data.text_colour}`;
-    let backgroundImageStyle = undefined;
-    if (!data.content_modules.length && data.center_content) {
-      pageInnerClass += ' center-content';
-    }
-    if (!data.center_content) {
-      pageInnerClass += ' padding--ends';
-    }
-    if (data.background) {
-      backgroundImageStyle = {
-        backgroundImage: `url(${data.background})`
-      };
-    }
-    return (
-      <article tabIndex="0" ref={this.setScrollWrapper} className={pageClass}>
-        <div className={pageInnerClass} style={backgroundImageStyle}>
-          <div className="page__content">
-            <header className="page__header">
-              {Icon &&
-                <span className="page__icon">{Icon()}</span>
-              }
-              <h1 className="page__title">{data.display_title || data.title}</h1>
-              {data.intro_text &&
-                <p className="page__intro" dangerouslySetInnerHTML={{__html: data.intro_text}}></p>
-              }
-            </header>
-            {renderContentModules(data)}
-          </div>
-        </div>
-      </article>
-    );
-  }
+	componentWillUnmount() {
+		this.props.updateOutgoingPage(
+			this.props.pageData, 
+			this.props.currentPageScrollWrapper.scrollTop
+		);
+	}
+
+	render() {
+		const { pageData, outgoingPage, isPageTransition } = this.props;
+		const showTransition = outgoingPage && isPageTransition;
+		return (
+			<div className={this.getPageClassName(showTransition)}>
+	  		{showTransition && (
+		      <PageContent pageData={outgoingPage} />
+  			)}
+	      <PageContent pageData={pageData} isCurrentPage />
+			</div>	
+		)
+	}
+
+	getPageClassName = showTransition => {
+		const { currentPage, outgoingPage } = this.props;
+		let pageClassName = 'page';
+		let transitionClassName = ''
+
+		if (showTransition) {
+			transitionClassName = ' js-incoming-';
+			
+			if (helpers.isSideways(currentPage, outgoingPage)) {
+				transitionClassName += helpers.isLeftwards(currentPage, outgoingPage) ? 'left' : 'right';
+			} else if (helpers.isVertical(currentPage, outgoingPage)) {
+				transitionClassName += helpers.isUpwards(currentPage, outgoingPage) ? 'top' : 'bottom';
+			} else {
+				transitionClassName += 'fade';
+			}
+ 		}
+ 		return pageClassName + transitionClassName;
+	}
 }
 
 Page.propTypes = {
-  data: PropTypes.object.isRequired,
-  contentModules: PropTypes.array,
-  pageClass: PropTypes.string.isRequired,
-  isOutgoingPage: PropTypes.bool,
+	pageData: PropTypes.object.isRequired,
+	pathToParent: PropTypes.string.isRequired,
+	outgoingPage: PropTypes.object,
+	currentPage: PropTypes.object,
+	isPageTransition: PropTypes.bool.isRequired,
+	updateStoreState: PropTypes.func.isRequired,
+	currentPageScrollWrapper: PropTypes.object,
+	updateOutgoingPage: PropTypes.func.isRequired,
 }
 
-export default Page;
+function mapStateToProps({
+	isPageTransition,
+	outgoingPage,
+	currentPage,
+	currentPageScrollWrapper,
+}, props) {
+	return {
+		...props,
+		isPageTransition,
+		outgoingPage,
+		currentPage,
+		currentPageScrollWrapper
+	}
+}
+
+export default connect(mapStateToProps, {
+	updateOutgoingPage,
+	updateStoreState
+})(Page);
