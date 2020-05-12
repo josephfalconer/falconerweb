@@ -4457,10 +4457,9 @@ function simpleReducer() {
         parentPages: action.pagesData
       });
     case ActionTypes.UPDATE_OUTGOING_PAGE:
-      var outgoingPage = _extends({}, action.outgoingPage, {
-        lastScrollTop: action.lastScrollTop
-      });
+      var outgoingPage = action.outgoingPage;
       var parentPages = state.parentPages;
+      // Record last scroll top
       if (outgoingPage.is_child_page) {
         parentPages[outgoingPage.x].child_pages[outgoingPage.y - 1] = outgoingPage;
       } else {
@@ -27468,12 +27467,9 @@ function addPagesData(payload) {
 }
 
 function updateOutgoingPage(outgoingPage) {
-  var lastScrollTop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
   return {
     type: ActionTypes.UPDATE_OUTGOING_PAGE,
-    outgoingPage: outgoingPage,
-    lastScrollTop: lastScrollTop
+    outgoingPage: outgoingPage
   };
 }
 
@@ -28125,7 +28121,9 @@ var Page = function (_PureComponent) {
 	}, {
 		key: 'componentWillUnmount',
 		value: function componentWillUnmount() {
-			this.props.updateOutgoingPage(this.props.pageData, this.props.currentPageScrollWrapper.scrollTop);
+			this.props.updateOutgoingPage(_extends({}, this.props.pageData, {
+				lastScrollTop: this.props.currentPageScrollWrapper.scrollTop || 0
+			}));
 		}
 	}, {
 		key: 'render',

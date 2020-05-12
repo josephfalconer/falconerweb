@@ -29,10 +29,10 @@ class Page extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		this.props.updateOutgoingPage(
-			this.props.pageData, 
-			this.props.currentPageScrollWrapper.scrollTop
-		);
+		this.props.updateOutgoingPage({
+			...this.props.pageData,
+			lastScrollTop: this.props.currentPageScrollWrapper.scrollTop || 0
+		});
 	}
 
 	render() {

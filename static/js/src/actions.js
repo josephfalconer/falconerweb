@@ -27,10 +27,9 @@ export function addPagesData(payload) {
   }
 }
 
-export function updateOutgoingPage(outgoingPage, lastScrollTop = 0) {
+export function updateOutgoingPage(outgoingPage) {
   return {
     type: ActionTypes.UPDATE_OUTGOING_PAGE,
-    outgoingPage,
-    lastScrollTop
+    outgoingPage
   }
 }
