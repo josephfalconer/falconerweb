@@ -27753,11 +27753,11 @@ var DirectionButtons = function (_PureComponent) {
         return [{
           isVisible: currentPage.x > 0 && currentPage.y === 0,
           targetPage: pages[currentPage.x - 1],
-          name: 'prev'
+          name: 'left'
         }, {
           isVisible: currentPage.x + 1 < pages.length && currentPage.y === 0,
           targetPage: pages[currentPage.x + 1],
-          name: 'next'
+          name: 'right'
         }, {
           isVisible: currentPage.y > 0,
           targetPage: currentChildPages[currentPage.y - 2] || pages[currentPage.x],

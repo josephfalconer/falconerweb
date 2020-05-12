@@ -230,7 +230,7 @@
     }
   }
 
-  &--prev {
+  &--left {
     @extend %sideways-direction;
     left: remcalc(10);
 
@@ -255,7 +255,7 @@
     }
   }
 
-  &--next {
+  &--right {
     @extend %sideways-direction;
     right: remcalc(10);
 

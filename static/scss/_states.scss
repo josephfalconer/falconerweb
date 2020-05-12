@@ -74,13 +74,13 @@
     opacity: 1;
   }
 
-  &--prev {
+  &--left {
     &.js-hidden-button {
       transform: translateX(-100%);
     }
   }
 
-  &--next {
+  &--right {
     &.js-hidden-button {
       transform: translateX(100%);
     }
