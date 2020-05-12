@@ -27708,22 +27708,18 @@ var DirectionButtons = function (_PureComponent) {
       if (currentPage) {
         return [{
           isVisible: currentPage.x > 0 && currentPage.y === 0,
-          isVertical: false,
           targetPage: pages[currentPage.x - 1],
           name: 'prev'
         }, {
           isVisible: currentPage.x + 1 < pages.length && currentPage.y === 0,
-          isVertical: false,
           targetPage: pages[currentPage.x + 1],
           name: 'next'
         }, {
           isVisible: currentPage.y > 0,
-          isVertical: true,
           targetPage: currentChildPages[currentPage.y - 2] || pages[currentPage.x],
           name: 'up'
         }, {
           isVisible: currentPage.y < currentChildPages.length,
-          isVertical: true,
           targetPage: currentChildPages[currentPage.y],
           name: 'down'
         }];
@@ -27733,34 +27729,26 @@ var DirectionButtons = function (_PureComponent) {
       var _this$props = _this.props,
           isPageTransition = _this$props.isPageTransition,
           directionButtons = _this$props.directionButtons,
-          history = _this$props.history,
-          currentPageScrollWrapper = _this$props.currentPageScrollWrapper;
+          history = _this$props.history;
 
-      if (directionButtons) {
+      if (directionButtons && !isPageTransition) {
         var button = directionButtons[_this.getButtonIndexFromPressedKey(event)];
-        if (button && button.isVisible && !isPageTransition) {
-          if (_this.isGoodToPush(button)) {
-            history.push(button.targetPage.path);
-          } else {
-            currentPageScrollWrapper.focus();
-          }
+        if (button && button.isVisible && !_this.canScrollPage(button)) {
+          history.push(button.targetPage.path);
         }
       }
-    }, _this.isGoodToPush = function (button) {
+    }, _this.canScrollPage = function (button) {
       var currentPageScrollWrapper = _this.props.currentPageScrollWrapper;
 
-      if (button.isVertical) {
-        if (button.name === 'up' && currentPageScrollWrapper.scrollTop > 0) {
-          return false;
-        }
-        if (button.name === 'down') {
-          var maxScrollDownPosition = currentPageScrollWrapper.scrollHeight - currentPageScrollWrapper.offsetHeight;
-          if (maxScrollDownPosition - currentPageScrollWrapper.scrollTop > 0) {
-            return false;
-          }
+      if (button.name === 'up' && currentPageScrollWrapper.scrollTop > 0) {
+        return true;
+      } else if (button.name === 'down') {
+        var maxScrollDownPosition = currentPageScrollWrapper.scrollHeight - currentPageScrollWrapper.offsetHeight;
+        if (maxScrollDownPosition - currentPageScrollWrapper.scrollTop > 0) {
+          return true;
         }
       }
-      return true;
+      return false;
     }, _this.getButtonIndexFromPressedKey = function (event) {
       switch (event.which) {
         case 37:

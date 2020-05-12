@@ -28,25 +28,21 @@ class DirectionButtons extends PureComponent {
       return [
         {
           isVisible: currentPage.x > 0 && currentPage.y === 0,
-          isVertical: false,
           targetPage: pages[currentPage.x - 1],
           name: 'prev'
         },
         {
           isVisible: (currentPage.x + 1) < pages.length && currentPage.y === 0,
-          isVertical: false,
           targetPage: pages[currentPage.x + 1],
           name: 'next'
         },
         {
           isVisible: currentPage.y > 0,
-          isVertical: true,
           targetPage: currentChildPages[currentPage.y - 2] || pages[currentPage.x],
           name: 'up'
         },
         {
           isVisible: currentPage.y < currentChildPages.length,
-          isVertical: true,
           targetPage: currentChildPages[currentPage.y],
           name: 'down'
         }
@@ -56,38 +52,26 @@ class DirectionButtons extends PureComponent {
   }
 
   navigateFromKeyPress = event => {
-    const {
-      isPageTransition,
-      directionButtons,
-      history,
-      currentPageScrollWrapper
-    } = this.props;
-    if (directionButtons) {
+    const { isPageTransition, directionButtons, history } = this.props;
+    if (directionButtons && !isPageTransition) {
       const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
-      if ((button && button.isVisible) && !isPageTransition) {
-        if (this.isGoodToPush(button)) {
-          history.push(button.targetPage.path);
-        } else {
-          currentPageScrollWrapper.focus();
-        }
+      if (button && button.isVisible && !this.canScrollPage(button)) {
+        history.push(button.targetPage.path);
       }
     }
   }
 
-  isGoodToPush = button => {
+  canScrollPage = button => {
     const { currentPageScrollWrapper } = this.props;
-    if (button.isVertical) {
-      if (button.name === 'up' && currentPageScrollWrapper.scrollTop > 0) {
-        return false;
-      }
-      if (button.name === 'down') {
-        const maxScrollDownPosition = currentPageScrollWrapper.scrollHeight - currentPageScrollWrapper.offsetHeight;
-        if (maxScrollDownPosition - currentPageScrollWrapper.scrollTop > 0) {
-          return false;
-        }
+    if (button.name === 'up' && currentPageScrollWrapper.scrollTop > 0) {
+      return true;
+    } else if (button.name === 'down') {
+      const maxScrollDownPosition = currentPageScrollWrapper.scrollHeight - currentPageScrollWrapper.offsetHeight;
+      if (maxScrollDownPosition - currentPageScrollWrapper.scrollTop > 0) {
+        return true;
       }
     }
-    return true;
+    return false;
   }
 
   getButtonIndexFromPressedKey = event => {
