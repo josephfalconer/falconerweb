@@ -4325,7 +4325,7 @@ var App = function (_PureComponent) {
         appContainerClassName += ' js-changing-page';
       }
       if (currentPage && currentPage.text_colour === _constants.TEXT_COLOURS.DARK) {
-        appContainerClassName += ' js-nav-backgrounds';
+        appContainerClassName += ' js-dark-text';
       }
       return appContainerClassName;
     }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -4359,7 +4359,7 @@ var App = function (_PureComponent) {
           _react2.default.createElement(_Navigation2.default, { currentPath: this.props.location.pathname }),
           _react2.default.createElement(_DirectionButtons2.default, null)
         ),
-        this.props.pages && this.props.pages.map(function (page) {
+        this.props.pages.length ? this.props.pages.map(function (page) {
           return _react2.default.createElement(
             _react.Fragment,
             { key: page.slug },
@@ -4380,7 +4380,7 @@ var App = function (_PureComponent) {
               });
             })
           );
-        })
+        }) : null
       );
     }
   }]);
@@ -4396,7 +4396,7 @@ function mapStateToProps(_ref2, props) {
   return _extends({}, props, {
     isPageTransition: isPageTransition,
     currentPage: currentPage,
-    pages: pages
+    pages: pages || []
   });
 }
 
@@ -4426,9 +4426,6 @@ var ActionTypes = _interopRequireWildcard(_actiontypes);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var INITIAL_STATE = {
-  navigationLinks: [],
-  pages: [],
-  skills: [],
   isPageTransition: false
 };
 
@@ -27990,7 +27987,7 @@ function mapStateToProps(_ref2, props) {
       currentPage = _ref2.currentPage;
 
   return _extends({}, props, {
-    navigationLinks: navigationLinks,
+    navigationLinks: navigationLinks || [],
     isPageTransition: isPageTransition,
     currentPage: currentPage
   });

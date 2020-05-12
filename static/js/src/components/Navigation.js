@@ -63,7 +63,7 @@ function mapStateToProps({
 }, props) {
   return {
     ...props,
-    navigationLinks,
+    navigationLinks: navigationLinks || [],
     isPageTransition,
     currentPage
   }

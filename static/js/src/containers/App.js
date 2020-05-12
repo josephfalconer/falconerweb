@@ -26,7 +26,7 @@ class App extends PureComponent {
           <Navigation currentPath={this.props.location.pathname} />
           <DirectionButtons />
         </header>
-        {this.props.pages && this.props.pages.map(page => (
+        {this.props.pages.length ? this.props.pages.map(page => (
           <Fragment key={page.slug}>
             <Route
               exact
@@ -45,7 +45,7 @@ class App extends PureComponent {
               />
             ))}
           </Fragment>
-        ))}
+        )) : null}
       </main>
     );
   }
@@ -57,7 +57,7 @@ class App extends PureComponent {
       appContainerClassName += ' js-changing-page';
     }
     if (currentPage && currentPage.text_colour === TEXT_COLOURS.DARK) {
-      appContainerClassName += ' js-nav-backgrounds';
+      appContainerClassName += ' js-dark-text';
     }
     return appContainerClassName;
   }
@@ -72,7 +72,7 @@ function mapStateToProps({
     ...props,
     isPageTransition,
     currentPage,
-    pages
+    pages: pages || []
   }
 }
 

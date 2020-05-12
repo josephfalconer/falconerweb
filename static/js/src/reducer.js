@@ -1,9 +1,6 @@
 import * as ActionTypes from './actiontypes';
 
 const INITIAL_STATE = {
-  navigationLinks: [],
-  pages: [],
-  skills: [],
   isPageTransition: false,
 }
 
