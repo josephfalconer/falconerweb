@@ -4338,8 +4338,8 @@ var App = function (_PureComponent) {
 
       fetch('/api/pages/').then(function (response) {
         return response.json();
-      }).then(function (parentPages) {
-        return _this2.props.addPagesData(parentPages);
+      }).then(function (pages) {
+        return _this2.props.updateStoreState({ pages: (0, _actions.formatPagePositions)(pages) });
       });
       fetch('/api/navigation/').then(function (response) {
         return response.json();
@@ -4353,7 +4353,7 @@ var App = function (_PureComponent) {
       var _props = this.props,
           isPageTransition = _props.isPageTransition,
           currentTextColour = _props.currentTextColour,
-          parentPages = _props.parentPages;
+          pages = _props.pages;
 
       return _react2.default.createElement(
         'main',
@@ -4364,27 +4364,27 @@ var App = function (_PureComponent) {
           _react2.default.createElement(_Navigation2.default, null),
           _react2.default.createElement(_DirectionButtons2.default, null)
         ),
-        parentPages && parentPages.map(function (parentPage) {
+        pages && pages.map(function (page) {
           return _react2.default.createElement(
             _react.Fragment,
-            { key: parentPage.slug },
+            { key: page.slug },
             _react2.default.createElement(_reactRouterDom.Route, {
               exact: true,
-              path: '/' + parentPage.slug,
+              path: '/' + page.slug,
               render: function render() {
                 return _react2.default.createElement(_Page2.default, {
-                  pathToParent: parentPage.slug,
-                  pageData: parentPage
+                  basePath: page.slug,
+                  pageData: page
                 });
               }
             }),
-            parentPage.child_pages.map(function (childPage) {
+            page.child_pages.map(function (childPage) {
               return _react2.default.createElement(_reactRouterDom.Route, {
                 key: 'page-' + childPage.slug,
-                path: (parentPage.is_homepage ? '' : '/') + parentPage.slug + '/' + childPage.slug + '/',
+                path: (page.is_homepage ? '' : '/') + page.slug + '/' + childPage.slug + '/',
                 render: function render() {
                   return _react2.default.createElement(_Page2.default, {
-                    pathToParent: parentPage.slug,
+                    basePath: page.slug,
                     pageData: childPage
                   });
                 }
@@ -4402,12 +4402,12 @@ var App = function (_PureComponent) {
 function mapStateToProps(_ref2, props) {
   var isPageTransition = _ref2.isPageTransition,
       currentTextColour = _ref2.currentTextColour,
-      parentPages = _ref2.parentPages;
+      pages = _ref2.pages;
 
   return _extends({}, props, {
     isPageTransition: isPageTransition,
     currentTextColour: currentTextColour,
-    parentPages: parentPages
+    pages: pages
   });
 }
 
@@ -4439,7 +4439,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var INITIAL_STATE = {
   navigationLinks: [],
-  parentPages: [],
+  pages: [],
   skills: [],
   isPageTransition: false,
   currentTextColour: 'light'
@@ -4452,22 +4452,18 @@ function simpleReducer() {
   switch (action.type) {
     case ActionTypes.SIMPLE_STATE_UPDATE:
       return _extends({}, state, action.payload);
-    case ActionTypes.ADD_PAGES_DATA:
-      return _extends({}, state, {
-        parentPages: action.pagesData
-      });
     case ActionTypes.UPDATE_PREVIOUS_PAGE:
       var previousPage = action.previousPage;
-      var parentPages = state.parentPages;
+      var pages = state.pages;
       // Last scroll top can be recorded
       if (previousPage.is_child_page) {
-        parentPages[previousPage.x].child_pages[previousPage.y - 1] = previousPage;
+        pages[previousPage.x].child_pages[previousPage.y - 1] = previousPage;
       } else {
-        parentPages[previousPage.x] = previousPage;
+        pages[previousPage.x] = previousPage;
       }
       return _extends({}, state, {
         previousPage: previousPage,
-        parentPages: parentPages
+        pages: pages
       });
     default:
       return state;
@@ -5833,7 +5829,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var SIMPLE_STATE_UPDATE = exports.SIMPLE_STATE_UPDATE = 'SIMPLE_STATE_UPDATE';
-var ADD_PAGES_DATA = exports.ADD_PAGES_DATA = 'ADD_PAGES_DATA';
 var UPDATE_PREVIOUS_PAGE = exports.UPDATE_PREVIOUS_PAGE = 'UPDATE_PREVIOUS_PAGE';
 
 /***/ }),
@@ -27428,11 +27423,11 @@ if (!self.fetch) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.formatPagePositions = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.updateStoreState = updateStoreState;
-exports.addPagesData = addPagesData;
 exports.updatePreviousPage = updatePreviousPage;
 
 var _actiontypes = __webpack_require__(67);
@@ -27441,28 +27436,25 @@ var ActionTypes = _interopRequireWildcard(_actiontypes);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+var formatPagePositions = exports.formatPagePositions = function formatPagePositions(pages) {
+  return pages.map(function (page, x) {
+    return _extends({}, page, {
+      x: x,
+      y: 0,
+      child_pages: page.child_pages.map(function (childPage, y) {
+        return _extends({}, childPage, {
+          x: x,
+          y: y + 1
+        });
+      })
+    });
+  });
+};
+
 function updateStoreState(payload) {
   return {
     type: ActionTypes.SIMPLE_STATE_UPDATE,
     payload: payload
-  };
-}
-
-function addPagesData(payload) {
-  return {
-    type: ActionTypes.ADD_PAGES_DATA,
-    pagesData: payload.map(function (parentPage, x) {
-      return _extends({}, parentPage, {
-        x: x,
-        y: 0,
-        child_pages: parentPage.child_pages.map(function (childPage, y) {
-          return _extends({}, childPage, {
-            x: x,
-            y: y + 1
-          });
-        })
-      });
-    })
   };
 }
 
@@ -27650,14 +27642,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var DirectionButton = function DirectionButton(props) {
   var button = props.button,
-      currentParentPageSlug = props.currentParentPageSlug,
+      currentBasePath = props.currentBasePath,
       isPageTransition = props.isPageTransition;
   var targetPage = button.targetPage;
 
   var visibiltyClass = 'js-' + (button.isVisible && !isPageTransition ? 'visible' : 'hidden') + '-button';
   var linkTo = '';
   if (button.isVisible && targetPage) {
-    linkTo = button.isVertical ? (0, _helpers.formatVerticalPath)(currentParentPageSlug, targetPage.slug) : targetPage.slug;
+    linkTo = button.isVertical ? (0, _helpers.formatVerticalPath)(currentBasePath, targetPage.slug) : targetPage.slug;
   }
   return _react2.default.createElement(
     _reactRouterDom.Link,
@@ -27741,25 +27733,25 @@ var DirectionButtons = function (_PureComponent) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DirectionButtons.__proto__ || Object.getPrototypeOf(DirectionButtons)).call.apply(_ref, [this].concat(args))), _this), _this.getButtons = function (nextProps) {
-      var parentPages = nextProps.parentPages,
+      var pages = nextProps.pages,
           currentPage = nextProps.currentPage;
 
-      var currentChildPages = nextProps.currentPage.is_child_page ? nextProps.parentPages[nextProps.currentPage.x].child_pages : nextProps.currentPage.child_pages;
+      var currentChildPages = nextProps.currentPage.is_child_page ? nextProps.pages[nextProps.currentPage.x].child_pages : nextProps.currentPage.child_pages;
       if (currentPage) {
         return [{
           isVisible: currentPage.x > 0 && currentPage.y === 0,
           isVertical: false,
-          targetPage: parentPages[currentPage.x - 1],
+          targetPage: pages[currentPage.x - 1],
           name: 'prev'
         }, {
-          isVisible: currentPage.x + 1 < parentPages.length && currentPage.y === 0,
+          isVisible: currentPage.x + 1 < pages.length && currentPage.y === 0,
           isVertical: false,
-          targetPage: parentPages[currentPage.x + 1],
+          targetPage: pages[currentPage.x + 1],
           name: 'next'
         }, {
           isVisible: currentPage.y > 0,
           isVertical: true,
-          targetPage: currentChildPages[currentPage.y - 2] || parentPages[currentPage.x],
+          targetPage: currentChildPages[currentPage.y - 2] || pages[currentPage.x],
           name: 'up'
         }, {
           isVisible: currentPage.y < currentChildPages.length,
@@ -27772,7 +27764,7 @@ var DirectionButtons = function (_PureComponent) {
     }, _this.navigateFromKeyPress = function (event) {
       var _this$props = _this.props,
           isPageTransition = _this$props.isPageTransition,
-          currentParentPageSlug = _this$props.currentParentPageSlug,
+          currentBasePath = _this$props.currentBasePath,
           directionButtons = _this$props.directionButtons,
           history = _this$props.history,
           currentPageScrollWrapper = _this$props.currentPageScrollWrapper;
@@ -27781,7 +27773,7 @@ var DirectionButtons = function (_PureComponent) {
         var button = directionButtons[_this.getButtonIndexFromPressedKey(event)];
         if (button && button.isVisible && !isPageTransition) {
           var targetSlug = button.targetPage.is_homepage ? '' : button.targetPage.slug;
-          var newPath = button.isVertical ? (0, _helpers.formatVerticalPath)(currentParentPageSlug, targetSlug) : '/' + targetSlug;
+          var newPath = button.isVertical ? (0, _helpers.formatVerticalPath)(currentBasePath, targetSlug) : '/' + targetSlug;
           if (_this.isGoodToPush(button)) {
             history.push(newPath);
           } else {
@@ -27836,7 +27828,7 @@ var DirectionButtons = function (_PureComponent) {
     value: function render() {
       var _props = this.props,
           isPageTransition = _props.isPageTransition,
-          currentParentPageSlug = _props.currentParentPageSlug,
+          currentBasePath = _props.currentBasePath,
           directionButtons = _props.directionButtons,
           currentTextColour = _props.currentTextColour;
 
@@ -27847,7 +27839,7 @@ var DirectionButtons = function (_PureComponent) {
           return _react2.default.createElement(_DirectionButton2.default, {
             key: index,
             button: button,
-            currentParentPageSlug: currentParentPageSlug,
+            currentBasePath: currentBasePath,
             isPageTransition: isPageTransition
           });
         })
@@ -27859,19 +27851,19 @@ var DirectionButtons = function (_PureComponent) {
 }(_react.PureComponent);
 
 function mapStateToProps(_ref2, props) {
-  var parentPages = _ref2.parentPages,
+  var pages = _ref2.pages,
       currentPage = _ref2.currentPage,
       isPageTransition = _ref2.isPageTransition,
-      currentParentPageSlug = _ref2.currentParentPageSlug,
+      currentBasePath = _ref2.currentBasePath,
       directionButtons = _ref2.directionButtons,
       currentPageScrollWrapper = _ref2.currentPageScrollWrapper,
       currentTextColour = _ref2.currentTextColour;
 
   return _extends({}, props, {
-    parentPages: parentPages,
+    pages: pages,
     currentPage: currentPage,
     isPageTransition: isPageTransition,
-    currentParentPageSlug: currentParentPageSlug,
+    currentBasePath: currentBasePath,
     directionButtons: directionButtons,
     currentPageScrollWrapper: currentPageScrollWrapper,
     currentTextColour: currentTextColour
@@ -27945,7 +27937,7 @@ var Navigation = function (_PureComponent) {
 
       var _props = this.props,
           navigationLinks = _props.navigationLinks,
-          currentParentPageSlug = _props.currentParentPageSlug,
+          currentBasePath = _props.currentBasePath,
           currentTextColour = _props.currentTextColour;
 
       if (navigationLinks.length) {
@@ -27957,7 +27949,7 @@ var Navigation = function (_PureComponent) {
             { className: 'nav__menu list--plain' },
             navigationLinks.map(function (link, index) {
               var Icon = _Icons2.default[link.icon.toUpperCase()];
-              var isCurrent = link.linked_page.slug === currentParentPageSlug;
+              var isCurrent = link.linked_page.slug === currentBasePath;
               return _react2.default.createElement(
                 'li',
                 { key: index, className: 'nav__item' },
@@ -27998,13 +27990,13 @@ var Navigation = function (_PureComponent) {
 function mapStateToProps(_ref2, props) {
   var navigationLinks = _ref2.navigationLinks,
       isPageTransition = _ref2.isPageTransition,
-      currentParentPageSlug = _ref2.currentParentPageSlug,
+      currentBasePath = _ref2.currentBasePath,
       currentTextColour = _ref2.currentTextColour;
 
   return _extends({}, props, {
     navigationLinks: navigationLinks,
     isPageTransition: isPageTransition,
-    currentParentPageSlug: currentParentPageSlug,
+    currentBasePath: currentBasePath,
     currentTextColour: currentTextColour
   });
 }
@@ -28098,11 +28090,11 @@ var Page = function (_PureComponent) {
 		value: function componentDidMount() {
 			var _props = this.props,
 			    pageData = _props.pageData,
-			    pathToParent = _props.pathToParent,
+			    basePath = _props.basePath,
 			    updateStoreState = _props.updateStoreState;
 
 			updateStoreState({
-				currentParentPageSlug: pathToParent,
+				currentBasePath: basePath,
 				currentPage: pageData,
 				currentTextColour: pageData.text_colour,
 				isPageTransition: true

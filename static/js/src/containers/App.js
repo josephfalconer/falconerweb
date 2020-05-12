@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 
-import { addPagesData, updateStoreState } from '../actions';
+import { addPagesData, formatPagePositions, updateStoreState } from '../actions';
 import DirectionButtons from '../components/DirectionButtons';
 import Page from '../components/Page';
 import Navigation from '../components/Navigation';
@@ -13,39 +13,39 @@ class App extends PureComponent {
   componentDidMount() {
     fetch('/api/pages/')
     .then(response => response.json())
-    .then(parentPages => this.props.addPagesData(parentPages));
+    .then(pages => this.props.updateStoreState({pages: formatPagePositions(pages)}));
     fetch('/api/navigation/')
     .then(response => response.json())
     .then(navigationLinks => this.props.updateStoreState({navigationLinks}));
   }
 
   render() {
-    const { isPageTransition, currentTextColour, parentPages } = this.props;
+    const { isPageTransition, currentTextColour, pages } = this.props;
     return (
       <main className={this.getAppContainerClassName()}>
         <header>
           <Navigation />
           <DirectionButtons />
         </header>
-        {parentPages && parentPages.map(parentPage => (
-          <Fragment key={parentPage.slug}>
+        {pages && pages.map(page => (
+          <Fragment key={page.slug}>
             <Route
               exact
-              path={`/${parentPage.slug}`}
+              path={`/${page.slug}`}
               render={() => (
                 <Page
-                  pathToParent={parentPage.slug}
-                  pageData={parentPage}
+                  basePath={page.slug}
+                  pageData={page}
                 />
               )}
             />
-            {parentPage.child_pages.map(childPage => (
+            {page.child_pages.map(childPage => (
               <Route
                 key={`page-${childPage.slug}`}
-                path={`${(parentPage.is_homepage ? '' : '/') + parentPage.slug}/${childPage.slug}/`}
+                path={`${(page.is_homepage ? '' : '/') + page.slug}/${childPage.slug}/`}
                 render={() => (
                   <Page
-                    pathToParent={parentPage.slug}
+                    basePath={page.slug}
                     pageData={childPage}
                   />
                 )}
@@ -73,13 +73,13 @@ class App extends PureComponent {
 function mapStateToProps({
   isPageTransition,
   currentTextColour,
-  parentPages
+  pages
 }, props) {
   return {
     ...props,
     isPageTransition,
     currentTextColour,
-    parentPages
+    pages
   }
 }
 

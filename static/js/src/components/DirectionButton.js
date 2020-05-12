@@ -7,7 +7,7 @@ import { formatVerticalPath } from '../helpers';
 const DirectionButton = props => {
   const {
     button,
-    currentParentPageSlug,
+    currentBasePath,
     isPageTransition
   } = props;
   const { targetPage } = button;
@@ -17,7 +17,7 @@ const DirectionButton = props => {
       'hidden'}-button`;
   let linkTo = '';
   if (button.isVisible && targetPage) {
-    linkTo = button.isVertical ? formatVerticalPath(currentParentPageSlug, targetPage.slug) : targetPage.slug;
+    linkTo = button.isVertical ? formatVerticalPath(currentBasePath, targetPage.slug) : targetPage.slug;
   }
   return (
     <Link

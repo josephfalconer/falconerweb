@@ -11,14 +11,14 @@ class Navigation extends PureComponent {
     }
   }
   render() {
-    const { navigationLinks, currentParentPageSlug, currentTextColour } = this.props;
+    const { navigationLinks, currentBasePath, currentTextColour } = this.props;
     if (navigationLinks.length) {
       return (
         <nav className="nav">
           <ul className="nav__menu list--plain">
             {navigationLinks.map((link, index) => {
               const Icon = Icons[link.icon.toUpperCase()];
-              const isCurrent = link.linked_page.slug === currentParentPageSlug;
+              const isCurrent = link.linked_page.slug === currentBasePath;
               return (
                 <li key={index} className="nav__item">
                   <Link
@@ -49,14 +49,14 @@ class Navigation extends PureComponent {
 function mapStateToProps({
   navigationLinks,
   isPageTransition,
-  currentParentPageSlug,
+  currentBasePath,
   currentTextColour
 }, props) {
   return {
     ...props,
     navigationLinks,
     isPageTransition,
-    currentParentPageSlug,
+    currentBasePath,
     currentTextColour
   }
 }

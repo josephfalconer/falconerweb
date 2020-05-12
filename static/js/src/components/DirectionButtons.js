@@ -21,28 +21,28 @@ class DirectionButtons extends PureComponent {
   }
 
   getButtons = nextProps => {
-    const { parentPages, currentPage } = nextProps;
+    const { pages, currentPage } = nextProps;
     const currentChildPages = nextProps.currentPage.is_child_page ?
-      nextProps.parentPages[nextProps.currentPage.x].child_pages:
+      nextProps.pages[nextProps.currentPage.x].child_pages:
       nextProps.currentPage.child_pages;
     if (currentPage) {
       return [
         {
           isVisible: currentPage.x > 0 && currentPage.y === 0,
           isVertical: false,
-          targetPage: parentPages[currentPage.x - 1],
+          targetPage: pages[currentPage.x - 1],
           name: 'prev'
         },
         {
-          isVisible: (currentPage.x + 1) < parentPages.length && currentPage.y === 0,
+          isVisible: (currentPage.x + 1) < pages.length && currentPage.y === 0,
           isVertical: false,
-          targetPage: parentPages[currentPage.x + 1],
+          targetPage: pages[currentPage.x + 1],
           name: 'next'
         },
         {
           isVisible: currentPage.y > 0,
           isVertical: true,
-          targetPage: currentChildPages[currentPage.y - 2] || parentPages[currentPage.x],
+          targetPage: currentChildPages[currentPage.y - 2] || pages[currentPage.x],
           name: 'up'
         },
         {
@@ -59,7 +59,7 @@ class DirectionButtons extends PureComponent {
   navigateFromKeyPress = event => {
     const {
       isPageTransition,
-      currentParentPageSlug,
+      currentBasePath,
       directionButtons,
       history,
       currentPageScrollWrapper
@@ -68,7 +68,7 @@ class DirectionButtons extends PureComponent {
       const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
       if ((button && button.isVisible) && !isPageTransition) {
         const targetSlug = button.targetPage.is_homepage ? '' : button.targetPage.slug;
-        const newPath = button.isVertical ? formatVerticalPath(currentParentPageSlug, targetSlug) : `/${targetSlug}`;
+        const newPath = button.isVertical ? formatVerticalPath(currentBasePath, targetSlug) : `/${targetSlug}`;
         if (this.isGoodToPush(button)) {
           history.push(newPath);
         } else {
@@ -108,7 +108,7 @@ class DirectionButtons extends PureComponent {
   }
 
   render() {
-    const { isPageTransition, currentParentPageSlug, directionButtons, currentTextColour } = this.props;
+    const { isPageTransition, currentBasePath, directionButtons, currentTextColour } = this.props;
     return (
       <nav className="directions">
         {directionButtons && directionButtons.map((button, index) => {
@@ -116,7 +116,7 @@ class DirectionButtons extends PureComponent {
             <DirectionButton
               key={index}
               button={button}
-              currentParentPageSlug={currentParentPageSlug}
+              currentBasePath={currentBasePath}
               isPageTransition={isPageTransition}
             />
           )
@@ -127,20 +127,20 @@ class DirectionButtons extends PureComponent {
 }
 
 function mapStateToProps({
-  parentPages,
+  pages,
   currentPage,
   isPageTransition,
-  currentParentPageSlug,
+  currentBasePath,
   directionButtons,
   currentPageScrollWrapper,
   currentTextColour
 }, props) {
   return {
     ...props,
-    parentPages,
+    pages,
     currentPage,
     isPageTransition,
-    currentParentPageSlug,
+    currentBasePath,
     directionButtons,
     currentPageScrollWrapper,
     currentTextColour

@@ -14,11 +14,11 @@ export function isUpwards(currentPage, previousPage) {
   return currentPage.y < previousPage.y;
 }
 
-export function formatVerticalPath(parentPath, targetPath) {
-  const isTopTarget = targetPath === parentPath;
+export function formatVerticalPath(basePath, targetPath) {
+  const isTopTarget = targetPath === basePath;
   let formattedPath = targetPath;
-  if (parentPath !== '') {
-    formattedPath = `/${parentPath}${isTopTarget ? '' : '/' + targetPath}`
+  if (basePath !== '') {
+    formattedPath = `/${basePath}${isTopTarget ? '' : '/' + targetPath}`
   }
   return formattedPath;
 }

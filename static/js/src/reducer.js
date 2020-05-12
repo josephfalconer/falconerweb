@@ -2,7 +2,7 @@ import * as ActionTypes from './actiontypes';
 
 const INITIAL_STATE = {
   navigationLinks: [],
-  parentPages: [],
+  pages: [],
   skills: [],
   isPageTransition: false,
   currentTextColour: 'light',
@@ -15,24 +15,19 @@ export default function simpleReducer(state = INITIAL_STATE, action) {
         ...state,
         ...action.payload
       }
-    case ActionTypes.ADD_PAGES_DATA:
-      return {
-        ...state,
-        parentPages: action.pagesData
-      }
     case ActionTypes.UPDATE_PREVIOUS_PAGE:
       const previousPage = action.previousPage;
-      let parentPages = state.parentPages;
+      let pages = state.pages;
       // Last scroll top can be recorded
       if (previousPage.is_child_page) {
-        parentPages[previousPage.x].child_pages[previousPage.y - 1] = previousPage;
+        pages[previousPage.x].child_pages[previousPage.y - 1] = previousPage;
       } else {
-        parentPages[previousPage.x] = previousPage;
+        pages[previousPage.x] = previousPage;
       }
       return {
         ...state,
         previousPage,
-        parentPages
+        pages
       }
     default:
       return state;
