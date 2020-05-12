@@ -2,11 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const DirectionButton = props => {
-  const {
-    button,
-    currentBasePath,
-    isPageTransition
-  } = props;
+  const { button, isPageTransition } = props;
   const { targetPage } = button;
   const visibiltyClass =
     `js-${button.isVisible && !isPageTransition ?

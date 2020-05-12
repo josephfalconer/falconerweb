@@ -10,6 +10,7 @@ export const formatPageData = pages => pages.map((page, x) => ({
     x: x,
     y: y + 1,
     path: `${(page.slug !== '' ? '/' : '') + page.slug}/${childPage.slug}/`,
+    is_homepage_child: page.is_homepage
   })),
 }))
 

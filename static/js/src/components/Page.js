@@ -9,9 +9,8 @@ import * as helpers from '../helpers';
 
 class Page extends PureComponent {
 	componentDidMount() {
-		const { pageData, basePath, updateStoreState } = this.props;
+		const { pageData, updateStoreState } = this.props;
 		updateStoreState({
-			currentBasePath: basePath,
 			currentPage: pageData,
 			currentTextColour: pageData.text_colour,
 			isPageTransition: true,

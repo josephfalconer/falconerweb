@@ -11,19 +11,18 @@ class Navigation extends PureComponent {
     }
   }
   render() {
-    const { navigationLinks, currentBasePath, currentTextColour } = this.props;
+    const { navigationLinks, currentPath, currentTextColour } = this.props;
     if (navigationLinks.length) {
       return (
         <nav className="nav">
           <ul className="nav__menu list--plain">
             {navigationLinks.map((link, index) => {
               const Icon = Icons[link.icon.toUpperCase()];
-              const isCurrent = link.linked_page.slug === currentBasePath;
               return (
                 <li key={index} className="nav__item">
                   <Link
                     to={`/${link.linked_page.slug}`}
-                    className={`nav__link ${isCurrent && 'nav__link--current'}`}
+                    className={this.getLinkClassName(link)}
                     onClick={this.blockNavigation}
                   >
                     {Icon &&
@@ -44,20 +43,32 @@ class Navigation extends PureComponent {
     }
     return null;
   }
+
+  getLinkClassName = link => {
+    const { currentPath, currentPage } = this.props;
+    let linkClassName = 'nav__link';
+    if (
+      (currentPath.split('/')[1] === link.linked_page.slug) ||
+      (link.linked_page.is_homepage && currentPage && currentPage.is_homepage_child)
+    ) {
+      linkClassName += ' nav__link--current';
+    }
+    return linkClassName;
+  }
 }
 
 function mapStateToProps({
   navigationLinks,
   isPageTransition,
-  currentBasePath,
-  currentTextColour
+  currentTextColour,
+  currentPage
 }, props) {
   return {
     ...props,
     navigationLinks,
     isPageTransition,
-    currentBasePath,
-    currentTextColour
+    currentTextColour,
+    currentPage
   }
 }
 

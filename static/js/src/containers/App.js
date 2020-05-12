@@ -23,7 +23,7 @@ class App extends PureComponent {
     return (
       <main className={this.getAppContainerClassName()}>
         <header>
-          <Navigation />
+          <Navigation currentPath={this.props.location.pathname} />
           <DirectionButtons />
         </header>
         {this.props.pages && this.props.pages.map(page => (
@@ -32,10 +32,7 @@ class App extends PureComponent {
               exact
               path={page.path}
               render={() => (
-                <Page
-                  basePath={page.slug}
-                  pageData={page}
-                />
+                <Page pageData={page} />
               )}
             />
             {page.child_pages.map(childPage => (
@@ -43,10 +40,7 @@ class App extends PureComponent {
                 key={`page-${childPage.slug}`}
                 path={childPage.path}
                 render={() => (
-                  <Page
-                    basePath={page.slug}
-                    pageData={childPage}
-                  />
+                  <Page pageData={childPage} />
                 )}
               />
             ))}
