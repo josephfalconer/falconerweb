@@ -27607,6 +27607,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -27615,35 +27617,77 @@ var _reactRouterDom = __webpack_require__(65);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DirectionButton = function DirectionButton(props) {
-  var button = props.button,
-      isPageTransition = props.isPageTransition;
-  var targetPage = button.targetPage;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  var visibiltyClass = 'js-' + (button.isVisible && !isPageTransition ? 'visible' : 'hidden') + '-button';
-  return _react2.default.createElement(
-    _reactRouterDom.Link,
-    {
-      to: button.isVisible && targetPage ? targetPage.path : '',
-      className: 'direction direction--' + button.name + ' ' + visibiltyClass
-    },
-    _react2.default.createElement(
-      'span',
-      { className: 'direction__inner' },
-      _react2.default.createElement(
-        'span',
-        { className: 'direction__text is-displayed-lg' },
-        button.isVisible ? targetPage.title : null
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: 'direction__icon' },
-        _react2.default.createElement('i', null),
-        _react2.default.createElement('i', null)
-      )
-    )
-  );
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DirectionButton = function (_PureComponent) {
+  _inherits(DirectionButton, _PureComponent);
+
+  function DirectionButton() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, DirectionButton);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DirectionButton.__proto__ || Object.getPrototypeOf(DirectionButton)).call.apply(_ref, [this].concat(args))), _this), _this.getClassName = function () {
+      var _this$props = _this.props,
+          button = _this$props.button,
+          isPageTransition = _this$props.isPageTransition;
+
+      var isVisible = button.isVisible && !isPageTransition;
+      return 'direction direction--' + button.name + ' js-' + (isVisible ? 'visible' : 'hidden') + '-button';
+    }, _this.blockNavigation = function (e) {
+      if (!_this.props.button.isVisible) {
+        e.preventDefault();
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(DirectionButton, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          button = _props.button,
+          isPageTransition = _props.isPageTransition;
+      var targetPage = button.targetPage;
+
+      return _react2.default.createElement(
+        _reactRouterDom.Link,
+        {
+          to: targetPage ? targetPage.path : '',
+          className: this.getClassName(),
+          onClick: this.blockNavigation,
+          tabIndex: !button.isVisible ? -1 : undefined
+        },
+        _react2.default.createElement(
+          'span',
+          { className: 'direction__inner' },
+          _react2.default.createElement(
+            'span',
+            { className: 'direction__text is-displayed-lg' },
+            button.isVisible ? targetPage.title : null
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: 'direction__icon' },
+            _react2.default.createElement('i', null),
+            _react2.default.createElement('i', null)
+          )
+        )
+      );
+    }
+  }]);
+
+  return DirectionButton;
+}(_react.PureComponent);
 
 exports.default = DirectionButton;
 
