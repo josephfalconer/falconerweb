@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 import DirectionButton from './DirectionButton';
 import { updateStoreState } from '../actions';
-import { formatVerticalPath } from '../helpers';
 
 class DirectionButtons extends PureComponent {
   componentWillReceiveProps(nextProps) {
@@ -59,7 +58,6 @@ class DirectionButtons extends PureComponent {
   navigateFromKeyPress = event => {
     const {
       isPageTransition,
-      currentBasePath,
       directionButtons,
       history,
       currentPageScrollWrapper
@@ -67,10 +65,8 @@ class DirectionButtons extends PureComponent {
     if (directionButtons) {
       const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
       if ((button && button.isVisible) && !isPageTransition) {
-        const targetSlug = button.targetPage.is_homepage ? '' : button.targetPage.slug;
-        const newPath = button.isVertical ? formatVerticalPath(currentBasePath, targetSlug) : `/${targetSlug}`;
         if (this.isGoodToPush(button)) {
-          history.push(newPath);
+          history.push(button.targetPage.path);
         } else {
           currentPageScrollWrapper.focus();
         }

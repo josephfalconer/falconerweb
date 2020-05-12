@@ -1,14 +1,16 @@
 import * as ActionTypes from './actiontypes';
 
-export const formatPagePositions = pages => pages.map((page, x) => ({
+export const formatPageData = pages => pages.map((page, x) => ({
   ...page,
   x: x,
   y: 0,
+  path: `/${page.slug}`,
   child_pages: page.child_pages.map((childPage, y) => ({
     ...childPage,
     x: x,
     y: y + 1,
-  }))
+    path: `${(page.slug !== '' ? '/' : '') + page.slug}/${childPage.slug}/`,
+  })),
 }))
 
 export function updateStoreState(payload) {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 
-import { addPagesData, formatPagePositions, updateStoreState } from '../actions';
+import { formatPageData, updateStoreState } from '../actions';
 import DirectionButtons from '../components/DirectionButtons';
 import Page from '../components/Page';
 import Navigation from '../components/Navigation';
@@ -13,25 +13,24 @@ class App extends PureComponent {
   componentDidMount() {
     fetch('/api/pages/')
     .then(response => response.json())
-    .then(pages => this.props.updateStoreState({pages: formatPagePositions(pages)}));
+    .then(pages => this.props.updateStoreState({pages: formatPageData(pages)}));
     fetch('/api/navigation/')
     .then(response => response.json())
     .then(navigationLinks => this.props.updateStoreState({navigationLinks}));
   }
 
   render() {
-    const { isPageTransition, currentTextColour, pages } = this.props;
     return (
       <main className={this.getAppContainerClassName()}>
         <header>
           <Navigation />
           <DirectionButtons />
         </header>
-        {pages && pages.map(page => (
+        {this.props.pages && this.props.pages.map(page => (
           <Fragment key={page.slug}>
             <Route
               exact
-              path={`/${page.slug}`}
+              path={page.path}
               render={() => (
                 <Page
                   basePath={page.slug}
@@ -42,7 +41,7 @@ class App extends PureComponent {
             {page.child_pages.map(childPage => (
               <Route
                 key={`page-${childPage.slug}`}
-                path={`${(page.is_homepage ? '' : '/') + page.slug}/${childPage.slug}/`}
+                path={childPage.path}
                 render={() => (
                   <Page
                     basePath={page.slug}
@@ -58,12 +57,11 @@ class App extends PureComponent {
   }
 
   getAppContainerClassName = () => {
-    const { isPageTransition, currentTextColour } = this.props;
     let appContainerClassName = 'app__container';
-    if (isPageTransition) {
+    if (this.props.isPageTransition) {
       appContainerClassName += ' js-changing-page';
     }
-    if (currentTextColour === TEXT_COLOURS.DARK) {
+    if (this.props.currentTextColour === TEXT_COLOURS.DARK) {
       appContainerClassName += ' js-nav-backgrounds';
     }
     return appContainerClassName;
@@ -84,6 +82,5 @@ function mapStateToProps({
 }
 
 export default withRouter(connect(mapStateToProps, {
-  addPagesData,
   updateStoreState
 })(App));

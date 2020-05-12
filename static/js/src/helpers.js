@@ -13,12 +13,3 @@ export function isLeftwards(currentPage, previousPage) {
 export function isUpwards(currentPage, previousPage) {
   return currentPage.y < previousPage.y;
 }
-
-export function formatVerticalPath(basePath, targetPath) {
-  const isTopTarget = targetPath === basePath;
-  let formattedPath = targetPath;
-  if (basePath !== '') {
-    formattedPath = `/${basePath}${isTopTarget ? '' : '/' + targetPath}`
-  }
-  return formattedPath;
-}
