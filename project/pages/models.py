@@ -36,7 +36,7 @@ class Page(models.Model):
     icon = models.CharField(max_length=200, choices=ICONS, blank=True)
     background = models.CharField(max_length=200, choices=BACKGROUNDS, blank=True)
     text_colour = models.CharField(max_length=200, choices=TEXT_COLOURS, default='dark')
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=20, unique=True)
     display_title = models.CharField(max_length=255, blank=True)
     intro_text = models.TextField(blank=True)
     center_content = models.BooleanField(default=False)
