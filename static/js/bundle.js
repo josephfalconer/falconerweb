@@ -4456,17 +4456,17 @@ function simpleReducer() {
       return _extends({}, state, {
         parentPages: action.pagesData
       });
-    case ActionTypes.UPDATE_OUTGOING_PAGE:
-      var outgoingPage = action.outgoingPage;
+    case ActionTypes.UPDATE_PREVIOUS_PAGE:
+      var previousPage = action.previousPage;
       var parentPages = state.parentPages;
-      // Record last scroll top
-      if (outgoingPage.is_child_page) {
-        parentPages[outgoingPage.x].child_pages[outgoingPage.y - 1] = outgoingPage;
+      // Last scroll top can be recorded
+      if (previousPage.is_child_page) {
+        parentPages[previousPage.x].child_pages[previousPage.y - 1] = previousPage;
       } else {
-        parentPages[outgoingPage.x] = outgoingPage;
+        parentPages[previousPage.x] = previousPage;
       }
       return _extends({}, state, {
-        outgoingPage: outgoingPage,
+        previousPage: previousPage,
         parentPages: parentPages
       });
     default:
@@ -5834,7 +5834,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var SIMPLE_STATE_UPDATE = exports.SIMPLE_STATE_UPDATE = 'SIMPLE_STATE_UPDATE';
 var ADD_PAGES_DATA = exports.ADD_PAGES_DATA = 'ADD_PAGES_DATA';
-var UPDATE_OUTGOING_PAGE = exports.UPDATE_OUTGOING_PAGE = 'UPDATE_OUTGOING_PAGE';
+var UPDATE_PREVIOUS_PAGE = exports.UPDATE_PREVIOUS_PAGE = 'UPDATE_PREVIOUS_PAGE';
 
 /***/ }),
 /* 68 */
@@ -27433,7 +27433,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports.updateStoreState = updateStoreState;
 exports.addPagesData = addPagesData;
-exports.updateOutgoingPage = updateOutgoingPage;
+exports.updatePreviousPage = updatePreviousPage;
 
 var _actiontypes = __webpack_require__(67);
 
@@ -27466,10 +27466,10 @@ function addPagesData(payload) {
   };
 }
 
-function updateOutgoingPage(outgoingPage) {
+function updatePreviousPage(previousPage) {
   return {
-    type: ActionTypes.UPDATE_OUTGOING_PAGE,
-    outgoingPage: outgoingPage
+    type: ActionTypes.UPDATE_PREVIOUS_PAGE,
+    previousPage: previousPage
   };
 }
 
@@ -27488,20 +27488,20 @@ exports.isVertical = isVertical;
 exports.isLeftwards = isLeftwards;
 exports.isUpwards = isUpwards;
 exports.formatVerticalPath = formatVerticalPath;
-function isSideways(currentPage, outgoingPage) {
-  return outgoingPage.y == currentPage.y && Math.abs(outgoingPage.x - currentPage.x) == 1;
+function isSideways(currentPage, previousPage) {
+  return previousPage.y == currentPage.y && Math.abs(previousPage.x - currentPage.x) == 1;
 }
 
-function isVertical(currentPage, outgoingPage) {
-  return outgoingPage.x == currentPage.x && Math.abs(outgoingPage.y - currentPage.y) == 1;
+function isVertical(currentPage, previousPage) {
+  return previousPage.x == currentPage.x && Math.abs(previousPage.y - currentPage.y) == 1;
 }
 
-function isLeftwards(currentPage, outgoingPage) {
-  return currentPage.x < outgoingPage.x;
+function isLeftwards(currentPage, previousPage) {
+  return currentPage.x < previousPage.x;
 }
 
-function isUpwards(currentPage, outgoingPage) {
-  return currentPage.y < outgoingPage.y;
+function isUpwards(currentPage, previousPage) {
+  return currentPage.y < previousPage.y;
 }
 
 function formatVerticalPath(parentPath, targetPath) {
@@ -28073,7 +28073,7 @@ var Page = function (_PureComponent) {
 		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Page.__proto__ || Object.getPrototypeOf(Page)).call.apply(_ref, [this].concat(args))), _this), _this.getPageClassName = function (showTransition) {
 			var _this$props = _this.props,
 			    currentPage = _this$props.currentPage,
-			    outgoingPage = _this$props.outgoingPage;
+			    previousPage = _this$props.previousPage;
 
 			var pageClassName = 'page';
 			var transitionClassName = '';
@@ -28081,10 +28081,10 @@ var Page = function (_PureComponent) {
 			if (showTransition) {
 				transitionClassName = ' js-incoming-';
 
-				if (helpers.isSideways(currentPage, outgoingPage)) {
-					transitionClassName += helpers.isLeftwards(currentPage, outgoingPage) ? 'left' : 'right';
-				} else if (helpers.isVertical(currentPage, outgoingPage)) {
-					transitionClassName += helpers.isUpwards(currentPage, outgoingPage) ? 'top' : 'bottom';
+				if (helpers.isSideways(currentPage, previousPage)) {
+					transitionClassName += helpers.isLeftwards(currentPage, previousPage) ? 'left' : 'right';
+				} else if (helpers.isVertical(currentPage, previousPage)) {
+					transitionClassName += helpers.isUpwards(currentPage, previousPage) ? 'top' : 'bottom';
 				} else {
 					transitionClassName += 'fade';
 				}
@@ -28121,7 +28121,7 @@ var Page = function (_PureComponent) {
 	}, {
 		key: 'componentWillUnmount',
 		value: function componentWillUnmount() {
-			this.props.updateOutgoingPage(_extends({}, this.props.pageData, {
+			this.props.updatePreviousPage(_extends({}, this.props.pageData, {
 				lastScrollTop: this.props.currentPageScrollWrapper.scrollTop || 0
 			}));
 		}
@@ -28130,14 +28130,14 @@ var Page = function (_PureComponent) {
 		value: function render() {
 			var _props2 = this.props,
 			    pageData = _props2.pageData,
-			    outgoingPage = _props2.outgoingPage,
+			    previousPage = _props2.previousPage,
 			    isPageTransition = _props2.isPageTransition;
 
-			var showTransition = outgoingPage && isPageTransition;
+			var showTransition = previousPage && isPageTransition;
 			return _react2.default.createElement(
 				'div',
 				{ className: this.getPageClassName(showTransition) },
-				showTransition && _react2.default.createElement(_PageContent2.default, { pageData: outgoingPage }),
+				showTransition && _react2.default.createElement(_PageContent2.default, { pageData: previousPage }),
 				_react2.default.createElement(_PageContent2.default, { pageData: pageData, isCurrentPage: true })
 			);
 		}
@@ -28148,20 +28148,20 @@ var Page = function (_PureComponent) {
 
 function mapStateToProps(_ref2, props) {
 	var isPageTransition = _ref2.isPageTransition,
-	    outgoingPage = _ref2.outgoingPage,
+	    previousPage = _ref2.previousPage,
 	    currentPage = _ref2.currentPage,
 	    currentPageScrollWrapper = _ref2.currentPageScrollWrapper;
 
 	return _extends({}, props, {
 		isPageTransition: isPageTransition,
-		outgoingPage: outgoingPage,
+		previousPage: previousPage,
 		currentPage: currentPage,
 		currentPageScrollWrapper: currentPageScrollWrapper
 	});
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-	updateOutgoingPage: _actions.updateOutgoingPage,
+	updatePreviousPage: _actions.updatePreviousPage,
 	updateStoreState: _actions.updateStoreState
 })(Page);
 

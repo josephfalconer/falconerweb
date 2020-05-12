@@ -20,18 +20,18 @@ export default function simpleReducer(state = INITIAL_STATE, action) {
         ...state,
         parentPages: action.pagesData
       }
-    case ActionTypes.UPDATE_OUTGOING_PAGE:
-      const outgoingPage = action.outgoingPage;
+    case ActionTypes.UPDATE_PREVIOUS_PAGE:
+      const previousPage = action.previousPage;
       let parentPages = state.parentPages;
-      // Record last scroll top
-      if (outgoingPage.is_child_page) {
-        parentPages[outgoingPage.x].child_pages[outgoingPage.y - 1] = outgoingPage;
+      // Last scroll top can be recorded
+      if (previousPage.is_child_page) {
+        parentPages[previousPage.x].child_pages[previousPage.y - 1] = previousPage;
       } else {
-        parentPages[outgoingPage.x] = outgoingPage;
+        parentPages[previousPage.x] = previousPage;
       }
       return {
         ...state,
-        outgoingPage,
+        previousPage,
         parentPages
       }
     default:

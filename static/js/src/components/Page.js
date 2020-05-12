@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import PageContent from './PageContent';
-import { updateOutgoingPage, updateStoreState } from '../actions';
+import { updatePreviousPage, updateStoreState } from '../actions';
 import { PAGE_TRANSITION_TIMEOUT } from '../constants';
 import * as helpers from '../helpers';
 
@@ -29,19 +29,19 @@ class Page extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		this.props.updateOutgoingPage({
+		this.props.updatePreviousPage({
 			...this.props.pageData,
 			lastScrollTop: this.props.currentPageScrollWrapper.scrollTop || 0
 		});
 	}
 
 	render() {
-		const { pageData, outgoingPage, isPageTransition } = this.props;
-		const showTransition = outgoingPage && isPageTransition;
+		const { pageData, previousPage, isPageTransition } = this.props;
+		const showTransition = previousPage && isPageTransition;
 		return (
 			<div className={this.getPageClassName(showTransition)}>
 	  		{showTransition && (
-		      <PageContent pageData={outgoingPage} />
+		      <PageContent pageData={previousPage} />
   			)}
 	      <PageContent pageData={pageData} isCurrentPage />
 			</div>	
@@ -49,17 +49,17 @@ class Page extends PureComponent {
 	}
 
 	getPageClassName = showTransition => {
-		const { currentPage, outgoingPage } = this.props;
+		const { currentPage, previousPage } = this.props;
 		let pageClassName = 'page';
 		let transitionClassName = ''
 
 		if (showTransition) {
 			transitionClassName = ' js-incoming-';
 			
-			if (helpers.isSideways(currentPage, outgoingPage)) {
-				transitionClassName += helpers.isLeftwards(currentPage, outgoingPage) ? 'left' : 'right';
-			} else if (helpers.isVertical(currentPage, outgoingPage)) {
-				transitionClassName += helpers.isUpwards(currentPage, outgoingPage) ? 'top' : 'bottom';
+			if (helpers.isSideways(currentPage, previousPage)) {
+				transitionClassName += helpers.isLeftwards(currentPage, previousPage) ? 'left' : 'right';
+			} else if (helpers.isVertical(currentPage, previousPage)) {
+				transitionClassName += helpers.isUpwards(currentPage, previousPage) ? 'top' : 'bottom';
 			} else {
 				transitionClassName += 'fade';
 			}
@@ -70,20 +70,20 @@ class Page extends PureComponent {
 
 function mapStateToProps({
 	isPageTransition,
-	outgoingPage,
+	previousPage,
 	currentPage,
 	currentPageScrollWrapper,
 }, props) {
 	return {
 		...props,
 		isPageTransition,
-		outgoingPage,
+		previousPage,
 		currentPage,
 		currentPageScrollWrapper
 	}
 }
 
 export default connect(mapStateToProps, {
-	updateOutgoingPage,
+	updatePreviousPage,
 	updateStoreState
 })(Page);

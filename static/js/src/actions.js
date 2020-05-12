@@ -27,9 +27,9 @@ export function addPagesData(payload) {
   }
 }
 
-export function updateOutgoingPage(outgoingPage) {
+export function updatePreviousPage(previousPage) {
   return {
-    type: ActionTypes.UPDATE_OUTGOING_PAGE,
-    outgoingPage
+    type: ActionTypes.UPDATE_PREVIOUS_PAGE,
+    previousPage
   }
 }

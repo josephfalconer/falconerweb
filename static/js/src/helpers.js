@@ -1,17 +1,17 @@
-export function isSideways(currentPage, outgoingPage) {
-  return outgoingPage.y == currentPage.y && Math.abs(outgoingPage.x - currentPage.x) == 1;
+export function isSideways(currentPage, previousPage) {
+  return previousPage.y == currentPage.y && Math.abs(previousPage.x - currentPage.x) == 1;
 }
 
-export function isVertical(currentPage, outgoingPage) {
-  return outgoingPage.x == currentPage.x && Math.abs(outgoingPage.y - currentPage.y) == 1;
+export function isVertical(currentPage, previousPage) {
+  return previousPage.x == currentPage.x && Math.abs(previousPage.y - currentPage.y) == 1;
 }
 
-export function isLeftwards(currentPage, outgoingPage) {
-  return currentPage.x < outgoingPage.x;
+export function isLeftwards(currentPage, previousPage) {
+  return currentPage.x < previousPage.x;
 }
 
-export function isUpwards(currentPage, outgoingPage) {
-  return currentPage.y < outgoingPage.y;
+export function isUpwards(currentPage, previousPage) {
+  return currentPage.y < previousPage.y;
 }
 
 export function formatVerticalPath(parentPath, targetPath) {
