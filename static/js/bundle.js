@@ -4316,11 +4316,15 @@ var App = function (_PureComponent) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = App.__proto__ || Object.getPrototypeOf(App)).call.apply(_ref, [this].concat(args))), _this), _this.getAppContainerClassName = function () {
+      var _this$props = _this.props,
+          currentPage = _this$props.currentPage,
+          isPageTransition = _this$props.isPageTransition;
+
       var appContainerClassName = 'app__container';
-      if (_this.props.isPageTransition) {
+      if (isPageTransition) {
         appContainerClassName += ' js-changing-page';
       }
-      if (_this.props.currentTextColour === _constants.TEXT_COLOURS.DARK) {
+      if (currentPage && currentPage.text_colour === _constants.TEXT_COLOURS.DARK) {
         appContainerClassName += ' js-nav-backgrounds';
       }
       return appContainerClassName;
@@ -4386,12 +4390,12 @@ var App = function (_PureComponent) {
 
 function mapStateToProps(_ref2, props) {
   var isPageTransition = _ref2.isPageTransition,
-      currentTextColour = _ref2.currentTextColour,
+      currentPage = _ref2.currentPage,
       pages = _ref2.pages;
 
   return _extends({}, props, {
     isPageTransition: isPageTransition,
-    currentTextColour: currentTextColour,
+    currentPage: currentPage,
     pages: pages
   });
 }
@@ -4425,8 +4429,7 @@ var INITIAL_STATE = {
   navigationLinks: [],
   pages: [],
   skills: [],
-  isPageTransition: false,
-  currentTextColour: 'light'
+  isPageTransition: false
 };
 
 function simpleReducer() {
@@ -27825,8 +27828,7 @@ var DirectionButtons = function (_PureComponent) {
     value: function render() {
       var _props = this.props,
           isPageTransition = _props.isPageTransition,
-          directionButtons = _props.directionButtons,
-          currentTextColour = _props.currentTextColour;
+          directionButtons = _props.directionButtons;
 
       return _react2.default.createElement(
         'nav',
@@ -27850,16 +27852,14 @@ function mapStateToProps(_ref2, props) {
       currentPage = _ref2.currentPage,
       isPageTransition = _ref2.isPageTransition,
       directionButtons = _ref2.directionButtons,
-      currentPageScrollWrapper = _ref2.currentPageScrollWrapper,
-      currentTextColour = _ref2.currentTextColour;
+      currentPageScrollWrapper = _ref2.currentPageScrollWrapper;
 
   return _extends({}, props, {
     pages: pages,
     currentPage: currentPage,
     isPageTransition: isPageTransition,
     directionButtons: directionButtons,
-    currentPageScrollWrapper: currentPageScrollWrapper,
-    currentTextColour: currentTextColour
+    currentPageScrollWrapper: currentPageScrollWrapper
   });
 }
 
@@ -27938,19 +27938,14 @@ var Navigation = function (_PureComponent) {
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props,
-          navigationLinks = _props.navigationLinks,
-          currentPath = _props.currentPath,
-          currentTextColour = _props.currentTextColour;
-
-      if (navigationLinks.length) {
+      if (this.props.navigationLinks.length) {
         return _react2.default.createElement(
           'nav',
           { className: 'nav' },
           _react2.default.createElement(
             'ul',
             { className: 'nav__menu list--plain' },
-            navigationLinks.map(function (link, index) {
+            this.props.navigationLinks.map(function (link, index) {
               var Icon = _Icons2.default[link.icon.toUpperCase()];
               return _react2.default.createElement(
                 'li',
@@ -27992,13 +27987,11 @@ var Navigation = function (_PureComponent) {
 function mapStateToProps(_ref2, props) {
   var navigationLinks = _ref2.navigationLinks,
       isPageTransition = _ref2.isPageTransition,
-      currentTextColour = _ref2.currentTextColour,
       currentPage = _ref2.currentPage;
 
   return _extends({}, props, {
     navigationLinks: navigationLinks,
     isPageTransition: isPageTransition,
-    currentTextColour: currentTextColour,
     currentPage: currentPage
   });
 }
@@ -28096,7 +28089,6 @@ var Page = function (_PureComponent) {
 
 			updateStoreState({
 				currentPage: pageData,
-				currentTextColour: pageData.text_colour,
 				isPageTransition: true
 			});
 			setTimeout(function () {

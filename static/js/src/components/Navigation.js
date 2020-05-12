@@ -11,12 +11,11 @@ class Navigation extends PureComponent {
     }
   }
   render() {
-    const { navigationLinks, currentPath, currentTextColour } = this.props;
-    if (navigationLinks.length) {
+    if (this.props.navigationLinks.length) {
       return (
         <nav className="nav">
           <ul className="nav__menu list--plain">
-            {navigationLinks.map((link, index) => {
+            {this.props.navigationLinks.map((link, index) => {
               const Icon = Icons[link.icon.toUpperCase()];
               return (
                 <li key={index} className="nav__item">
@@ -60,14 +59,12 @@ class Navigation extends PureComponent {
 function mapStateToProps({
   navigationLinks,
   isPageTransition,
-  currentTextColour,
   currentPage
 }, props) {
   return {
     ...props,
     navigationLinks,
     isPageTransition,
-    currentTextColour,
     currentPage
   }
 }

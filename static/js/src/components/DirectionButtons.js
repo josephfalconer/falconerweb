@@ -88,7 +88,7 @@ class DirectionButtons extends PureComponent {
   }
 
   render() {
-    const { isPageTransition, directionButtons, currentTextColour } = this.props;
+    const { isPageTransition, directionButtons } = this.props;
     return (
       <nav className="directions">
         {directionButtons && directionButtons.map((button, index) => {
@@ -111,7 +111,6 @@ function mapStateToProps({
   isPageTransition,
   directionButtons,
   currentPageScrollWrapper,
-  currentTextColour
 }, props) {
   return {
     ...props,
@@ -120,7 +119,6 @@ function mapStateToProps({
     isPageTransition,
     directionButtons,
     currentPageScrollWrapper,
-    currentTextColour
   }
 }
 

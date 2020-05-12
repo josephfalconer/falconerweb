@@ -5,7 +5,6 @@ const INITIAL_STATE = {
   pages: [],
   skills: [],
   isPageTransition: false,
-  currentTextColour: 'light',
 }
 
 export default function simpleReducer(state = INITIAL_STATE, action) {

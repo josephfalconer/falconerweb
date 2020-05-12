@@ -12,7 +12,6 @@ class Page extends PureComponent {
 		const { pageData, updateStoreState } = this.props;
 		updateStoreState({
 			currentPage: pageData,
-			currentTextColour: pageData.text_colour,
 			isPageTransition: true,
 		});
 		setTimeout(() => updateStoreState({isPageTransition: false}), PAGE_TRANSITION_TIMEOUT);

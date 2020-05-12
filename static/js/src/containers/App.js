@@ -51,11 +51,12 @@ class App extends PureComponent {
   }
 
   getAppContainerClassName = () => {
+    const {currentPage, isPageTransition } = this.props;
     let appContainerClassName = 'app__container';
-    if (this.props.isPageTransition) {
+    if (isPageTransition) {
       appContainerClassName += ' js-changing-page';
     }
-    if (this.props.currentTextColour === TEXT_COLOURS.DARK) {
+    if (currentPage && currentPage.text_colour === TEXT_COLOURS.DARK) {
       appContainerClassName += ' js-nav-backgrounds';
     }
     return appContainerClassName;
@@ -64,13 +65,13 @@ class App extends PureComponent {
 
 function mapStateToProps({
   isPageTransition,
-  currentTextColour,
+  currentPage,
   pages
 }, props) {
   return {
     ...props,
     isPageTransition,
-    currentTextColour,
+    currentPage,
     pages
   }
 }
