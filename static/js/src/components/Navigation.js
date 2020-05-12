@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Icons from './icons/Icons';
 
-class Navigation extends React.PureComponent {
+class Navigation extends PureComponent {
   blockNavigation = e => {
     if (this.props.isPageTransition) {
       e.preventDefault()
@@ -44,13 +44,6 @@ class Navigation extends React.PureComponent {
     }
     return null;
   }
-}
-
-Navigation.propTypes = {
-  navigationLinks: PropTypes.array.isRequired,
-  isPageTransition: PropTypes.bool.isRequired,
-  currentParentPageSlug: PropTypes.string,
-  currentTextColour: PropTypes.string,
 }
 
 function mapStateToProps({

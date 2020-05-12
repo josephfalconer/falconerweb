@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { formatVerticalPath } from '../helpers';
@@ -33,16 +33,6 @@ const DirectionButton = props => {
       </span>
     </Link>
   )
-}
-
-DirectionButton.propTypes = {
-  button: PropTypes.object.isRequired,
-  isPageTransition: PropTypes.bool.isRequired,
-  currentParentPageSlug: PropTypes.string.isRequired,
-}
-
-DirectionButton.defaultProps = {
-  isPageTransition: false,
 }
 
 export default DirectionButton;

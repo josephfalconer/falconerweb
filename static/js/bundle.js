@@ -4399,12 +4399,6 @@ var App = function (_PureComponent) {
   return App;
 }(_react.PureComponent);
 
-App.propTypes = {
-  isPageTransition: _react.PropTypes.bool,
-  currentTextColour: _react.PropTypes.string,
-  parentPages: _react.PropTypes.array
-};
-
 function mapStateToProps(_ref2, props) {
   var isPageTransition = _ref2.isPageTransition,
       currentTextColour = _ref2.currentTextColour,
@@ -27693,16 +27687,6 @@ var DirectionButton = function DirectionButton(props) {
   );
 };
 
-DirectionButton.propTypes = {
-  button: _react.PropTypes.object.isRequired,
-  isPageTransition: _react.PropTypes.bool.isRequired,
-  currentParentPageSlug: _react.PropTypes.string.isRequired
-};
-
-DirectionButton.defaultProps = {
-  isPageTransition: false
-};
-
 exports.default = DirectionButton;
 
 /***/ }),
@@ -27878,14 +27862,6 @@ var DirectionButtons = function (_PureComponent) {
   return DirectionButtons;
 }(_react.PureComponent);
 
-DirectionButtons.propTypes = {
-  parentPages: _react.PropTypes.array.isRequired,
-  currentPage: _react.PropTypes.object,
-  isPageTransition: _react.PropTypes.bool.isRequired,
-  currentParentPageSlug: _react.PropTypes.string
-};
-
-
 function mapStateToProps(_ref2, props) {
   var parentPages = _ref2.parentPages,
       currentPage = _ref2.currentPage,
@@ -27945,8 +27921,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Navigation = function (_React$PureComponent) {
-  _inherits(Navigation, _React$PureComponent);
+var Navigation = function (_PureComponent) {
+  _inherits(Navigation, _PureComponent);
 
   function Navigation() {
     var _ref;
@@ -28021,14 +27997,7 @@ var Navigation = function (_React$PureComponent) {
   }]);
 
   return Navigation;
-}(_react2.default.PureComponent);
-
-Navigation.propTypes = {
-  navigationLinks: _react.PropTypes.array.isRequired,
-  isPageTransition: _react.PropTypes.bool.isRequired,
-  currentParentPageSlug: _react.PropTypes.string,
-  currentTextColour: _react.PropTypes.string
-};
+}(_react.PureComponent);
 
 function mapStateToProps(_ref2, props) {
   var navigationLinks = _ref2.navigationLinks,
@@ -28178,17 +28147,6 @@ var Page = function (_PureComponent) {
 
 	return Page;
 }(_react.PureComponent);
-
-Page.propTypes = {
-	pageData: _react.PropTypes.object.isRequired,
-	pathToParent: _react.PropTypes.string.isRequired,
-	outgoingPage: _react.PropTypes.object,
-	currentPage: _react.PropTypes.object,
-	isPageTransition: _react.PropTypes.bool.isRequired,
-	updateStoreState: _react.PropTypes.func.isRequired,
-	currentPageScrollWrapper: _react.PropTypes.object,
-	updateOutgoingPage: _react.PropTypes.func.isRequired
-};
 
 function mapStateToProps(_ref2, props) {
 	var isPageTransition = _ref2.isPageTransition,
@@ -28347,13 +28305,6 @@ var PageContent = function (_PureComponent) {
 
   return PageContent;
 }(_react.PureComponent);
-
-PageContent.propTypes = {
-  pageData: _react.PropTypes.object.isRequired,
-  contentModules: _react.PropTypes.array,
-  isCurrentPage: _react.PropTypes.bool,
-  updateStoreState: _react.PropTypes.func.isRequired
-};
 
 exports.default = (0, _reactRedux.connect)(undefined, {
   updateStoreState: _actions.updateStoreState
@@ -28648,11 +28599,6 @@ var Demos = function (_PureComponent) {
   return Demos;
 }(_react.PureComponent);
 
-Demos.propTypes = {
-  demos: _react.PropTypes.array.isRequired
-};
-
-
 function mapStateToProps(_ref2) {
   var demos = _ref2.demos,
       demoBackgroundColours = _ref2.demoBackgroundColours;
@@ -28813,10 +28759,6 @@ var ToolsAccordion = function (_PureComponent) {
 
   return ToolsAccordion;
 }(_react.PureComponent);
-
-ToolsAccordion.PropTypes = {
-  tools: _react.PropTypes.array.isRequired
-};
 
 var mapStateToProps = function mapStateToProps(_ref2) {
   var tools = _ref2.tools,

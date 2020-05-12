@@ -1,4 +1,4 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -8,13 +8,6 @@ import { updateStoreState } from '../actions';
 import { formatVerticalPath } from '../helpers';
 
 class DirectionButtons extends PureComponent {
-  static propTypes = {
-    parentPages: PropTypes.array.isRequired,
-    currentPage: PropTypes.object,
-    isPageTransition: PropTypes.bool.isRequired,
-    currentParentPageSlug: PropTypes.string,
-  }
-
   componentWillReceiveProps(nextProps) {
     if (this.props.currentPage !== nextProps.currentPage) {
       this.props.updateStoreState({

@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent, PropTypes } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
@@ -68,12 +68,6 @@ class App extends PureComponent {
     }
     return appContainerClassName;
   }
-}
-
-App.propTypes = {
-  isPageTransition: PropTypes.bool,
-  currentTextColour: PropTypes.string,
-  parentPages: PropTypes.array,
 }
 
 function mapStateToProps({

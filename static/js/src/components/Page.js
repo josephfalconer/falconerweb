@@ -1,4 +1,4 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
@@ -66,17 +66,6 @@ class Page extends PureComponent {
  		}
  		return pageClassName + transitionClassName;
 	}
-}
-
-Page.propTypes = {
-	pageData: PropTypes.object.isRequired,
-	pathToParent: PropTypes.string.isRequired,
-	outgoingPage: PropTypes.object,
-	currentPage: PropTypes.object,
-	isPageTransition: PropTypes.bool.isRequired,
-	updateStoreState: PropTypes.func.isRequired,
-	currentPageScrollWrapper: PropTypes.object,
-	updateOutgoingPage: PropTypes.func.isRequired,
 }
 
 function mapStateToProps({

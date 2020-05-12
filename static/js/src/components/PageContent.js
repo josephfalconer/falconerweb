@@ -1,4 +1,4 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { updateStoreState } from '../actions';
@@ -77,13 +77,6 @@ class PageContent extends PureComponent {
     }
     return backgroundImageStyle;
   }
-}
-
-PageContent.propTypes = {
-  pageData: PropTypes.object.isRequired,
-  contentModules: PropTypes.array,
-  isCurrentPage: PropTypes.bool,
-  updateStoreState: PropTypes.func.isRequired,
 }
 
 export default connect(undefined, {

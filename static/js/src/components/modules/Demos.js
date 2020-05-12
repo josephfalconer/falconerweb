@@ -1,4 +1,4 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { updateStoreState } from '../../actions';
@@ -10,10 +10,6 @@ function getHSL() {
 }
 
 class Demos extends PureComponent {
-	static propTypes = {
-		demos: PropTypes.array.isRequired,
-	};
-
 	componentWillMount() {
     this.interval = setInterval(this.setBackgrounds, 3000);
     fetch('/api/demos/')

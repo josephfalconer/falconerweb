@@ -1,4 +1,4 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { updateStoreState } from '../../actions';
@@ -61,10 +61,6 @@ class ToolsAccordion extends PureComponent {
       </div>
     );
   }
-}
-
-ToolsAccordion.PropTypes = {
-  tools: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = ({tools, currentAccordionIndex, currentAccordionHeight}) => (
