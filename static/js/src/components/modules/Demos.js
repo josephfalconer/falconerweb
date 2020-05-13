@@ -35,7 +35,7 @@ class Demos extends PureComponent {
 	render() {
     const { demos, demoBackgroundColours } = this.props;
 		return (
-			<ul className="demos list--plain text" data-js="ShiftingBackgrounds">
+			<ul className="demos list--plain text">
 				{demos.map((demo, index) => {
           let backgroundStyle = {}
           if (demoBackgroundColours.length) {
