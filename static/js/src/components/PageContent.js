@@ -2,19 +2,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { updateStoreState } from '../actions';
-import Icons from './icons/Icons';
-import ContentModules from './modules/ContentModules';
-
-function renderContentModules(pageData) {
-  const { content_modules } = pageData;
-  if (content_modules && content_modules.length) {
-    return content_modules.map((module, index) => {
-      const Module = ContentModules[module.module_type];
-      return Module ? Module(module, index) : null;
-    })
-  }
-  return null;
-}
+import Icon from './icons/Icon';
+import ContentModule from './modules/ContentModule';
 
 class PageContent extends PureComponent {
   constructor(props) {
@@ -33,7 +22,6 @@ class PageContent extends PureComponent {
 
   render () {
     const { pageData, isCurrentPage } = this.props;
-    const Icon = Icons[pageData.icon.toUpperCase()];
     return (
       <article 
         tabIndex="0" 
@@ -42,15 +30,19 @@ class PageContent extends PureComponent {
       >
         <div className={this.getPageInnerClassName()} style={this.getBackgroundImageStyle()}>
           <header className="page__header">
-            {Icon &&
-              <span className="page__icon">{Icon()}</span>
+            {pageData.icon &&
+              <span className="page__icon">
+                <Icon iconType={pageData.icon} />
+              </span>
             }
             <h1 className="page__title">{pageData.display_title || pageData.title}</h1>
             {pageData.intro_text &&
               <p className="page__intro" dangerouslySetInnerHTML={{__html: pageData.intro_text}}></p>
             }
           </header>
-          {renderContentModules(pageData)}
+          {pageData.content_modules.length && pageData.content_modules.map((module, index) => (
+            <ContentModule key={`${module.module_type}-${index}`} module={module} />
+          ))}
         </div>
       </article>
     );

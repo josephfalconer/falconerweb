@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Icons from './icons/Icons';
+import Icon from './icons/Icon';
 
 class Navigation extends PureComponent {
   render() {
@@ -11,7 +11,6 @@ class Navigation extends PureComponent {
         <nav className="nav">
           <ul className="nav__menu list--plain">
             {this.props.navigationLinks.map((link, index) => {
-              const Icon = Icons[link.icon.toUpperCase()];
               return (
                 <li key={index} className="nav__item">
                   <Link
@@ -19,10 +18,10 @@ class Navigation extends PureComponent {
                     className={this.getLinkClassName(link)}
                     onClick={this.blockNavigation}
                   >
-                    {Icon &&
+                    {link.icon &&
                       <span className="nav__linkcircle">
                         <span className="nav__icon is-displayed-lg">
-                          <Icon />
+                          <Icon iconType={link.icon} />
                         </span>
                       </span>
                     }
