@@ -5,11 +5,6 @@ import { connect } from 'react-redux';
 import Icons from './icons/Icons';
 
 class Navigation extends PureComponent {
-  blockNavigation = e => {
-    if (this.props.isPageTransition) {
-      e.preventDefault()
-    }
-  }
   render() {
     if (this.props.navigationLinks.length) {
       return (
@@ -42,7 +37,7 @@ class Navigation extends PureComponent {
     }
     return null;
   }
-
+  
   getLinkClassName = link => {
     const { currentPath, currentPage } = this.props;
     let linkClassName = 'nav__link';
@@ -53,6 +48,12 @@ class Navigation extends PureComponent {
       linkClassName += ' nav__link--current';
     }
     return linkClassName;
+  }
+
+  blockNavigation = e => {
+    if (this.props.isPageTransition) {
+      e.preventDefault()
+    }
   }
 }
 
