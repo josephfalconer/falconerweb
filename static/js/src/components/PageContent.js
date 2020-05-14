@@ -40,7 +40,7 @@ class PageContent extends PureComponent {
               <p className="page__intro" dangerouslySetInnerHTML={{__html: pageData.intro_text}}></p>
             }
           </header>
-          {pageData.content_modules.length && pageData.content_modules.map((module, index) => (
+          {pageData.content_modules.map((module, index) => (
             <ContentModule key={`${module.module_type}-${index}`} module={module} />
           ))}
         </div>

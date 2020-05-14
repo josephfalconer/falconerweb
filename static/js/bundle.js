@@ -2537,7 +2537,55 @@ var SIMPLE_STATE_UPDATE = exports.SIMPLE_STATE_UPDATE = 'SIMPLE_STATE_UPDATE';
 var UPDATE_PREVIOUS_PAGE = exports.UPDATE_PREVIOUS_PAGE = 'UPDATE_PREVIOUS_PAGE';
 
 /***/ }),
-/* 36 */,
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Icon;
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _IconLogo = __webpack_require__(84);
+
+var _IconLogo2 = _interopRequireDefault(_IconLogo);
+
+var _IconProjects = __webpack_require__(85);
+
+var _IconProjects2 = _interopRequireDefault(_IconProjects);
+
+var _IconSkills = __webpack_require__(86);
+
+var _IconSkills2 = _interopRequireDefault(_IconSkills);
+
+var _IconDemos = __webpack_require__(83);
+
+var _IconDemos2 = _interopRequireDefault(_IconDemos);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Icon(props) {
+  switch (props.iconType) {
+    case 'LOGO':
+      return _react2.default.createElement(_IconLogo2.default, null);
+    case 'TOOLS':
+      return _react2.default.createElement(_IconSkills2.default, null);
+    case 'PROJECTS':
+      return _react2.default.createElement(_IconProjects2.default, null);
+    case 'DEMOS':
+      return _react2.default.createElement(_IconDemos2.default, null);
+    default:
+      return null;
+  }
+}
+
+/***/ }),
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6819,7 +6867,7 @@ var _reactRouterDom = __webpack_require__(6);
 
 var _reactRedux = __webpack_require__(3);
 
-var _Icon = __webpack_require__(169);
+var _Icon = __webpack_require__(36);
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
@@ -7098,11 +7146,11 @@ var _reactRedux = __webpack_require__(3);
 
 var _actions = __webpack_require__(7);
 
-var _Icon = __webpack_require__(169);
+var _Icon = __webpack_require__(36);
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
-var _ContentModule = __webpack_require__(170);
+var _ContentModule = __webpack_require__(87);
 
 var _ContentModule2 = _interopRequireDefault(_ContentModule);
 
@@ -7194,7 +7242,7 @@ var PageContent = function (_PureComponent) {
             ),
             pageData.intro_text && _react2.default.createElement('p', { className: 'page__intro', dangerouslySetInnerHTML: { __html: pageData.intro_text } })
           ),
-          pageData.content_modules.length && pageData.content_modules.map(function (module, index) {
+          pageData.content_modules.map(function (module, index) {
             return _react2.default.createElement(_ContentModule2.default, { key: module.module_type + '-' + index, module: module });
           })
         )
@@ -7328,7 +7376,45 @@ function DemosIcon(props) {
 exports.default = DemosIcon;
 
 /***/ }),
-/* 87 */,
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = ContentModule;
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _ToolsAccordion = __webpack_require__(89);
+
+var _ToolsAccordion2 = _interopRequireDefault(_ToolsAccordion);
+
+var _Demos = __webpack_require__(88);
+
+var _Demos2 = _interopRequireDefault(_Demos);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function ContentModule(props) {
+  switch (props.module.module_type) {
+    case 'TOOLS_ACCORDION':
+      return _react2.default.createElement(_ToolsAccordion2.default, null);
+    case 'DEMOS_MENU':
+      return _react2.default.createElement(_Demos2.default, null);
+    case 'TEXT':
+      return _react2.default.createElement('div', { className: 'textblock container', dangerouslySetInnerHTML: { __html: props.module.text } });
+    default:
+      return null;
+  }
+}
+
+/***/ }),
 /* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28650,98 +28736,6 @@ if (!self.fetch) {
   self.Response = Response
 }
 
-
-/***/ }),
-/* 165 */,
-/* 166 */,
-/* 167 */,
-/* 168 */,
-/* 169 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = Icon;
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _IconLogo = __webpack_require__(84);
-
-var _IconLogo2 = _interopRequireDefault(_IconLogo);
-
-var _IconProjects = __webpack_require__(85);
-
-var _IconProjects2 = _interopRequireDefault(_IconProjects);
-
-var _IconSkills = __webpack_require__(86);
-
-var _IconSkills2 = _interopRequireDefault(_IconSkills);
-
-var _IconDemos = __webpack_require__(83);
-
-var _IconDemos2 = _interopRequireDefault(_IconDemos);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function Icon(props) {
-  switch (props.iconType) {
-    case 'LOGO':
-      return _react2.default.createElement(_IconLogo2.default, null);
-    case 'TOOLS':
-      return _react2.default.createElement(_IconSkills2.default, null);
-    case 'PROJECTS':
-      return _react2.default.createElement(_IconProjects2.default, null);
-    case 'DEMOS':
-      return _react2.default.createElement(_IconDemos2.default, null);
-    default:
-      return null;
-  }
-}
-
-/***/ }),
-/* 170 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = ContentModule;
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _ToolsAccordion = __webpack_require__(89);
-
-var _ToolsAccordion2 = _interopRequireDefault(_ToolsAccordion);
-
-var _Demos = __webpack_require__(88);
-
-var _Demos2 = _interopRequireDefault(_Demos);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function ContentModule(props) {
-  switch (props.module.module_type) {
-    case 'TOOLS_ACCORDION':
-      return _react2.default.createElement(_ToolsAccordion2.default, null);
-    case 'DEMOS_MENU':
-      return _react2.default.createElement(_Demos2.default, null);
-    case 'TEXT':
-      return _react2.default.createElement('div', { className: 'textblock container', dangerouslySetInnerHTML: { __html: props.module.text } });
-    default:
-      return null;
-  }
-}
 
 /***/ })
 /******/ ]);
