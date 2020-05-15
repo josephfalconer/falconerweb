@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
+import * as helpers from '../helpers';
 import DirectionButton from './DirectionButton';
 import { updateStoreState } from '../actions';
 
@@ -52,26 +53,13 @@ class DirectionButtons extends PureComponent {
   }
 
   navigateFromKeyPress = event => {
-    const { isPageTransition, directionButtons, history } = this.props;
+    const { isPageTransition, directionButtons, history, currentPageScrollWrapper } = this.props;
     if (directionButtons && !isPageTransition) {
       const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
-      if (button && button.isVisible && !this.canScrollPage(button)) {
+      if (button && button.isVisible && !helpers.canScrollElement(currentPageScrollWrapper, button.name)) {
         history.push(button.targetPage.path);
       }
     }
-  }
-
-  canScrollPage = button => {
-    const { currentPageScrollWrapper } = this.props;
-    if (button.name === 'up' && currentPageScrollWrapper.scrollTop > 0) {
-      return true;
-    } else if (button.name === 'down') {
-      const maxScrollDownPosition = currentPageScrollWrapper.scrollHeight - currentPageScrollWrapper.offsetHeight;
-      if (maxScrollDownPosition - currentPageScrollWrapper.scrollTop > 0) {
-        return true;
-      }
-    }
-    return false;
   }
 
   getButtonIndexFromPressedKey = event => {

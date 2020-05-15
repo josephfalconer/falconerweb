@@ -6696,11 +6696,17 @@ var _reactRouter = __webpack_require__(31);
 
 var _reactRouterDom = __webpack_require__(6);
 
+var _helpers = __webpack_require__(90);
+
+var helpers = _interopRequireWildcard(_helpers);
+
 var _DirectionButton = __webpack_require__(78);
 
 var _DirectionButton2 = _interopRequireDefault(_DirectionButton);
 
 var _actions = __webpack_require__(7);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6753,26 +6759,15 @@ var DirectionButtons = function (_PureComponent) {
       var _this$props = _this.props,
           isPageTransition = _this$props.isPageTransition,
           directionButtons = _this$props.directionButtons,
-          history = _this$props.history;
+          history = _this$props.history,
+          currentPageScrollWrapper = _this$props.currentPageScrollWrapper;
 
       if (directionButtons && !isPageTransition) {
         var button = directionButtons[_this.getButtonIndexFromPressedKey(event)];
-        if (button && button.isVisible && !_this.canScrollPage(button)) {
+        if (button && button.isVisible && !helpers.canScrollElement(currentPageScrollWrapper, button.name)) {
           history.push(button.targetPage.path);
         }
       }
-    }, _this.canScrollPage = function (button) {
-      var currentPageScrollWrapper = _this.props.currentPageScrollWrapper;
-
-      if (button.name === 'up' && currentPageScrollWrapper.scrollTop > 0) {
-        return true;
-      } else if (button.name === 'down') {
-        var maxScrollDownPosition = currentPageScrollWrapper.scrollHeight - currentPageScrollWrapper.offsetHeight;
-        if (maxScrollDownPosition - currentPageScrollWrapper.scrollTop > 0) {
-          return true;
-        }
-      }
-      return false;
     }, _this.getButtonIndexFromPressedKey = function (event) {
       switch (event.which) {
         case 37:
@@ -7144,7 +7139,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(3);
 
+var _reactRouter = __webpack_require__(31);
+
 var _actions = __webpack_require__(7);
+
+var _helpers = __webpack_require__(90);
+
+var helpers = _interopRequireWildcard(_helpers);
 
 var _Icon = __webpack_require__(36);
 
@@ -7153,6 +7154,8 @@ var _Icon2 = _interopRequireDefault(_Icon);
 var _ContentModule = __webpack_require__(87);
 
 var _ContentModule2 = _interopRequireDefault(_ContentModule);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7194,9 +7197,33 @@ var PageContent = function (_PureComponent) {
       return backgroundImageStyle;
     };
 
+    _this.navigateFromWheel = function (event) {
+      var _this$props = _this.props,
+          directionButtons = _this$props.directionButtons,
+          history = _this$props.history,
+          currentPageScrollWrapper = _this$props.currentPageScrollWrapper,
+          isPageTransition = _this$props.isPageTransition;
+
+
+      if (isPageTransition) {
+        return;
+      }
+
+      var upPage = directionButtons[2].targetPage;
+      var downPage = directionButtons[3].targetPage;
+      var wheelUp = event.nativeEvent.wheelDelta > 0;
+
+      if (wheelUp && !helpers.canScrollElement(currentPageScrollWrapper, 'up') && upPage) {
+        history.push(upPage.path);
+      } else if (!helpers.canScrollElement(currentPageScrollWrapper, 'down') && downPage) {
+        history.push(downPage.path);
+      }
+    };
+
     _this.setScrollWrapper = function (element) {
       return _this.scrollWrapper = element;
     };
+    _this.navigateFromWheel = helpers.debounce(_this.navigateFromWheel, 500, true);
     return _this;
   }
 
@@ -7222,7 +7249,8 @@ var PageContent = function (_PureComponent) {
         {
           tabIndex: '0',
           ref: this.setScrollWrapper,
-          className: 'page__content page__content--' + (isCurrentPage ? 'current' : 'previous')
+          className: 'page__content page__content--' + (isCurrentPage ? 'current' : 'previous'),
+          onWheel: this.navigateFromWheel
         },
         _react2.default.createElement(
           'div',
@@ -7253,9 +7281,20 @@ var PageContent = function (_PureComponent) {
   return PageContent;
 }(_react.PureComponent);
 
-exports.default = (0, _reactRedux.connect)(undefined, {
+var mapStateToProps = function mapStateToProps(_ref) {
+  var directionButtons = _ref.directionButtons,
+      currentPageScrollWrapper = _ref.currentPageScrollWrapper,
+      isPageTransition = _ref.isPageTransition;
+  return {
+    directionButtons: directionButtons,
+    currentPageScrollWrapper: currentPageScrollWrapper,
+    isPageTransition: isPageTransition
+  };
+};
+
+exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, {
   updateStoreState: _actions.updateStoreState
-})(PageContent);
+})(PageContent));
 
 /***/ }),
 /* 83 */
@@ -7736,6 +7775,8 @@ exports.isSideways = isSideways;
 exports.isVertical = isVertical;
 exports.isLeftwards = isLeftwards;
 exports.isUpwards = isUpwards;
+exports.debounce = debounce;
+exports.canScrollElement = canScrollElement;
 function isSideways(currentPage, previousPage) {
   return previousPage.y == currentPage.y && Math.abs(previousPage.x - currentPage.x) == 1;
 }
@@ -7750,6 +7791,37 @@ function isLeftwards(currentPage, previousPage) {
 
 function isUpwards(currentPage, previousPage) {
   return currentPage.y < previousPage.y;
+}
+
+// From underscore.js
+function debounce(func, wait, immediate) {
+  var timeout = void 0;
+  return function () {
+    var context = this;
+    var args = arguments;
+    function later() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) {
+      func.apply(context, args);
+    }
+  };
+};
+
+function canScrollElement(element, direction) {
+  if (direction === 'up' && element.scrollTop > 0) {
+    return true;
+  } else if (direction === 'down') {
+    var maxScrollDownPosition = element.scrollHeight - element.offsetHeight;
+    if (maxScrollDownPosition - element.scrollTop > 0) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /***/ }),

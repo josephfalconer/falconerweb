@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { updateStoreState } from '../actions';
+import * as helpers from '../helpers';
 import Icon from './icons/Icon';
 import ContentModule from './modules/ContentModule';
 
@@ -9,6 +11,7 @@ class PageContent extends PureComponent {
   constructor(props) {
     super(props)
     this.setScrollWrapper = element => this.scrollWrapper = element;
+    this.navigateFromWheel = helpers.debounce(this.navigateFromWheel, 500, true);
   }
 
   componentDidMount() {
@@ -27,6 +30,7 @@ class PageContent extends PureComponent {
         tabIndex="0" 
         ref={this.setScrollWrapper} 
         className={`page__content page__content--${isCurrentPage ? 'current' : 'previous'}`}
+        onWheel={this.navigateFromWheel}
       >
         <div className={this.getPageInnerClassName()} style={this.getBackgroundImageStyle()}>
           <header className="page__header">
@@ -69,8 +73,36 @@ class PageContent extends PureComponent {
     }
     return backgroundImageStyle;
   }
+
+  navigateFromWheel = event => {
+    const { directionButtons, history, currentPageScrollWrapper, isPageTransition } = this.props;
+
+    if (isPageTransition) {
+      return;
+    }
+
+    const upPage = directionButtons[2].targetPage;
+    const downPage = directionButtons[3].targetPage;
+    const wheelUp = event.nativeEvent.wheelDelta > 0;
+
+    if (wheelUp && !helpers.canScrollElement(currentPageScrollWrapper, 'up') && upPage) {
+      history.push(upPage.path)
+    } else if (!helpers.canScrollElement(currentPageScrollWrapper, 'down') && downPage) {
+      history.push(downPage.path)
+    }
+  }
 }
 
-export default connect(undefined, {
+const mapStateToProps = ({
+  directionButtons,
+  currentPageScrollWrapper,
+  isPageTransition
+}) => ({
+  directionButtons,
+  currentPageScrollWrapper,
+  isPageTransition
+});
+
+export default withRouter(connect(mapStateToProps, {
   updateStoreState
-})(PageContent);
+})(PageContent));
