@@ -17,15 +17,6 @@ class Page extends PureComponent {
 		setTimeout(() => updateStoreState({isPageTransition: false}), PAGE_TRANSITION_TIMEOUT);
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (
-			nextProps.scrollWrapper &&
-			nextProps.scrollWrapper !== this.props.scrollWrapper
-		) {
-			nextProps.scrollWrapper.focus();
-		}
-	}
-
 	componentWillUnmount() {
 		this.props.updatePreviousPage({
 			...this.props.pageData,

@@ -7067,13 +7067,6 @@ var Page = function (_PureComponent) {
 			}, _constants.PAGE_TRANSITION_TIMEOUT);
 		}
 	}, {
-		key: 'componentWillReceiveProps',
-		value: function componentWillReceiveProps(nextProps) {
-			if (nextProps.scrollWrapper && nextProps.scrollWrapper !== this.props.scrollWrapper) {
-				nextProps.scrollWrapper.focus();
-			}
-		}
-	}, {
 		key: 'componentWillUnmount',
 		value: function componentWillUnmount() {
 			this.props.updatePreviousPage(_extends({}, this.props.pageData, {
