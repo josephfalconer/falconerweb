@@ -19,7 +19,7 @@ class PageContent extends PureComponent {
       this.scrollWrapper.scrollTop = this.props.pageData.lastScrollTop;
     }
     if (this.props.isCurrentPage) {
-      this.props.updateStoreState({currentPageScrollWrapper: this.scrollWrapper});
+      this.props.updateStoreState({scrollWrapper: this.scrollWrapper});
     }
   }
 
@@ -75,7 +75,7 @@ class PageContent extends PureComponent {
   }
 
   navigateFromWheel = event => {
-    const { directionButtons, history, currentPageScrollWrapper, isPageTransition } = this.props;
+    const { directionButtons, history, scrollWrapper, isPageTransition } = this.props;
 
     if (isPageTransition) {
       return;
@@ -85,9 +85,9 @@ class PageContent extends PureComponent {
     const downPage = directionButtons[3].targetPage;
     const wheelUp = event.nativeEvent.wheelDelta > 0;
 
-    if (wheelUp && !helpers.canScrollElement(currentPageScrollWrapper, 'up') && upPage) {
+    if (wheelUp && !helpers.canScrollElement(scrollWrapper, 'up') && upPage) {
       history.push(upPage.path)
-    } else if (!helpers.canScrollElement(currentPageScrollWrapper, 'down') && downPage) {
+    } else if (!helpers.canScrollElement(scrollWrapper, 'down') && downPage) {
       history.push(downPage.path)
     }
   }
@@ -95,11 +95,11 @@ class PageContent extends PureComponent {
 
 const mapStateToProps = ({
   directionButtons,
-  currentPageScrollWrapper,
+  scrollWrapper,
   isPageTransition
 }) => ({
   directionButtons,
-  currentPageScrollWrapper,
+  scrollWrapper,
   isPageTransition
 });
 

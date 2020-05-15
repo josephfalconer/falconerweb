@@ -6760,11 +6760,11 @@ var DirectionButtons = function (_PureComponent) {
           isPageTransition = _this$props.isPageTransition,
           directionButtons = _this$props.directionButtons,
           history = _this$props.history,
-          currentPageScrollWrapper = _this$props.currentPageScrollWrapper;
+          scrollWrapper = _this$props.scrollWrapper;
 
       if (directionButtons && !isPageTransition) {
         var button = directionButtons[_this.getButtonIndexFromPressedKey(event)];
-        if (button && button.isVisible && !helpers.canScrollElement(currentPageScrollWrapper, button.name)) {
+        if (button && button.isVisible && !helpers.canScrollElement(scrollWrapper, button.name)) {
           history.push(button.targetPage.path);
         }
       }
@@ -6824,14 +6824,14 @@ function mapStateToProps(_ref2, props) {
       currentPage = _ref2.currentPage,
       isPageTransition = _ref2.isPageTransition,
       directionButtons = _ref2.directionButtons,
-      currentPageScrollWrapper = _ref2.currentPageScrollWrapper;
+      scrollWrapper = _ref2.scrollWrapper;
 
   return _extends({}, props, {
     pages: pages,
     currentPage: currentPage,
     isPageTransition: isPageTransition,
     directionButtons: directionButtons,
-    currentPageScrollWrapper: currentPageScrollWrapper
+    scrollWrapper: scrollWrapper
   });
 }
 
@@ -7069,15 +7069,15 @@ var Page = function (_PureComponent) {
 	}, {
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(nextProps) {
-			if (nextProps.currentPageScrollWrapper && nextProps.currentPageScrollWrapper !== this.props.currentPageScrollWrapper) {
-				nextProps.currentPageScrollWrapper.focus();
+			if (nextProps.scrollWrapper && nextProps.scrollWrapper !== this.props.scrollWrapper) {
+				nextProps.scrollWrapper.focus();
 			}
 		}
 	}, {
 		key: 'componentWillUnmount',
 		value: function componentWillUnmount() {
 			this.props.updatePreviousPage(_extends({}, this.props.pageData, {
-				lastScrollTop: this.props.currentPageScrollWrapper.scrollTop || 0
+				lastScrollTop: this.props.scrollWrapper.scrollTop || 0
 			}));
 		}
 	}, {
@@ -7105,13 +7105,13 @@ function mapStateToProps(_ref2, props) {
 	var isPageTransition = _ref2.isPageTransition,
 	    previousPage = _ref2.previousPage,
 	    currentPage = _ref2.currentPage,
-	    currentPageScrollWrapper = _ref2.currentPageScrollWrapper;
+	    scrollWrapper = _ref2.scrollWrapper;
 
 	return _extends({}, props, {
 		isPageTransition: isPageTransition,
 		previousPage: previousPage,
 		currentPage: currentPage,
-		currentPageScrollWrapper: currentPageScrollWrapper
+		scrollWrapper: scrollWrapper
 	});
 }
 
@@ -7201,7 +7201,7 @@ var PageContent = function (_PureComponent) {
       var _this$props = _this.props,
           directionButtons = _this$props.directionButtons,
           history = _this$props.history,
-          currentPageScrollWrapper = _this$props.currentPageScrollWrapper,
+          scrollWrapper = _this$props.scrollWrapper,
           isPageTransition = _this$props.isPageTransition;
 
 
@@ -7213,9 +7213,9 @@ var PageContent = function (_PureComponent) {
       var downPage = directionButtons[3].targetPage;
       var wheelUp = event.nativeEvent.wheelDelta > 0;
 
-      if (wheelUp && !helpers.canScrollElement(currentPageScrollWrapper, 'up') && upPage) {
+      if (wheelUp && !helpers.canScrollElement(scrollWrapper, 'up') && upPage) {
         history.push(upPage.path);
-      } else if (!helpers.canScrollElement(currentPageScrollWrapper, 'down') && downPage) {
+      } else if (!helpers.canScrollElement(scrollWrapper, 'down') && downPage) {
         history.push(downPage.path);
       }
     };
@@ -7234,7 +7234,7 @@ var PageContent = function (_PureComponent) {
         this.scrollWrapper.scrollTop = this.props.pageData.lastScrollTop;
       }
       if (this.props.isCurrentPage) {
-        this.props.updateStoreState({ currentPageScrollWrapper: this.scrollWrapper });
+        this.props.updateStoreState({ scrollWrapper: this.scrollWrapper });
       }
     }
   }, {
@@ -7283,11 +7283,11 @@ var PageContent = function (_PureComponent) {
 
 var mapStateToProps = function mapStateToProps(_ref) {
   var directionButtons = _ref.directionButtons,
-      currentPageScrollWrapper = _ref.currentPageScrollWrapper,
+      scrollWrapper = _ref.scrollWrapper,
       isPageTransition = _ref.isPageTransition;
   return {
     directionButtons: directionButtons,
-    currentPageScrollWrapper: currentPageScrollWrapper,
+    scrollWrapper: scrollWrapper,
     isPageTransition: isPageTransition
   };
 };

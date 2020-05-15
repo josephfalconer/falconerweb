@@ -19,17 +19,17 @@ class Page extends PureComponent {
 
 	componentWillReceiveProps(nextProps) {
 		if (
-			nextProps.currentPageScrollWrapper &&
-			nextProps.currentPageScrollWrapper !== this.props.currentPageScrollWrapper
+			nextProps.scrollWrapper &&
+			nextProps.scrollWrapper !== this.props.scrollWrapper
 		) {
-			nextProps.currentPageScrollWrapper.focus();
+			nextProps.scrollWrapper.focus();
 		}
 	}
 
 	componentWillUnmount() {
 		this.props.updatePreviousPage({
 			...this.props.pageData,
-			lastScrollTop: this.props.currentPageScrollWrapper.scrollTop || 0
+			lastScrollTop: this.props.scrollWrapper.scrollTop || 0
 		});
 	}
 
@@ -70,14 +70,14 @@ function mapStateToProps({
 	isPageTransition,
 	previousPage,
 	currentPage,
-	currentPageScrollWrapper,
+	scrollWrapper,
 }, props) {
 	return {
 		...props,
 		isPageTransition,
 		previousPage,
 		currentPage,
-		currentPageScrollWrapper
+		scrollWrapper
 	}
 }
 

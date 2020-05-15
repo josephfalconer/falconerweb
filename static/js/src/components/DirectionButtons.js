@@ -53,10 +53,10 @@ class DirectionButtons extends PureComponent {
   }
 
   navigateFromKeyPress = event => {
-    const { isPageTransition, directionButtons, history, currentPageScrollWrapper } = this.props;
+    const { isPageTransition, directionButtons, history, scrollWrapper } = this.props;
     if (directionButtons && !isPageTransition) {
       const button = directionButtons[this.getButtonIndexFromPressedKey(event)];
-      if (button && button.isVisible && !helpers.canScrollElement(currentPageScrollWrapper, button.name)) {
+      if (button && button.isVisible && !helpers.canScrollElement(scrollWrapper, button.name)) {
         history.push(button.targetPage.path);
       }
     }
@@ -98,7 +98,7 @@ function mapStateToProps({
   currentPage,
   isPageTransition,
   directionButtons,
-  currentPageScrollWrapper,
+  scrollWrapper,
 }, props) {
   return {
     ...props,
@@ -106,7 +106,7 @@ function mapStateToProps({
     currentPage,
     isPageTransition,
     directionButtons,
-    currentPageScrollWrapper,
+    scrollWrapper,
   }
 }
 
