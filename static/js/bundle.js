@@ -6763,12 +6763,12 @@ var DirectionButtons = function (_PureComponent) {
           scrollWrapper = _this$props.scrollWrapper;
 
       if (directionButtons && !isPageTransition) {
-        var button = directionButtons[_this.getButtonIndexFromPressedKey(event)];
+        var button = directionButtons[_this.getButtonIndexFromKeyPress(event)];
         if (button && button.isVisible && !helpers.canScrollElement(scrollWrapper, button.name)) {
           history.push(button.targetPage.path);
         }
       }
-    }, _this.getButtonIndexFromPressedKey = function (event) {
+    }, _this.getButtonIndexFromKeyPress = function (event) {
       switch (event.which) {
         case 37:
           return 0;
