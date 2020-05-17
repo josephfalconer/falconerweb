@@ -2597,10 +2597,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 // Slightly longer than the CSS animation duration used
 var PAGE_TRANSITION_TIMEOUT = exports.PAGE_TRANSITION_TIMEOUT = 1100;
+
 var TEXT_COLOURS = exports.TEXT_COLOURS = {
   DARK: 'dark',
   LIGHT: 'light'
 };
+
+var DIRECTIONS = exports.DIRECTIONS = {
+  UP: 'UP',
+  DOWN: 'DOWN',
+  LEFT: 'LEFT',
+  RIGHT: 'RIGHT'
+};
+
+var DIRECTION_LIST = exports.DIRECTION_LIST = [DIRECTIONS.UP, DIRECTIONS.DOWN, DIRECTIONS.LEFT, DIRECTIONS.RIGHT];
 
 /***/ }),
 /* 38 */
@@ -6593,6 +6603,8 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(3);
+
 var _reactRouterDom = __webpack_require__(6);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -6619,13 +6631,12 @@ var DirectionButton = function (_PureComponent) {
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DirectionButton.__proto__ || Object.getPrototypeOf(DirectionButton)).call.apply(_ref, [this].concat(args))), _this), _this.getClassName = function () {
       var _this$props = _this.props,
-          button = _this$props.button,
-          isPageTransition = _this$props.isPageTransition;
+          direction = _this$props.direction,
+          isVisible = _this$props.isVisible;
 
-      var isVisible = button.isVisible && !isPageTransition;
-      return 'direction direction--' + button.name + ' js-' + (isVisible ? 'visible' : 'hidden') + '-button';
+      return 'direction direction--' + direction.toLowerCase() + ' js-' + (isVisible ? 'visible' : 'hidden') + '-button';
     }, _this.blockNavigation = function (e) {
-      if (!_this.props.button.isVisible) {
+      if (!_this.props.isVisible) {
         e.preventDefault();
       }
     }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -6635,17 +6646,18 @@ var DirectionButton = function (_PureComponent) {
     key: 'render',
     value: function render() {
       var _props = this.props,
-          button = _props.button,
-          isPageTransition = _props.isPageTransition;
-      var targetPage = button.targetPage;
+          nextPages = _props.nextPages,
+          direction = _props.direction,
+          isVisible = _props.isVisible;
 
+      var toPage = nextPages && nextPages[direction];
       return _react2.default.createElement(
         _reactRouterDom.Link,
         {
-          to: targetPage ? targetPage.path : '',
+          to: toPage ? toPage.path : '',
           className: this.getClassName(),
           onClick: this.blockNavigation,
-          tabIndex: !button.isVisible ? -1 : undefined
+          tabIndex: !isVisible ? -1 : undefined
         },
         _react2.default.createElement(
           'span',
@@ -6653,7 +6665,7 @@ var DirectionButton = function (_PureComponent) {
           _react2.default.createElement(
             'span',
             { className: 'direction__text is-displayed-lg' },
-            button.isVisible ? targetPage.title : null
+            toPage ? toPage.title : null
           ),
           _react2.default.createElement(
             'span',
@@ -6669,7 +6681,18 @@ var DirectionButton = function (_PureComponent) {
   return DirectionButton;
 }(_react.PureComponent);
 
-exports.default = DirectionButton;
+function mapStateToProps(_ref2, props) {
+  var nextPages = _ref2.nextPages,
+      isPageTransition = _ref2.isPageTransition;
+
+  var isVisible = Boolean(nextPages && nextPages[props.direction]) && !isPageTransition;
+  return {
+    nextPages: nextPages,
+    isVisible: isVisible
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(DirectionButton);
 
 /***/ }),
 /* 79 */
@@ -6695,6 +6718,8 @@ var _reactRedux = __webpack_require__(3);
 var _reactRouter = __webpack_require__(31);
 
 var _reactRouterDom = __webpack_require__(6);
+
+var _constants = __webpack_require__(37);
 
 var _helpers = __webpack_require__(90);
 
@@ -6730,87 +6755,47 @@ var DirectionButtons = function (_PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DirectionButtons.__proto__ || Object.getPrototypeOf(DirectionButtons)).call.apply(_ref, [this].concat(args))), _this), _this.getButtons = function (nextProps) {
-      var pages = nextProps.pages,
-          currentPage = nextProps.currentPage;
-
-      var currentChildPages = nextProps.currentPage.is_child_page ? nextProps.pages[nextProps.currentPage.x].child_pages : nextProps.currentPage.child_pages;
-      if (currentPage) {
-        return [{
-          isVisible: currentPage.x > 0 && currentPage.y === 0,
-          targetPage: pages[currentPage.x - 1],
-          name: 'left'
-        }, {
-          isVisible: currentPage.x + 1 < pages.length && currentPage.y === 0,
-          targetPage: pages[currentPage.x + 1],
-          name: 'right'
-        }, {
-          isVisible: currentPage.y > 0,
-          targetPage: currentChildPages[currentPage.y - 2] || pages[currentPage.x],
-          name: 'up'
-        }, {
-          isVisible: currentPage.y < currentChildPages.length,
-          targetPage: currentChildPages[currentPage.y],
-          name: 'down'
-        }];
-      }
-      return [];
-    }, _this.navigateFromKeyPress = function (event) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DirectionButtons.__proto__ || Object.getPrototypeOf(DirectionButtons)).call.apply(_ref, [this].concat(args))), _this), _this.navigateFromKeyPress = function (event) {
       var _this$props = _this.props,
           isPageTransition = _this$props.isPageTransition,
-          directionButtons = _this$props.directionButtons,
+          nextPages = _this$props.nextPages,
           history = _this$props.history,
           scrollWrapper = _this$props.scrollWrapper;
 
-      if (directionButtons && !isPageTransition) {
-        var button = directionButtons[_this.getButtonIndexFromKeyPress(event)];
-        if (button && button.isVisible && !helpers.canScrollElement(scrollWrapper, button.name)) {
-          history.push(button.targetPage.path);
+      if (!isPageTransition && nextPages) {
+        var direction = _this.getDirectionFromKeyPress(event);
+        var targetPage = nextPages[direction];
+        if (targetPage && !helpers.canScrollElement(scrollWrapper, direction)) {
+          history.push(targetPage.path);
         }
       }
-    }, _this.getButtonIndexFromKeyPress = function (event) {
+    }, _this.getDirectionFromKeyPress = function (event) {
       switch (event.which) {
         case 37:
-          return 0;
+          return _constants.DIRECTIONS.LEFT;
         case 39:
-          return 1;
+          return _constants.DIRECTIONS.RIGHT;
         case 38:
-          return 2;
+          return _constants.DIRECTIONS.UP;
         case 40:
-          return 3;
+          return _constants.DIRECTIONS.DOWN;
       }
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(DirectionButtons, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      if (this.props.currentPage !== nextProps.currentPage) {
-        this.props.updateStoreState({
-          directionButtons: this.getButtons(nextProps)
-        });
-      }
-      if (this.props.directionButtons !== nextProps.directionButtons) {
-        document.removeEventListener('keydown', this.navigateFromKeyPress);
-        document.addEventListener('keydown', this.navigateFromKeyPress);
-      }
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      document.addEventListener('keydown', this.navigateFromKeyPress);
     }
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          isPageTransition = _props.isPageTransition,
-          directionButtons = _props.directionButtons;
-
       return _react2.default.createElement(
         'nav',
         { className: 'directions' },
-        directionButtons && directionButtons.map(function (button, index) {
-          return _react2.default.createElement(_DirectionButton2.default, {
-            key: index,
-            button: button,
-            isPageTransition: isPageTransition
-          });
+        _constants.DIRECTION_LIST.map(function (direction, index) {
+          return _react2.default.createElement(_DirectionButton2.default, { key: index, direction: direction });
         })
       );
     }
@@ -6820,17 +6805,13 @@ var DirectionButtons = function (_PureComponent) {
 }(_react.PureComponent);
 
 function mapStateToProps(_ref2, props) {
-  var pages = _ref2.pages,
-      currentPage = _ref2.currentPage,
+  var nextPages = _ref2.nextPages,
       isPageTransition = _ref2.isPageTransition,
-      directionButtons = _ref2.directionButtons,
       scrollWrapper = _ref2.scrollWrapper;
 
   return _extends({}, props, {
-    pages: pages,
-    currentPage: currentPage,
+    nextPages: nextPages,
     isPageTransition: isPageTransition,
-    directionButtons: directionButtons,
     scrollWrapper: scrollWrapper
   });
 }
@@ -7008,6 +6989,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -7028,7 +7011,14 @@ var Page = function (_PureComponent) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Page.__proto__ || Object.getPrototypeOf(Page)).call.apply(_ref, [this].concat(args))), _this), _this.getPageClassName = function (showTransition) {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Page.__proto__ || Object.getPrototypeOf(Page)).call.apply(_ref, [this].concat(args))), _this), _this.getNextPages = function (page) {
+			var _ref2;
+
+			var pages = _this.props.pages;
+
+			var childPages = page.is_child_page ? pages[page.x].child_pages : page.child_pages;
+			return _ref2 = {}, _defineProperty(_ref2, _constants.DIRECTIONS.UP, childPages[page.y - 2] || (pages[page.x].y !== page.y ? pages[page.x] : undefined)), _defineProperty(_ref2, _constants.DIRECTIONS.DOWN, childPages[page.y]), _defineProperty(_ref2, _constants.DIRECTIONS.LEFT, pages[page.x - 1]), _defineProperty(_ref2, _constants.DIRECTIONS.RIGHT, pages[page.x + 1]), _ref2;
+		}, _this.getPageClassName = function (showTransition) {
 			var _this$props = _this.props,
 			    currentPage = _this$props.currentPage,
 			    previousPage = _this$props.previousPage;
@@ -7060,6 +7050,7 @@ var Page = function (_PureComponent) {
 
 			updateStoreState({
 				currentPage: pageData,
+				nextPages: this.getNextPages(pageData),
 				isPageTransition: true
 			});
 			setTimeout(function () {
@@ -7094,14 +7085,16 @@ var Page = function (_PureComponent) {
 	return Page;
 }(_react.PureComponent);
 
-function mapStateToProps(_ref2, props) {
-	var isPageTransition = _ref2.isPageTransition,
-	    previousPage = _ref2.previousPage,
-	    currentPage = _ref2.currentPage,
-	    scrollWrapper = _ref2.scrollWrapper;
+function mapStateToProps(_ref3, props) {
+	var isPageTransition = _ref3.isPageTransition,
+	    pages = _ref3.pages,
+	    previousPage = _ref3.previousPage,
+	    currentPage = _ref3.currentPage,
+	    scrollWrapper = _ref3.scrollWrapper;
 
 	return _extends({}, props, {
 		isPageTransition: isPageTransition,
+		pages: pages,
 		previousPage: previousPage,
 		currentPage: currentPage,
 		scrollWrapper: scrollWrapper
@@ -7135,6 +7128,8 @@ var _reactRedux = __webpack_require__(3);
 var _reactRouter = __webpack_require__(31);
 
 var _actions = __webpack_require__(7);
+
+var _constants = __webpack_require__(37);
 
 var _helpers = __webpack_require__(90);
 
@@ -7192,7 +7187,7 @@ var PageContent = function (_PureComponent) {
 
     _this.navigateFromWheel = function (event) {
       var _this$props = _this.props,
-          directionButtons = _this$props.directionButtons,
+          nextPages = _this$props.nextPages,
           history = _this$props.history,
           scrollWrapper = _this$props.scrollWrapper,
           isPageTransition = _this$props.isPageTransition;
@@ -7202,13 +7197,13 @@ var PageContent = function (_PureComponent) {
         return;
       }
 
-      var upPage = directionButtons[2].targetPage;
-      var downPage = directionButtons[3].targetPage;
+      var upPage = nextPages[_constants.DIRECTIONS.UP];
+      var downPage = nextPages[_constants.DIRECTIONS.DOWN];
       var wheelUp = event.nativeEvent.wheelDelta > 0;
 
-      if (wheelUp && !helpers.canScrollElement(scrollWrapper, 'up') && upPage) {
+      if (wheelUp && !helpers.canScrollElement(scrollWrapper, _constants.DIRECTIONS.UP) && upPage) {
         history.push(upPage.path);
-      } else if (!helpers.canScrollElement(scrollWrapper, 'down') && downPage) {
+      } else if (!helpers.canScrollElement(scrollWrapper, _constants.DIRECTIONS.DOWN) && downPage) {
         history.push(downPage.path);
       }
     };
@@ -7275,13 +7270,13 @@ var PageContent = function (_PureComponent) {
 }(_react.PureComponent);
 
 var mapStateToProps = function mapStateToProps(_ref) {
-  var directionButtons = _ref.directionButtons,
-      scrollWrapper = _ref.scrollWrapper,
-      isPageTransition = _ref.isPageTransition;
+  var scrollWrapper = _ref.scrollWrapper,
+      isPageTransition = _ref.isPageTransition,
+      nextPages = _ref.nextPages;
   return {
-    directionButtons: directionButtons,
     scrollWrapper: scrollWrapper,
-    isPageTransition: isPageTransition
+    isPageTransition: isPageTransition,
+    nextPages: nextPages
   };
 };
 
@@ -7770,6 +7765,9 @@ exports.isLeftwards = isLeftwards;
 exports.isUpwards = isUpwards;
 exports.debounce = debounce;
 exports.canScrollElement = canScrollElement;
+
+var _constants = __webpack_require__(37);
+
 function isSideways(currentPage, previousPage) {
   return previousPage.y == currentPage.y && Math.abs(previousPage.x - currentPage.x) == 1;
 }
@@ -7806,9 +7804,9 @@ function debounce(func, wait, immediate) {
 };
 
 function canScrollElement(element, direction) {
-  if (direction === 'up' && element.scrollTop > 0) {
+  if (direction === _constants.DIRECTIONS.UP && element.scrollTop > 0) {
     return true;
-  } else if (direction === 'down') {
+  } else if (direction === _constants.DIRECTIONS.DOWN) {
     var maxScrollDownPosition = element.scrollHeight - element.offsetHeight;
     if (maxScrollDownPosition - element.scrollTop > 0) {
       return true;

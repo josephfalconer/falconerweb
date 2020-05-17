@@ -1,3 +1,5 @@
+import { DIRECTIONS } from './constants';
+
 export function isSideways(currentPage, previousPage) {
   return previousPage.y == currentPage.y && Math.abs(previousPage.x - currentPage.x) == 1;
 }
@@ -34,9 +36,9 @@ export function debounce(func, wait, immediate) {
 };
 
 export function canScrollElement(element, direction) {
-  if (direction === 'up' && element.scrollTop > 0) {
+  if (direction === DIRECTIONS.UP && element.scrollTop > 0) {
     return true;
-  } else if (direction === 'down') {
+  } else if (direction === DIRECTIONS.DOWN) {
     const maxScrollDownPosition = element.scrollHeight - element.offsetHeight;
     if (maxScrollDownPosition - element.scrollTop > 0) {
       return true;

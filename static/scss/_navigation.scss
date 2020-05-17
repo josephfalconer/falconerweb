@@ -58,23 +58,21 @@
     }
 
     .fill {
-      fill: darken($grey--accent, 5%);
+      fill: $text-color-light;
     }
 
     .stroke {
-      stroke: darken($grey--accent, 5%);
+      stroke: $text-color-light;
     }
 
     circle {
-      stroke: darken($grey--accent, 5%);
+      stroke: $text-color-light;
       fill: rgba(255,255,255,0);
     }
 
-    &--current, &:hover, &:focus {
-      @include mq(md, max) {
-        color: $orange--dark;
-      }
-
+    &--current,
+    &:hover,
+    &:focus {
       circle {
         stroke: $orange--dark;
       }
@@ -118,7 +116,7 @@
 
     @include mq(lg) {
       @include square(remcalc($nav-circlelink-width));
-      border: remcalc(2) solid $emperor;
+      border-color: $text-color-light;
     }
 
     @include mq(xxl) {
@@ -135,17 +133,14 @@
   }
 
   &__linktext {
+    position: absolute;
+    left: 50%;
+    bottom: -#{remcalc(10)};
+    font-size: remcalc(14);
+    opacity: 0;
+    transform: translateX(-50%);
+    transition: all $transition-duration;
     font-family: $font-family--tertiary;
-
-    @include mq(lg) {
-      position: absolute;
-      left: 50%;
-      bottom: -#{remcalc(10)};
-      font-size: remcalc(14);
-      opacity: 0;
-      transform: translateX(-50%);
-      transition: all 0.4s;
-    }
   }
 }
 
@@ -193,7 +188,14 @@
 }
 
 %sideways-direction {
-  top: calc(50% - 15px);
+  top: calc(50% - 35px);
+  @include sides(remcalc($nav-height-sm), remcalc(70));
+
+  @include mq(lg) {
+    top: calc(50% - 50px);
+    @include sides(remcalc(50), remcalc(100));
+    padding-top: remcalc(35);
+  }
 
   &:hover {
     i {
@@ -232,10 +234,11 @@
 
   &--left {
     @extend %sideways-direction;
-    left: remcalc(10);
+    left: 0;
+    padding-left: remcalc(5);
 
     @include mq(lg) {
-      left: remcalc($direction-offset);
+      padding-left: remcalc($direction-offset - 5)
     }
 
     .direction__text {
@@ -257,10 +260,11 @@
 
   &--right {
     @extend %sideways-direction;
-    right: remcalc(10);
+    right: 0;
+    padding-right: remcalc(5);
 
     @include mq(lg) {
-      right: remcalc($direction-offset);
+      padding-right: remcalc($direction-offset - 5)
     }
 
     .direction__text {
@@ -283,14 +287,10 @@
   &--up {
     @extend %vertical-direction;
     top: 0;
-    border-radius: 0 0 remcalc($nav-border-radius) remcalc($nav-border-radius);
+    padding-top: remcalc(5);
 
-    .direction__inner {
-      margin: remcalc(5) auto 0;
-
-      @include mq(lg) {
-        margin-top: remcalc($direction-offset)
-      }
+    @include mq(lg) {
+      padding-top: remcalc($direction-offset)
     }
 
     .direction__icon {
@@ -309,7 +309,6 @@
   &--down {
     @extend %vertical-direction;
     bottom: 0;
-    border-radius: remcalc($nav-border-radius) remcalc($nav-border-radius) 0 0;
 
     .direction__icon {
       @include mq(lg) {
@@ -328,8 +327,8 @@
   &__inner {
     display: block;
     position: relative;
-    margin: 0 auto;
     @include sides(remcalc($direction-size-sm), 100%);
+    margin: 0 auto;
 
     @include mq(lg) {
       @include sides(remcalc($direction-size-lg), remcalc($direction-size-lg));
@@ -362,8 +361,10 @@
       display: block;
       @include square(remcalc(18));
       background-image: url(/static/images/arrow.svg);
+      background-repeat: no-repeat;
+      background-size: 450%;
       animation: fade-in-out 1s infinite;
-      transition: opacity $transition-duration;
+      transition: background-position 0s $page-transition-duration;
 
       @include mq(sm, max) {
         background-size: remcalc(32);
@@ -379,21 +380,18 @@
   }
 
   i {
-    display: block;
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
     @include square(100%);
-    background: url(/static/images/arrow-line.svg) no-repeat remcalc(-0.5);
-    background-size: 160%;
-    transition: transform $transition-duration;
-
-    @include mq(md, max) {
-      display: none;
-    }
+    background: url(/static/images/arrow-line.svg) no-repeat 200%;
+    background-position: 0 0.5px;
+    transition: transform $transition-duration,
+      background-position 0s $page-transition-duration;
 
     @include mq(md) {
-      background-size: cover;
+      display: block;
     }
 
     &:first-of-type {

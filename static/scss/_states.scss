@@ -4,8 +4,14 @@
 
 // JS classes
 .js {
-  &-changing-page .page__content {
-    overflow-y: hidden;
+  &-changing-page {
+    .page__content {
+      overflow-y: hidden;
+    }
+
+    .direction__text {
+      display: none;
+    }
   }
 
   &-incoming {
@@ -52,11 +58,31 @@
       }
     }
   }
+}
 
-  &-dark-text {
-    .nav,
-    .direction {
-      background-color: $black-transparent;
+.js-dark-text {
+  .direction,
+  .nav a {
+    color: $text-color-light;
+  }
+
+  .nav__linkcircle {
+    @include mq(lg) {
+      background-color: rgba(0,0,0,0.1);
+    }
+  }
+
+  .direction__icon {
+    i {
+      background-position: -31px;
+
+      &:last-of-type {
+        background-position: -31px 0px;
+      }
+    }
+
+    &::after {
+      background-position: -28.5px 0px;
     }
   }
 }

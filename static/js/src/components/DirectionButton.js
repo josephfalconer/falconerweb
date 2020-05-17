@@ -1,19 +1,20 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class DirectionButton extends PureComponent {
   render() {
-    const { button, isPageTransition } = this.props;
-    const { targetPage } = button;
+    const { nextPages, direction, isVisible } = this.props;
+    const toPage = nextPages && nextPages[direction];
     return (
       <Link
-        to={targetPage ? targetPage.path : ''}
+        to={toPage ? toPage.path : ''}
         className={this.getClassName()}
         onClick={this.blockNavigation}
-        tabIndex={!button.isVisible ? -1 : undefined}
+        tabIndex={!isVisible ? -1 : undefined}
       >
         <span className="direction__inner">
-          <span className="direction__text is-displayed-lg">{button.isVisible ? targetPage.title : null}</span>
+          <span className="direction__text is-displayed-lg">{toPage ? toPage.title : null}</span>
           <span className="direction__icon">
             <i></i>
             <i></i>
@@ -24,16 +25,27 @@ class DirectionButton extends PureComponent {
   }
 
   getClassName = () => {
-    const { button, isPageTransition } = this.props;
-    const isVisible = button.isVisible && !isPageTransition;
-    return `direction direction--${button.name} js-${isVisible ? 'visible' : 'hidden'}-button`;
+    const { direction, isVisible } = this.props;
+    return `direction direction--${direction.toLowerCase()} js-${isVisible ? 'visible' : 'hidden'}-button`;
   }
 
   blockNavigation = e => {
-    if (!this.props.button.isVisible) {
+    if (!this.props.isVisible) {
       e.preventDefault();
     }
   }
 }
 
-export default DirectionButton;
+function mapStateToProps({
+  nextPages,
+  isPageTransition
+}, props) {
+  const isVisible = Boolean(nextPages && nextPages[props.direction]) && !isPageTransition;
+  return {
+    nextPages,
+    isVisible
+  }
+}
+
+export default connect(mapStateToProps)(DirectionButton);
+

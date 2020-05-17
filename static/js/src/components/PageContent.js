@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { updateStoreState } from '../actions';
+import { DIRECTIONS } from '../constants';
 import * as helpers from '../helpers';
 import Icon from './icons/Icon';
 import ContentModule from './modules/ContentModule';
@@ -75,32 +76,32 @@ class PageContent extends PureComponent {
   }
 
   navigateFromWheel = event => {
-    const { directionButtons, history, scrollWrapper, isPageTransition } = this.props;
+    const { nextPages, history, scrollWrapper, isPageTransition } = this.props;
 
     if (isPageTransition) {
       return;
     }
 
-    const upPage = directionButtons[2].targetPage;
-    const downPage = directionButtons[3].targetPage;
+    const upPage = nextPages[DIRECTIONS.UP];
+    const downPage = nextPages[DIRECTIONS.DOWN];
     const wheelUp = event.nativeEvent.wheelDelta > 0;
 
-    if (wheelUp && !helpers.canScrollElement(scrollWrapper, 'up') && upPage) {
-      history.push(upPage.path)
-    } else if (!helpers.canScrollElement(scrollWrapper, 'down') && downPage) {
-      history.push(downPage.path)
+    if (wheelUp && !helpers.canScrollElement(scrollWrapper, DIRECTIONS.UP) && upPage) {
+      history.push(upPage.path);
+    } else if (!helpers.canScrollElement(scrollWrapper, DIRECTIONS.DOWN) && downPage) {
+      history.push(downPage.path);
     }
   }
 }
 
 const mapStateToProps = ({
-  directionButtons,
   scrollWrapper,
-  isPageTransition
+  isPageTransition,
+  nextPages
 }) => ({
-  directionButtons,
   scrollWrapper,
-  isPageTransition
+  isPageTransition,
+  nextPages
 });
 
 export default withRouter(connect(mapStateToProps, {

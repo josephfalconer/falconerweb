@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 
 import PageContent from './PageContent';
 import { updatePreviousPage, updateStoreState } from '../actions';
-import { PAGE_TRANSITION_TIMEOUT } from '../constants';
+import { DIRECTIONS, PAGE_TRANSITION_TIMEOUT } from '../constants';
 import * as helpers from '../helpers';
 
 class Page extends PureComponent {
@@ -12,6 +12,7 @@ class Page extends PureComponent {
 		const { pageData, updateStoreState } = this.props;
 		updateStoreState({
 			currentPage: pageData,
+			nextPages: this.getNextPages(pageData),
 			isPageTransition: true,
 		});
 		setTimeout(() => updateStoreState({isPageTransition: false}), PAGE_TRANSITION_TIMEOUT);
@@ -37,6 +38,17 @@ class Page extends PureComponent {
 		)
 	}
 
+	getNextPages = page => {
+		const { pages } = this.props;
+		const childPages = page.is_child_page ? pages[page.x].child_pages : page.child_pages;
+		return {
+			[DIRECTIONS.UP]: childPages[page.y - 2] || (pages[page.x].y !== page.y ? pages[page.x] : undefined),
+			[DIRECTIONS.DOWN]: childPages[page.y],
+			[DIRECTIONS.LEFT]: pages[page.x - 1],
+			[DIRECTIONS.RIGHT]: pages[page.x + 1],
+		}
+	}
+
 	getPageClassName = showTransition => {
 		const { currentPage, previousPage } = this.props;
 		let pageClassName = 'page';
@@ -59,6 +71,7 @@ class Page extends PureComponent {
 
 function mapStateToProps({
 	isPageTransition,
+	pages,
 	previousPage,
 	currentPage,
 	scrollWrapper,
@@ -66,6 +79,7 @@ function mapStateToProps({
 	return {
 		...props,
 		isPageTransition,
+		pages,
 		previousPage,
 		currentPage,
 		scrollWrapper
