@@ -362,19 +362,15 @@
       @include square(remcalc(18));
       background-image: url(/static/images/arrow.svg);
       background-repeat: no-repeat;
-      background-size: 450%;
+      background-size: 400%;
       animation: fade-in-out 1s infinite;
-      transition: background-position 0s $page-transition-duration;
-
-      @include mq(sm, max) {
-        background-size: remcalc(32);
-      }
 
       @include mq(lg) {
         position: absolute;
         top: remcalc(8.5);
         left: remcalc(8.5);
         @include square(remcalc(12.5));
+        background-size: 485%;
       }
     }
   }
@@ -390,7 +386,7 @@
     transition: transform $transition-duration,
       background-position 0s $page-transition-duration;
 
-    @include mq(md) {
+    @include mq(lg) {
       display: block;
     }
 

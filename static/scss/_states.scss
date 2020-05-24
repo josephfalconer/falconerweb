@@ -12,6 +12,10 @@
     .direction__text {
       display: none;
     }
+
+    .direction__icon::after {
+      transition: background-position 0s $page-transition-duration;
+    }
   }
 
   &-incoming {
@@ -67,8 +71,16 @@
   }
 
   .nav__linkcircle {
+    border-color: $text-color-light;
+
     @include mq(lg) {
       background-color: rgba(0,0,0,0.1);
+    }
+  }
+
+  .nav__link--current .nav__linkcircle {
+    @include mq(md, max) {
+      border-color: $orange--active;
     }
   }
 
@@ -82,7 +94,11 @@
     }
 
     &::after {
-      background-position: -28.5px 0px;
+      background-position: -36px 0px;
+
+      @include mq(lg) {
+        background-position: -30px 0px;
+      }
     }
   }
 }
