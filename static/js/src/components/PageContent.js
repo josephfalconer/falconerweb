@@ -21,15 +21,16 @@ class PageContent extends PureComponent {
     }
     if (this.props.isCurrentPage) {
       this.props.updateStoreState({scrollWrapper: this.scrollWrapper});
+      this.scrollWrapper.focus();
     }
   }
 
   render () {
     const { pageData, isCurrentPage } = this.props;
     return (
-      <article 
-        tabIndex="0" 
-        ref={this.setScrollWrapper} 
+      <article
+        tabIndex="0"
+        ref={this.setScrollWrapper}
         className={`page__content page__content--${isCurrentPage ? 'current' : 'previous'}`}
         onWheel={this.navigateFromWheel}
       >
