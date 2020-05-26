@@ -18,13 +18,9 @@ class Navigation extends PureComponent {
                     className={this.getLinkClassName(link)}
                     onClick={this.blockNavigation}
                   >
-                    {link.icon &&
-                      <span className="nav__linkcircle">
-                        <span className="nav__icon is-displayed-lg">
-                          <Icon iconType={link.icon} />
-                        </span>
-                      </span>
-                    }
+                    <span className="nav__linkcircle">
+                      {link.icon && <Icon iconType={link.icon} />}
+                    </span>
                     <span className="nav__linktext is-displayed-lg">{link.text}</span>
                   </Link>
                 </li>
@@ -36,7 +32,7 @@ class Navigation extends PureComponent {
     }
     return null;
   }
-  
+
   getLinkClassName = link => {
     const { currentPath, currentPage } = this.props;
     let linkClassName = 'nav__link';

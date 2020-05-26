@@ -52,11 +52,6 @@
   &__link {
     display: block;
 
-    @include mq(lg) {
-      position: relative;
-      margin-bottom: remcalc(5);
-    }
-
     .fill {
       fill: $text-color-light;
     }
@@ -86,15 +81,6 @@
       }
     }
 
-    &:hover {
-      @include mq(lg) {
-        .nav__linktext {
-          transform: translate(-50%,remcalc(5));
-          opacity: 1;
-        }
-      }
-    }
-
     &--current {
       .nav__linkcircle {
         @include mq(md, max) {
@@ -105,22 +91,30 @@
   }
 
   &__linkcircle {
-    display: flex;
+    display: block;
     margin: 0 auto;
     border: remcalc(2) solid $orange--active;
     border-radius: 50%;
     @include square(remcalc(15));
-    justify-content: center;
-    align-items: center;
     transition: all $transition-duration;
 
     @include mq(lg) {
       @include square(remcalc($nav-circlelink-width));
       border-color: $text-color-light;
+      padding: remcalc(6);
     }
 
     @include mq(xxl) {
       @include square(remcalc($nav-circlelink-width-xxl));
+      padding: remcalc(7);
+    }
+
+    svg {
+      display: none;
+
+      @include mq(lg) {
+        display: block;
+      }
     }
   }
 
@@ -133,13 +127,8 @@
   }
 
   &__linktext {
-    position: absolute;
-    left: 50%;
-    bottom: -#{remcalc(10)};
+    display: block;
     font-size: remcalc(14);
-    opacity: 0;
-    transform: translateX(-50%);
-    transition: all $transition-duration;
     font-family: $font-family--tertiary;
   }
 }
