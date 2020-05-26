@@ -21,7 +21,9 @@ class PageContent extends PureComponent {
     }
     if (this.props.isCurrentPage) {
       this.props.updateStoreState({scrollWrapper: this.scrollWrapper});
-      this.scrollWrapper.focus();
+      if (!helpers.isMobileTablet()) {
+        this.scrollWrapper.focus();
+      }
     }
   }
 
