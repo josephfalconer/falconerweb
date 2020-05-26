@@ -222,12 +222,10 @@
       opacity: 1;
     }
 
-    .direction__icon {
-      &::after {
-        @include mq(lg) {
-          animation: none;
-          opacity: 0;
-        }
+    .direction__icon::after {
+      @include mq(lg) {
+        animation: none;
+        opacity: 0;
       }
     }
   }
@@ -363,7 +361,6 @@
       background-image: url(/static/images/arrow.svg);
       background-repeat: no-repeat;
       background-size: 400%;
-      animation: fade-in-out 1s infinite;
 
       @include mq(lg) {
         position: absolute;
@@ -371,6 +368,7 @@
         left: remcalc(8.5);
         @include square(remcalc(12.5));
         background-size: 485%;
+        animation: fade-in-out 1s infinite;
       }
     }
   }
