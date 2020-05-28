@@ -6,6 +6,7 @@
 $accordion-heading-height: remcalc(85);
 
 .accordion {
+  position: relative;
   background: $white;
   margin: 0 auto;
   max-width: remcalc(1000);
@@ -14,54 +15,32 @@ $accordion-heading-height: remcalc(85);
     box-shadow: 0 0 10px transparentize($black, 0.75);
   }
 
-  &__panel {
+  &__section {
     &:first-child {
       .accordion__title {
         box-shadow: none;
       }
     }
-
-    &--current {
-      .accordion__read {
-        display: none;
-      }
-
-      .accordion__close {
-        @include mq(lg) {
-          display: block;
-        }
-      }
-
-      .accordion__overlay {
-        opacity: 0;
-        transition: opacity $transition-duration;
-      }
-    }
   }
 
-  &__trigger {
+  &__heading {
     display: block;
     position: relative;
     height: $accordion-heading-height;
-    background: darken($white, 10%);
+    background: darken($white, 7.5%);
     line-height: $accordion-heading-height;
     color: $text-color-main;
     transition: background $transition-duration;
+    cursor: pointer;
 
     &:hover, &:focus {
-      background: darken($white, 20%);
-    }
-
-    &:hover {
-      .accordion__tooltip {
-        opacity: 1;
-      }
+      background: darken($white, 14%);
     }
   }
 
   &__title {
     margin: 0;
-    box-shadow: 0 -#{remcalc(30)} remcalc(25) -#{remcalc(10)} $white;
+    box-shadow: 0 -#{remcalc(2)} remcalc(15) -#{remcalc(5)} $white;
   }
 
   &__tooltip {
@@ -70,14 +49,10 @@ $accordion-heading-height: remcalc(85);
     top: 0;
     right: 0;
     height: $accordion-heading-height;
-    padding-right: 30px;
+    padding-right: remcalc(30);
     line-height: $accordion-heading-height;
-    opacity: 0;
     transition: opacity $transition-duration;
-
-    @include mq(md, max) {
-      display: none;
-    }
+    font-size: remcalc(16);
   }
 
   &__close {
