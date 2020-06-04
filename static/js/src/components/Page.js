@@ -26,15 +26,14 @@ class Page extends PureComponent {
 	}
 
 	render() {
-		const { pageData, previousPage, isPageTransition } = this.props;
-		const showTransition = previousPage && isPageTransition;
+		const { pageData, previousPage } = this.props;
 		return (
-			<div className={this.getPageClassName(showTransition)}>
-	  		{showTransition && (
+			<div className={this.getPageClassName()}>
+	  		{previousPage && (
 		      <PageContent pageData={previousPage} />
   			)}
 	      <PageContent pageData={pageData} isCurrentPage />
-			</div>	
+			</div>
 		)
 	}
 
@@ -49,14 +48,14 @@ class Page extends PureComponent {
 		}
 	}
 
-	getPageClassName = showTransition => {
+	getPageClassName = () => {
 		const { currentPage, previousPage } = this.props;
 		let pageClassName = 'page';
-		let transitionClassName = ''
+		let transitionClassName = ' js-incoming-fade';
 
-		if (showTransition) {
+		if (previousPage) {
 			transitionClassName = ' js-incoming-';
-			
+
 			if (helpers.isSideways(currentPage, previousPage)) {
 				transitionClassName += helpers.isLeftwards(currentPage, previousPage) ? 'left' : 'right';
 			} else if (helpers.isVertical(currentPage, previousPage)) {
@@ -70,7 +69,6 @@ class Page extends PureComponent {
 }
 
 function mapStateToProps({
-	isPageTransition,
 	pages,
 	previousPage,
 	currentPage,
@@ -78,11 +76,10 @@ function mapStateToProps({
 }, props) {
 	return {
 		...props,
-		isPageTransition,
 		pages,
 		previousPage,
 		currentPage,
-		scrollWrapper
+		scrollWrapper,
 	}
 }
 
