@@ -222,7 +222,6 @@
   &--left {
     @extend %sideways-direction;
     left: 0;
-    padding-left: remcalc(5);
 
     @include mq(lg) {
       padding-left: remcalc($direction-offset - 5)
@@ -248,7 +247,6 @@
   &--right {
     @extend %sideways-direction;
     right: 0;
-    padding-right: remcalc(5);
 
     @include mq(lg) {
       padding-right: remcalc($direction-offset - 5)
@@ -274,7 +272,6 @@
   &--up {
     @extend %vertical-direction;
     top: 0;
-    padding-top: remcalc(5);
 
     @include mq(lg) {
       padding-top: remcalc($direction-offset)
