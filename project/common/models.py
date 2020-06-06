@@ -1,5 +1,6 @@
 from django.db import models
-from project.pages.models import Page, ICONS
+from project.common.constants import ICONS
+from project.pages.models import Page
 
 
 class GenericItem(models.Model):
