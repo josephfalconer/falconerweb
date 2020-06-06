@@ -14,7 +14,7 @@ class PageAdmin(admin.ModelAdmin):
         'custom_slug',
         'icon',
         'background',
-        'text_colour',
+        'theme',
         'title',
         'display_title',
         'intro_text',

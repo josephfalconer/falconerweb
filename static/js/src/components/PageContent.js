@@ -58,7 +58,7 @@ class PageContent extends PureComponent {
 
   getPageInnerClassName = () => {
     const { pageData } = this.props;
-    let pageInnerClass = `page__inner text text--${pageData.text_colour}`;
+    let pageInnerClass = `page__inner page__inner--${pageData.theme.toLowerCase()} text`;
     if (!pageData.center_content) {
       pageInnerClass += ' padding--ends';
     } else if (!pageData.content_modules.length) {

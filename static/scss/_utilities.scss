@@ -99,10 +99,6 @@
 
 .text {
   @include fontsizes($font-sizes-body);
-
-  &--light {
-    color: $white;
-  }
 }
 
 .textblock {

@@ -7,7 +7,7 @@ import { updateStoreState } from '../actions';
 import DirectionButtons from '../components/DirectionButtons';
 import Page from '../components/Page';
 import Navigation from '../components/Navigation';
-import { TEXT_COLOURS } from '../constants';
+import { THEMES } from '../constants';
 import { formatPageData } from '../utils';
 
 class App extends PureComponent {
@@ -54,11 +54,13 @@ class App extends PureComponent {
   getAppContainerClassName = () => {
     const {currentPage, isPageTransition } = this.props;
     let appContainerClassName = 'app__container';
+    if (currentPage && currentPage.theme === THEMES.LIGHT) {
+      appContainerClassName += ' js-light-theme';
+    } else {
+      appContainerClassName += ' js-dark-theme';
+    }
     if (isPageTransition) {
       appContainerClassName += ' js-changing-page';
-    }
-    if (currentPage && currentPage.text_colour === TEXT_COLOURS.DARK) {
-      appContainerClassName += ' js-dark-text';
     }
     return appContainerClassName;
   }
