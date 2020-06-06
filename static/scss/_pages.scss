@@ -126,10 +126,10 @@
   }
 
   &__header {
-    padding: 0 remcalc(30) remcalc(25) remcalc(30);
+    padding: 0 remcalc(30) remcalc(25);
 
     @include mq(lg) {
-      padding: 0 remcalc(50) remcalc(40) remcalc(50);
+      padding: 0 remcalc(50) remcalc(40);
     }
   }
 
