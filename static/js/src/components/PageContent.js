@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 
 import { updateStoreState } from '../actions';
 import { DIRECTIONS } from '../constants';
-import * as helpers from '../helpers';
+import * as utils from '../utils';
 import Icon from './icons/Icon';
 import ContentModule from './modules/ContentModule';
 
@@ -12,7 +12,7 @@ class PageContent extends PureComponent {
   constructor(props) {
     super(props)
     this.setScrollWrapper = element => this.scrollWrapper = element;
-    this.navigateFromWheel = helpers.debounce(this.navigateFromWheel, 500, true);
+    this.navigateFromWheel = utils.debounce(this.navigateFromWheel, 500, true);
   }
 
   componentDidMount() {
@@ -21,7 +21,7 @@ class PageContent extends PureComponent {
     }
     if (this.props.isCurrentPage) {
       this.props.updateStoreState({scrollWrapper: this.scrollWrapper});
-      if (!helpers.isMobileTablet()) {
+      if (!utils.isMobileTablet()) {
         this.scrollWrapper.focus();
       }
     }
@@ -89,9 +89,9 @@ class PageContent extends PureComponent {
     const downPage = nextPages[DIRECTIONS.DOWN];
     const wheelUp = event.nativeEvent.wheelDelta > 0;
 
-    if (wheelUp && !helpers.canScrollElement(scrollWrapper, DIRECTIONS.UP) && upPage) {
+    if (wheelUp && !utils.canScrollElement(scrollWrapper, DIRECTIONS.UP) && upPage) {
       history.push(upPage.path);
-    } else if (!helpers.canScrollElement(scrollWrapper, DIRECTIONS.DOWN) && downPage) {
+    } else if (!utils.canScrollElement(scrollWrapper, DIRECTIONS.DOWN) && downPage) {
       history.push(downPage.path);
     }
   }

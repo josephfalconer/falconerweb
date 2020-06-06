@@ -8,7 +8,7 @@ import DirectionButtons from '../components/DirectionButtons';
 import Page from '../components/Page';
 import Navigation from '../components/Navigation';
 import { TEXT_COLOURS } from '../constants';
-import { formatPageData } from '../helpers';
+import { formatPageData } from '../utils';
 
 class App extends PureComponent {
   componentDidMount() {

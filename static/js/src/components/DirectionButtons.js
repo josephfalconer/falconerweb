@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import { DIRECTION_LIST, DIRECTIONS } from '../constants';
-import * as helpers from '../helpers';
+import * as utils from '../utils';
 import DirectionButton from './DirectionButton';
 import { updateStoreState } from '../actions';
 
@@ -28,7 +28,7 @@ class DirectionButtons extends PureComponent {
     if (!isPageTransition && nextPages) {
       const direction = this.getDirectionFromKeyPress(event);
       const targetPage = nextPages[direction];
-      if (targetPage && !helpers.canScrollElement(scrollWrapper, direction)) {
+      if (targetPage && !utils.canScrollElement(scrollWrapper, direction)) {
         history.push(targetPage.path);
       }
     }

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import PageContent from './PageContent';
 import { updatePreviousPage, updateStoreState } from '../actions';
 import { DIRECTIONS, PAGE_TRANSITION_TIMEOUT } from '../constants';
-import * as helpers from '../helpers';
+import * as utils from '../utils';
 
 class Page extends PureComponent {
 	componentDidMount() {
@@ -56,10 +56,10 @@ class Page extends PureComponent {
 		if (previousPage) {
 			transitionClassName = ' js-incoming-';
 
-			if (helpers.isSideways(currentPage, previousPage)) {
-				transitionClassName += helpers.isLeftwards(currentPage, previousPage) ? 'left' : 'right';
-			} else if (helpers.isVertical(currentPage, previousPage)) {
-				transitionClassName += helpers.isUpwards(currentPage, previousPage) ? 'top' : 'bottom';
+			if (utils.isSideways(currentPage, previousPage)) {
+				transitionClassName += utils.isLeftwards(currentPage, previousPage) ? 'left' : 'right';
+			} else if (utils.isVertical(currentPage, previousPage)) {
+				transitionClassName += utils.isUpwards(currentPage, previousPage) ? 'top' : 'bottom';
 			} else {
 				transitionClassName += 'fade';
 			}
