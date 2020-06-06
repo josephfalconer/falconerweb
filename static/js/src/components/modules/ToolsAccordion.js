@@ -31,7 +31,10 @@ class ToolsAccordion extends PureComponent {
             {this.props.tools.map((tool, index) => {
               const isCurrentSection = index == this.props.currentAccordionSection;
               return (
-                <article key={`accordion-section-${index}`} className="accordion__section">
+                <article
+                  key={`accordion-section-${index}`}
+                  className={this.getSectionClassName(isCurrentSection)}
+                >
                   <a className="accordion__heading" href="">
                     <h3
                       index={index}
@@ -46,11 +49,17 @@ class ToolsAccordion extends PureComponent {
                   </a>
                   <div className="accordion__content" style={this.getHeightStyle(isCurrentSection)}>
                     <div
+                      className="accordion__contentinner"
                       ref={this.setAccordionContent}
                       index={index}
-                      className="accordion__contentinner"
-                      dangerouslySetInnerHTML={{__html: tool.text}}
-                    ></div>
+                    >
+                      <div dangerouslySetInnerHTML={{__html: tool.text}}></div>
+                      {tool.internal_link_path && tool.internal_link_text && (
+                        <p>
+                          <Link to={tool.internal_link_path}>{tool.internal_link_text}</Link>.
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </article>
               );
@@ -60,6 +69,9 @@ class ToolsAccordion extends PureComponent {
       </div>
     );
   }
+
+  getSectionClassName = isCurrentSection =>
+    isCurrentSection ? 'accordion__section accordion__section--current' : 'accordion__section';
 
   getHeightStyle = isCurrentSection => ({
     height: isCurrentSection ? this.props.currentAccordionSectionHeight : '0'

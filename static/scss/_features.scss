@@ -4,6 +4,7 @@
 
 // accordion
 $accordion-heading-height: remcalc(85);
+$accordion-section-transition: $transition-duration * 2;
 
 .accordion {
   position: relative;
@@ -16,31 +17,37 @@ $accordion-heading-height: remcalc(85);
   }
 
   &__section {
-    &:first-child {
-      .accordion__title {
-        box-shadow: none;
-      }
+    &--current .accordion__heading {
+      border-bottom-color: $clean-transparent;
+      transition: background $transition-duration,
+        border-bottom-color 0s;
+    }
+
+    &:last-child .accordion__heading {
+      border-bottom: none;
     }
   }
 
   &__heading {
     display: block;
     position: relative;
+    border-bottom: remcalc(1) solid rgba(255,255,255,0.5);
     height: $accordion-heading-height;
     background: darken($white, 7.5%);
     line-height: $accordion-heading-height;
     color: $text-color-main;
-    transition: background $transition-duration;
+    transition: background $transition-duration,
+      border-bottom-color 0s $accordion-section-transition;
     cursor: pointer;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background: darken($white, 14%);
     }
   }
 
   &__title {
     margin: 0;
-    box-shadow: 0 -#{remcalc(2)} remcalc(15) -#{remcalc(5)} $white;
   }
 
   &__tooltip {
@@ -53,6 +60,11 @@ $accordion-heading-height: remcalc(85);
     line-height: $accordion-heading-height;
     transition: opacity $transition-duration;
     font-size: remcalc(16);
+
+    @include mq(md, max) {
+      padding-right: remcalc(20);
+      font-size: remcalc(12);
+    }
   }
 
   &__close {
@@ -65,7 +77,7 @@ $accordion-heading-height: remcalc(85);
     max-width: remcalc(750);
     overflow: hidden;
     text-align: left;
-    transition: height $transition-duration * 2;
+    transition: height $accordion-section-transition;
   }
 
   &__contentinner {
