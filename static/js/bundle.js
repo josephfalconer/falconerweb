@@ -515,10 +515,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.formatPageData = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 exports.updateStoreState = updateStoreState;
 exports.updatePreviousPage = updatePreviousPage;
 
@@ -527,24 +523,6 @@ var _actiontypes = __webpack_require__(37);
 var ActionTypes = _interopRequireWildcard(_actiontypes);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var formatPageData = exports.formatPageData = function formatPageData(pages) {
-  return pages.map(function (page, x) {
-    return _extends({}, page, {
-      x: x,
-      y: 0,
-      path: '/' + page.slug,
-      child_pages: page.child_pages.map(function (childPage, y) {
-        return _extends({}, childPage, {
-          x: x,
-          y: y + 1,
-          path: (page.slug !== '' ? '/' : '') + page.slug + '/' + childPage.slug + '/',
-          is_homepage_child: page.is_homepage
-        });
-      })
-    });
-  });
-};
 
 function updateStoreState(payload) {
   return {
@@ -2044,6 +2022,10 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.formatPageData = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 exports.isSideways = isSideways;
 exports.isVertical = isVertical;
 exports.isLeftwards = isLeftwards;
@@ -2110,6 +2092,24 @@ function isMobileTablet() {
   })(window.navigator.userAgent || window.navigator.vendor || window.opera);
   return check;
 }
+
+var formatPageData = exports.formatPageData = function formatPageData(pages) {
+  return pages.map(function (page, x) {
+    return _extends({}, page, {
+      x: x,
+      y: 0,
+      path: '/' + page.slug,
+      child_pages: page.child_pages.map(function (childPage, y) {
+        return _extends({}, childPage, {
+          x: x,
+          y: y + 1,
+          path: (page.slug !== '' ? '/' : '') + page.slug + '/' + childPage.slug + '/',
+          is_homepage_child: page.is_homepage
+        });
+      })
+    });
+  });
+};
 
 /***/ }),
 /* 23 */
@@ -5235,6 +5235,8 @@ var _Navigation2 = _interopRequireDefault(_Navigation);
 
 var _constants = __webpack_require__(11);
 
+var _helpers = __webpack_require__(22);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5281,7 +5283,7 @@ var App = function (_PureComponent) {
       fetch('/api/pages/').then(function (response) {
         return response.json();
       }).then(function (pages) {
-        return _this2.props.updateStoreState({ pages: (0, _actions.formatPageData)(pages) });
+        return _this2.props.updateStoreState({ pages: (0, _helpers.formatPageData)(pages) });
       });
       fetch('/api/navigation/').then(function (response) {
         return response.json();

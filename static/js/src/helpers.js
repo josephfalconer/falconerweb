@@ -56,3 +56,17 @@ export function isMobileTablet() {
   })(window.navigator.userAgent||window.navigator.vendor||window.opera);
   return check;
 }
+
+export const formatPageData = pages => pages.map((page, x) => ({
+  ...page,
+  x: x,
+  y: 0,
+  path: `/${page.slug}`,
+  child_pages: page.child_pages.map((childPage, y) => ({
+    ...childPage,
+    x: x,
+    y: y + 1,
+    path: `${(page.slug !== '' ? '/' : '') + page.slug}/${childPage.slug}/`,
+    is_homepage_child: page.is_homepage
+  })),
+}))

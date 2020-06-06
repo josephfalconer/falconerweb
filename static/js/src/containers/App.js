@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 
-import { formatPageData, updateStoreState } from '../actions';
+import { updateStoreState } from '../actions';
 import DirectionButtons from '../components/DirectionButtons';
 import Page from '../components/Page';
 import Navigation from '../components/Navigation';
 import { TEXT_COLOURS } from '../constants';
+import { formatPageData } from '../helpers';
 
 class App extends PureComponent {
   componentDidMount() {
