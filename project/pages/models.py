@@ -1,32 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-
-
-ICONS = (
-    ('LOGO', 'Logo'),
-    ('TOOLS', 'Spanner and Screwdriver'),
-    ('PROJECTS', '@ symbol'),
-    ('DEMOS', 'Laboratory Beaker'),
-)
-
-BACKGROUNDS = (
-    ('/static/images/asanoha-400px.png', 'Japanese Asanoha'),
-    ('/static/images/triangles.png', 'Triangles and Hexagons'),
-    ('/static/images/pyramids.png', 'Pyramids'),
-    ('/static/images/seigaiha.png', 'Seigaiha'),
-    ('/static/images/squares.png', 'Grey and White Squares'),
-)
-
-TEXT_COLOURS = (
-    ('light', 'Light Text'),
-    ('dark', 'Dark Text'),
-)
-
-CONTENT_MODULE_TYPES = (
-    ('TEXT', 'Text'),
-    ('TOOLS_ACCORDION', 'Tools Accordion'),
-    ('DEMOS_MENU', 'Demos Menu')
-)
+from project.common.constants import *
 
 
 class Page(models.Model):
