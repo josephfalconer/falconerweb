@@ -9,7 +9,7 @@ class Page(models.Model):
     custom_slug = models.CharField(max_length=255, blank=True, null=True, unique=True)
     icon = models.CharField(max_length=200, choices=ICONS, blank=True)
     background = models.CharField(max_length=200, choices=BACKGROUNDS, blank=True)
-    text_colour = models.CharField(max_length=200, choices=TEXT_COLOURS, default='dark')
+    theme = models.CharField(max_length=200, choices=THEME_CHOICES, default=THEMES.LIGHT)
     title = models.CharField(max_length=20, unique=True)
     display_title = models.CharField(max_length=255, blank=True)
     intro_text = models.TextField(blank=True)

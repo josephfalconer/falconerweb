@@ -116,12 +116,13 @@
   &__inner {
     min-height: 100%;
 
-    &.text--dark {
-      background-color: $white;
+    &--dark {
+      background-color: $black;
+      color: $white;
     }
 
-    &.text--light {
-      background-color: $black;
+    &--light {
+      background-color: $white;
     }
   }
 

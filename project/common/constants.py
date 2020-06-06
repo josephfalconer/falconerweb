@@ -13,9 +13,14 @@ BACKGROUNDS = (
     ('/static/images/squares.png', 'Grey and White Squares'),
 )
 
-TEXT_COLOURS = (
-    ('light', 'Light Text'),
-    ('dark', 'Dark Text'),
+class THEMES:
+    LIGHT = 'LIGHT'
+    DARK = 'DARK'
+
+
+THEME_CHOICES = (
+    (THEMES.LIGHT, 'Light'),
+    (THEMES.DARK, 'Dark'),
 )
 
 CONTENT_MODULE_TYPES = (

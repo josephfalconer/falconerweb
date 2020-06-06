@@ -18,7 +18,7 @@ class PageSerializer(serializers.ModelSerializer):
             'slug',
             'icon',
             'background',
-            'text_colour',
+            'theme',
             'title',
             'display_title',
             'intro_text',
