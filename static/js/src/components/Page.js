@@ -15,7 +15,13 @@ class Page extends PureComponent {
 			nextPages: this.getNextPages(pageData),
 			isPageTransition: true,
 		});
-		setTimeout(() => updateStoreState({isPageTransition: false}), PAGE_TRANSITION_TIMEOUT);
+		setTimeout(() =>
+      updateStoreState({
+        isPageTransition: false,
+        previousPage: null
+      }),
+      PAGE_TRANSITION_TIMEOUT
+    );
 	}
 
 	componentWillUnmount() {
@@ -28,7 +34,7 @@ class Page extends PureComponent {
 	render() {
 		const { pageData, previousPage } = this.props;
 		return (
-			<div className={this.getPageClassName()}>
+			<div className={`page${this.getTransitionClassName()}`}>
 	  		{previousPage && (
 		      <PageContent pageData={previousPage} />
   			)}
@@ -48,24 +54,25 @@ class Page extends PureComponent {
 		}
 	}
 
-	getPageClassName = () => {
-		const { currentPage, previousPage } = this.props;
-		let pageClassName = 'page';
-		let transitionClassName = ' js-incoming-fade';
+  getTransitionClassName = () => {
+    return this.props.isPageTransition ? ` js-incoming-${this.getNextPageName() || 'fade'}` : '';
+  }
 
-		if (previousPage) {
-			transitionClassName = ' js-incoming-';
+  getNextPageName = () => {
+    const { currentPage, previousPage } = this.props;
 
-			if (utils.isSideways(currentPage, previousPage)) {
-				transitionClassName += utils.isLeftwards(currentPage, previousPage) ? 'left' : 'right';
-			} else if (utils.isVertical(currentPage, previousPage)) {
-				transitionClassName += utils.isUpwards(currentPage, previousPage) ? 'top' : 'bottom';
-			} else {
-				transitionClassName += 'fade';
-			}
- 		}
- 		return pageClassName + transitionClassName;
-	}
+    if (!currentPage || !previousPage) {
+      return null;
+    }
+
+    if (utils.isSideways(currentPage, previousPage)) {
+      return utils.isLeftwards(currentPage, previousPage) ? 'left' : 'right';
+    } else if (utils.isVertical(currentPage, previousPage)) {
+      return utils.isUpwards(currentPage, previousPage) ? 'top' : 'bottom';
+    }
+
+    return null;
+  }
 }
 
 function mapStateToProps({
@@ -73,6 +80,7 @@ function mapStateToProps({
 	previousPage,
 	currentPage,
 	scrollWrapper,
+  isPageTransition
 }, props) {
 	return {
 		...props,
@@ -80,6 +88,7 @@ function mapStateToProps({
 		previousPage,
 		currentPage,
 		scrollWrapper,
+    isPageTransition
 	}
 }
 

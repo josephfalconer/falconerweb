@@ -1,7 +1,7 @@
 import * as ActionTypes from './actiontypes';
 
 const INITIAL_STATE = {
-  isPageTransition: false,
+  isPageTransition: true,
 }
 
 export default function simpleReducer(state = INITIAL_STATE, action) {
