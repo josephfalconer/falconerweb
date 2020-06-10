@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ICONS } from '../../constants';
 import IconLogo from './IconLogo';
 import IconProjects from './IconProjects';
 import IconSkills from './IconSkills';
@@ -7,13 +8,13 @@ import IconDemos from './IconDemos';
 
 export default function Icon(props) {
   switch (props.iconType) {
-    case 'LOGO':
+    case ICONS.LOGO:
       return <IconLogo />;
-    case 'TOOLS':
+    case ICONS.TOOLS:
       return <IconSkills />;
-    case 'PROJECTS':
+    case ICONS.PROJECTS:
       return <IconProjects />;
-    case 'DEMOS':
+    case ICONS.DEMOS:
       return <IconDemos />;
     default:
       return null;

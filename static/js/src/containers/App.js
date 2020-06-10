@@ -22,11 +22,9 @@ class App extends PureComponent {
 
   render() {
     return (
-      <main className={this.getAppContainerClassName()}>
-        <header>
-          <Navigation currentPath={this.props.location.pathname} />
-          <DirectionButtons />
-        </header>
+      <main className={this.getClassName()}>
+        <Navigation currentPath={this.props.location.pathname} />
+        <DirectionButtons />
         {this.props.pages.length ? this.props.pages.map(page => (
           <Fragment key={page.slug}>
             <Route
@@ -51,31 +49,36 @@ class App extends PureComponent {
     );
   }
 
-  getAppContainerClassName = () => {
-    const {currentPage, isPageTransition } = this.props;
-    let appContainerClassName = 'app__container';
+  getClassName = () => {
+    const { currentPage, isPageTransition, menuIsOpen } = this.props;
+    let className = 'app__container';
     if (currentPage && currentPage.theme === THEMES.LIGHT) {
-      appContainerClassName += ' js-light-theme';
+      className += ' js-light-theme';
     } else {
-      appContainerClassName += ' js-dark-theme';
+      className += ' js-dark-theme';
     }
     if (isPageTransition) {
-      appContainerClassName += ' js-changing-page';
+      className += ' js-changing-page';
     }
-    return appContainerClassName;
+    if (menuIsOpen) {
+      className += ' js-menu-open';
+    }
+    return className;
   }
 }
 
 function mapStateToProps({
   isPageTransition,
   currentPage,
-  pages
+  pages,
+  menuIsOpen
 }, props) {
   return {
     ...props,
     isPageTransition,
     currentPage,
-    pages: pages || []
+    pages: pages || [],
+    menuIsOpen
   }
 }
 

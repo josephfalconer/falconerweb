@@ -58,6 +58,7 @@
 
 .page {
   position: relative;
+  transition: opacity $transition-duration;
 
   &__content {
     overflow-y: auto;

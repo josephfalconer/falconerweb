@@ -2,134 +2,182 @@
 // Menu navigation and direction buttons
 // ========================================
 
+$hamburger-height: 25;
+$hamburger-section-height: 4;
+$hamburger-center-point: remcalc(($hamburger-height / 2) - ($hamburger-section-height / 2));
+$nav-link-height: remcalc(60);
+$nav-link-height-lg: remcalc(85);
+$circle-link-width: remcalc(15);
+
 // navigation
 .nav {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  z-index: $nav-z-index;
-  border-radius: remcalc($nav-border-radius) 0 0 0;
-  height: remcalc($nav-height-sm);
-  min-width: remcalc(130);
-  background-color: rgba(255,255,255,0);
-  transition: background-color $transition-duration * 2;
-
-  @include mq(lg) {
-    height: remcalc($nav-height-lg);
-    padding: 0;
-  }
-
-  a {
-    transition: color $transition-duration;
-    color: $white;
-  }
+  text-align: left;
 
   &__menu {
-    display: flex;
-    @include square(100%);
-    padding: 0 remcalc(5);
+    padding-left: remcalc(16);
+
+    @include mq(lg) {
+      padding-left: remcalc(40);
+    }
+
+    &--top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: $nav-z-index;
+      display: flex;
+    }
+
+    &--main {
+      @include mq(lg) {
+        font-size: remcalc(map-get($font-sizes-body, 'md'));
+      }
+    }
+
+    &--circles {
+      position: absolute;
+      bottom: remcalc(60);
+      z-index: $nav-z-index - 3;
+      display: flex;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 
   &__item {
-    display: flex;
-    flex: 1 0 25%;
-    order: 1;
-    justify-content: center;
-    align-items: center;
-    transition: all 1s;
+    margin-top: remcalc(4);
 
-    @include mq(lg) {
-      width: remcalc(70);
-      margin: 0;
+    &--top {
+      display: flex;
+      align-items: center;
+      @include sides(remcalc(35), $nav-link-height);
+
+      @include mq(lg) {
+        height: $nav-link-height-lg;
+      }
+
+      svg {
+        display: block;
+        @include square(remcalc(40));
+      }
     }
 
-    @include mq(xxl) {
-      width: remcalc(85);
-      margin: 0;
+    &--trigger {
+      margin-left: remcalc(16);
+      transition: margin $transition-duration $transition-duration * 2;
+
+      @include mq(lg) {
+        margin-left: remcalc(24);
+      }
+    }
+
+    &--toppage:nth-child(n+2) {
+      margin-top: remcalc(10);
+    }
+
+    &--subpage {
+      padding-left: remcalc(16);
+    }
+
+    &--circle:nth-child(n+2) {
+      margin-left: $circle-link-width;
     }
   }
 
   &__link {
     display: block;
+    transition: all $transition-duration;
+    color: $white;
 
     .fill {
       fill: $text-color-light;
     }
 
-    .stroke {
-      stroke: $text-color-light;
-    }
-
-    circle {
-      stroke: $text-color-light;
-      fill: rgba(255,255,255,0);
+    .fill--white {
+      transition: all $transition-duration;
     }
 
     &--current,
     &:hover,
     &:focus {
-      circle {
-        stroke: $orange--dark;
-      }
+      color: $orange;
 
       .fill {
-        fill: $orange--dark;
+        fill: $orange;
       }
+    }
 
-      .stroke {
-        stroke: $orange--dark;
-      }
+    &--circle {
+      border: remcalc(2) solid $orange;
+      border-radius: 50%;
+      @include square($circle-link-width);
+      transition: all $transition-duration;
     }
 
     &--current {
-      .nav__linkcircle {
-        @include mq(md, max) {
-          background-color: $orange--active;
-        }
+      &.nav__link--circle {
+        background-color: $orange;
       }
     }
   }
 
-  &__linkcircle {
-    display: block;
-    margin: 0 auto;
-    border: remcalc(2) solid $orange--active;
-    border-radius: 50%;
-    @include square(remcalc(15));
-    transition: all $transition-duration;
+  &__hamburger {
+    position: relative;
+    margin-left: 0;
+    @include sides(remcalc(30), remcalc($hamburger-height));
+
+    span {
+      display: block;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: remcalc($hamburger-section-height);
+      background-color: $white;
+      transition: top $transition-duration $transition-duration,
+        opacity $transition-duration $transition-duration,
+        transform $transition-duration,
+        background-color $transition-duration;
+
+      &:first-child {
+        top: 0;
+      }
+
+      &:nth-child(2) {
+        top: remcalc(($hamburger-height / 2) - ($hamburger-section-height / 2));
+      }
+
+      &:last-child {
+        top: remcalc($hamburger-height - $hamburger-section-height);;
+      }
+    }
+
+    &:hover span {
+      background-color: $orange;
+    }
+  }
+
+  &__slider {
+    background-color: $black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: $nav-z-index - 1;
+    @include sides(remcalc(300), 100%);
+    padding-top: $nav-link-height;
+    transform: translateX(-100%);
+    transition: transform $transition-duration;
 
     @include mq(lg) {
-      @include square(remcalc($nav-circlelink-width));
-      border-color: $text-color-light;
-      padding: remcalc(6);
-    }
-
-    @include mq(xxl) {
-      @include square(remcalc($nav-circlelink-width-xxl));
-      padding: remcalc(7);
-    }
-
-    svg {
-      display: none;
-
-      @include mq(lg) {
-        display: block;
-      }
+      padding-top: $nav-link-height-lg;
     }
   }
 
-  &__icon {
-    @include square(62.5%);
-
-    svg {
-      @include square(100%);
-    }
-  }
-
-  &__linktext {
-    display: block;
-    font-size: remcalc(14);
-    font-family: $font-family--tertiary;
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: $nav-z-index - 2;
+    cursor: pointer;
   }
 }
 
@@ -202,7 +250,7 @@
 .direction {
   display: block;
   position: fixed;
-  z-index: $nav-z-index;
+  z-index: $nav-z-index - 3;
   outline: none;
   color: $white;
 
