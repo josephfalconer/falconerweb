@@ -15,9 +15,10 @@ class DirectionButton extends PureComponent {
       >
         <span className="direction__inner">
           <span className="direction__text is-displayed-lg">{toPage ? toPage.title : null}</span>
-          <span className="direction__icon">
-            <i></i>
-            <i></i>
+          <span className="direction__arrow">
+            <span className="direction__side is-displayed-lg"></span>
+            <span className="direction__side is-displayed-lg"></span>
+            <span className="direction__centre"></span>
           </span>
         </span>
       </Link>

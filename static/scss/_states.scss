@@ -68,20 +68,23 @@
   .direction {
     color: $text-color-light;
 
-    &__icon {
-      i {
-        background-position: -31px;
+    &__side {
+      background-position: -34px;
+    }
 
-        &:last-of-type {
-          background-position: -31px 0px;
-        }
+    &__centre {
+      background-position: -45px 0;
+
+      @include mq(lg) {
+        background-position: -30px 0;
       }
+    }
 
-      &::after {
-        background-position: -36px 0px;
-
+    &--up,
+    &--down {
+      .direction__centre {
         @include mq(lg) {
-          background-position: -30px 0px;
+          background-position: -29px 0;
         }
       }
     }

@@ -34,6 +34,10 @@ body {
   color: $text-color-main;
 }
 
+.app__container {
+  position: relative;
+}
+
 a {
   text-decoration: none;
 }
