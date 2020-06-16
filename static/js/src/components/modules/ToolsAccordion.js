@@ -24,50 +24,46 @@ class ToolsAccordion extends PureComponent {
   }
 
   render() {
-    return (
-      <div>
-        {this.props.tools.length ? (
-          <div className="accordion text">
-            {this.props.tools.map((tool, index) => {
-              const isCurrentSection = index == this.props.currentAccordionSection;
-              return (
-                <article
-                  key={`accordion-section-${index}`}
-                  className={this.getSectionClassName(isCurrentSection)}
+    return this.props.tools.length ? (
+      <div className="accordion text">
+        {this.props.tools.map((tool, index) => {
+          const isCurrentSection = index == this.props.currentAccordionSection;
+          return (
+            <article
+              key={`accordion-section-${index}`}
+              className={this.getSectionClassName(isCurrentSection)}
+            >
+              <a className="accordion__heading" href="">
+                <h3
+                  index={index}
+                  onClick={this.openSection}
+                  className="accordion__title"
                 >
-                  <a className="accordion__heading" href="">
-                    <h3
-                      index={index}
-                      onClick={this.openSection}
-                      className="accordion__title"
-                    >
-                      {tool.title}
-                    </h3>
-                    <span className="accordion__tooltip">
-                      {isCurrentSection ? 'Close' : 'Open'}
-                    </span>
-                  </a>
-                  <div className="accordion__content" style={this.getHeightStyle(isCurrentSection)}>
-                    <div
-                      className="accordion__contentinner"
-                      ref={this.setAccordionContent}
-                      index={index}
-                    >
-                      <div dangerouslySetInnerHTML={{__html: tool.text}}></div>
-                      {tool.internal_link_path && tool.internal_link_text && (
-                        <p>
-                          <Link to={tool.internal_link_path}>{tool.internal_link_text}</Link>.
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        ) : 'Loading...'}
+                  {tool.title}
+                </h3>
+                <span className="accordion__tooltip">
+                  {isCurrentSection ? 'Close' : 'Open'}
+                </span>
+              </a>
+              <div className="accordion__content" style={this.getHeightStyle(isCurrentSection)}>
+                <div
+                  className="accordion__contentinner"
+                  ref={this.setAccordionContent}
+                  index={index}
+                >
+                  <div dangerouslySetInnerHTML={{__html: tool.text}}></div>
+                  {tool.internal_link_path && tool.internal_link_text && (
+                    <p>
+                      <Link to={tool.internal_link_path}>{tool.internal_link_text}</Link>.
+                    </p>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
-    );
+    ) : 'Loading...';
   }
 
   getSectionClassName = isCurrentSection =>

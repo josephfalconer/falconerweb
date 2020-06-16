@@ -34,32 +34,32 @@ class Demos extends PureComponent {
 
 	render() {
     const { demos, demoBackgroundColours } = this.props;
-		return (
-			<ul className="demos list--plain text">
-				{demos.map((demo, index) => {
-          let backgroundStyle = {}
-          if (demoBackgroundColours.length) {
-            backgroundStyle['backgroundColor'] = demoBackgroundColours[index];
-          }
-					return (
-						<li className="demos__item" key={`demo-${index}`} style={backgroundStyle}>
-	            <a
-                className="demos__link"
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`/play/${demo.path}`}
-              >
-                <div className="demos__text center-content">
-                  <h4 className="demos__title">{demo.title}</h4>
-                  <p className="demos__description" dangerouslySetInnerHTML={{__html: demo.text}}></p>
-                </div>
-                <span className="demos__tooltip">Open</span>
-	            </a>
-  	        </li>
-					);
-				})}
-			</ul>
-		);
+		return demos.length ? (
+        <ul className="demos list--plain text">
+  				{demos.map((demo, index) => {
+            let backgroundStyle = {}
+            if (demoBackgroundColours.length) {
+              backgroundStyle['backgroundColor'] = demoBackgroundColours[index];
+            }
+  					return (
+  						<li className="demos__item" key={`demo-${index}`} style={backgroundStyle}>
+  	            <a
+                  className="demos__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`/play/${demo.path}`}
+                >
+                  <div className="demos__text center-content">
+                    <h4 className="demos__title">{demo.title}</h4>
+                    <p className="demos__description" dangerouslySetInnerHTML={{__html: demo.text}}></p>
+                  </div>
+                  <span className="demos__tooltip">Open</span>
+  	            </a>
+    	        </li>
+  					);
+  				})}
+  			</ul>
+      ) : 'Loading...';
 	}
 }
 
