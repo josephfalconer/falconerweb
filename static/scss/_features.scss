@@ -12,7 +12,7 @@ $accordion-section-transition: $transition-duration * 2;
   margin: 0 auto;
   max-width: remcalc(1000);
 
-  @include mq(md) {
+  @include mq(lg) {
     box-shadow: 0 0 10px transparentize($black, 0.75);
   }
 
