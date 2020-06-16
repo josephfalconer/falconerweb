@@ -13,7 +13,7 @@ $accordion-section-transition: $transition-duration * 2;
   max-width: remcalc(1000);
 
   @include mq(lg) {
-    box-shadow: 0 0 10px transparentize($black, 0.75);
+    box-shadow: $box-shadow;
   }
 
   &__section {
@@ -101,10 +101,10 @@ $accordion-section-transition: $transition-duration * 2;
 	margin: 0 auto;
 	max-width: remcalc(1200);
 
-	@include mq(md) {
+	@include mq(lg) {
 		display: flex;
 		flex-wrap: wrap;
-		box-shadow: 0 0 50px $grey-transparent;
+		box-shadow: $box-shadow;
 	}
 
 	&__item {

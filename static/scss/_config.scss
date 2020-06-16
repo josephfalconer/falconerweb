@@ -51,3 +51,7 @@ $page-fade-transition-duration: $page-transition-duration / 2;
 // layout
 
 $container-max-width: remcalc(1000);
+
+// box shadow
+
+$box-shadow: 0 0 10px transparentize($black, 0.75);
