@@ -11,7 +11,7 @@ class Navigation extends PureComponent {
     const { navigationLinks, pages, menuIsOpen } = this.props;
     return (
       <nav className="nav">
-        <ul className="nav__menu nav__menu--top list--plain">
+        <ul className="nav__menu nav__menu--main nav__menu--top list--plain">
           <li className="nav__item--top">
             <Link
               to="/"
@@ -61,8 +61,8 @@ class Navigation extends PureComponent {
           ))}
           </ul>
         </div>
-        <ul className="nav__menu--circles list--plain">
-          {pages.length && pages.map((page, index) => (
+        <ul className="nav__menu nav__menu--circles list--plain">
+          {pages.length ? pages.map((page, index) => (
             <li key={`circle-link-${index}`} className="nav__item--circle">
               <Link
                 to={page.path}
@@ -70,7 +70,7 @@ class Navigation extends PureComponent {
                 onClick={this.blockNavOrCloseMenu}
               ></Link>
             </li>
-          ))}
+          )) : null}
         </ul>
         <div className="nav__overlay" onClick={this.toggleMenu}></div>
       </nav>

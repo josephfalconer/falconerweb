@@ -50,18 +50,22 @@ class App extends PureComponent {
   }
 
   getClassName = () => {
-    const { currentPage, isPageTransition, menuIsOpen } = this.props;
     let className = 'app__container';
-    if (currentPage && currentPage.theme === THEMES.LIGHT) {
+    if (this.props.currentPage && this.props.currentPage.theme === THEMES.LIGHT) {
       className += ' js-light-theme';
     } else {
       className += ' js-dark-theme';
     }
-    if (isPageTransition) {
+    if (this.props.isPageTransition) {
       className += ' js-changing-page';
     }
-    if (menuIsOpen) {
+    if (this.props.menuIsOpen) {
       className += ' js-menu-open';
+    }
+    if (this.props.isFirstPageRender) {
+      className += ' js-rendering-first-page';
+    } else if (this.props.hasRenderedFirstPage) {
+      className += ' js-rendered-first-page';
     }
     return className;
   }
@@ -71,14 +75,18 @@ function mapStateToProps({
   isPageTransition,
   currentPage,
   pages,
-  menuIsOpen
+  menuIsOpen,
+  isFirstPageRender,
+  hasRenderedFirstPage
 }, props) {
   return {
     ...props,
     isPageTransition,
     currentPage,
     pages: pages || [],
-    menuIsOpen
+    menuIsOpen,
+    isFirstPageRender,
+    hasRenderedFirstPage
   }
 }
 

@@ -25,12 +25,12 @@ $direction-offset-lg: (($direction-body-padding * 2) + $direction-size-lg) / 2;
 .nav {
   text-align: left;
 
-  &__menu {
-    padding-left: remcalc(16);
+  @include mq(lg) {
+    font-size: remcalc(map-get($font-sizes-body, 'md'));
+  }
 
-    @include mq(lg) {
-      padding-left: remcalc(40);
-    }
+  &__menu {
+    opacity: 0;
 
     &--top {
       position: absolute;
@@ -41,8 +41,10 @@ $direction-offset-lg: (($direction-body-padding * 2) + $direction-size-lg) / 2;
     }
 
     &--main {
+      padding-left: remcalc(16);
+
       @include mq(lg) {
-        font-size: remcalc(map-get($font-sizes-body, 'md'));
+        padding-left: remcalc(40);
       }
     }
 
@@ -53,6 +55,7 @@ $direction-offset-lg: (($direction-body-padding * 2) + $direction-size-lg) / 2;
       display: flex;
       left: 50%;
       transform: translateX(-50%);
+      opacity: 1;
 
       @include mq(lg) {
         bottom: remcalc(70);

@@ -3,7 +3,6 @@ import * as ActionTypes from './actiontypes';
 const INITIAL_STATE = {
   isPageTransition: true,
   pages: [],
-  menuIsOpen: false,
 }
 
 export default function simpleReducer(state = INITIAL_STATE, action) {

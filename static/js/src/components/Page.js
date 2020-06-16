@@ -9,16 +9,18 @@ import * as utils from '../utils';
 
 class Page extends PureComponent {
 	componentDidMount() {
-		const { pageData, updateStoreState } = this.props;
+		const { pageData, updateStoreState, hasRenderedFirstPage } = this.props;
 		updateStoreState({
 			currentPage: pageData,
 			nextPages: this.getNextPages(pageData),
 			isPageTransition: true,
-		});
-		setTimeout(() =>
+      isFirstPageRender: !hasRenderedFirstPage ? true : false,
+    });
+    setTimeout(() =>
       updateStoreState({
         isPageTransition: false,
-        previousPage: null
+        previousPage: null,
+        hasRenderedFirstPage: true,
       }),
       PAGE_TRANSITION_TIMEOUT
     );
@@ -80,7 +82,8 @@ function mapStateToProps({
 	previousPage,
 	currentPage,
 	scrollWrapper,
-  isPageTransition
+  isPageTransition,
+  hasRenderedFirstPage
 }, props) {
 	return {
 		...props,
@@ -88,7 +91,8 @@ function mapStateToProps({
 		previousPage,
 		currentPage,
 		scrollWrapper,
-    isPageTransition
+    isPageTransition,
+    hasRenderedFirstPage
 	}
 }
 

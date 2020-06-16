@@ -19,6 +19,11 @@
   }
 }
 
+%in-from-fade {
+  opacity: 0;
+  animation: in-from-fade $page-fade-transition-duration $page-fade-transition-duration forwards;
+}
+
 .js-incoming {
   &-top {
     animation: in-from-top $page-transition-duration;
@@ -54,12 +59,27 @@
 
   &-fade {
     .page__content--current {
-      opacity: 0;
-      animation: in-from-fade $page-fade-transition-duration $page-fade-transition-duration forwards;
+      @extend %in-from-fade;
     }
 
     .page__content--previous {
       animation: out-to-fade $page-fade-transition-duration forwards;
+    }
+  }
+}
+
+.js-rendering-first-page  {
+  .nav__menu {
+    @extend %in-from-fade;
+  }
+}
+
+.js-rendered-first-page {
+  .nav__menu {
+    opacity: 1;
+
+    &--circles {
+      transition: opacity $transition-duration;
     }
   }
 }
@@ -201,7 +221,8 @@
   }
 
   .page,
-  .direction {
+  .direction,
+  .nav__menu--circles {
     opacity: 0.5;
   }
 }
