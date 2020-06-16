@@ -15,9 +15,6 @@ class App extends PureComponent {
     fetch('/api/pages/')
     .then(response => response.json())
     .then(pages => this.props.updateStoreState({pages: formatPageData(pages)}));
-    fetch('/api/navigation/')
-    .then(response => response.json())
-    .then(navigationLinks => this.props.updateStoreState({navigationLinks}));
   }
 
   render() {

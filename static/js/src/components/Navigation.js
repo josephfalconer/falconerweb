@@ -8,7 +8,7 @@ import Icon from './icons/Icon';
 
 class Navigation extends PureComponent {
   render() {
-    const { navigationLinks, pages, menuIsOpen } = this.props;
+    const { pages, menuIsOpen } = this.props;
     return (
       <nav className="nav">
         <ul className="nav__menu nav__menu--main nav__menu--top list--plain">
@@ -104,7 +104,6 @@ class Navigation extends PureComponent {
 }
 
 function mapStateToProps({
-  navigationLinks,
   isPageTransition,
   currentPage,
   pages,
@@ -112,7 +111,6 @@ function mapStateToProps({
 }, props) {
   return {
     ...props,
-    navigationLinks: navigationLinks || [],
     isPageTransition,
     currentPage,
     pages,

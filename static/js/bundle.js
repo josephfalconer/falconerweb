@@ -5300,11 +5300,6 @@ var App = function (_PureComponent) {
       }).then(function (pages) {
         return _this2.props.updateStoreState({ pages: (0, _utils.formatPageData)(pages) });
       });
-      fetch('/api/navigation/').then(function (response) {
-        return response.json();
-      }).then(function (navigationLinks) {
-        return _this2.props.updateStoreState({ navigationLinks: navigationLinks });
-      });
     }
   }, {
     key: 'render',
@@ -6998,7 +6993,6 @@ var Navigation = function (_PureComponent) {
       var _this2 = this;
 
       var _props = this.props,
-          navigationLinks = _props.navigationLinks,
           pages = _props.pages,
           menuIsOpen = _props.menuIsOpen;
 
@@ -7103,14 +7097,12 @@ var Navigation = function (_PureComponent) {
 }(_react.PureComponent);
 
 function mapStateToProps(_ref2, props) {
-  var navigationLinks = _ref2.navigationLinks,
-      isPageTransition = _ref2.isPageTransition,
+  var isPageTransition = _ref2.isPageTransition,
       currentPage = _ref2.currentPage,
       pages = _ref2.pages,
       menuIsOpen = _ref2.menuIsOpen;
 
   return _extends({}, props, {
-    navigationLinks: navigationLinks || [],
     isPageTransition: isPageTransition,
     currentPage: currentPage,
     pages: pages,

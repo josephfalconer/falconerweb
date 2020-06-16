@@ -5,7 +5,6 @@ from project.common import views
 
 
 api_urlpatterns = [
-    url(r'^navigation/', views.NavigationListView.as_view()),
     url(r'^pages/', include('project.pages.urls'), name='pages'),
     url(r'^toolkit/', include('project.toolkit.urls'), name='toolkit'),
     url(r'^demos/', include('project.demos.urls_api'), name='demos'),
