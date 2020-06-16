@@ -67,16 +67,10 @@ class PageContent extends PureComponent {
     return pageInnerClass;
   }
 
-  getBackgroundImageStyle = () => {
-    const { pageData } = this.props;
-    let backgroundImageStyle = undefined;
-    if (pageData.background) {
-      backgroundImageStyle = {
-        backgroundImage: `url(${pageData.background})`
-      };
-    }
-    return backgroundImageStyle;
-  }
+  getBackgroundImageStyle = () =>
+    this.props.pageData.background && ({
+      backgroundImage: `url(${this.props.pageData.background})`
+    });
 
   navigateFromWheel = event => {
     const { nextPages, history, scrollWrapper, isPageTransition } = this.props;
