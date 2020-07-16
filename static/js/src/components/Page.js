@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import PageContent from './PageContent';
 import { updatePreviousPage, updateStoreState } from '../actions';
