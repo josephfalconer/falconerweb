@@ -33,13 +33,16 @@ class Page extends PureComponent {
 	}
 
 	render() {
-		const { pageData, previousPage } = this.props;
 		return (
 			<div className={`page${this.getTransitionClassName()}`}>
-	  		{previousPage && (
-		      <PageContent pageData={previousPage} />
+	  		{this.props.previousPage && (
+		      <PageContent pageData={this.props.previousPage} />
   			)}
-	      <PageContent pageData={pageData} isCurrentPage />
+	      <PageContent
+          pageData={this.props.pageData}
+          navigateFromDirection={this.props.navigateFromDirection}
+          isCurrentPage
+        />
 			</div>
 		)
 	}

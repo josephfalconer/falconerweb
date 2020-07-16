@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import { updateStoreState } from '../actions';
 import { DIRECTIONS } from '../constants';
@@ -8,7 +7,7 @@ import * as utils from '../utils';
 import Icon from './icons/Icon';
 import ContentModule from './modules/ContentModule';
 
-class PageContent extends PureComponent {
+export class PageContent extends PureComponent {
   constructor(props) {
     super(props)
     this.setScrollWrapper = element => this.scrollWrapper = element;
@@ -34,7 +33,7 @@ class PageContent extends PureComponent {
         tabIndex="0"
         ref={this.setScrollWrapper}
         className={`page__content page__content--${isCurrentPage ? 'current' : 'previous'}`}
-        onWheel={this.navigateFromWheel}
+        onWheel={isCurrentPage ? this.navigateFromWheel : undefined}
       >
         <div className={this.getPageInnerClassName()} style={this.getBackgroundImageStyle()}>
           <header className="page__header">
@@ -72,35 +71,14 @@ class PageContent extends PureComponent {
       backgroundImage: `url(${this.props.pageData.background})`
     });
 
-  navigateFromWheel = event => {
-    const { nextPages, history, scrollWrapper, isPageTransition } = this.props;
-
-    if (isPageTransition) {
-      return;
-    }
-
-    const upPage = nextPages[DIRECTIONS.UP];
-    const downPage = nextPages[DIRECTIONS.DOWN];
-    const wheelUp = event.nativeEvent.wheelDelta > 0;
-
-    if (wheelUp && !utils.canScrollElement(scrollWrapper, DIRECTIONS.UP) && upPage) {
-      history.push(upPage.path);
-    } else if (!utils.canScrollElement(scrollWrapper, DIRECTIONS.DOWN) && downPage) {
-      history.push(downPage.path);
-    }
-  }
+  navigateFromWheel = event =>
+    this.props.navigateFromDirection(
+      event.nativeEvent.wheelDelta > 0 ?
+      DIRECTIONS.UP :
+      DIRECTIONS.DOWN
+    );
 }
 
-const mapStateToProps = ({
-  scrollWrapper,
-  isPageTransition,
-  nextPages
-}) => ({
-  scrollWrapper,
-  isPageTransition,
-  nextPages
-});
-
-export default withRouter(connect(mapStateToProps, {
+export default connect(undefined, {
   updateStoreState
-})(PageContent));
+})(PageContent);

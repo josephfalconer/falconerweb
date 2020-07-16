@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { updateStoreState } from '../actions';
-import { ICONS } from '../constants';
+import { DIRECTION_LIST, ICONS } from '../constants';
+import DirectionButton from './DirectionButton';
 import Icon from './icons/Icon';
 
 class Navigation extends PureComponent {
@@ -73,6 +74,9 @@ class Navigation extends PureComponent {
           )) : null}
         </ul>
         <div className="nav__overlay" onClick={this.toggleMenu}></div>
+        {DIRECTION_LIST.map((direction, index) => (
+          <DirectionButton key={`direction-${index}`} direction={direction} />
+        ))}
       </nav>
     );
   }

@@ -2,46 +2,59 @@ import React, { Fragment, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
+import { Swipeable } from 'react-swipeable';
 
 import { updateStoreState } from '../actions';
-import DirectionButtons from '../components/DirectionButtons';
 import Page from '../components/Page';
 import Navigation from '../components/Navigation';
-import { THEMES } from '../constants';
-import { formatPageData } from '../utils';
+import { DIRECTIONS_MAPPED_TO_SWIPE, THEMES } from '../constants';
+import * as utils from '../utils';
 
 class App extends PureComponent {
   componentDidMount() {
     fetch('/api/pages/')
     .then(response => response.json())
-    .then(pages => this.props.updateStoreState({pages: formatPageData(pages)}));
+    .then(pages => this.props.updateStoreState({pages: utils.formatPageData(pages)}));
+    document.addEventListener('keydown', this.navigateFromKeyPress);
   }
 
   render() {
     return (
       <main className={this.getClassName()}>
         <Navigation currentPath={this.props.location.pathname} />
-        <DirectionButtons />
-        {this.props.pages.length ? this.props.pages.map(page => (
-          <Fragment key={page.slug}>
-            <Route
-              exact
-              path={page.path}
-              render={() => (
-                <Page pageData={page} />
-              )}
-            />
-            {page.child_pages.map(childPage => (
-              <Route
-                key={`page-${childPage.slug}`}
-                path={childPage.path}
-                render={() => (
-                  <Page pageData={childPage} />
-                )}
-              />
+        {this.props.pages.length ? (
+          <Swipeable
+            onSwiped={this.navigateFromSwipe}
+            className="swipe-container"
+          >
+            {this.props.pages.map(page => (
+              <Fragment key={page.slug}>
+                <Route
+                  exact
+                  path={page.path}
+                  render={() => (
+                    <Page
+                      pageData={page}
+                      navigateFromDirection={this.navigateFromDirection}
+                    />
+                  )}
+                />
+                {page.child_pages.map(childPage => (
+                  <Route
+                    key={`page-${childPage.slug}`}
+                    path={childPage.path}
+                    render={() => (
+                      <Page
+                        pageData={childPage}
+                        navigateFromDirection={this.navigateFromDirection}
+                      />
+                    )}
+                  />
+                ))}
+              </Fragment>
             ))}
-          </Fragment>
-        )) : null}
+          </Swipeable>
+        ) : null}
       </main>
     );
   }
@@ -66,6 +79,22 @@ class App extends PureComponent {
     }
     return className;
   }
+
+  navigateFromKeyPress = event =>
+    this.navigateFromDirection(utils.getDirectionFromKeyPress(event));
+
+  navigateFromSwipe = event =>
+    this.navigateFromDirection(DIRECTIONS_MAPPED_TO_SWIPE[event.dir.toUpperCase()]);
+
+  navigateFromDirection = direction => {
+    const { isPageTransition, nextPages, history, scrollWrapper } = this.props;
+    if (!isPageTransition && nextPages) {
+      const targetPage = nextPages[direction];
+      if (targetPage && !utils.canScrollElement(scrollWrapper, direction)) {
+        history.push(targetPage.path);
+      }
+    }
+  }
 }
 
 function mapStateToProps({
@@ -74,7 +103,9 @@ function mapStateToProps({
   pages,
   menuIsOpen,
   isFirstPageRender,
-  hasRenderedFirstPage
+  hasRenderedFirstPage,
+  nextPages,
+  scrollWrapper
 }, props) {
   return {
     ...props,
@@ -83,7 +114,9 @@ function mapStateToProps({
     pages: pages || [],
     menuIsOpen,
     isFirstPageRender,
-    hasRenderedFirstPage
+    hasRenderedFirstPage,
+    nextPages,
+    scrollWrapper
   }
 }
 

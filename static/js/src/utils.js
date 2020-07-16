@@ -69,4 +69,19 @@ export const formatPageData = pages => pages.map((page, x) => ({
     path: `${(page.slug !== '' ? '/' : '') + page.slug}/${childPage.slug}/`,
     is_homepage_child: page.is_homepage
   })),
-}))
+}));
+
+export const getDirectionFromKeyPress = event => {
+  switch (event.which) {
+    case 37:
+      return DIRECTIONS.LEFT;
+    case 39:
+      return DIRECTIONS.RIGHT;
+    case 38:
+      return DIRECTIONS.UP;
+    case 40:
+      return DIRECTIONS.DOWN;
+    default:
+      return null;
+  }
+};
