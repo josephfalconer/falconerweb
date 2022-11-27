@@ -1,7 +1,7 @@
-from django.conf.urls import url
+from django.urls import path
 from project.demos.views import DemoListView
 
 
 urlpatterns = [
-    url(r'^$', DemoListView.as_view(), name='demos-list')
+    path(r'', DemoListView.as_view(), name='demos-list')
 ]

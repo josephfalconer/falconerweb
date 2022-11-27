@@ -1,7 +1,7 @@
-from django.conf.urls import url
+from django.urls import path
 from project.toolkit.views import ToolsListView
 
 
 urlpatterns = [
-    url(r'^$', ToolsListView.as_view(), name='list'),
+    path('', ToolsListView.as_view(), name='list'),
 ]

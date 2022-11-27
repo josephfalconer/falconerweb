@@ -1,8 +1,8 @@
-from django.conf.urls import url
+from django.urls import path
 
 from project.pages.views import PagesView
 
 
 urlpatterns = [
-    url(r'^$', PagesView.as_view(), name='pages'),
+    path('', PagesView.as_view(), name='pages'),
 ]
